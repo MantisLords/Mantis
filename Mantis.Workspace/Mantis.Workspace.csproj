@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Mantis.Core\Mantis.Core.csproj" />
+    </ItemGroup>
+
 </Project>

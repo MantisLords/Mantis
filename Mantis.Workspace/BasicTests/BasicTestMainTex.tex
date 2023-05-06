@@ -6,10 +6,34 @@
 
 % Packages
 \usepackage{amsmath}
+\usepackage{import}
 
 % Document
 \begin{document}
+    
+    this is a primitive file
+    
+    \input{Generated/SimpleTable}
 
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}
+        {| c | c |}
+            \hline
+            X & Y \\
+            \hline
+            1 & 1,2 \\
+            \hline
+            2 & 2,2 \\
+            \hline
+            3 & 3,2 \\
+            \hline
+        \end{tabular}
+        \label{SimpleTable2}
+        \caption{this is is a simple table}
+    \end{table}
+    
+    more information
 
 
 \end{document}

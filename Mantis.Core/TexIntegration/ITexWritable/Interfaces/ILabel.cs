@@ -14,10 +14,8 @@ public static class LabelExtension
         builder.ApCommand($"label{{{label.Label}}}");
     }
 
-    public static void Save(this ILabel writable)
+    public static void SaveLabeled(this ILabel writable)
     {
-        TexWriter writer = new TexWriter();
-        writer.Write(writable);
-        writer.Save(writable.Label);
+        writable.Save(writable.Label);
     }
 }
