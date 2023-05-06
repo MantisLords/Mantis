@@ -309,3 +309,6 @@ obj/
 
 #PDF
 *.pdf
+
+#DotSettings
+Folder.DotSettings.user
