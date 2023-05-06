@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Mantis.Core.TexIntegration.Utility;
+namespace Mantis.Core.TexIntegration;
 
 public interface ICaption : ITexWritable
 {
@@ -11,6 +11,6 @@ public static class CaptionExtension
 {
     public static void AppendCaption(this StringBuilder builder, ICaption caption)
     {
-        builder.ApCommand($"caption{{{caption.Caption}}}");
+        builder.AppendCommand($"caption{{{caption.Caption}}}");
     }
 }

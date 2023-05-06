@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 
@@ -6,6 +7,12 @@ namespace Mantis.Core.FileManagement
 {
     public static class FileManager
     {
+        static FileManager()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+
+        }
+        
         public static string GlobalWorkspace
         {
             get => _globalWorkspace ?? throw new Exception("You need to set a global workspace path");

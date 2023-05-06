@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Mantis.Core.TexIntegration.Utility;
 
 namespace Mantis.Core.TexIntegration;
 
@@ -69,32 +68,32 @@ public class TexTable : ITexWritable,ILabel,ICaption
 
     public void AppendToTex(StringBuilder builder)
     {
-        builder.ApCommand("begin{table}[h!]");
-        builder.ApCommand("centering");
+        builder.AppendCommand("begin{table}[h!]");
+        builder.AppendCommand("centering");
         
         AppendTableContents(builder);
                 
-        builder.ApLabel(this);
+        builder.AppendLabel(this);
         builder.AppendCaption(this);
         
-        builder.ApEnd("table");
+        builder.AppendEnd("table");
         
     }
 
     private void AppendTableContents(StringBuilder builder)
     {
-        builder.ApBegin("tabular");
+        builder.AppendBegin("tabular");
         
         GetRowFormat(builder);
         
-        builder.ApCommand("hline");
+        builder.AppendCommand("hline");
         for (int i = 0; i < GetLengthOriented(0); i++)
         {
             GetRow(i,builder);
-            builder.ApCommand("hline");
+            builder.AppendCommand("hline");
         }
         
-        builder.ApEnd("tabular");
+        builder.AppendEnd("tabular");
     }
 
     private void GetRowFormat(StringBuilder builder)

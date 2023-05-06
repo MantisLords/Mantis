@@ -1,21 +1,26 @@
 ﻿using System.Text;
 
-namespace Mantis.Core.TexIntegration.Utility;
+namespace Mantis.Core.TexIntegration;
 
 public static class StringBuilderExtension
 {
-    public static void ApCommand(this StringBuilder builder, string command)
+    public static void AppendCommand(this StringBuilder builder, string command)
     {
         builder.AppendLine($"\\{command}");
     }
 
-    public static void ApBegin(this StringBuilder builder, string environment)
+    public static void AppendBegin(this StringBuilder builder, string environment)
     {
-        builder.ApCommand($"begin{{{environment}}}");
+        builder.AppendCommand($"begin{{{environment}}}");
+    }
+    
+    public static void AppendBegin(this StringBuilder builder, string environment,string squarebrackets)
+    {
+        builder.AppendCommand($"begin{{{environment}}}[{squarebrackets}]");
     }
 
-    public static void ApEnd(this StringBuilder builder, string environment)
+    public static void AppendEnd(this StringBuilder builder, string environment)
     {
-        builder.ApCommand($"end{{{environment}}}");
+        builder.AppendCommand($"end{{{environment}}}");
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Reflection.Emit;
-using Mantis.Core.FileManagement;
-using Mantis.Core.TexIntegration;
-using Mantis.Core.TexIntegration.Utility;
+﻿using Mantis.Core.FileManagement;
 
 namespace Mantis.Workspace.BasicTests;
 
@@ -12,6 +9,8 @@ public static class BasicTest_Main
         FileManager.GlobalWorkspace = "BasicTests";
         
         TableTest.CreateSimpleTestTable();
+        
+        SimplePlotTest.CreateSimplePlot();
     }
 
    

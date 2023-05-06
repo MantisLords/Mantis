@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Mantis.Core.TexIntegration.Utility;
+namespace Mantis.Core.TexIntegration;
 
 public interface ILabel : ITexWritable
 {
@@ -9,9 +9,9 @@ public interface ILabel : ITexWritable
 
 public static class LabelExtension
 {
-    public static void ApLabel(this StringBuilder builder, ILabel label)
+    public static void AppendLabel(this StringBuilder builder, ILabel label)
     {
-        builder.ApCommand($"label{{{label.Label}}}");
+        builder.AppendCommand($"label{{{label.Label}}}");
     }
 
     public static void SaveLabeled(this ILabel writable)

@@ -1,4 +1,4 @@
-﻿namespace Mantis.Core.TexIntegration.Utility;
+﻿namespace Mantis.Core.TexIntegration;
 
 public static class TableUtility
 {
