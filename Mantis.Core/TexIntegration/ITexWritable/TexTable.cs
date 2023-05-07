@@ -134,7 +134,7 @@ public static class TexTableEx
 
     public static TexTable CreateTexTable<T>(this IEnumerable<T> quickTable, string? label = null, string? caption = null)
     {
-        QTablePropertyAccess<T> access = QTablePropertyAccess<T>.Instance;
+        QuickTablePropertyAccess<T> access = QuickTablePropertyAccess<T>.Instance;
 
         return new TexTable()
         {

@@ -2,9 +2,9 @@
 
 namespace Mantis.Core.QuickTable
 {
-    public class QTableFieldAttribute : Attribute
+    public class QuickTableField : Attribute
     {
-        public QTableFieldAttribute(string name, string unit = "")
+        public QuickTableField(string name, string unit = "")
         {
             Name = name;
             Unit = unit;
@@ -12,7 +12,7 @@ namespace Mantis.Core.QuickTable
 
         public readonly string Name;
         public readonly string Unit;
-        public readonly string Symbol;
+        public readonly string Symbol = "";
 
 
     }

@@ -2,17 +2,17 @@
 
 namespace Mantis.Core.QuickTable;
 
-public class QTablePropertyAccess<T>
+public class QuickTablePropertyAccess<T>
 {
-    private static QTablePropertyAccess<T>? _instance;
+    private static QuickTablePropertyAccess<T>? _instance;
 
-    public static QTablePropertyAccess<T> Instance => _instance ??= new QTablePropertyAccess<T>();
+    public static QuickTablePropertyAccess<T> Instance => _instance ??= new QuickTablePropertyAccess<T>();
     
     public readonly QuickTableAttribute TableData;
 
     public readonly ManagedField[] Fields;
         
-    private QTablePropertyAccess()
+    private QuickTablePropertyAccess()
     {
         Type managed = typeof(T);
 
@@ -29,8 +29,8 @@ public class QTablePropertyAccess<T>
         TableData = managed.GetCustomAttribute<QuickTableAttribute>();
 
         Fields = (from field in managed.GetFields()
-            where  field.GetCustomAttribute<QTableFieldAttribute>() != null
-            select new ManagedField(field, field.GetCustomAttribute<QTableFieldAttribute>())).ToArray();
+            where  field.GetCustomAttribute<QuickTableField>() != null
+            select new ManagedField(field, field.GetCustomAttribute<QuickTableField>())).ToArray();
     }
 
     public string[] GetHeader()
@@ -45,7 +45,7 @@ public class QTablePropertyAccess<T>
         public readonly string Symbol;
         public readonly string Unit;
 
-        public ManagedField(FieldInfo field, QTableFieldAttribute fieldData)
+        public ManagedField(FieldInfo field, QuickTableField fieldData)
         {
             _field = field;
             Name = fieldData.Name;

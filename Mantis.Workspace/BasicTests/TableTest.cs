@@ -3,12 +3,12 @@ using Mantis.Core.TexIntegration;
 
 namespace Mantis.Workspace.BasicTests;
 
-[QTable("This is a dummy Table", "DummyTable")]
+[QuickTable("This is a dummy Table", "DummyTable")]
 public record struct DummyType
 {
-    [QTableField("A")] public double a;
+    [QuickTableField("A")] public double a;
 
-    [QTableField("B")] public double b;
+    [QuickTableField("B")] public double b;
 }
 
 public static class TableTest

@@ -40,7 +40,7 @@ public static class TableUtility
 
     public static string[,] QListToMatrix<T>(IEnumerable<T> list)
     {
-        var access = QTablePropertyAccess<T>.Instance;
+        var access = QuickTablePropertyAccess<T>.Instance;
         IEnumerable<object[]> arrayList = list.Select(
             e =>
                 access.Fields.Select(field => field.GetValue(e)).ToArray()
