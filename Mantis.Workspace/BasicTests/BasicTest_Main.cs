@@ -8,9 +8,11 @@ public static class BasicTest_Main
     {
         FileManager.GlobalWorkspace = "BasicTests";
         
-        TableTest.CreateSimpleTestTable();
+        //TableTest.CreateSimpleTestTable();
         
-        SimplePlotTest.CreateSimplePlot();
+        //SimplePlotTest.CreateSimplePlot();
+        
+        CSVImporterTest.ImportDummyFile();
     }
 
    

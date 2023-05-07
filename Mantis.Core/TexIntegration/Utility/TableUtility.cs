@@ -1,4 +1,6 @@
-﻿namespace Mantis.Core.TexIntegration;
+﻿using Mantis.Core.QuickTable;
+
+namespace Mantis.Core.TexIntegration;
 
 public static class TableUtility
 {
@@ -34,5 +36,15 @@ public static class TableUtility
         }
 
         return res;
+    }
+
+    public static string[,] QListToMatrix<T>(IEnumerable<T> list)
+    {
+        var access = QTablePropertyAccess<T>.Instance;
+        IEnumerable<object[]> arrayList = list.Select(
+            e =>
+                access.Fields.Select(field => field.GetValue(e)).ToArray()
+            );
+        return ListToMatrix(arrayList);
     }
 }

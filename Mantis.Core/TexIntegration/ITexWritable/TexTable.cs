@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata;
+using System.Text;
+using Mantis.Core.QuickTable;
 
 namespace Mantis.Core.TexIntegration;
 
@@ -9,17 +11,6 @@ public class TexTable : ITexWritable,ILabel,ICaption
     public string[,] Content;
     
     public enum TableOrientation{Vertical,Horizontal}
-
-    public TexTable(string[] header, string[,] content, string label, string caption)
-    {
-        Header = header;
-        Content = content;
-        Label = label;
-        Caption = caption;
-    }
-
-    public TexTable(string[] header, IEnumerable<object[]> content, string label, string caption) :
-        this(header,TableUtility.ListToMatrix(content,header.Length),label,caption){}
 
     public TableOrientation Orientation { get; set; } 
     
@@ -121,5 +112,36 @@ public class TexTable : ITexWritable,ILabel,ICaption
         }
 
         builder.Append("\\\\ \n");
+    }
+}
+
+public static class TexTableEx
+{
+    public static TexTable CreateTexTable(string[] header, string[,] content, string label, string caption)
+    {
+        return new TexTable()
+        {
+            Header = header,
+            Content = content,
+            Label = label,
+            Caption = caption
+        };
+    }
+
+    public static TexTable CreateTexTable(string[] header, IEnumerable<object[]> content, string label,
+        string caption) =>
+        CreateTexTable(header, TableUtility.ListToMatrix(content, header.Length), label, caption);
+
+    public static TexTable CreateTexTable<T>(this IEnumerable<T> quickTable, string? label = null, string? caption = null)
+    {
+        QTablePropertyAccess<T> access = QTablePropertyAccess<T>.Instance;
+
+        return new TexTable()
+        {
+            Caption = caption ?? access.TableData.Caption,
+            Label = label ?? access.TableData.Label,
+            Header = access.GetHeader(),
+            Content = TableUtility.QListToMatrix(quickTable)
+        };
     }
 }
