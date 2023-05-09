@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Mantis.Core.TexIntegration;
+namespace Mantis.Core.Utility;
 
 public static class StringBuilderExtension
 {

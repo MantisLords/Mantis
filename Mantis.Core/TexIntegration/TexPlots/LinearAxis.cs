@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Mantis.Core.Utility;
 
 namespace Mantis.Core.TexIntegration;
 

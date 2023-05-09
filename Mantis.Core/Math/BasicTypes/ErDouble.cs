@@ -150,22 +150,26 @@ public struct ErDouble : INumber<ErDouble>
 
     public static ErDouble Parse(string s, IFormatProvider? provider)
     {
-        throw new NotImplementedException();
+        return double.Parse(s, provider);
     }
 
     public static bool TryParse(string? s, IFormatProvider? provider, out ErDouble result)
     {
-        throw new NotImplementedException();
+        bool success = double.TryParse(s, provider, out double resD);
+        result = resD;
+        return success;
     }
 
     public static ErDouble Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
     {
-        throw new NotImplementedException();
+        return double.Parse(s, provider);
     }
 
     public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ErDouble result)
     {
-        throw new NotImplementedException();
+        bool success = double.TryParse(s, provider, out double resD);
+        result = resD;
+        return success;
     }
 
     public static ErDouble AdditiveIdentity { get => Zero; }
@@ -322,12 +326,12 @@ public struct ErDouble : INumber<ErDouble>
 
     public static ErDouble Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
     {
-        throw new NotImplementedException();
+        return double.Parse(s, style, provider);
     }
 
     public static ErDouble Parse(string s, NumberStyles style, IFormatProvider? provider)
     {
-        throw new NotImplementedException();
+        return double.Parse(s, style, provider);
     }
 
     public static bool TryConvertFromChecked<TOther>(TOther value, out ErDouble result) where TOther : INumberBase<TOther>
@@ -362,12 +366,16 @@ public struct ErDouble : INumber<ErDouble>
 
     public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
     {
-        throw new NotImplementedException();
+        bool success = double.TryParse(s,style, provider, out double resD);
+        result = resD;
+        return success;
     }
 
     public static bool TryParse(string? s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
     {
-        throw new NotImplementedException();
+        bool success = double.TryParse(s,style, provider, out double resD);
+        result = resD;
+        return success;
     }
 
     public static ErDouble One => new ErDouble(1, 0);

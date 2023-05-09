@@ -3,9 +3,12 @@ using Mantis.Core.FileManagement;
 
 namespace Mantis.Core.FileImporting;
 
-public class BasicCSVImporter
+public class BasicCSVReader
 {
-    public string[,]? DataMatrix { get; private set; }
+    public string[,] DataMatrix { get; private set; } = new string[0,0];
+
+    public int RowCount => DataMatrix.GetLength(0);
+    public int ColumnCount => DataMatrix.GetLength(1);
 
     public char ColumnSeparator  = ',';
 
@@ -54,8 +57,8 @@ public class BasicCSVImporter
                 columnIndex++;
                 rawData[rowIndex].Add(builder.ToString());
                 builder.Clear();
-                   
-                maxColumnIndex = Math.Max(maxColumnIndex, columnIndex);
+                
+                maxColumnIndex = System.Math.Max(maxColumnIndex, columnIndex);
                     
                 rawData.Add(new List<string>());
                 rowIndex++;
@@ -79,7 +82,7 @@ public class BasicCSVImporter
             rawData[rowIndex].Add(builder.ToString());
             builder.Clear();
                    
-            maxColumnIndex = Math.Max(maxColumnIndex, columnIndex);
+            maxColumnIndex = System.Math.Max(maxColumnIndex, columnIndex);
                     
             rawData.Add(new List<string>());
             rowIndex++;

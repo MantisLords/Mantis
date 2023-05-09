@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 
 namespace Mantis.Core.QuickTable;
 
@@ -11,6 +12,8 @@ public class QuickTablePropertyAccess<T>
     public readonly QuickTableAttribute TableData;
 
     public readonly ManagedField[] Fields;
+
+    private ConstructorInfo _constructor;
         
     private QuickTablePropertyAccess()
     {
@@ -28,14 +31,27 @@ public class QuickTablePropertyAccess<T>
 
         TableData = managed.GetCustomAttribute<QuickTableAttribute>();
 
+        _constructor = managed.GetConstructor(
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            null, Type.EmptyTypes, null);
+        if (_constructor == null)
+            throw new Exception($"The type {managed.Name} is required to have an empty constructor");
+
         Fields = (from field in managed.GetFields()
             where  field.GetCustomAttribute<QuickTableField>() != null
             select new ManagedField(field, field.GetCustomAttribute<QuickTableField>())).ToArray();
+        
+        
     }
 
     public string[] GetHeader()
     {
         return Fields.Select(f => f.Name).ToArray();
+    }
+
+    public T GetNewInstance()
+    {
+        return (T)_constructor.Invoke(Array.Empty<object?>());
     }
 
     public class ManagedField
@@ -44,6 +60,8 @@ public class QuickTablePropertyAccess<T>
         public readonly string Name;
         public readonly string Symbol;
         public readonly string Unit;
+
+        private MethodInfo? _parseMethod;
 
         public ManagedField(FieldInfo field, QuickTableField fieldData)
         {
@@ -66,9 +84,37 @@ public class QuickTablePropertyAccess<T>
             return o == null ? "" : o.ToString();
         }
 
+        public void SetValue(ref object instance, object value)
+        {
+            _field.SetValue(instance,value);
+        }
+
+        public void ParseValueT<T>(ref T instance, string value)
+        {
+            object obj = instance;
+            ParseValue(ref obj,value);
+            instance = (T)obj;
+        }
+
+        public void ParseValue(ref object instance, string value)
+        {
+            if (_parseMethod == null)
+            {
+                _parseMethod = GetType().GetMethod("Parse", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
+                    new Type[]{typeof(string),typeof(IFormatProvider)});
+                if (_parseMethod == null)
+                    throw new ArgumentException(
+                        $"The Type {GetType().Name} of TableField {Name} does not implement the IParsable interface." +
+                        $"Change the Type or add a custom parser (not yet implemented)");
+            }
+
+            var obj = _parseMethod.Invoke(null, new object?[] { value, null });
+            Console.WriteLine(obj.ToString());
+            SetValue(ref instance,obj);
+        }
         public Type GetType()
         {
-            return _field.GetType();
+            return _field.FieldType;
         }
     }
 }

@@ -1,7 +1,13 @@
-﻿-DummyTable
+﻿# DummyTable
 A,B
 4,4.5
 5,5.5
 6,6.6
 
 "This , is , a string in quotes"
+* SimpleValue,8.3
+* SimpleErDouble,9.3,0.5
+
+# DummyTable2
+A,B,
+1,3,

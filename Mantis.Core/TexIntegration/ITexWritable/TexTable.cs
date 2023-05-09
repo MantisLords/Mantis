@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Metadata;
 using System.Text;
 using Mantis.Core.QuickTable;
+using Mantis.Core.Utility;
 
 namespace Mantis.Core.TexIntegration;
 

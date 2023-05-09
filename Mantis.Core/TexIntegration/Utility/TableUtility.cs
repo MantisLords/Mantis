@@ -1,6 +1,7 @@
-﻿using Mantis.Core.QuickTable;
+﻿using System.Text;
+using Mantis.Core.QuickTable;
 
-namespace Mantis.Core.TexIntegration;
+namespace Mantis.Core.Utility;
 
 public static class TableUtility
 {
@@ -46,5 +47,17 @@ public static class TableUtility
                 access.Fields.Select(field => field.GetValue(e)).ToArray()
             );
         return ListToMatrix(arrayList);
+    }
+
+    public static string ToStringForeach<T>(IEnumerable<T> list)
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach (var e in list)
+        {
+            builder.Append(e.ToString());
+            builder.Append('\n');
+        }
+
+        return builder.ToString();
     }
 }

@@ -9,6 +9,8 @@ public record struct DummyType
     [QuickTableField("A")] public double a;
 
     [QuickTableField("B")] public double b;
+    
+    public DummyType(){}
 }
 
 public static class TableTest
