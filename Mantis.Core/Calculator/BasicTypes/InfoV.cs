@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Mantis.Core.Math.BasicTypes;
+namespace Mantis.Core.Calculator;
 
 public class InfoV<T> where T : INumber<T>
 {

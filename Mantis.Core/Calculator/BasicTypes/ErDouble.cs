@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using System.Runtime.InteropServices.JavaScript;
 
+namespace Mantis.Core.Calculator;
 /// <summary>
 /// A datatype representing a value with error. It supports basic arithmetic +-*/Pow . It !only! calculates the correct
 /// error if in your formula the variable occurs once!
@@ -115,22 +117,35 @@ public struct ErDouble : INumber<ErDouble>
             powerValue = 0;
 
         double formattedValue = tmpValue * Math.Pow(10, -powerValue);
-        double formattedError = Error * Math.Pow(10, -powerValue);
 
-        int powerFormattedError = (int) Math.Floor(Math.Log10(formattedError));
-        int digits = -powerFormattedError + 1;
+        int digits = 4;
+        double formattedError = 0;
+        if (Error > 0)
+        {
+            formattedError = Error * Math.Pow(10, -powerValue);
+
+            int powerFormattedError = (int)Math.Floor(Math.Log10(formattedError));
+            digits = -powerFormattedError + 1;
+        }
 
         string format = $"F{digits}";
 
         string appendix = "";
         if (powerValue < 0)
-            appendix = $" E{powerValue}";
+            appendix = $" \\cdot 10^{powerValue}";
         else if (powerValue > 0)
-            appendix = $" E+{powerValue}";
+            appendix = $" \\cdot 10^{powerValue}";
 
         string sign = Value < 0 ? "-" : "";
-
-        return $"({sign}{formattedValue.ToString(format)} {(char)0x00B1} {formattedError.ToString(format)})"+appendix;
+        
+        
+        if(Error > 0)
+            return $"({sign}{formattedValue.ToString(format)} \\pm {formattedError.ToString(format)})"+appendix;
+        else
+        {
+            return $"{sign}{formattedValue.ToString(format)} "+appendix;
+        }
+        
     }
 
     public string ToString(string? format, IFormatProvider? formatProvider)

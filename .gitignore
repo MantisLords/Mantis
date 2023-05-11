@@ -306,6 +306,7 @@ TSWLatexianTemp*
 #C-Sharp Output
 bin/
 obj/
+Program.cs
 
 #PDF
 *.pdf

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Mantis.Core.Calculator;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 
@@ -6,9 +7,23 @@ namespace Mantis.Core.TexIntegration;
 
 public class Sketchbook : ITexWritable, ILabel,ICaption
 {
-    public List<ITexWritable> Sketches { get; } = new List<ITexWritable>();
+
+    public Sketchbook(AxisLayout axis, string label, string caption)
+    {
+        Axis = axis;
+        Label = label;
+        Caption = caption;
+    }
+
+    public List<ISketch> Sketches { get; } = new List<ISketch>();
     
-    public ITexWritableEnclosed Axis { get; set; }
+    public AxisLayout Axis { get; set; }
+
+    public Rect2? Domain
+    {
+        get => Axis.Domain;
+        set => Axis.Domain = value;
+    }
     
     public void AppendToTex(StringBuilder builder)
     {
@@ -18,14 +33,14 @@ public class Sketchbook : ITexWritable, ILabel,ICaption
         
         builder.AppendBegin("tikzpicture");
         
-        Axis.AppendBegin(builder);
+        Axis.AppendBegin(builder,this);
 
         foreach (var sketch in Sketches)
         {
-            sketch.AppendToTex(builder);
+            sketch.AppendToTex(builder,this);
         }
         
-        Axis.AppendEnd(builder);
+        Axis.AppendEnd(builder,this);
 
         builder.AppendEnd("tikzpicture");
         
@@ -35,7 +50,7 @@ public class Sketchbook : ITexWritable, ILabel,ICaption
         builder.AppendEnd("figure");
     }
 
-    public void Add(ITexWritable sketch)
+    public void Add(ISketch sketch)
     {
         Sketches.Add(sketch);
     }

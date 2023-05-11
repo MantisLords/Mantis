@@ -1,4 +1,5 @@
-﻿using Mantis.Core.TexIntegration;
+﻿using Mantis.Core.Calculator;
+using Mantis.Core.TexIntegration;
 
 namespace Mantis.Workspace.BasicTests;
 
@@ -6,17 +7,9 @@ public static class SimplePlotTest
 {
     public static void CreateSimplePlot()
     {
-        Sketchbook sketchbook = new Sketchbook()
-        {
-            Label = "SimplePlot",
-            Caption = "This is a basic Plot",
-            Axis = new LinearAxis()
-            {
-                XLabel = "X Axis",
-                YLabel = "Y Axis"
-            }
-        };
-        
+        Sketchbook sketchbook =
+            new Sketchbook(new AxisLayout("X Axis", "Y Axis"), "SimplePlot", "This is a basic Plot");
+
         sketchbook.Add(new DataMarkSketch()
         {
             Data = TableTest.DummyList.Select(d => ((ErDouble)d.a,(ErDouble)d.b)),

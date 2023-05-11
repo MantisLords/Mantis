@@ -1,16 +1,13 @@
 ﻿using System.Text;
+using Mantis.Core.Calculator;
 
 namespace Mantis.Core.TexIntegration;
 
-public record StraightPlot : AddPlotSketch
+public record StraightPlot : FunctionPlot
 {
     public double Slope;
     public double YZero;
-    
-    public override void AppendAfterBeforeSemi(StringBuilder builder)
-    {
-        base.AppendAfterBeforeSemi(builder);
 
-        builder.AppendLine($"{{x*{Slope} + {YZero}}}");
-    }
+    public override string FunctionString => $"x*{Slope} + {YZero}";
+
 }

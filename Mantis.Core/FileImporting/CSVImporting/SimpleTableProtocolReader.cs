@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
-using System.Reflection;
-using Mantis.Core.Math.BasicTypes;
+using Mantis.Core.Calculator;
 using Mantis.Core.QuickTable;
 
 namespace Mantis.Core.FileImporting;
@@ -11,6 +10,14 @@ public class SimpleTableProtocolReader : BasicCSVReader
 {
     public static readonly string TABLE_MARKER = "# ";
     public static readonly string SINGLE_VALUE_MARKER = "* ";
+    
+    
+    public SimpleTableProtocolReader(){}
+
+    public SimpleTableProtocolReader(string filepath)
+    {
+        base.ReadFile(filepath);
+    }
     
     public List<T> ExtractTable<T>(string? label = null)
     {

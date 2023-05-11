@@ -1,0 +1,81 @@
+﻿%! Author = Thomas_normal
+%! Date = 10.05.2023
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{import}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+
+% Document
+\begin{document}
+
+    \title{Fr2 - Sheet 3 - Correlation}
+    \author{Thomas Karb}
+
+
+    \maketitle
+
+    \section{}
+    In this part we analyse the linear correlation of following weather data:
+    
+    \input{Generated/EnvironmentData}
+    
+    We calculate the covariance between temperature $x_i$ and the humidity $y_i$ via this equation:
+    
+    \begin{equation}
+        \sigma_{xy} =\frac{1}{N} \cdot \Sigma (x_i - \overline{x}) (y_i - \overline{y})
+    \end{equation}
+    Since we know the population of the underlining data set we use the factor $\frac{1}{N}$
+    For this set we get:
+    \input{Generated/TemperatureHumidityCovariance}
+    Analogous we calculate the linear correlation coefficient by norming $\sigma_{xy}$ by the variance of $x_i$ and $y_i$
+    \begin{equation}
+        r = \frac{\Sigma (x_i - \overline{x}) (y_i - \overline{y})}{\sqrt {\Sigma (x_i - \overline{x})^2 \Sigma (y_i - \overline{y})^2}}
+    \end{equation}
+    For the weather data we get a correlation of
+    \input{Generated/TemperatureHumidityCorrelation}
+    
+    The r-value-threshold of the probability $p = 1\%$ for a set of $N = 15$  is $r = 0.641$.
+    Since in the weather set ($N = 15$) we have a r-value of $r = 0.857$, we reach the threshold which means 
+    the temperature and humidity are highly significantly correlated.
+    
+    \section{}
+    We will fit a basic straight in the set:
+    \begin{equation}
+        y = \alpha + \beta x
+    \end{equation}
+    Unfortunately the dataset does not contain any error bars.
+    So we can not do an actual regression and can just fit the straght in the data.
+    We nee the following formulas to calculate $\alpha$ and $\beta$:
+    \begin{equation}
+        \beta = \frac{\Sigma (x_i - \overline{x}) (y_i - \overline{y})}{\Sigma (x_i - \overline{x})^2} 
+    \end{equation}
+    \begin{equation}
+        \alpha = \overline{y} - \beta \overline{x}
+    \end{equation}
+    For calculating the uncertainty of $\alpha$ and $\beta$ we have to use the 'error' of the fit
+    \begin{equation}
+        s^2 = \frac{1}{N-2}\Sigma (y_i - \alpha - \beta x_i)
+    \end{equation}
+    With that we get the standard error of $\alpha$ and $\beta$:
+    \begin{equation}
+        \Delta\alpha = s \sqrt { \frac{\Sigma x_i^2}{N \Sigma (x_i - \overline{x}^2)}}
+    \end{equation}
+    \begin{equation}
+        \Delta\beta = s \sqrt {\frac{1}{\Sigma (x_i - \overline{x})^2}}
+    \end{equation}
+
+    If we do these calculations for the dataset we get
+    \input{Generated/RegressionOffset}
+    \input{Generated/RegressionSlope}
+
+    \section{}
+    If we plot the data from Table~\ref{EnvironmentData} and the linear fit we get the following
+    \input{Generated/EnvironmentRegression}
+
+\end{document}

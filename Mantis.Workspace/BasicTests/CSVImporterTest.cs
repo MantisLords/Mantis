@@ -1,4 +1,5 @@
-﻿using Mantis.Core.FileImporting;
+﻿using Mantis.Core.Calculator;
+using Mantis.Core.FileImporting;
 
 namespace Mantis.Workspace.BasicTests;
 using Mantis.Core.Utility;
