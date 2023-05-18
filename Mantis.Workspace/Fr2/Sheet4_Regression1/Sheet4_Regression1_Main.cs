@@ -39,7 +39,7 @@ public static class Sheet4_Regression1_Main
         CalcHalfTimeAndAddCommands(alphaNoError,betaNoError,"NoError");
         
         // Gaussian linear regression with y errors
-        (ErDouble alphaGauss, ErDouble betaGauss) = data.LinearRegression(e => (e.Time, e.LogDecayCount));
+        (ErDouble alphaGauss, ErDouble betaGauss) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount));
         CalcHalfTimeAndAddCommands(alphaGauss,betaGauss,"Gauss");
         
         // Poisson linear regression with y errors
@@ -80,7 +80,7 @@ public static class Sheet4_Regression1_Main
         ErDouble halfTime = - Constants.Ln2 / beta;
         
         alpha.AddCommand("alpha"+postfix);
-        beta.AddCommand("beta"+postfix);
+        beta.AddCommand("beta"+postfix,"s^{-1}");
         halfTime.AddCommand("halfTime"+postfix,"s");
         Console.WriteLine($"Regression with {postfix}: a = {alpha.ToString()} b = {beta.ToString()} Ts = {halfTime.ToString()}");
     }

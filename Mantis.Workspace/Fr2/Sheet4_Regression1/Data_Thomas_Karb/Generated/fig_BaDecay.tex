@@ -9,12 +9,11 @@ xmin=2, xmax=218,
 ymin=2.6421528, ymax=4.2018266,
 width=1\textwidth
 ]
-\addplot+[
+\addplot[
 only marks,
 error bars/.cd,
  y dir=both,y explicit,
 x dir=both,x explicit,
-color=green,
 ]
 coordinates{
 (20,3.9318256327243257) +- (0,0.140028008402801)
@@ -31,9 +30,8 @@ coordinates{
 \addlegendentry{Measured decay}
 \addplot[
 domain=2:218,
-color=red,
 ]
-{x*-0.0047311093587669726 + 4.04741313273662}
+{x*-0.004731109358766987 + 4.04741313273662}
 ;
 \addlegendentry{Regression with no errors}
 \end{axis}

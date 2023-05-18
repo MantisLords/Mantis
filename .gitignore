@@ -313,3 +313,6 @@ Program.cs
 
 #DotSettings
 Folder.DotSettings.user
+
+# latex generated
+Generated/

@@ -112,7 +112,8 @@ public struct ErDouble : INumber<ErDouble>
         double formattedError = GetErrorFormatted(power);
 
         int digits = GetDigits(power);
-        string format = $"F{digits}";
+        char formatFix = Error > 0 ? 'F' : 'G';
+        string format = $"{formatFix}{digits}";
 
 
         if (isLatex)

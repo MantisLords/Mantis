@@ -1,0 +1,158 @@
+﻿%! Author = Thomas_normal
+%! Date = 18.05.2023
+
+% Preamble
+\documentclass[11pt]{article}
+\usepackage{mathtools}
+
+\input{Generated/Preamble}
+
+\pgfplotsset{compat=1.18}
+
+% Document
+\begin{document}
+    
+    \author{Thomas Karb}
+    \title{Fr2 - Sheet 5 - Regression 2}
+    
+    \maketitle
+
+    \section{Gaussian Error of general linear regression}
+    
+    Let's say we have a model with $k$ linear coefficients $a_i$:
+    
+    \newcommand{\funcTrans}{\vec{f}^{T}}
+    \newcommand{\aVec}{\vec{a}}
+    \begin{align*}
+        y(x) &= a_1 \ f_1(x) + a_2 \ f_2(x) + \dots + a_k \ f_k(x) \\
+        &= \begin{pmatrix}
+               f_1(x) & f_2(x) & \dots & f_k(x)
+        \end{pmatrix} \cdot \begin{pmatrix}
+                            a_1 \\
+                            a_2 \\
+                            \vdots \\
+                            a_k
+        \end{pmatrix} \\
+        &= \funcTrans(x) \cdot \aVec
+    \end{align*}
+    
+    Now we have measured $n$ data points $x_i$ and $y_i$.
+    Where the $y_i$ have the standard error $\sigma_i$.
+    We can define the matrix
+    \newcommand{\yVec}{\vec{y}}
+    \newcommand{\xMatrix}{\boldsymbol{X}}
+    \newcommand{\xMatrixT}{\boldsymbol{X}^T}
+    \begin{align*}
+        \xMatrix &= \begin{pmatrix}
+                        \funcTrans(x_1) \\
+                        \funcTrans(x_2) \\
+                        \vdots \\
+                        \funcTrans(x_n)
+        \end{pmatrix}
+    \end{align*}
+    
+    And we can define an error matrix
+    \newcommand{\eMatrix}{\boldsymbol{\sigma}_{y}}
+    \newcommand{\eMatrixInv}{\boldsymbol{W}}
+    \begin{align*}
+        \eMatrix = \begin{pmatrix}
+                       \sigma_{y_1}^2 \\
+                       & \sigma_{y_2}^2\\
+                       & & \ddots\\
+                       & & & \sigma_{y_n}^2
+        \end{pmatrix}
+    \end{align*}
+    We get the weight matrix as the inverse of the error matrix:
+    \begin{align*}
+        \eMatrixInv = \eMatrix^{-1}
+    \end{align*}
+    
+    With those matrices we can calculate our Chi-Squared:
+    \begin{align*}
+        \chi^2 = (\xMatrix \aVec - \yVec)^T \ \eMatrixInv \ (\xMatrix \aVec - \yVec)
+    \end{align*}
+    
+    We have to minimize $\chi^2$ in order to get our regression parameters $\aVec$.
+    We need to take the derivative:
+    \begin{align*}
+        \vec{0} &= \nabla_{\aVec} \ \chi^2 = 2 \xMatrixT \eMatrixInv (\xMatrix \aVec - \yVec)
+    \end{align*}
+    
+    Which gives us a system of linear equations:
+    \begin{align*}
+        \xMatrixT \eMatrixInv \yVec &= \xMatrixT \eMatrixInv \xMatrixT \aVec
+    \end{align*}
+    
+    We can solve this by calculating the inverse matrix:
+    \newcommand{\mMatrix}{\boldsymbol{M}}
+    \begin{align*}
+        \aVec &= (\xMatrixT \eMatrixInv \xMatrixT)^{-1} \xMatrixT \eMatrixInv \yVec \coloneqq \mMatrix \yVec
+    \end{align*}
+    Note that it would be considerably faster to solve this system of linear equations directly instead of calculating
+    the inverse matrix.
+    But we need the inverse matrix to calculate the errors of $\aVec$ in the next step.
+    For that we have to apply gaussian error calculation.
+    We need to get the derivative (Jacobian-matrix) of $\aVec$ in respect to $\yVec$:
+    
+    \newcommand{\jacMatrix}{\boldsymbol{D}_{\yVec} \ \aVec}
+    
+    \begin{align*}
+        \jacMatrix &= \jacMatrix \ \mMatrix \yVec = \mMatrix
+    \end{align*}
+    Now we get the error matrix of $\aVec$
+    \newcommand{\eaMatrix}{\boldsymbol{\sigma}_{a}}
+    \begin{align*}
+        \eaMatrix &\coloneqq (\jacMatrix)^T \eMatrix \jacMatrix = \mMatrix^T \eMatrix \mMatrix
+    \end{align*}
+    The actual errors of $\aVec$ are on the diagonal of the error matrix:
+    \begin{align*}
+        \sigma_{a_i} = \sqrt {(\eaMatrix)_{i,i}}
+    \end{align*}
+    This is the general procedure for calculating the error of a generic linear regression. 
+    In the case of the quadratic polynomial we just have to insert the correct model:
+    \begin{align*}
+        y(x) &= a_1 + a_2 x + a_k x^2 \\
+        &= \begin{pmatrix}
+               1 & x & x^2
+        \end{pmatrix} \cdot \aVec \\
+        &= \funcTrans(x) \cdot \aVec
+    \end{align*}
+    
+    \section{Getting the g-Factor via quadratic fit}
+
+    We have a metal sheet with holes drilled into it.
+    The holes have a distance of $\delta x = \holeDistance$.
+    (As the error we take the last digit.
+    Since this is our biggest inaccuracy.)
+    We let the metal sheet fall and measure the time each hole passes a laser.
+    With that we get the distance travelled $x$.
+    
+    \input{Generated/tab_MetalSheetFallData}
+    \pagebreak
+    
+    
+    There is a quadratic dependency between the distance $x$ and the time $t$.
+    But we can not linearize the data since there is also a liner-coefficient $\beta$.
+    We have to use the model:
+    \begin{align*}
+        x(t) &= \alpha + \beta t + \gamma t^2
+    \end{align*}
+    We can now use the equations from section 1 to do the regression:
+    \begin{align*}
+        \alpha &= \alphaPoly \\
+        \beta &= \betaPoly \\
+        \gamma &= \gammaPoly
+    \end{align*}
+    
+    From the last coefficient we can derive the g-Factor simply by multiplying 2:
+    \begin{align*}
+        g &= 2 \gamma = \gFactor
+    \end{align*}
+    
+    \section{Plot}
+    If we plot the data from Table~\ref{tab:MetalSheetFallData} and combine it with the quadratic regression we get:
+    
+    \input{Generated/fig_MetalSheetFallGraph}
+
+
+\end{document}

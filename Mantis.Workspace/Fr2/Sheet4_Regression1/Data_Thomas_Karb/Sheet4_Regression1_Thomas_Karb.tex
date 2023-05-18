@@ -3,6 +3,7 @@
 
 % Preamble
 \documentclass[11pt]{article}
+\usepackage{hyperref}
 
 \input{Generated/Preamble}
 
@@ -14,7 +15,7 @@
     
     \maketitle
     
-    \section{Linearistion}
+    \section{Linearization}
     
     We want to analyse data of a Ba-137m decay.
     We have measured the decay count $\symN$ in a fixed time frame $\Delta t$ depending on the overall passed time $t$.
@@ -24,7 +25,7 @@
     \end{equation*}
     To now calculate the half-life-time $T_s$, we assume that $\Delta t << T_s$ so our decay law simplifies to
     \begin{equation*}
-        \symN = \symN_0 2^{-t / T_s} = \symN_0 e^{\beta t}
+        \symN = \symN_0 \ 2^{-t / T_s} = \symN_0 e^{\beta t}
     \end{equation*}
     Now we can linearize the data by taking the natural log on both sides
     \begin{equation*}
@@ -35,45 +36,87 @@
     
     \input{Generated/tab_BaDecayData}
     
+    \pagebreak
+    
     \section{Unweighted Gaussian Regression}
-    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    To get the half-life-time $T_s$ we need to do a linear regression $y(t) = \alpha + \beta t$. First we make a gaussian
+    fit and ignore the errors like in the previous worksheet.
+    For the data of Table~\ref{tab:BaDecayData} we get the following regression parameters
     \begin{equation*}
         \alpha = \alphaNoError
     \end{equation*}
     \begin{equation*}
         \beta = \betaNoError
     \end{equation*}
+    From the slope $\beta$ we can calculate the half-life-time (with gaussian error propagation):
     \begin{equation*}
-        Ts = \halfTimeNoError
+        T_s = \frac{ln(2)}{\beta} = \halfTimeNoError
     \end{equation*}
     
-    if we plot this it looks like:
+    If we plot the data and the fit it looks like the following:
     
     \input{Generated/fig_BaDecay}
+    
+    \pagebreak
 
     \section{Gaussian Regression with y-Errors}
-    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    Similarly we can apply a gaussian regression but now with the y-error of $ln(\symN)$ (Compare with lecture notes).
+    For our decay data we get the following coefficients:
     \begin{equation*}
         \alpha = \alphaGauss
     \end{equation*}
     \begin{equation*}
         \beta = \betaGauss
     \end{equation*}
+    This means a half-life-time of:
     \begin{equation*}
-        Ts = \halfTimeGauss
+        T_s = \halfTimeGauss
     \end{equation*}
 
     \section{Poisson Regression}
-    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    In the last part we now take into account that our data is not actually normal distributed, as assumed in the 
+    gaussian regression.
+    Actually our data follows a poisson distribution.
+    So if we now calculate the coefficients we must find the roots of the following function:
+    \begin{align*}
+       \vec{f}(\alpha,\beta) = 
+        \begin{pmatrix}
+            \Sigma \frac{y_i}{\alpha + \beta t_i} - N \\
+            \Sigma \frac{y_i x_i}{\alpha + \beta t_i} - \Sigma x_i
+        \end{pmatrix}
+    \end{align*}
+    We use a \href{https://en.wikipedia.org/wiki/Broyden%27s_method}{Broyden's method} to find the roots af this two
+    dimensional function. 
+    Since the order of the $\beta$-error of the previous to methods is the same, it is
+    reasonably to assume that the $\beta$-error of the poisson regression has also the same order.
+    So for the sake of economy we will use the $\beta$-error of the second method for the poisson regression.
+    This leaves us with the following coefficients:
     \begin{equation*}
         \alpha = \alphaPoisson
     \end{equation*}
     \begin{equation*}
         \beta = \betaPoisson
     \end{equation*}
+    And we get the half-life-time:
     \begin{equation*}
-        Ts = \halfTimePoisson
+        T_s = \halfTimePoisson
     \end{equation*}
     
+    All three processes are examples for linear regression.
+    All of them need the linearization of the data.
+    Out of the three the first one is definitively the worst, since it is ignoring data (the y-errors).
+    This explains why the $\beta$-error is smaller than compared to the method where we take the y-errors into account.
+    The second is more proficient.
+    It is quite fast because it boils down to solving a linear equation.
+    But it does not model our data correctly.
+    It assumes the data points are normal distributed.
+    The third method actually models the poisson distribution but at the price, that it is not anymore analytically 
+    solvable.
+    All three results are compatible in respects to their error bars.
+    Since the last method has the most accurate model I choose it as the final result and so the measured half-life-time
+    of Ba-137 is
+    \begin{equation*}
+        T_s = \halfTimePoisson
+    \end{equation*}
 
 \end{document}
