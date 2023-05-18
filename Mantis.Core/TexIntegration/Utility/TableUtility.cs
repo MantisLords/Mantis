@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using Mantis.Core.QuickTable;
 
 namespace Mantis.Core.Utility;
+
+public delegate void RefAction<T>(ref T e);
 
 public static class TableUtility
 {
@@ -24,7 +27,12 @@ public static class TableUtility
             for (int j = 0; j < columns; j++)
             {
                 if (j < e.Length && e[j] != null)
-                    res[i, j] = e[j].ToString();
+                {
+                    if (e[j] is IFormattable formattable)
+                        res[i, j] = formattable.ToString("G4",CultureInfo.CurrentCulture);
+                    else
+                        res[i, j] = e[j].ToString();
+                }
                 else
                 {
                     res[i, j] = "";
@@ -59,5 +67,15 @@ public static class TableUtility
         }
 
         return builder.ToString();
+    }
+
+    public static void ForEachRef<T>(this List<T> list,RefAction<T> action)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            T e = list[i];
+            action(ref e);
+            list[i] = e;
+        }
     }
 }

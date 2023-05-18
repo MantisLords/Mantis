@@ -83,8 +83,6 @@ public class AxisLayout
             }
         }
         
-        Console.WriteLine($"Axis Min {min} Max {max}");
-        
         var domain = new Rect2() { Min = min, Max = max };
         var size = domain.Max - domain.Min;
         domain.Max += size * PaddingRel;

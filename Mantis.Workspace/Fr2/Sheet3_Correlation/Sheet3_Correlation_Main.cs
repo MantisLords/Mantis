@@ -9,7 +9,7 @@ using MathNet.Numerics.Statistics;
 
 namespace Mantis.Workspace.Fr2.Sheet3_Correlation;
 
-[QuickTable("The measured and averaged environment data of one year by a franconian weather station","EnvironmentData")]
+[QuickTable("The measured and averaged environment data of one year by a franconian weather station","tab:EnvironmentData")]
 public record struct EnvironmentData
 {
     [QuickTableField("Temperature", "°C")] public double Temperature;
@@ -31,23 +31,22 @@ public static class Sheet3_Correlation_Main
         
 
         double covariance = data.CovarianceBetween(e => (e.Temperature, e.Humidity), true);
-        new TexSmart<double>("TemperatureHumidityCovariance", "\\sigma_{xy}", "^{\\circ} C g / m^3", covariance).SaveLabeled();
+        covariance.AddCommand("TemperatureHumidityCovariance","^{\\circ} C g / m^3");
         
         double correlationCoefficient = data.CorrelationBetween(e => (e.Temperature,e.Humidity));
-        new TexSmart<double>("TemperatureHumidityCorrelation", "r", "", correlationCoefficient).SaveLabeled();
+        correlationCoefficient.AddCommand("TemperatureHumidityCorrelation");
 
-        (ErDouble offset, ErDouble slope) = data.LinearRegression(e => (e.Temperature, e.Humidity));
-        new TexSmart<ErDouble>("RegressionOffset", "\\beta", "g / m^3", offset).SaveLabeled();
-        new TexSmart<ErDouble>("RegressionSlope","\\alpha","g / m^3 / ^{\\circ} C",slope).SaveLabeled();
-        
-        
-        
+        (ErDouble offset, ErDouble slope) = data.LinearRegressionNoErrors(e => (e.Temperature, e.Humidity));
+        offset.AddCommand("RegressionOffset"," g / m^3");
+        slope.AddCommand("RegressionSlope","g / m^3 / ^{\\circ} C");
+
+
         Console.WriteLine($"Covariance: {covariance} Population Correlation: {correlationCoefficient}");
         Console.WriteLine($"offset {offset.ToString()} slope {slope.ToString()}");
 
         Sketchbook regressionPlot = new Sketchbook(
             axis: new AxisLayout( "Temperature in $ ^{\\circ} C$","Humidity in $g/m^3$"),
-            label: "EnvironmentRegression",
+            label: "fig:EnvironmentRegression",
             caption: "Environment data of one year by a franconian weather station Thomas Karb 11.5.23");
 
         
@@ -65,5 +64,7 @@ public static class Sheet3_Correlation_Main
         });
         
         regressionPlot.SaveLabeled();
+        
+        TexPreamble.GeneratePreamble();
     }
 }

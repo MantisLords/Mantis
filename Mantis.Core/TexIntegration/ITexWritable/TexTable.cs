@@ -141,7 +141,7 @@ public static class TexTableEx
         {
             Caption = caption ?? access.TableData.Caption,
             Label = label ?? access.TableData.Label,
-            Header = access.GetHeader(),
+            Header = access.GetHeader().Select(h => h.GetExportHeader()).ToArray(),
             Content = TableUtility.QListToMatrix(quickTable)
         };
     }

@@ -47,7 +47,7 @@ public struct ErDouble : INumber<ErDouble>
     public static ErDouble operator -(ErDouble a, ErDouble b) => -b + a;
 
     public static ErDouble operator *(ErDouble a, ErDouble b)
-        => new ErDouble(a.Value * b.Value, a.Value * b.Value * Math.Sqrt(a.RelErSq + b.RelErSq));
+        => new ErDouble(a.Value * b.Value,  Math.Sqrt(a.Error * b.Value * a.Error * b.Value + b.Error * a.Value * b.Error * a.Value));
 
     public static ErDouble operator /(ErDouble a, ErDouble b)
         => new ErDouble(a.Value / b.Value, a.Value / b.Value * Math.Sqrt(a.RelErSq + b.RelErSq));
@@ -84,6 +84,140 @@ public struct ErDouble : INumber<ErDouble>
         res.Error = argument.RelEr;
         return res;
     }
+    
+
+    public static ErDouble operator %(ErDouble left, ErDouble right)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static ErDouble operator +(ErDouble value)
+    {
+        return value;
+    }
+    
+    public static ErDouble Abs(ErDouble value)
+    {
+        return new ErDouble(Math.Abs(value.Value), value.Error);
+    }
+
+    #region To String Stuff
+
+    private string ToStringFormatted(bool isLatex)
+    {
+        int power = GetPowerFormatted();
+
+        double formattedValue = GetValueFormatted(power);
+
+        double formattedError = GetErrorFormatted(power);
+
+        int digits = GetDigits(power);
+        string format = $"F{digits}";
+
+
+        if (isLatex)
+        {
+            string appendix = "";
+            if (power < 0)
+                appendix = $" \\cdot 10^{{{power}}}";
+            else if (power > 0)
+                appendix = $" \\cdot 10^{{{power}}}";
+
+            string sign = Value < 0 ? "-" : "";
+
+
+            if (formattedError > 0)
+                return $"({sign}{formattedValue.ToString(format)} \\pm {formattedError.ToString(format)})" + appendix;
+            else
+            {
+                return $"{sign}{formattedValue.ToString(format)} " + appendix;
+            }
+
+        }else
+        {
+            string appendix = "";
+            if (power < 0)
+                appendix = $" E{power}";
+            else if (power > 0)
+                appendix = $" E+{power}";
+
+            string sign = Value < 0 ? "-" : "";
+
+
+            if (formattedError > 0)
+                return $"({sign}{formattedValue.ToString(format)} {(char)0x00B1} {formattedError.ToString(format)})" + appendix;
+            else
+            {
+                return $"{sign}{formattedValue.ToString(format)} " + appendix;
+            }
+        }
+    }
+
+    public override string ToString()
+    {
+        return ToStringFormatted(false);
+    }
+
+    private double GetErrorFormatted(int power)
+    {
+        return Error * Math.Pow(10, -power);
+    }
+
+    private double GetValueFormatted(int power)
+    {
+        return Math.Abs(Value) * Math.Pow(10, -power);
+    }
+
+    public string ToString(string? format, IFormatProvider? formatProvider)
+    {
+        bool isLatex = !string.IsNullOrEmpty(format) && (format.StartsWith('G') || format.StartsWith('g'));
+        return ToStringFormatted(isLatex);
+    }
+
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        charsWritten = 0;
+        return false;
+    }
+
+    private int GetDigits(int power)
+    {
+        double formattedValue = Math.Abs(Value) * Math.Pow(10, -power);
+
+        int digits = 4;
+        if (Error > 0)
+        {
+            int powerFormattedError = (int)Math.Floor(Math.Log10(GetErrorFormatted(power)));
+            digits = -powerFormattedError + 1;
+        }
+
+        return digits;
+    }
+
+
+    private int GetPower()
+    {
+        double absValue = Math.Abs(Value);
+        if (absValue == 0)
+            return 0;
+        return (int) Math.Floor(Math.Log10(absValue));
+    }
+
+    private int GetPowerFormatted()
+    {
+        int power = GetPower();
+        if (power is <= 2 and >= -2)
+            power = 0;
+
+        return power;
+    }
+
+    #endregion
+
+
+
+
+    #region Cmpare operaters
 
     public int CompareTo(ErDouble other)
     {
@@ -97,97 +231,12 @@ public struct ErDouble : INumber<ErDouble>
     {
         return other.Value == Value && other.Error == Error;
     }
-
-    public static ErDouble operator %(ErDouble left, ErDouble right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static ErDouble operator +(ErDouble value)
-    {
-        return value;
-    }
-
-    public override string ToString()
-    {
-        double tmpValue = Value > 0 ? Value : -Value;
-        int powerValue = (int) Math.Floor(Math.Log10(tmpValue));
-
-        if (powerValue is <= 2 and >= -2)
-            powerValue = 0;
-
-        double formattedValue = tmpValue * Math.Pow(10, -powerValue);
-
-        int digits = 4;
-        double formattedError = 0;
-        if (Error > 0)
-        {
-            formattedError = Error * Math.Pow(10, -powerValue);
-
-            int powerFormattedError = (int)Math.Floor(Math.Log10(formattedError));
-            digits = -powerFormattedError + 1;
-        }
-
-        string format = $"F{digits}";
-
-        string appendix = "";
-        if (powerValue < 0)
-            appendix = $" \\cdot 10^{powerValue}";
-        else if (powerValue > 0)
-            appendix = $" \\cdot 10^{powerValue}";
-
-        string sign = Value < 0 ? "-" : "";
-        
-        
-        if(Error > 0)
-            return $"({sign}{formattedValue.ToString(format)} \\pm {formattedError.ToString(format)})"+appendix;
-        else
-        {
-            return $"{sign}{formattedValue.ToString(format)} "+appendix;
-        }
-        
-    }
-
-    public string ToString(string? format, IFormatProvider? formatProvider)
-    {
-        return ToString();
-    }
-
-    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
+    
     public int CompareTo(object? obj)
     {
         throw new NotImplementedException();
     }
-
-    public static ErDouble Parse(string s, IFormatProvider? provider)
-    {
-        return double.Parse(s, provider);
-    }
-
-    public static bool TryParse(string? s, IFormatProvider? provider, out ErDouble result)
-    {
-        bool success = double.TryParse(s, provider, out double resD);
-        result = resD;
-        return success;
-    }
-
-    public static ErDouble Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-    {
-        return double.Parse(s, provider);
-    }
-
-    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ErDouble result)
-    {
-        bool success = double.TryParse(s, provider, out double resD);
-        result = resD;
-        return success;
-    }
-
-    public static ErDouble AdditiveIdentity { get => Zero; }
+    
     public static bool operator ==(ErDouble left, ErDouble right)
     {
         return left.Equals(right);
@@ -228,11 +277,10 @@ public struct ErDouble : INumber<ErDouble>
         throw new NotImplementedException();
     }
 
-    public static ErDouble MultiplicativeIdentity => One;
-    public static ErDouble Abs(ErDouble value)
-    {
-        return new ErDouble(Math.Abs(value.Value), value.Error);
-    }
+    #endregion
+    
+
+    #region Integer Infinity Stuff
 
     public static bool IsCanonical(ErDouble value)
     {
@@ -339,6 +387,34 @@ public struct ErDouble : INumber<ErDouble>
         throw new NotImplementedException();
     }
 
+    #endregion
+
+    #region Parse
+
+    public static ErDouble Parse(string s, IFormatProvider? provider)
+    {
+        return double.Parse(s, provider);
+    }
+
+    public static bool TryParse(string? s, IFormatProvider? provider, out ErDouble result)
+    {
+        bool success = double.TryParse(s, provider, out double resD);
+        result = resD;
+        return success;
+    }
+
+    public static ErDouble Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+    {
+        return double.Parse(s, provider);
+    }
+
+    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ErDouble result)
+    {
+        bool success = double.TryParse(s, provider, out double resD);
+        result = resD;
+        return success;
+    }
+    
     public static ErDouble Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
     {
         return double.Parse(s, style, provider);
@@ -348,6 +424,24 @@ public struct ErDouble : INumber<ErDouble>
     {
         return double.Parse(s, style, provider);
     }
+    
+    public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
+    {
+        bool success = double.TryParse(s,style, provider, out double resD);
+        result = resD;
+        return success;
+    }
+
+    public static bool TryParse(string? s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
+    {
+        bool success = double.TryParse(s,style, provider, out double resD);
+        result = resD;
+        return success;
+    }
+
+    #endregion
+
+    #region TryConvert
 
     public static bool TryConvertFromChecked<TOther>(TOther value, out ErDouble result) where TOther : INumberBase<TOther>
     {
@@ -379,20 +473,12 @@ public struct ErDouble : INumber<ErDouble>
         throw new NotImplementedException();
     }
 
-    public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
-    {
-        bool success = double.TryParse(s,style, provider, out double resD);
-        result = resD;
-        return success;
-    }
+    #endregion
 
-    public static bool TryParse(string? s, NumberStyles style, IFormatProvider? provider, out ErDouble result)
-    {
-        bool success = double.TryParse(s,style, provider, out double resD);
-        result = resD;
-        return success;
-    }
+    public static ErDouble AdditiveIdentity { get => Zero; }
 
+    public static ErDouble MultiplicativeIdentity => One;
+    
     public static ErDouble One => new ErDouble(1, 0);
     public static int Radix => 10;
     public static ErDouble Zero => new ErDouble(0, 0);

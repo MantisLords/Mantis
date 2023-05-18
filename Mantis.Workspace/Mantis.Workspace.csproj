@@ -15,4 +15,8 @@
       <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Fr2\Sheet4_Regression1\Data_Melissa_Balles\Generated\" />
+    </ItemGroup>
+
 </Project>

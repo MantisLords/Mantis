@@ -44,9 +44,9 @@ public class QuickTablePropertyAccess<T>
         
     }
 
-    public string[] GetHeader()
+    public IEnumerable<QuickTableField> GetHeader()
     {
-        return Fields.Select(f => f.Name).ToArray();
+        return Fields.Select(f => f.FieldData);
     }
 
     public T GetNewInstance()
@@ -57,20 +57,15 @@ public class QuickTablePropertyAccess<T>
     public class ManagedField
     {
         private readonly FieldInfo _field;
-        public readonly string Name;
-        public readonly string Symbol;
-        public readonly string Unit;
 
         private MethodInfo? _parseMethod;
+
+        public readonly QuickTableField FieldData;
 
         public ManagedField(FieldInfo field, QuickTableField fieldData)
         {
             _field = field;
-            Name = fieldData.Name;
-            Symbol = fieldData.Symbol;
-            if (string.IsNullOrEmpty(Symbol))
-                Symbol = _field.Name;
-            Unit = fieldData.Unit;
+            FieldData = fieldData;
         }
 
         public object? GetValue(object instance)
@@ -104,12 +99,11 @@ public class QuickTablePropertyAccess<T>
                     new Type[]{typeof(string),typeof(IFormatProvider)});
                 if (_parseMethod == null)
                     throw new ArgumentException(
-                        $"The Type {GetType().Name} of TableField {Name} does not implement the IParsable interface." +
+                        $"The Type {GetType().Name} of TableField {FieldData.Name} does not implement the IParsable interface." +
                         $"Change the Type or add a custom parser (not yet implemented)");
             }
 
             var obj = _parseMethod.Invoke(null, new object?[] { value, null });
-            Console.WriteLine(obj.ToString());
             SetValue(ref instance,obj);
         }
         public Type GetType()

@@ -12,7 +12,8 @@ public record DataMarkSketch : AddPlotSketch
     public override void AppendInsideSquareBrackets(StringBuilder builder,Sketchbook sketchbook)
     {
         base.AppendInsideSquareBrackets(builder,sketchbook);
-        builder.AppendLine("only marks");
+        builder.AppendLine("only marks,");
+        builder.AppendLine("error bars/.cd,\n y dir=both,y explicit,\nx dir=both,x explicit,");
     }
 
     public override void AppendAfterBeforeSemi(StringBuilder builder,Sketchbook sketchbook)
@@ -41,7 +42,6 @@ public record DataMarkSketch : AddPlotSketch
             max.Y = MathF.Max(max.Y, (float)y.Max);
             
         }
-        Console.WriteLine($"Min{min} Max {max}");
         
         return new Rect2() { Min = min, Max = max };
     }

@@ -16,7 +16,12 @@ namespace Mantis.Core.FileManagement
         public static string GlobalWorkspace
         {
             get => _globalWorkspace ?? throw new Exception("You need to set a global workspace path");
-            set => _globalWorkspace = PathUtility.GetFormattedDirectory(value) ?? throw new Exception("You need to set a valid global workspace path");
+            set
+            {
+                _globalWorkspace = PathUtility.GetFormattedDirectory(value) ??
+                                   throw new Exception("You need to set a valid global workspace path");
+                Console.WriteLine($"Set global workspace to: {value}\n");
+            }
         }
 
         public static string CurrentWorkspace

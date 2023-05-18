@@ -36,7 +36,7 @@ public class SimpleTableProtocolReader : BasicCSVReader
             throw new ArgumentException("Your table needs a header and at least one row");
 
         ParseHeadersAndGetHandel(rowHeadingIndex+1,access,
-            out int columnCount,out FieldParsingHandle<T>[] dataFieldParsingHandle);
+            out int columnCount,out FieldParsingHandle<T>?[] dataFieldParsingHandle);
 
         List<T> result = ParseListContent(rowHeadingIndex + 2, access, maxEndOfTable, columnCount, dataFieldParsingHandle);
 
@@ -65,9 +65,9 @@ public class SimpleTableProtocolReader : BasicCSVReader
 
     private void ParseHeadersAndGetHandel<T>(int headerRowIndex, QuickTablePropertyAccess<T> access,
         out int columnCount,
-        out FieldParsingHandle<T>[] dataFieldParsingHandle)
+        out FieldParsingHandle<T>?[] dataFieldParsingHandle)
     {
-        string[] propertyHeaders = access.GetHeader();
+        string?[] propertyHeaders = access.GetHeader().Select(h => h.GetImportHeaderStartPattern()).ToArray();
         columnCount = GetColumnOrEnd(string.IsNullOrEmpty, headerRowIndex);
         dataFieldParsingHandle = new FieldParsingHandle<T>[columnCount];
         
@@ -77,11 +77,16 @@ public class SimpleTableProtocolReader : BasicCSVReader
 
             for (int i = 0; i < propertyHeaders.Length; i++)
             {
-                if (headerField.StartsWith(propertyHeaders[i]))
+                if (!string.IsNullOrEmpty(propertyHeaders[i]) && headerField.StartsWith(propertyHeaders[i]))
                 {
                     var i1 = i;
                     dataFieldParsingHandle[column] = (ref T instance,string fieldValue) => access.Fields[i1].ParseValueT<T>(ref instance,fieldValue);
                 }
+            }
+
+            if (dataFieldParsingHandle[column] == null)
+            {
+                Console.WriteLine($"Could not find a QuickTableField for {headerField}. The column will be ignored!");
             }
         }
     }
@@ -89,7 +94,7 @@ public class SimpleTableProtocolReader : BasicCSVReader
     private List<T> ParseListContent<T>(int firstRowIndex, QuickTablePropertyAccess<T> access,
         int maxRowIndex,
         int columnCount,
-        FieldParsingHandle<T>[] dataFieldParsingHandle)
+        FieldParsingHandle<T>?[] dataFieldParsingHandle)
     {
         List<T> result = new List<T>();
         for (int row = firstRowIndex; row < maxRowIndex; row++)
@@ -101,8 +106,7 @@ public class SimpleTableProtocolReader : BasicCSVReader
 
             for (int column = 0; column < columnCount; column++)
             {
-                
-                dataFieldParsingHandle[column].Invoke(ref currentEntry,DataMatrix[row,column]);
+                dataFieldParsingHandle[column]?.Invoke(ref currentEntry,DataMatrix[row,column]);
             }
             
             result.Add(currentEntry);

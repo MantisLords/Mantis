@@ -17,6 +17,6 @@ public static class LabelExtension
 
     public static void SaveLabeled(this ILabel writable)
     {
-        writable.Save(writable.Label);
+        writable.Save(writable.Label.Replace(':','_'));
     }
 }

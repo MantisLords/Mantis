@@ -1,0 +1,79 @@
+﻿%! Author = Thomas_normal
+%! Date = 16.05.2023
+
+% Preamble
+\documentclass[11pt]{article}
+
+\input{Generated/Preamble}
+
+% Document
+\begin{document}
+
+    \author{Thomas Karb}
+    \title{Fr 2 - Sheet 4 - Regression 1}
+    
+    \maketitle
+    
+    \section{Linearistion}
+    
+    We want to analyse data of a Ba-137m decay.
+    We have measured the decay count $\symN$ in a fixed time frame $\Delta t$ depending on the overall passed time $t$.
+    The decay count $\symN$ follows a poisson distribution. So we get the standard error by taking the square root:
+    \begin{equation*}
+        \sigma_{\symN} = \sqrt {\symN}
+    \end{equation*}
+    To now calculate the half-life-time $T_s$, we assume that $\Delta t << T_s$ so our decay law simplifies to
+    \begin{equation*}
+        \symN = \symN_0 2^{-t / T_s} = \symN_0 e^{\beta t}
+    \end{equation*}
+    Now we can linearize the data by taking the natural log on both sides
+    \begin{equation*}
+        ln(\symN) = \ln(\symN_0)+\beta t = \alpha + \beta t
+    \end{equation*}
+    The error of $ln(\symN)$ can be calculated through a taylor approximation (identically to gauss).
+    By applying these steps we transform our data to:
+    
+    \input{Generated/tab_BaDecayData}
+    
+    \section{Unweighted Gaussian Regression}
+    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    \begin{equation*}
+        \alpha = \alphaNoError
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaNoError
+    \end{equation*}
+    \begin{equation*}
+        Ts = \halfTimeNoError
+    \end{equation*}
+    
+    if we plot this it looks like:
+    
+    \input{Generated/fig_BaDecay}
+
+    \section{Gaussian Regression with y-Errors}
+    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    \begin{equation*}
+        \alpha = \alphaGauss
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaGauss
+    \end{equation*}
+    \begin{equation*}
+        Ts = \halfTimeGauss
+    \end{equation*}
+
+    \section{Poisson Regression}
+    If we do basic regression for $y(t) = \alpha + \beta t$ and ignoring the errors we get
+    \begin{equation*}
+        \alpha = \alphaPoisson
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaPoisson
+    \end{equation*}
+    \begin{equation*}
+        Ts = \halfTimePoisson
+    \end{equation*}
+    
+
+\end{document}
