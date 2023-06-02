@@ -34,13 +34,13 @@ public static class Sheet5_Regression2_Main
         Console.WriteLine($"Hole Distance {holeDistance.ToString()}");
         
         // Calculate the distance x
-        data.ForEachRef((ref MetalSheetFallData e) => e.Distance = new ErDouble(e.HoleCount * holeDistance.Value,holeDistance.Error));
+        data.ForEachRef((ref MetalSheetFallData e) => e.Distance = new ErDouble(e.HoleCount * holeDistance.Value));
         
         //Save the data as TexTable
         data.CreateTexTable().SaveLabeled();
 
 
-        var (alpha, beta, gamma) = data.LinearRegressionQuadratic(e => (e.Time, e.Distance));
+        var (alpha, beta, gamma) = data.LinearRegressionQuadratic(e => (e.Time, e.Distance),RegressionCommand.IgnoreYErrors);
         alpha.AddCommand("alphaPoly","cm");
         beta.AddCommand("betaPoly","cm / s");
         gamma.AddCommand("gammaPoly","cm / s^2");
@@ -49,6 +49,7 @@ public static class Sheet5_Regression2_Main
         
         //Calculate falling g factor
         ErDouble g = gamma.Mul10E(-2) * 2;
+        Console.WriteLine($"g Factor {g.ToString()}");
         g.AddCommand("gFactor","m / s^2");
         
         // Sketch

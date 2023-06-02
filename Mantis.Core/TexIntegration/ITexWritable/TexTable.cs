@@ -94,7 +94,7 @@ public class TexTable : ITexWritable,ILabel,ICaption
         builder.Append('|');
         for (int i = 0; i < GetLengthOriented(1); i++)
         {
-            builder.Append(" c |");
+            builder.Append(" p{3cm} |");
         }
 
         builder.Append("}\n");

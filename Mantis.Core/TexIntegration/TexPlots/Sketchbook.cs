@@ -7,12 +7,14 @@ namespace Mantis.Core.TexIntegration;
 
 public class Sketchbook : ITexWritable, ILabel,ICaption
 {
+    public string? Title;
 
-    public Sketchbook(AxisLayout axis, string label, string caption)
+    public Sketchbook(AxisLayout axis, string label, string caption,string? title = null)
     {
         Axis = axis;
         Label = label;
         Caption = caption;
+        Title = title;
     }
 
     public List<ISketch> Sketches { get; } = new List<ISketch>();

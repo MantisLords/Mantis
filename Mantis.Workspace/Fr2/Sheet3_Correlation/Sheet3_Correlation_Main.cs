@@ -36,7 +36,7 @@ public static class Sheet3_Correlation_Main
         double correlationCoefficient = data.CorrelationBetween(e => (e.Temperature,e.Humidity));
         correlationCoefficient.AddCommand("TemperatureHumidityCorrelation");
 
-        (ErDouble offset, ErDouble slope) = data.LinearRegressionNoErrors(e => (e.Temperature, e.Humidity));
+        (ErDouble offset, ErDouble slope) = data.LinearRegressionLine(e => (e.Temperature, e.Humidity),RegressionCommand.IgnoreYErrors);
         offset.AddCommand("RegressionOffset"," g / m^3");
         slope.AddCommand("RegressionSlope","g / m^3 / ^{\\circ} C");
 

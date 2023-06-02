@@ -84,6 +84,20 @@ public struct ErDouble : INumber<ErDouble>
         res.Error = argument.RelEr;
         return res;
     }
+
+    public static ErDouble Cos(ErDouble phi)
+    {
+        ErDouble res = Math.Cos(phi.Value);
+        res.Error = res.Value * Math.Sin(phi.Error);
+        return res;
+    }
+    
+    public static ErDouble Sin(ErDouble phi)
+    {
+        ErDouble res = Math.Sin(phi.Value);
+        res.Error = res.Value * Math.Cos(phi.Error);
+        return res;
+    }
     
 
     public static ErDouble operator %(ErDouble left, ErDouble right)

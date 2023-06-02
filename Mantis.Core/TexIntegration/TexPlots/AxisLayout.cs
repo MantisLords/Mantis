@@ -20,6 +20,7 @@ public class AxisLayout
     public string YLabel;
     public string? LegendPos;
 
+
     public AxisLayout(string xLabel, string yLabel)
     {
         XLabel = xLabel;
@@ -30,9 +31,10 @@ public class AxisLayout
     {
         builder.AppendBegin(GetAxis());
         builder.Append("[ ");
+        if(sketchbook.Title != null) builder.AppendLine($"title = {sketchbook.Title},");
         builder.AppendLine($"xlabel = {XLabel},");
         builder.AppendLine($"ylabel = {YLabel},");
-        builder.AppendLine($"legend pos = {LegendPos ?? "north west"}");
+        builder.AppendLine($"legend pos = {LegendPos ?? "north west"},");
 
         var domain = GetDomain(sketchbook);
         builder.AppendLine($"xmin={domain.Min.X}, xmax={domain.Max.X},\nymin={domain.Min.Y}, ymax={domain.Max.Y},");

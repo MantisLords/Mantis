@@ -4,6 +4,11 @@ using MathNet.Numerics.LinearAlgebra.Complex32;
 
 namespace Mantis.Core.Calculator;
 
+public enum RegressionCommand
+{
+    UseYErrors,IgnoreYErrors
+}
+
 public static class GeneralLinearRegression
 {
     /// <summary>
@@ -13,24 +18,23 @@ public static class GeneralLinearRegression
     /// <param name="EY">Error matrix of y-values</param>
     /// <param name="X">X Function matrix</param>
     /// <returns>Returns (a,Ea). With a being the regression parameters and Ea being the corresponding error matrix</returns>
-    public static (Vector<double>,Matrix<double>) LinearRegression(Vector<double> y,Matrix<double> EY,Matrix<double> X)
+    public static (Vector<double>,Matrix<double>) LinearRegression(Vector<double> y,Matrix<double> EY,Matrix<double> X,RegressionCommand command)
     {
-        bool allErrorZero = true;
-        bool oneErrorZero = false;
-        for (int i = 0; i < EY.ColumnCount; i++)
+        if (command == RegressionCommand.UseYErrors)
         {
-            allErrorZero &= EY[i, i] == 0;
-            oneErrorZero |= EY[i, i] == 0;
+            for (int i = 0; i < EY.ColumnCount; i++)
+            {
+                if (EY[i, i] == 0)
+                {
+                    throw new ArgumentException("There is a y value with an error of zero. Try giving it an error or " +
+                                                "do the regression and ignoring the y errors");
+                }
+            }
+            
         }
 
-        if (!allErrorZero && oneErrorZero)
-        {
-            throw new ArgumentException("There is a y value with an error of zero. Try giving it an error or " +
-                                        "do the regression with completely no errors");
-        }
-        
         Matrix<double> W;
-        if (allErrorZero)
+        if (command == RegressionCommand.IgnoreYErrors)
         {
             W = Matrix<double>.Build.DiagonalIdentity(y.Count);
         }
@@ -54,11 +58,14 @@ public static class GeneralLinearRegression
         var HG = inverse * XT * W;
         var a = HG * y;
 
-        if (allErrorZero)
+        if (command == RegressionCommand.IgnoreYErrors)
         {
             var modelValues = X * a;
-            var sigma = GoodnessOfFit.StandardError( modelValues, y,a.Count);
-            EY = Matrix<double>.Build.Diagonal(y.Count, y.Count, sigma * sigma);
+            double sigmaSqrt = (y - modelValues).DotProduct(y - modelValues) / (y.Count - a.Count);
+            
+            //var sigma = GoodnessOfFit.StandardError( modelValues, y,a.Count);
+            
+            EY = Matrix<double>.Build.Diagonal(y.Count, y.Count, sigmaSqrt);
         }
         
         var EA = HG * EY * HG.Transpose();
@@ -72,10 +79,10 @@ public static class GeneralLinearRegression
     /// <param name="ys">y-Values with error</param>
     /// <param name="X">x-Function Matrix</param>
     /// <returns>Regression parameters</returns>
-    public static ErDouble[] LinearRegression(ErDouble[] ys, Matrix<double> X)
+    public static ErDouble[] LinearRegression(ErDouble[] ys, Matrix<double> X,RegressionCommand command)
     {
         var (y, Ey) = ErDoubleArrayToErrorMatrix(ys);
-        var (a, Ea) = LinearRegression(y, Ey, X);
+        var (a, Ea) = LinearRegression(y, Ey, X,command);
         return ErrorMatrixToErDouble(a, Ea);
     }
 
@@ -88,10 +95,10 @@ public static class GeneralLinearRegression
     /// <param name="xs">array of x-values xs = {xi}</param>
     /// <param name="linearModel">linear model f(xi) = {f1(xi), f2(xi), f3(xi), ... fn(xi)}</param>
     /// <returns>Regression parameters a = {a1,a2,a3,...,an}</returns>
-    public static ErDouble[] LinearRegression( double[] xs, Func<double, double[]> linearModel,ErDouble[] ys)
+    public static ErDouble[] LinearRegression( double[] xs, Func<double, IEnumerable<double>> linearModel,ErDouble[] ys,RegressionCommand command)
     {
         Matrix<double> X = Matrix<double>.Build.DenseOfRows(xs.Select(linearModel));
-        return LinearRegression(ys, X);
+        return LinearRegression(ys, X,command);
     }
 
     /// <summary>
@@ -105,11 +112,11 @@ public static class GeneralLinearRegression
     /// <param name="linearModel">linear model f(xi) = {f1(xi), f2(xi), f3(xi), ... fn(xi)}</param>
     /// <typeparam name="T">Regression parameters a = {a1,a2,a3,...,an}</typeparam>
     /// <returns>Regression parameters a = {a1,a2,a3,...,an</returns>
-    public static ErDouble[] LinearRegression<T>(this IEnumerable<T> data, Func<T,(double, ErDouble)> selector,Func<double, double[]> linearModel)
+    public static ErDouble[] LinearRegression<T>(this IEnumerable<T> data, Func<T,(double, ErDouble)> selector,Func<double, IEnumerable<double>> linearModel,RegressionCommand command)
     {
         double[] xs = data.Select(e => selector(e).Item1).ToArray();
         ErDouble[] ys = data.Select(e => selector(e).Item2).ToArray();
-        return LinearRegression(xs, linearModel, ys);
+        return LinearRegression(xs, linearModel, ys,command);
     }
     
     

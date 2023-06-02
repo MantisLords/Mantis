@@ -29,7 +29,7 @@ public static class TableUtility
                 if (j < e.Length && e[j] != null)
                 {
                     if (e[j] is IFormattable formattable)
-                        res[i, j] = formattable.ToString("G4",CultureInfo.CurrentCulture);
+                        res[i, j] = '$'+formattable.ToString("G4",CultureInfo.CurrentCulture) + '$';
                     else
                         res[i, j] = e[j].ToString();
                 }

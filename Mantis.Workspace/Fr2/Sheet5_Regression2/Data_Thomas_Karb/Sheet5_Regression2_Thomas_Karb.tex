@@ -67,6 +67,11 @@
         \eMatrixInv = \eMatrix^{-1}
     \end{align*}
     
+    If we do not have any y-errors $\sigma_{y_i}$ as in section 2, the weight matrix is just the identity
+    \begin{align*}
+        \eMatrixInv = \mathds{1}
+    \end{align*}
+    
     With those matrices we can calculate our Chi-Squared:
     \begin{align*}
         \chi^2 = (\xMatrix \aVec - \yVec)^T \ \eMatrixInv \ (\xMatrix \aVec - \yVec)
@@ -80,13 +85,13 @@
     
     Which gives us a system of linear equations:
     \begin{align*}
-        \xMatrixT \eMatrixInv \yVec &= \xMatrixT \eMatrixInv \xMatrixT \aVec
+        \xMatrixT \eMatrixInv \yVec &= \xMatrixT \eMatrixInv \xMatrix \aVec
     \end{align*}
     
     We can solve this by calculating the inverse matrix:
     \newcommand{\mMatrix}{\boldsymbol{M}}
     \begin{align*}
-        \aVec &= (\xMatrixT \eMatrixInv \xMatrixT)^{-1} \xMatrixT \eMatrixInv \yVec \coloneqq \mMatrix \yVec
+        \aVec &= (\xMatrixT \eMatrixInv \xMatrix)^{-1} \xMatrixT \eMatrixInv \yVec \coloneqq \mMatrix \yVec
     \end{align*}
     Note that it would be considerably faster to solve this system of linear equations directly instead of calculating
     the inverse matrix.
@@ -102,11 +107,20 @@
     Now we get the error matrix of $\aVec$
     \newcommand{\eaMatrix}{\boldsymbol{\sigma}_{a}}
     \begin{align*}
-        \eaMatrix &\coloneqq (\jacMatrix)^T \eMatrix \jacMatrix = \mMatrix^T \eMatrix \mMatrix
+        \eaMatrix &\coloneqq \jacMatrix \eMatrix (\jacMatrix)^T = \mMatrix \eMatrix \mMatrix^T
     \end{align*}
     The actual errors of $\aVec$ are on the diagonal of the error matrix:
     \begin{align*}
         \sigma_{a_i} = \sqrt {(\eaMatrix)_{i,i}}
+    \end{align*}
+    Again if we do not have any y-errors $\sigma_{y_i}$ we have to use the sample variance of the data set.
+    We can calculate it via the dot product:
+    \begin{align*}
+        s^2 = \frac{1}{n - k} (\yVec - \xMatrix \aVec)^2
+    \end{align*}
+    The error matrix in the above formula gets substituted by the identity times the sample variance:
+    \begin{align*}
+        \eaMatrix = \mMatrix (s^2 \mathds{1}) \mMatrix^T
     \end{align*}
     This is the general procedure for calculating the error of a generic linear regression. 
     In the case of the quadratic polynomial we just have to insert the correct model:

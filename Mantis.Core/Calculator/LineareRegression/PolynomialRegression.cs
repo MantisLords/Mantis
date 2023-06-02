@@ -12,12 +12,12 @@ public static class PolynomialRegression
     /// <returns>Regression parameters a = {a0,a1,a2,a3,...an}</returns>
     /// <exception cref="ArgumentException"></exception>
     public static ErDouble[] LinearRegressionPolynomial<T>(this IEnumerable<T> data,
-        Func<T, (double, ErDouble)> selector, int order)
+        Func<T, (double, ErDouble)> selector, int order,RegressionCommand command)
     {
         if (order <= 0)
             throw new ArgumentException("The order of the polynomial must be greater than zero");
 
-        return data.LinearRegression(selector, xi => PolynomialEvaluation(xi, order));
+        return data.LinearRegression(selector, xi => PolynomialEvaluation(xi, order),command);
     }
     
     /// <summary>
@@ -28,19 +28,40 @@ public static class PolynomialRegression
     /// <typeparam name="T"></typeparam>
     /// <returns>Regression parameters (a,b,c) </returns>
     public static (ErDouble, ErDouble, ErDouble) LinearRegressionQuadratic<T>(this IEnumerable<T> data,
-        Func<T, (double, ErDouble)> selector)
+        Func<T, (double, ErDouble)> selector,RegressionCommand command)
     {
-        ErDouble[] parameters = data.LinearRegression(selector, (double xi) => new double[] { 1, xi, xi * xi });
+        ErDouble[] parameters = data.LinearRegression(selector, x => new double[]{1, x, x * x}, command);
         return (parameters[0], parameters[1], parameters[2]);
     }
 
-    private static double[] PolynomialEvaluation(double x, int order)
+    public static IEnumerable<double> PolynomialEvaluation(double x, int order)
     {
-        double[] res = new double[order+1];
-        res[0] = 1;
-        for (int i = 1; i < order+1; i++)
+        double xpowi = 1;
+        for (int i = 0; i < order+1; i++)
         {
-            res[i] = x * res[i - 1];
+            yield return xpowi;
+            xpowi *= x;
+        }
+    }
+
+    public static ErDouble[] LinearRegressionLegendrePolynomial<T>(this IEnumerable<T> data,
+        Func<T, (double, ErDouble)> selector, int order, RegressionCommand command)
+    {
+        if (order <= 0)
+            throw new ArgumentException("The order of the polynomial must be greater than zero");
+        
+        return data.LinearRegression(selector, xi => LegendrePolynomialEvaluation(xi, order),command);
+    }
+
+    public static IEnumerable<double> LegendrePolynomialEvaluation(double x, int order)
+    {
+        double[] res = new double[order];
+        if (order > 0) res[0] = 1;
+        if (order > 1) res[1] = x;
+
+        for (int n = 2; n < order; n++)
+        {
+            res[n] = (((double)2 * n - 1) * x * res[n - 1] -  res[n - 2] *((double)n - 1)) / n;
         }
 
         return res;

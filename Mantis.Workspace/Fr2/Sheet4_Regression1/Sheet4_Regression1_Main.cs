@@ -35,11 +35,11 @@ public static class Sheet4_Regression1_Main
         data.CreateTexTable().SaveLabeled();
         
         // Gaussian Linear regression while ignoring the errors
-        (ErDouble alphaNoError,ErDouble betaNoError) = data.LinearRegressionNoErrors(e => (e.Time, e.LogDecayCount.Value));
+        (ErDouble alphaNoError,ErDouble betaNoError) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount),RegressionCommand.IgnoreYErrors);
         CalcHalfTimeAndAddCommands(alphaNoError,betaNoError,"NoError");
         
         // Gaussian linear regression with y errors
-        (ErDouble alphaGauss, ErDouble betaGauss) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount));
+        (ErDouble alphaGauss, ErDouble betaGauss) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount),RegressionCommand.UseYErrors);
         CalcHalfTimeAndAddCommands(alphaGauss,betaGauss,"Gauss");
         
         // Poisson linear regression with y errors

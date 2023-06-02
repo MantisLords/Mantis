@@ -10,22 +10,14 @@ namespace Mantis.Core.Calculator;
 
 public static class LineRegression
 {
-    /// <summary>
-    /// fits a + b x and assumes data points are normal distributed and have no errors
-    /// </summary>
-    /// <returns>(a,b)</returns>
-    public static (ErDouble, ErDouble) LinearRegressionNoErrors<T>(this IEnumerable<T> data,Func<T,(double,double)> selector)
-    {
-        return LinearRegressionLine(data, e => (selector(e).Item1,(ErDouble)selector(e).Item2));
-    }
     
     /// <summary>
     /// fits a + b x and assumes data points are normal distributed. Data can have y error or no y error
     /// </summary>
     /// <returns>(a,b)</returns>
-    public static (ErDouble, ErDouble) LinearRegressionLine<T>(this IEnumerable<T> data,Func<T,(double,ErDouble)> selector)
+    public static (ErDouble, ErDouble) LinearRegressionLine<T>(this IEnumerable<T> data,Func<T,(double,ErDouble)> selector,RegressionCommand command)
     {
-        ErDouble[] parameters = data.LinearRegression(selector, xi => new double[] { 1, xi });
+        ErDouble[] parameters = data.LinearRegression(selector, xi => new double[] { 1, xi },command);
         return (parameters[0], parameters[1]);
     }
 
@@ -34,7 +26,7 @@ public static class LineRegression
         var rootFindFunction = new RootFindFunctionPoisLinReg(data.Select(e => (selector(e).Item1,selector(e).Item2.Value)).ToArray());
         
         if(!initialGuessGauss.HasValue)
-            initialGuessGauss = data.LinearRegressionLine(selector);
+            initialGuessGauss = data.LinearRegressionLine(selector,RegressionCommand.UseYErrors);
         (ErDouble alphaInit, ErDouble betaInit) = initialGuessGauss.Value;
 
         double[] roots = Broyden.FindRoot(rootFindFunction.Evaluate, new double[] { alphaInit.Value, betaInit.Value });

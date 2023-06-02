@@ -1,0 +1,67 @@
+﻿%! Author = Thomas_normal
+%! Date = 01.06.2023
+
+% Preamble
+\documentclass[11pt]{article}
+
+\include{Generated/Preamble}
+
+\title{Fr2 - Sheet 6 - Regression 3}
+\author{Thomas Karb}
+
+% Document
+\begin{document}
+
+    \maketitle
+    
+    \section{Scattering experiment}
+    
+    In the experiment hydrogen atoms were shoot at with antiprotons.
+    Depending on the angle the count of the scattered protons were measured.
+    It is assumed that the scattering count is poisson distributed, so the standard error
+    is just the square root of the mean. 
+    Furthermore to calculate the cleansed scattering count we have to subtract the background scattering.
+    \begin{align*}
+        N = N_{full} - 2 N_{empty}
+    \end{align*}
+    If we do this we get the following data:
+    
+    \include{Generated/tab_HScatteringData}
+    
+    Now we have to fit a second order legendre polynomial on the data:
+    \begin{align*}
+        N(\cos{\phi}) = a_0 P_0 (\cos(\phi)) + a_1 P_1 (\cos(\phi)) + a_2 P_2 (\cos(\phi))
+    \end{align*}
+    
+    If we do the linear regression as described in Sheet 5 we get the following parameters:
+    \begin{align*}
+        a_0 &= \regressionParameterA \\
+        a_1 &= \regressionParameterB \\
+        a_2 &= \regressionParameterC
+    \end{align*}
+    
+    %\include{Generated/tab_HScatteringData}
+    
+    \section{Quality of the fit}
+    
+    If we calculate the reduced chi-squared of the regression we get
+    \begin{align*}
+        \chi^2 &= \ReducedChiSquared
+    \end{align*}
+    
+    Since we have $\DegreesOfFreedom$ degrees of freedom the calculated chi-squared 
+    corresponds to a probability of
+    \begin{align*}
+        p &= \ProbabilityChiSquared
+    \end{align*}
+    
+    This is a reasonable probability so it suggest we have a good fit. 
+    
+    \section{Graphic}
+    
+    If we plot the regression we get:
+    
+    \include{Generated/fig_HScattering}
+
+
+\end{document}
