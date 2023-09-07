@@ -43,19 +43,19 @@
     fit and ignore the errors like in the previous worksheet.
     For the data of Table~\ref{tab:BaDecayData} we get the following regression parameters
     \begin{equation*}
-        \alpha = \alphaNoError
+        \alpha = \NoErrorsA
     \end{equation*}
     \begin{equation*}
-        \beta = \betaNoError
+        \beta = \NoErrorsB
     \end{equation*}
     From the slope $\beta$ we can calculate the half-life-time (with gaussian error propagation):
     \begin{equation*}
-        T_s = \frac{ln(2)}{\beta} = \halfTimeNoError
+        T_s = \frac{ln(2)}{\beta} = \NoErrorsHalfTime
     \end{equation*}
     
     If we plot the data and the fit it looks like the following:
     
-    \input{Generated/fig_BaDecay}
+    \figBaDecay
     
     \pagebreak
 
@@ -63,14 +63,14 @@
     Similarly we can apply a gaussian regression but now with the y-error of $ln(\symN)$ (Compare with lecture notes).
     For our decay data we get the following coefficients:
     \begin{equation*}
-        \alpha = \alphaGauss
+        \alpha = \GaussA
     \end{equation*}
     \begin{equation*}
-        \beta = \betaGauss
+        \beta = \GaussB
     \end{equation*}
     This means a half-life-time of:
     \begin{equation*}
-        T_s = \halfTimeGauss
+        T_s = \GaussHalfTime
     \end{equation*}
 
     \section{Poisson Regression}
@@ -92,14 +92,14 @@
     So for the sake of economy we will use the $\beta$-error of the second method for the poisson regression.
     This leaves us with the following coefficients:
     \begin{equation*}
-        \alpha = \alphaPoisson
+        \alpha = \PoissonA
     \end{equation*}
     \begin{equation*}
-        \beta = \betaPoisson
+        \beta = \PoissonB
     \end{equation*}
     And we get the half-life-time:
     \begin{equation*}
-        T_s = \halfTimePoisson
+        T_s = \PoissonHalfTime
     \end{equation*}
     
     All three processes are examples for linear regression.
@@ -116,7 +116,7 @@
     Since the last method has the most accurate model I choose it as the final result and so the measured half-life-time
     of Ba-137 is
     \begin{equation*}
-        T_s = \halfTimePoisson
+        T_s = \PoissonHalfTime
     \end{equation*}
 
 \end{document}

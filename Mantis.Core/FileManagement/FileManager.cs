@@ -37,6 +37,15 @@ namespace Mantis.Core.FileManagement
             set => _currentOutputDir = PathUtility.GetFormattedDirectory(value);
         }
 
+        public static string GetRelativeCurrentOutputDir(bool forwardSlashSeperator)
+        {
+            string path = Path.GetRelativePath(GlobalWorkspace, CurrentOutputDir);
+            if (forwardSlashSeperator)
+                path = path.Replace('\\', '/');
+
+            return path;
+        }
+
         public static void ResetCurrentOutputDir()
         {
             _currentOutputDir = null;

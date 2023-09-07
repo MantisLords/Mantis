@@ -12,6 +12,11 @@ public static class CaptionExtension
 {
     public static void AppendCaption(this StringBuilder builder, ICaption caption)
     {
-        builder.AppendCommand($"caption{{{caption.Caption}}}");
+        builder.AppendCaption(caption.Caption);
+    }
+    
+    public static void AppendCaption(this StringBuilder builder, string caption)
+    {
+        builder.AppendCommand($"caption{{{caption}}}");
     }
 }

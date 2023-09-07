@@ -1,6 +1,7 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics;
@@ -31,39 +32,27 @@ public static class Sheet3_Correlation_Main
         
 
         double covariance = data.CovarianceBetween(e => (e.Temperature, e.Humidity), true);
-        covariance.AddCommand("TemperatureHumidityCovariance","^{\\circ} C g / m^3");
+        covariance.AddCommandAndLog("TemperatureHumidityCovariance","^{\\circ} C g / m^3");
         
         double correlationCoefficient = data.CorrelationBetween(e => (e.Temperature,e.Humidity));
-        correlationCoefficient.AddCommand("TemperatureHumidityCorrelation");
+        correlationCoefficient.AddCommandAndLog("TemperatureHumidityCorrelation");
 
-        (ErDouble offset, ErDouble slope) = data.LinearRegressionLine(e => (e.Temperature, e.Humidity),RegressionCommand.IgnoreYErrors);
-        offset.AddCommand("RegressionOffset"," g / m^3");
-        slope.AddCommand("RegressionSlope","g / m^3 / ^{\\circ} C");
-
-
-        Console.WriteLine($"Covariance: {covariance} Population Correlation: {correlationCoefficient}");
-        Console.WriteLine($"offset {offset.ToString()} slope {slope.ToString()}");
-
-        Sketchbook regressionPlot = new Sketchbook(
-            axis: new AxisLayout( "Temperature in $ ^{\\circ} C$","Humidity in $g/m^3$"),
-            label: "fig:EnvironmentRegression",
-            caption: "Environment data of one year by a franconian weather station Thomas Karb 11.5.23");
+        RegModel<LineFunc> model = data.CreateRegModel(e => (e.Temperature, e.Humidity),
+            new ParaFunc<LineFunc>(2)
+            {
+                Labels = new[] { "Offset", "Slope" },
+                Units = new[] { "g / m^3", "g / m^3 / ^{\\circ} C" }
+            });
+        
+        model.DoLinearRegression(false);
+        
+        model.AddParametersToPreambleAndLog("Regression");
 
         
-        regressionPlot.Add(new DataMarkSketch()
-        {
-            Data = data.Select(e => ((ErDouble) e.Temperature,(ErDouble) e.Humidity)),
-            Legend = "Measured and averaged weather data"
-        });
+        var plt = ScottPlotExtensions.CreateSciPlot("Temperature in °C", "Humidity in g/m^3");
+        plt.AddRegModel(model, labelData: "Measured and averaged wather data", labelFunction: "Best fit");
+        plt.SaveAndAddCommand("fig:EnvironmentRegression","Environment data of one year by a franconian weather station Thomas Karb 11.5.23");
         
-        regressionPlot.Add(new StraightPlot()
-        {
-            Slope = slope.Value,
-            YZero = offset.Value,
-            Legend = "Best fit"
-        });
-        
-        regressionPlot.SaveLabeled();
         
         TexPreamble.GeneratePreamble();
     }

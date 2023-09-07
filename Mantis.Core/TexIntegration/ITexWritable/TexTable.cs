@@ -114,6 +114,30 @@ public class TexTable : ITexWritable,ILabel,ICaption
 
         builder.Append("\\\\ \n");
     }
+
+    public override string ToString()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Header.Length; i++)
+        {
+            builder.Append(Header[i]);
+            builder.Append('\t');
+        }
+
+        builder.Append('\n');
+
+        for (int i = 0; i < Content.GetLength(0); i++)
+        {
+            for (int j = 0; j < Content.GetLength(1); j++)
+            {
+                builder.Append(Content[i,j]);
+                builder.Append('\t');
+            }
+            builder.Append('\n');
+        }
+
+        return builder.ToString();
+    }
 }
 
 public static class TexTableEx

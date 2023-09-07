@@ -35,9 +35,9 @@
     
     If we do the linear regression as described in Sheet 5 we get the following parameters:
     \begin{align*}
-        a_0 &= \regressionParameterA \\
-        a_1 &= \regressionParameterB \\
-        a_2 &= \regressionParameterC
+        a_0 &= \LegendreFitA \\
+        a_1 &= \LegendreFitB \\
+        a_2 &= \LegendreFitC
     \end{align*}
     
     %\include{Generated/tab_HScatteringData}
@@ -46,13 +46,13 @@
     
     If we calculate the reduced chi-squared of the regression we get
     \begin{align*}
-        \chi^2 &= \ReducedChiSquared
+        \chi^2 &= \LegendreFitReducedResidual
     \end{align*}
     
-    Since we have $\DegreesOfFreedom$ degrees of freedom the calculated chi-squared 
+    Since we have $\LegendreFitDegreesofFreedom$ degrees of freedom the calculated chi-squared 
     corresponds to a probability of
     \begin{align*}
-        p &= \ProbabilityChiSquared
+        p &= \LegendreFitProbability
     \end{align*}
     
     This is a reasonable probability so it suggest we have a good fit. 
@@ -61,7 +61,7 @@
     
     If we plot the regression we get:
     
-    \include{Generated/fig_HScattering}
+    \figLegendreFit
 
 
 \end{document}

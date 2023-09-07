@@ -1,6 +1,8 @@
 ﻿using Mantis.Core.Calculator;
+using Mantis.Core.Calculator.Regression;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics;
@@ -33,41 +35,36 @@ public static class Sheet4_Regression1_Main
         data.ForEachRef(CalculateLog);
         
         data.CreateTexTable().SaveLabeled();
-        
-        // Gaussian Linear regression while ignoring the errors
-        (ErDouble alphaNoError,ErDouble betaNoError) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount),RegressionCommand.IgnoreYErrors);
-        CalcHalfTimeAndAddCommands(alphaNoError,betaNoError,"NoError");
-        
-        // Gaussian linear regression with y errors
-        (ErDouble alphaGauss, ErDouble betaGauss) = data.LinearRegressionLine(e => (e.Time, e.LogDecayCount),RegressionCommand.UseYErrors);
-        CalcHalfTimeAndAddCommands(alphaGauss,betaGauss,"Gauss");
-        
-        // Poisson linear regression with y errors
-        (ErDouble alphaPoisson, ErDouble betaPoisson) = data.LinearRegressionPoissonDistributed(e => (e.Time, e.LogDecayCount),
-            initialGuessGauss:(alphaGauss,betaGauss));
-        CalcHalfTimeAndAddCommands(alphaPoisson,betaPoisson,"Poisson");
-        
-        // Plot
 
-        Sketchbook sketchbook = new Sketchbook(
-            axis: new AxisLayout("Time in s", "log( \\symN )"),
-            label: "fig:BaDecay",
-            caption: "Decay of Ba-137");
+        var modelNoErrors = data.CreateRegModel(e => (e.Time, e.LogDecayCount),
+            new ParaFunc<LineFunc>(2)
+            {
+                Units = new string[] { "", "s^{-1}" }
+            });
         
-        sketchbook.Add(new DataMarkSketch()
-        {
-            Data = data.Select(e => ((ErDouble)e.Time,(ErDouble)e.LogDecayCount)),
-            Legend = "Measured decay"
-        });
-        
-        sketchbook.Add(new StraightPlot()
-        {
-            Slope = betaNoError.Value,
-            YZero = alphaNoError.Value,
-            Legend = "Regression with no errors"
-        });
+        modelNoErrors.DoLinearRegression(false);
+        modelNoErrors.AddParametersToPreambleAndLog("NoErrors");
+        CalcHalfTimeAndAddCommand(modelNoErrors,"NoErrors");
 
-        sketchbook.SaveLabeled();
+        var modelGauss = modelNoErrors.Fork();
+        modelGauss.DoLinearRegression(true);
+        modelGauss.AddParametersToPreambleAndLog("Gauss");
+        CalcHalfTimeAndAddCommand(modelGauss,"Gauss");
+
+        var modelPoisson = modelNoErrors.Fork();
+        modelPoisson.DoLinearRegressionPoissonDistributed();
+        modelPoisson.AddParametersToPreambleAndLog("Poisson");
+        CalcHalfTimeAndAddCommand(modelPoisson,"Poisson");
+
+        var plt = ScottPlotExtensions.CreateSciPlot("Time in s", "log( deltaN )");
+        plt.AddErrorBars(modelNoErrors.Data, label: "Measured decay");
+
+        plt.AddFunction(modelNoErrors.ParaFunction, label: "Regression while ignoring errors");
+        plt.AddFunction(modelGauss.ParaFunction, label: "Regression with gaussian distribution");
+        plt.AddFunction(modelPoisson.ParaFunction, label: "Regression with poissonian distribution");
+        
+        plt.SaveAndAddCommand("fig:BaDecay","Decay of Ba-137");
+        
         
         TexPreamble.AddCommand("\\delta N","symN");
         
@@ -83,6 +80,12 @@ public static class Sheet4_Regression1_Main
         beta.AddCommand("beta"+postfix,"s^{-1}");
         halfTime.AddCommand("halfTime"+postfix,"s");
         Console.WriteLine($"Regression with {postfix}: a = {alpha.ToString()} b = {beta.ToString()} Ts = {halfTime.ToString()}");
+    }
+
+    private static void CalcHalfTimeAndAddCommand(RegModel<LineFunc> logModel,string preFix)
+    {
+        ErDouble halfTime = -Constants.Ln2 / logModel.ErParameters[1];
+        halfTime.AddCommandAndLog(preFix + "HalfTime","s");
     }
 
     public static void CalculateLog(ref BaDecayData e)

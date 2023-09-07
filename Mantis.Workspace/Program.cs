@@ -6,8 +6,13 @@ using Mantis.Workspace.Fr2.Sheet3_Correlation;
 using Mantis.Workspace.Fr2.Sheet4_Regression1;
 using Mantis.Workspace.Fr2.Sheet5_Regression2;
 using Mantis.Workspace.Fr2.Sheet6_Regression3;
+using Mantis.Workspace.Fr2.Sheet7_NonLinearRegression;
+using ScottPlot;
 
 Console.WriteLine("Hello, World!");
 
-FileManager.GlobalWorkspace = "Fr2/Sheet6_Regression3/Data_Thomas_Karb";
-Sheet6_Regression3_Main.Process();
+FileManager.GlobalWorkspace = "Fr2/Sheet7_NonLinearRegression/Data_Thomas_Karb";
+Sheet7_NonLinearRegression_Main.Process();
+//Sheet5_Regression2_Main.Process();
+
+

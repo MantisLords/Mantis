@@ -135,7 +135,7 @@
     \section{Getting the g-Factor via quadratic fit}
 
     We have a metal sheet with holes drilled into it.
-    The holes have a distance of $\delta x = \holeDistance$.
+    The holes have a distance of $\delta x = \holeDistance.
     (As the error we take the last digit.
     Since this is our biggest inaccuracy.)
     We let the metal sheet fall and measure the time each hole passes a laser.
@@ -153,20 +153,20 @@
     \end{align*}
     We can now use the equations from section 1 to do the regression:
     \begin{align*}
-        \alpha &= \alphaPoly \\
-        \beta &= \betaPoly \\
-        \gamma &= \gammaPoly
+        \alpha &= \PolyA \\
+        \beta &= \PolyB \\
+        \gamma &= \PolyC
     \end{align*}
     
     From the last coefficient we can derive the g-Factor simply by multiplying 2:
     \begin{align*}
-        g &= 2 \gamma = \gFactor
+        g &= 2 \gamma = \GFactor
     \end{align*}
     
     \section{Plot}
     If we plot the data from Table~\ref{tab:MetalSheetFallData} and combine it with the quadratic regression we get:
     
-    \input{Generated/fig_MetalSheetFallGraph}
+    \figMetalSheetFallGraph
 
 
 \end{document}

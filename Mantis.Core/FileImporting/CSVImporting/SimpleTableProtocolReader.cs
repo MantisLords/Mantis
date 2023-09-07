@@ -58,13 +58,11 @@ public class SimpleTableProtocolReader : BasicCSVReader
         if (number is ErDouble erNumber && ColumnCount >= 3 && !string.IsNullOrEmpty(DataMatrix[row,2]))
         {
             erNumber.Error = double.Parse(DataMatrix[row, 2]);
-
-            Console.WriteLine($"Er number {erNumber.ToString()}");
+            
             object obj = erNumber;
             return (T) obj;
         }
         
-        Console.WriteLine($"Number {number.ToString()}");
 
         return number;
     }

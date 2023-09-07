@@ -185,7 +185,8 @@ public struct ErDouble : INumber<ErDouble>
 
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
-        bool isLatex = !string.IsNullOrEmpty(format) && (format.StartsWith('G') || format.StartsWith('g'));
+        bool isLatex = !string.IsNullOrEmpty(format) && (format.StartsWith('G'));
+        
         return ToStringFormatted(isLatex);
     }
 

@@ -12,7 +12,12 @@ public static class LabelExtension
 {
     public static void AppendLabel(this StringBuilder builder, ILabel label)
     {
-        builder.AppendCommand($"label{{{label.Label}}}");
+        builder.AppendLabel(label.Label);
+    }
+    
+    public static void AppendLabel(this StringBuilder builder, string label)
+    {
+        builder.AppendCommand($"label{{{label}}}");
     }
 
     public static void SaveLabeled(this ILabel writable)

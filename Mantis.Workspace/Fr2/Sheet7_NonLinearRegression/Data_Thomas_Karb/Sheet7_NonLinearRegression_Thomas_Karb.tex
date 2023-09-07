@@ -1,0 +1,83 @@
+﻿%! Author = Thomas_normal
+%! Date = 06.06.2023
+
+% Preamble
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+
+% Packages
+\include{Generated/Preamble}
+
+% Document
+\begin{document}
+
+    \author{Thomas Karb}
+    \title{Fr2 - Sheet 2 - Non-linear regression}
+    
+    \maketitle
+
+    \section{Function}
+    We want to find the best fit for a decay data:
+    \input{Generated/tab_RadioDecayData}
+    For the error in N we can assume a poisson distribution so the error is simply the square root of the mean.
+    Our model for the data is an exponential function:
+    \begin{align*}
+        N(t) = \alpha e^{\beta t}
+    \end{align*}
+    Where $\alpha$ and $\beta$ are our regression parameters.
+    
+    \section{Parameter Space}
+    In our regression we want to minimize the residual
+    \begin{align*}
+        \chi^2(\alpha,\beta) = \Sigma \frac{(N_i - N_{\alpha,\beta}(t_i))^2}{(\delta N_i)^2}
+    \end{align*}
+    To do so we have to find good starting parameters $\alpha_0$ and $\beta_0$.
+    A reasonable method is to linearize our data and perform a linear regression.
+    If we do this for our data set we get the parameters:
+    \begin{align*}
+        \alpha_0 &= \LinearizedModelA \\
+        \beta_0 &= \LinearizedModelB 
+    \end{align*}
+    We can now plot the function $\chi^2(\alpha,\beta)$ around those starting parameters:
+    \begin{figure}[h!]
+        \includegraphics{Generated/Fr2 A7 Residual Contour Plot}
+        \caption{Residual for a exponential fit  Thomas Karb 06.06.2023}
+        \label{fig:RisidualForAExpFit}
+    \end{figure}
+    \section{Levenberg Marquardt}
+    To find the best parameters $\alpha$ and $\beta$ we can use the Levenberg Marquardt algorithm.
+    In my implementation I have used these  \href{https://backend.orbit.dtu.dk/ws/portalfiles/portal/2721358/imm3215.pdf}{lecture notes}
+    as a reference on how to program the LM-algorithm.
+    For the algorithm we need the Jacobi-Matrix which for this simple model can be calculated as
+    \begin{align*}
+        J_{i1} &= \partial_{\apha} N(t_i) = e^{\beta t_i} \\
+        J_{i2} &= \partial_{\beta} N(t_i) = \alpha e^{\beta t_i} \cdot t_i
+    \end{align*}
+    Furthermore we need our starting guesses $\alpha_0$ and $\beta_0$ which we have calculated in the previous section through linear regression.
+    If we then perform the algorithm we get the following parameters as a result:
+    \begin{align*}
+        \alpha &= \NonlinearModelA \\
+        \beta &= \NonlinearModelB
+    \end{align*}
+    To compare those parameters to the starting guess we can calculate the residual.
+    For our parameters derived from the linear regression we have a residual of:
+    \begin{align*}
+        \chi^2(\alpha_0,\beta_0) = \LinearizedModelReducedResidual
+    \end{align*}
+    We can compare this to the residual of the LM-algorithm:
+    \begin{align*}
+        \chi^2(\alpha,\beta) = \NonlinearModelReducedResidual
+    \end{align*}
+    So indeed we have found a better fit through the non linear regression.
+    Now we can calculate the half-life-time of the unknown radioactive substance:
+    \begin{align*}
+        T = \frac{-ln(2)}{\beta} = \HalfTime
+    \end{align*}
+    
+    If we plot our results we get:
+    \figNonLinearRegression
+    
+    
+
+
+\end{document}
