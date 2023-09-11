@@ -10,6 +10,7 @@ public class SimpleTableProtocolReader : BasicCSVReader
 {
     public static readonly string TABLE_MARKER = "# ";
     public static readonly string SINGLE_VALUE_MARKER = "* ";
+    public static readonly string ERROR_TOKEN = "error_";
     
     
     public SimpleTableProtocolReader(){}
@@ -78,13 +79,15 @@ public class SimpleTableProtocolReader : BasicCSVReader
         for (int column = 0; column < columnCount; column++)
         {
             string headerField = DataMatrix[headerRowIndex, column];
+            
 
             for (int i = 0; i < propertyHeaders.Length; i++)
             {
                 if (!string.IsNullOrEmpty(propertyHeaders[i]) && headerField.StartsWith(propertyHeaders[i]))
                 {
-                    var i1 = i;
-                    dataFieldParsingHandle[column] = (ref T instance,string fieldValue) => access.Fields[i1].ParseValueT<T>(ref instance,fieldValue);
+                        var i1 = i;
+                        dataFieldParsingHandle[column] = (ref T instance, string fieldValue) =>
+                            access.Fields[i1].ParseValueT<T>(ref instance, fieldValue);
                 }
             }
 

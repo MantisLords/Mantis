@@ -29,9 +29,15 @@ public static class Sheet5_Regression2_Main
     {
         //Import data
         var reader = new SimpleTableProtocolReader("MetalSheetFallData");
-        List<MetalSheetFallData> data = reader.ExtractTable<MetalSheetFallData>();
-        ErDouble holeDistance = reader.ExtractSingleValue<ErDouble>("Hole Distance");
         
+        // This will read the table '# tab:MetalSheetFallData' from the csv file. Tables are marked by '# '
+        // You have to make sure that the 'MetalSheetFallData' Type has a 'QuickTable'-attribute.
+        // Also each fields need a 'QuickTableField'-attribute if they are imported from the csv file
+        List<MetalSheetFallData> data = reader.ExtractTable<MetalSheetFallData>("tab:MetalSheetFallData");
+        
+        // This will extract the '* Hole Distance' field from the csv file. Single Value Fields have to be marked with '*'
+        ErDouble holeDistance = reader.ExtractSingleValue<ErDouble>("Hole Distance");
+        // This will add the ErDouble to the Tex file and it will print it out to the console
         holeDistance.AddCommandAndLog("holeDistance","cm");
 
         // Calculate the distance x
@@ -40,10 +46,14 @@ public static class Sheet5_Regression2_Main
         //Save the data as TexTable
         data.CreateTexTable().SaveLabeled();
         
-
+        
+        // This function will create a regression model with a 'PolynomialFunc'tion
+        // The date is read in via the selector. First is x, second is y. Here x: e.Time, y: e.Distance
         var model = data.CreateRegModel(e => (e.Time, e.Distance),
             new ParaFunc<PolynomialFunc>(3)
             {
+                // These are the units of the regression parameters
+                // For a ponomial here f(x) = A + B x + C x^2 these are the units
                 Units = new []{"cm","cm / s","cm / s^2"}
             });
 

@@ -7,9 +7,9 @@ namespace Mantis.Core.Calculator;
 
 public static class NonLinearRegression
 {
-    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardt<T>(this RegModel<T> model,Vector<double> initialGuess,bool useYErrors = true) where T : FuncCore,new()
+    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardt<T>(this RegModel<T> model,Vector<double> initialGuess,bool useYErrors = true,bool autoDerivatives = false) where T : FuncCore,new()
     {
-        var objective = GetNonlinearObjectiveModel(model,useYErrors);
+        var objective = GetNonlinearObjectiveModel(model,useYErrors,autoDerivatives);
         var res = new LevenbergMarquardtMinimizer().FindMinimum(objective, initialGuess);
 
         if (res.ReasonForExit != ExitCondition.Converged )
@@ -39,15 +39,14 @@ public static class NonLinearRegression
         var minimizer = new LevenbergMarquardtMinimizer();
 
         var res = minimizer.FindMinimum(objective, initialGuess);
-        if (res.ReasonForExit != ExitCondition.Converged)
-            throw new ArithmeticException(
-                $"Could not perform LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
+        if (res.ReasonForExit != ExitCondition.Converged )
+            Console.WriteLine($"Finished LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
 
         
         
         for (int i = 0; i < xIterations; i++)
         {
-            Vector<double> xDerivative = model.ParaFunction.CalculateXDerivativePointWise(model.Data.XValues);
+            Vector<double> xDerivative = model.ParaFunction.FuncCore.CalculateXDerivativePointWise(objective.Point,model.Data.XValues);
             Matrix<double> xDerivativeSq = Matrix<double>.Build.DiagonalOfDiagonalVector(xDerivative).Power(2);
             // s^2 = sy^2 + p^2 * sx^2
             Matrix<double> newErrorSq = (yErrSq + xDerivativeSq *   xErrSq);
@@ -57,9 +56,8 @@ public static class NonLinearRegression
             objective.SetObserved(model.Data.XValues, model.Data.YValues, newErrorSq.Inverse().Diagonal());
             
             res = minimizer.FindMinimum(objective, objective.Point);
-            if (res.ReasonForExit != ExitCondition.Converged)
-                throw new ArithmeticException(
-                    $"Could not perform LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
+            if (res.ReasonForExit != ExitCondition.Converged )
+                Console.WriteLine($"Finished LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
         }
         
         model.ParaFunction.ParaSet.SetParametersAndErrorsWithApprox(objective.Point,objective.Hessian.Inverse());
@@ -67,12 +65,13 @@ public static class NonLinearRegression
         return res;
     }
 
-    internal static NonlinearObjectiveFunction GetNonlinearObjectiveModel<T>(RegModel<T> model,bool useYErrors) where T : FuncCore,new()
+    internal static NonlinearObjectiveFunction GetNonlinearObjectiveModel<T>(RegModel<T> model,bool useYErrors,bool autoDerivatives = false) where T : FuncCore,new()
     {
         Func<Vector<double>,Vector<double>,Vector<double>> function = model.ParaFunction.FuncCore.CalculateResultPointWise;
         var derivatives =  model.ParaFunction.FuncCore.CalculateGradientPointWise;
         
-        var objective = new NonlinearObjectiveFunction(function, derivatives);
+        
+        var objective = !autoDerivatives ? new NonlinearObjectiveFunction(function, derivatives) : new NonlinearObjectiveFunction(function);
 
         var weigths = useYErrors ? model.Weights.Diagonal() : Vector<double>.Build.Dense(model.Data.Count, 1);
         if (weigths.AbsoluteMinimum()  == 0)
