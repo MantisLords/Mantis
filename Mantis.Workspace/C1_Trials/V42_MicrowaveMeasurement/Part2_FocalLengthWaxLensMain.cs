@@ -14,13 +14,17 @@ namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
 [QuickTable("","tab:focalLengthMeasurement")]
 public record struct FocalLengthWaxLensData
 {
-    [QuickTableField("receiverPos", "cm")] public ErDouble ReceiverPos;
+    [QuickTableField("receiverPos", "cm")] public ErDouble ReceiverPos = 0;
 
-    [QuickTableField("voltage", "V")] public ErDouble Voltage;
+    [QuickTableField("voltage", "V")] public ErDouble Voltage = 0;
 
-    public ErDouble ImageDistance;
+    public ErDouble EffectiveReceiverPos = 0;
     
-    public FocalLengthWaxLensData(){}
+    public ErDouble ImageDistance = 0;
+    
+    public FocalLengthWaxLensData()
+    {
+    }
 }
 
 public static class Part2_FocalLengthWaxLensMain
@@ -32,16 +36,25 @@ public static class Part2_FocalLengthWaxLensMain
         List<FocalLengthWaxLensData> data = csvReader.ExtractTable<FocalLengthWaxLensData>();
 
         var emitterPosHornEnd = csvReader.ExtractSingleValue<ErDouble>("emitterPosHornEnd");
-        var emitterPosHornStart = csvReader.ExtractSingleValue<ErDouble>("emitterPosHornStart");
-        var emitterPosDiode = csvReader.ExtractSingleValue<ErDouble>("emitterPosDiode");
+        //var emitterPosHornStart = csvReader.ExtractSingleValue<ErDouble>("emitterPosHornStart");
+        var distanceHornEndEffectiveEmitterPos =
+            csvReader.ExtractSingleValue<ErDouble>("distanceHornEndEffectiveEmitterPos");
+
+        var effectiveEmitterPos = emitterPosHornEnd - distanceHornEndEffectiveEmitterPos;
+        
+        //var emitterPosDiode = csvReader.ExtractSingleValue<ErDouble>("emitterPosDiode");
         var lensPosLeft = csvReader.ExtractSingleValue<ErDouble>("lensPosLeft");
         var lensPosRight = csvReader.ExtractSingleValue<ErDouble>("lensPosRight");
-        var errorReceiverPos = csvReader.ExtractSingleValue<double>("error_receiverPos");
-
         var lensPos = (lensPosLeft + lensPosRight) / 2.0;
+
+        var distanceHornEndEffectiveReceiverPos =
+            csvReader.ExtractSingleValue<ErDouble>("distanceHornEndEffectiveReceiverPos");
+        var distanceReceiverPosHornEnd = csvReader.ExtractSingleValue<ErDouble>("distanceReceiverPosHornEnd");
+        var errorReceiverPos = csvReader.ExtractSingleValue<double>("error_receiverPos");
+        
         
         data.ForEachRef((ref FocalLengthWaxLensData element) =>
-                CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,1)
+                CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,distanceHornEndEffectiveReceiverPos,distanceReceiverPosHornEnd,1)
             );
 
 
@@ -51,12 +64,18 @@ public static class Part2_FocalLengthWaxLensMain
                 Units = new[] {"V","V", "cm", "cm" }
             });
 
-        Vector<double> initialGuess = Vector<double>.Build.DenseOfArray(new double[] {0,1, 90, 100 });
 
-        model.DoRegressionLevenbergMarquardtWithXErrors(initialGuess,5);
+        model.DoRegressionLevenbergMarquardt(new double[] {0,1, 90, 100 },useYErrors:false);
         //model.DoRegressionLevenbergMarquardtWithXErrors(initialGuess, 10);
         
-        model.AddParametersToPreambleAndLog();
+        //model.AddParametersToPreambleAndLog("FocalLengthGaussFit");
+
+        var imageDistance = model.ErParameters[2];
+        imageDistance.AddCommandAndLog("ImageDistance","cm");
+        var objectDistance = lensPos - effectiveEmitterPos;
+        // 1/f = 1/b + 1/g
+        var focalLength = 1 / (1 / imageDistance + 1 / objectDistance);
+        focalLength.AddCommandAndLog("FocalLength","cm");
         
         var plt = ScottPlotExtensions.CreateSciPlot("image distance b in cm", "voltage U in V");
 
@@ -68,15 +87,17 @@ public static class Part2_FocalLengthWaxLensMain
     }
 
     private static void CalculateErrorAndImageDistance(ref FocalLengthWaxLensData element, ErDouble lensPos,
-        double errorReceiverPos, double voltageRange)
+        double errorReceiverPos,ErDouble distanceHornEndEffectiveReceiverPos,ErDouble distanceReceiverPosHornEnd, double voltageRange)
     {
         element.Voltage = DeviceErrorsUtil.CalculateError(Devices.Aglient34405, DataTypes.VoltageDC, voltageRange,
             element.Voltage.Value);
         
-
         element.ReceiverPos.Error = errorReceiverPos;
 
-        element.ImageDistance = element.ReceiverPos - lensPos;
+        element.EffectiveReceiverPos =
+            element.ReceiverPos - distanceReceiverPosHornEnd + distanceHornEndEffectiveReceiverPos;
+
+        element.ImageDistance = element.EffectiveReceiverPos - lensPos;
 
 
     }

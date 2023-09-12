@@ -316,3 +316,5 @@ Folder.DotSettings.user
 
 # latex generated
 Generated/
+
+*.png

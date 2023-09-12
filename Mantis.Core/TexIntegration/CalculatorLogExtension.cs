@@ -5,7 +5,7 @@ namespace Mantis.Core.TexIntegration;
 
 public static class CalculatorLogExtension
 {
-    public static void AddCommandsToPreamble(this IEnumerable<ILogCommand> commands,string labelPrefix = "")
+    public static void AddCommandsToPreamble(this IEnumerable<ILogCommand> commands,string labelPrefix)
     {
         foreach (var command in commands)
         {
@@ -16,7 +16,7 @@ public static class CalculatorLogExtension
         }
     }
 
-    public static void AddCommandsToPreambleAndLog(this IEnumerable<ILogCommand> commands, string labelPrefix = "")
+    public static void AddCommandsToPreambleAndLog(this IEnumerable<ILogCommand> commands, string labelPrefix)
     {
         commands.AddCommandsToPreamble(labelPrefix);
 
@@ -25,19 +25,19 @@ public static class CalculatorLogExtension
         Console.WriteLine(res);
     }
     
-    public static void AddParametersToPreamble<T>(this RegModel<T> model, string labelPrefix = "")
+    public static void AddParametersToPreamble<T>(this RegModel<T> model, string labelPrefix)
         where T : FuncCore, new()
     {
         model.ParaFunction.ParaSet.GetParametersLog().AddCommandsToPreamble(labelPrefix);
     }
     
-    public static void AddParametersToPreambleAndLog<T>(this RegModel<T> model, string labelPrefix = "")
+    public static void AddParametersToPreambleAndLog<T>(this RegModel<T> model, string labelPrefix )
         where T : FuncCore, new()
     {
         model.ParaFunction.ParaSet.GetParametersLog().AddCommandsToPreambleAndLog(labelPrefix);
     }
     
-    public static void AddParametersToPreamble<T>(this ParaFunc<T> model, string labelPrefix = "")
+    public static void AddParametersToPreamble<T>(this ParaFunc<T> model, string labelPrefix)
         where T : FuncCore, new()
     {
         model.ParaSet.GetParametersLog().AddCommandsToPreamble(labelPrefix);

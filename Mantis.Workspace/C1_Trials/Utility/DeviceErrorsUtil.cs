@@ -8,9 +8,9 @@ namespace Mantis.Workspace.C1_Trials.Utility;
 [QuickTable("","")]
 public struct DeviceErrorsData
 {
-    [QuickTableField("range")] public double Range;
-    [QuickTableField("errorValue", "%")] public double ErrorValuePercent;
-    [QuickTableField("errorRange", "%")] public double ErrorRangePercent;
+    [QuickTableField("range")] public double Range = 0;
+    [QuickTableField("errorValue", "%")] public double ErrorValuePercent = 0;
+    [QuickTableField("errorRange", "%")] public double ErrorRangePercent = 0;
 
     public DeviceErrorsData(){}
 }

@@ -2,8 +2,11 @@
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using Mantis.Workspace.C1_Trials.Utility;
+using MathNet.Numerics;
+using ScottPlot;
 using ScottPlot.Renderable;
 
 namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
@@ -11,9 +14,9 @@ namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
 [QuickTable("","tab:angleDispersion")]
 public record struct AngleDispersionData
 {
-    [QuickTableField("angle", "\\degree")] public ErDouble Angle;
+    [QuickTableField("angle", "\\degree")] public ErDouble Angle = 0;
 
-    [QuickTableField("diodeVoltage", "V")] public ErDouble VoltageDiode;
+    [QuickTableField("diodeVoltage", "V")] public ErDouble VoltageDiode = 0;
     
     public AngleDispersionData(){}
 }
@@ -29,31 +32,28 @@ public static class Part1_AngleDispersion
         var errorAngle = csvReader.ExtractSingleValue<double>("error_angle");
         
         dataList.ForEachRef(((ref AngleDispersionData e) => CalculateErrors(ref e,voltmeterRange,errorAngle)));
+        
+        
+        RegModel<GaussFunc> model = dataList.CreateRegModel(e => (e.Angle, e.VoltageDiode),
+            new ParaFunc<GaussFunc>(4)
+            {
+                Units = new[] {"V", "V", "\\degree", "\\degree"}
+            });
 
-        var plt = ScottPlotExtensions.CreateSciPlot("DiodeVoltage V", "",relHeight:1);
+        model.DoRegressionLevenbergMarquardt(new double[] {0, 1, 0, 1});
         
-        dataList.ForEach(e => Console.WriteLine(e));
-        
-        double[] angleRadians = dataList.Select(e => (e.Angle.Value + 45.0) * Math.PI / 180.0).ToArray();
-        double[] voltage = dataList.Select(e => e.VoltageDiode.Value).ToArray();
+        model.AddParametersToPreambleAndLog("AngleDispersionGaussFit");
+        var fwhm = 2 * Math.Sqrt(2 * Constants.Ln2) * model.ErParameters[3];
+        fwhm.AddCommandAndLog("AngleDispersionGaussFWHM","\\degree");
 
-        for (int i = 0; i < angleRadians.Length; i++)
-        {
-            Console.WriteLine($"angle: {angleRadians[i]}");
-        }
+        var plot = ScottPlotExtensions.CreateSciPlot("Angle in °", "Voltage in V");
 
-        var (xs, ys) = ScottPlot.Tools.ConvertPolarCoordinates(voltage, angleRadians);
-        
+        plot.AddRegModel(model, "Output of the receiver", "Gauss Fit");
 
-        plt.AddScatter(xs, ys);
+        plot.Legend(true, Alignment.UpperRight);
 
-        plt.AddRadar(new double[,] {{1.5,1.5} }, false,disableFrameAndGrid:false);
-        
-        plt.Grid(false);
-        
-        plt.SetAxisLimits(0,1.5,0,1.5);
-        plt.SaveAndAddCommand("fig:AngleDispersionRadial","");
-        
+        plot.SaveAndAddCommand("fig:AngleDispersion","caption");
+
     }
 
     private static void CalculateErrors(ref AngleDispersionData data, double voltmeterRange, double errorAngle)

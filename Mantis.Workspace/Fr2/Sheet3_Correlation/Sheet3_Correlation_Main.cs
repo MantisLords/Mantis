@@ -13,9 +13,9 @@ namespace Mantis.Workspace.Fr2.Sheet3_Correlation;
 [QuickTable("The measured and averaged environment data of one year by a franconian weather station","tab:EnvironmentData")]
 public record struct EnvironmentData
 {
-    [QuickTableField("Temperature", "°C")] public double Temperature;
+    [QuickTableField("Temperature", "°C")] public double Temperature = 0;
 
-    [QuickTableField("Humidity", "g/m^3")] public double Humidity;
+    [QuickTableField("Humidity", "g/m^3")] public double Humidity = 0;
     
     public EnvironmentData(){}
     

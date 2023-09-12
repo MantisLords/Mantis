@@ -6,9 +6,9 @@ namespace Mantis.Workspace.BasicTests;
 [QuickTable("This is a dummy Table", "DummyTable")]
 public record struct DummyType
 {
-    [QuickTableField("A")] public double a;
+    [QuickTableField("A")] public double a = 0;
 
-    [QuickTableField("B")] public double b;
+    [QuickTableField("B")] public double b = 0;
     
     public DummyType(){}
 }

@@ -13,12 +13,12 @@ namespace Mantis.Workspace.Fr2.Sheet5_Regression2;
 public record struct MetalSheetFallData
 {
     [QuickTableField("Hole Count", "", "N")]
-    public int HoleCount;
+    public int HoleCount = 0;
 
     [QuickTableField("Distance", "cm", "x", false)]
-    public ErDouble Distance;
+    public ErDouble Distance = 0;
 
-    [QuickTableField("Time", "s", "t")] public double Time;
+    [QuickTableField("Time", "s", "t")] public double Time = 0;
 
     public MetalSheetFallData(){}
 }

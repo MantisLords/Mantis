@@ -7,9 +7,17 @@ namespace Mantis.Core.Calculator;
 
 public static class NonLinearRegression
 {
-    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardt<T>(this RegModel<T> model,Vector<double> initialGuess,bool useYErrors = true,bool autoDerivatives = false) where T : FuncCore,new()
+
+    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardt<T>(this RegModel<T> model,
+        double[] initialGuess, bool useYErrors = true) where T : FuncCore, new()
     {
-        var objective = GetNonlinearObjectiveModel(model,useYErrors,autoDerivatives);
+        Vector<double> initialGuessVector = Vector<double>.Build.DenseOfArray(initialGuess);
+        return DoRegressionLevenbergMarquardt(model, initialGuessVector, useYErrors);
+    }
+
+    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardt<T>(this RegModel<T> model,Vector<double> initialGuess,bool useYErrors = true) where T : FuncCore,new()
+    {
+        var objective = GetNonlinearObjectiveModel(model,useYErrors);
         var res = new LevenbergMarquardtMinimizer().FindMinimum(objective, initialGuess);
 
         if (res.ReasonForExit != ExitCondition.Converged )
@@ -25,6 +33,14 @@ public static class NonLinearRegression
         model.ParaFunction.ParaSet.SetParametersAndErrorsWithApprox(objective.Point,covariance);
 
         return res;
+    }
+
+    public static NonlinearMinimizationResult DoRegressionLevenbergMarquardtWithXErrors<T>(this RegModel<T> model,
+        double[] initialGuess, int xIterations)
+        where T : FuncCore, new()
+    {
+        Vector<double> initialGuessVector = Vector<double>.Build.DenseOfArray(initialGuess);
+        return DoRegressionLevenbergMarquardtWithXErrors(model, initialGuessVector, xIterations);
     }
 
     public static NonlinearMinimizationResult DoRegressionLevenbergMarquardtWithXErrors<T>(this RegModel<T> model,
@@ -56,7 +72,7 @@ public static class NonLinearRegression
             objective.SetObserved(model.Data.XValues, model.Data.YValues, newErrorSq.Inverse().Diagonal());
             
             res = minimizer.FindMinimum(objective, objective.Point);
-            if (res.ReasonForExit != ExitCondition.Converged )
+            if (res.ReasonForExit != ExitCondition.Converged && res.ReasonForExit != ExitCondition.RelativePoints)
                 Console.WriteLine($"Finished LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
         }
         
@@ -65,14 +81,22 @@ public static class NonLinearRegression
         return res;
     }
 
-    internal static NonlinearObjectiveFunction GetNonlinearObjectiveModel<T>(RegModel<T> model,bool useYErrors,bool autoDerivatives = false) where T : FuncCore,new()
+    internal static NonlinearObjectiveFunction GetNonlinearObjectiveModel<T>(RegModel<T> model,bool useYErrors) where T : FuncCore,new()
     {
         Func<Vector<double>,Vector<double>,Vector<double>> function = model.ParaFunction.FuncCore.CalculateResultPointWise;
-        var derivatives =  model.ParaFunction.FuncCore.CalculateGradientPointWise;
-        
-        
-        var objective = !autoDerivatives ? new NonlinearObjectiveFunction(function, derivatives) : new NonlinearObjectiveFunction(function);
 
+        NonlinearObjectiveFunction objective;
+
+        if (model.ParaFunction.FuncCore is AutoDerivativeFunc)
+        {
+            objective = new NonlinearObjectiveFunction(function);
+        }
+        else
+        {
+            var derivatives = model.ParaFunction.FuncCore.CalculateGradientPointWise;
+            objective = new NonlinearObjectiveFunction(function, derivatives);
+        }
+        
         var weigths = useYErrors ? model.Weights.Diagonal() : Vector<double>.Build.Dense(model.Data.Count, 1);
         if (weigths.AbsoluteMinimum()  == 0)
         {

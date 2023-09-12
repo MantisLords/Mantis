@@ -17,13 +17,13 @@ namespace Mantis.Workspace.Fr2.Sheet7_NonLinearRegression;
 [QuickTable("Decay data of unknown radioactive substance","tab:RadioDecayData")]
 public record struct RadioDecayData
 {
-    [QuickTableField("time", "s", "t")] public double Time;
+    [QuickTableField("time", "s", "t")] public double Time = 0;
 
     [QuickTableField("decay count", "", "N")]
-    public ErDouble DecayCount;
+    public ErDouble DecayCount = 0;
 
     [QuickTableField("", "", "ln(N)", false)]
-    public ErDouble LogDecayCount;
+    public ErDouble LogDecayCount = 0;
     
     public RadioDecayData(){}
 }

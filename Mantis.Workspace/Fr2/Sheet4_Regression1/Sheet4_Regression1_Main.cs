@@ -12,13 +12,13 @@ namespace Mantis.Workspace.Fr2.Sheet4_Regression1;
 [QuickTable("Decay Data of Ba-137","tab:BaDecayData")]
 public record struct BaDecayData
 {
-    [QuickTableField("Time", "s", "t",true)] public double Time;
+    [QuickTableField("Time", "s", "t",true)] public double Time = 0;
 
     [QuickTableField("Decay Count", "","\\symN", true)]
-    public ErDouble DecayCount;
+    public ErDouble DecayCount = 0;
 
     [QuickTableField("", "", "ln(\\symN)", false)]
-    public ErDouble LogDecayCount;
+    public ErDouble LogDecayCount = 0;
     
     public BaDecayData(){}
 }

@@ -14,18 +14,18 @@ namespace Mantis.Workspace.Fr2.Sheet6_Regression3;
 public record struct HScatteringData
 {
     [QuickTableField("detector angle", "\\degree","\\phi")]
-    public double Angle;
+    public double Angle = 0;
 
     [QuickTableField("scattering count at full target", "", "N_{full}")]
-    public ErDouble ScatteringCount;
+    public ErDouble ScatteringCount = 0;
 
     [QuickTableField("scattering count at empty target", "", "N_{empty}")]
-    public ErDouble BackgroundScatteringCount;
+    public ErDouble BackgroundScatteringCount = 0;
 
     [QuickTableField("cleansed scattering count", "", "N", false)]
-    public ErDouble CleansedScatteringCount;
+    public ErDouble CleansedScatteringCount = 0;
 
-    public double CosOfAngle;
+    public double CosOfAngle = 0;
     
     public HScatteringData(){}
 

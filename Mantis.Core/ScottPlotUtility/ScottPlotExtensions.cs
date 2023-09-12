@@ -114,7 +114,6 @@ public static class ScottPlotExtensions
         string path = PathUtility.TryCombineAndAddExtension(FileManager.CurrentOutputDir, filePath,"png");
 
         Directory.CreateDirectory(Path.GetDirectoryName(path));
-
         return plt.SaveFig(path, width, height, lowQuality, scale);
     }
 
