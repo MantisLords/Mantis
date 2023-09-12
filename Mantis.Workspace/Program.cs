@@ -12,6 +12,9 @@ using ScottPlot;
 
 Console.WriteLine("Hello, World!");
 
+//FileManager.GlobalWorkspace = "Fr2/Sheet7_NonLinearRegression/Data_Thomas_Karb";
+//Sheet7_NonLinearRegression_Main.Process();
+
 FileManager.GlobalWorkspace = "C1_Trials/V42_MicrowaveMeasurement/Data_Smailagic_Karb";
 V42_MicrowaveMeasurement_Main.Process();
 

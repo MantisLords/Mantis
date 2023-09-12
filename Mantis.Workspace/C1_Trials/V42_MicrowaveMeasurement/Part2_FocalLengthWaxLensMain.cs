@@ -89,7 +89,7 @@ public static class Part2_FocalLengthWaxLensMain
     private static void CalculateErrorAndImageDistance(ref FocalLengthWaxLensData element, ErDouble lensPos,
         double errorReceiverPos,ErDouble distanceHornEndEffectiveReceiverPos,ErDouble distanceReceiverPosHornEnd, double voltageRange)
     {
-        element.Voltage = DeviceErrorsUtil.CalculateError(Devices.Aglient34405, DataTypes.VoltageDC, voltageRange,
+        element.Voltage = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC, voltageRange,
             element.Voltage.Value);
         
         element.ReceiverPos.Error = errorReceiverPos;

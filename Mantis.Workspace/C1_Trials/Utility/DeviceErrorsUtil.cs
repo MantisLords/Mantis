@@ -66,8 +66,13 @@ public static class DeviceErrorsUtil
         var table = "tab:" + dataType.ToString();
         return GetErrorData(device, table);
     }
+    
+    public static void CalculateDeviceError(this ref ErDouble value,Devices device, DataTypes dataType, double range)
+    {
+        value = CalculateDeviceError(device, dataType, range, value.Value);
+    }
 
-    public static ErDouble CalculateError(Devices device, DataTypes dataType, double range, double value)
+    public static ErDouble CalculateDeviceError(Devices device, DataTypes dataType, double range, double value)
     {
         ErDouble newValue = value;
 

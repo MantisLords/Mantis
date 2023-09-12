@@ -7,6 +7,7 @@ using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using ScottPlot;
 using ScottPlot.Plottable;
+using ScottPlot.Renderable;
 using FunctionPlot = ScottPlot.Plottable.FunctionPlot;
 
 
@@ -15,13 +16,11 @@ namespace Mantis.Core.ScottPlotUtility;
 public static class ScottPlotExtensions
 {
     public static (ErrorBar,ScatterPlot) AddErrorBars(this ScottPlot.Plot plt, Calculator.DataSet dataSet,Color? color = null,
-        float markerSize = 7F, string label = "")
+        float markerSize = 7F, string label = "",bool logY = false,bool logX = false)
     {
-        double[] xs = dataSet.XValues.ToArray();
-        double[] ys = dataSet.YValues.ToArray();
-        var xErrors = dataSet.XErrors.ToArray();
-        double[] yErrors = dataSet.YErrors.ToArray();
-        var errorBar = plt.AddErrorBars(xs, ys, xErrors, yErrors, color, 0f);
+        var (xs, xErP, xErN) = ConvertDataPoints(dataSet.XValues, dataSet.XErrors, logX);
+        var (ys, yErP, yErN) = ConvertDataPoints(dataSet.YValues, dataSet.YErrors, logY);
+        var errorBar = plt.AddErrorBars(xs, ys, xErP,xErN,yErP,yErN, color, 0f);
         errorBar.LineWidth = 1.5f;
         var scatter = plt.AddScatter(xs, ys, errorBar.Color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
 
@@ -29,25 +28,34 @@ public static class ScottPlotExtensions
     }
 
     public static (ErrorBar,ScatterPlot) AddErrorBars(this Plot plt, IEnumerable<(ErDouble, ErDouble)> data,
-        Color? color = null, float markerSize = 7F,string label = "")
+        Color? color = null, float markerSize = 7F,string label = "",bool logY = false,bool logX = false)
     {
-        var xs = data.Select(e => e.Item1.Value).ToArray();
-        var xErrors = data.Select(e => e.Item1.Error).ToArray();
-        var ys = data.Select(e => e.Item2.Value).ToArray();
-        var yErrors = data.Select(e => e.Item2.Error).ToArray();
+        var (xs, xErP, xErN) = ConvertDataPoints(data.Select(e => e.Item1.Value), data.Select(e => e.Item1.Error), logX);
+        var (ys, yErP, yErN) = ConvertDataPoints(data.Select(e => e.Item2.Value), data.Select(e => e.Item2.Error), logY);
 
-        var errorBar = plt.AddErrorBars(xs, ys, xErrors, yErrors, color, 0f);
+        var errorBar = plt.AddErrorBars(xs, ys,xErP,xErN,yErP,yErN, color, 0f);
         errorBar.LineWidth = 1.5f;
         var scatter = plt.AddScatter(xs, ys, errorBar.Color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
         return (errorBar,scatter);
     }
 
     public static FunctionPlot AddFunction<T>(this Plot plt, ParaFunc<T> paraFunc,
-        Color? color = null,double lineWidth = 1.5D,LineStyle lineStyle = LineStyle.Solid,string label = "")
+        Color? color = null,double lineWidth = 1.5D,LineStyle lineStyle = LineStyle.Solid,string label = "",
+        bool logX = false,bool logY = false)
         where T : FuncCore, new()
     {
-        double? Function(double x) => paraFunc.EvaluateAtDouble(x);
-        var graph = plt.AddFunction(Function, color, lineWidth, lineStyle);
+        Func<double, double?> function;
+        if(!logX && !logY)
+            function = x => paraFunc.EvaluateAtDouble(x);
+        else if (logY && !logX)
+            function = x => Math.Log10(paraFunc.EvaluateAtDouble(x));
+        else if (logX && !logY)
+            function = x => paraFunc.EvaluateAtDouble(Math.Pow(10, x));
+        else
+        {
+            function = x => Math.Log10(paraFunc.EvaluateAtDouble(Math.Pow(10, x)));
+        }
+        var graph = plt.AddFunction(function, color, lineWidth, lineStyle);
         graph.Label = label;
         return graph;
     }
@@ -79,11 +87,11 @@ public static class ScottPlotExtensions
     }
 
     public static (ErrorBar,ScatterPlot, FunctionPlot) AddRegModel<T>(this Plot plt, RegModel<T> model, string labelData = "",
-        string labelFunction = "")
+        string labelFunction = "",bool logX = false,bool logY = false)
         where T : FuncCore, new()
     {
-        var (graphErrors,scatterPlot) = plt.AddErrorBars(model.Data, label: labelData);
-        var graphFunction = plt.AddFunction(model.ParaFunction, label: labelFunction);
+        var (graphErrors,scatterPlot) = plt.AddErrorBars(model.Data, label: labelData,logX:logX,logY:logY);
+        var graphFunction = plt.AddFunction(model.ParaFunction, label: labelFunction,logX:logX,logY:logY);
         return (graphErrors,scatterPlot, graphFunction);
     }
 
@@ -142,5 +150,53 @@ public static class ScottPlotExtensions
         plt.XAxis.Label(xLabel);
         plt.YAxis.Label(yLabel);
         plt.Title(title);
+    }
+
+    public static void SetLabelsToLog(this Axis axis)
+    {
+        static string logTickLabels(double y) => Math.Pow(10, y).ToString();
+        axis.TickLabelFormat(logTickLabels);
+
+// Use log-spaced minor tick marks and grid lines to make it more convincing
+        axis.MinorLogScale(true);
+        axis.MajorGrid(true, Color.FromArgb(80, Color.Black));
+        axis.MinorGrid(true, Color.FromArgb(20, Color.Black));
+    }
+
+    private static (double[] xs,  double[] xErP, double[] xErN)
+        ConvertDataPoints(
+            IEnumerable<double> xList,
+            IEnumerable<double> xErList,
+            bool logX)
+    {
+        double[] xLinear = xList.ToArray();
+        double[] xErLinear = xErList.ToArray();
+        
+        if (!logX)
+        {
+            
+            return (xLinear, xErLinear, xErLinear);
+        }
+        else
+        {
+            double[] xLog = xLinear.Select(Math.Log10).ToArray();
+            double[] xErLogP = new double[xLinear.Length];
+            double[] xErLogN = new double[xLinear.Length];
+            
+            for (int i = 0; i < xLinear.Length; i++)
+            {
+                xErLogP[i] = Math.Log10(xLinear[i] + xErLinear[i]) - xLog[i];
+                xErLogN[i] = xLog[i] - Math.Log10(xLinear[i] - xErLinear[i]);
+            }
+            
+            // for (int i = 0; i < xLinear.Length; i++)
+            // {
+            //     Console.WriteLine($"xLin: {xLinear[i]} xLog {xLog[i]} + {xErLogP[i]} - {xErLogN[i]}");
+            // }
+
+            return (xLog, xErLogP, xErLogN);
+
+        }
+        
     }
 }
