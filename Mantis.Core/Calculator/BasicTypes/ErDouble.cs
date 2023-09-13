@@ -88,14 +88,14 @@ public struct ErDouble : INumber<ErDouble>
     public static ErDouble Cos(ErDouble phi)
     {
         ErDouble res = Math.Cos(phi.Value);
-        res.Error = res.Value * Math.Sin(phi.Error);
+        res.Error = phi.Error * Math.Sin(phi.Value);
         return res;
     }
     
     public static ErDouble Sin(ErDouble phi)
     {
         ErDouble res = Math.Sin(phi.Value);
-        res.Error = res.Value * Math.Cos(phi.Error);
+        res.Error = phi.Error * Math.Cos(phi.Value);
         return res;
     }
     

@@ -6,9 +6,30 @@ namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
 
 public static class Part3_WaveLengths
 {
+    
+    public static double _officialWaveLength = 0; // cm
+
+    public static double OfficialWaveLength
+    {
+        get
+        {
+            if (_officialWaveLength == 0)
+            {
+                var reader = new SimpleTableProtocolReader("WaveLengths.csv");
+                _officialWaveLength = reader.ExtractSingleValue<double>("officialWaveLength");
+            }
+
+            return _officialWaveLength;
+        }
+        set => _officialWaveLength = value;
+    }
+
     public static void Process()
     {
         var reader = new SimpleTableProtocolReader("WaveLengths.csv");
+
+        OfficialWaveLength = reader.ExtractSingleValue<double>("officialWaveLength");
+        OfficialWaveLength.AddCommandAndLog("OfficialWaveLength","cm");
         
         // standingWaves
         var standingWavesRootCount = reader.ExtractSingleValue<int>("standingWavesRootCount");
