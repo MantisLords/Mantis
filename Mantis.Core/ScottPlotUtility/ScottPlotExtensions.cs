@@ -20,10 +20,12 @@ public static class ScottPlotExtensions
     {
         var (xs, xErP, xErN) = ConvertDataPoints(dataSet.XValues, dataSet.XErrors, logX);
         var (ys, yErP, yErN) = ConvertDataPoints(dataSet.YValues, dataSet.YErrors, logY);
-        var errorBar = plt.AddErrorBars(xs, ys, xErP,xErN,yErP,yErN, color, 0f);
-        errorBar.LineWidth = 1.5f;
-        var scatter = plt.AddScatter(xs, ys, errorBar.Color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
 
+        var scatter = plt.AddScatter(xs, ys, color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
+        
+        var errorBar = plt.AddErrorBars(xs, ys, xErP,xErN,yErP,yErN, scatter.Color, 0f);
+        errorBar.LineWidth = 1.5f;
+        
         return (errorBar,scatter);
     }
 

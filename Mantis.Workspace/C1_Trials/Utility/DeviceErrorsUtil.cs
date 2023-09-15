@@ -15,7 +15,7 @@ public struct DeviceErrorsData
     public DeviceErrorsData(){}
 }
 
-public enum Devices{Aglient34405}
+public enum Devices{Aglient34405,VC170}
 
 public enum DataTypes
 {
@@ -67,18 +67,18 @@ public static class DeviceErrorsUtil
         return GetErrorData(device, table);
     }
     
-    public static void CalculateDeviceError(this ref ErDouble value,Devices device, DataTypes dataType, double range)
+    public static void CalculateDeviceError(this ref ErDouble value,Devices device, DataTypes dataType, double? range = null)
     {
-        value = CalculateDeviceError(device, dataType, range, value.Value);
+        value = CalculateDeviceError(device, dataType, value.Value, range);
     }
 
-    public static ErDouble CalculateDeviceError(Devices device, DataTypes dataType, double range, double value)
+    public static ErDouble CalculateDeviceError(Devices device, DataTypes dataType, double value, double? range = null)
     {
         ErDouble newValue = value;
 
-        if (GetErrorData(device, dataType).TryGetValue(range, out DeviceErrorsData errorData))
+        if (GetAutoRangeErrorData(GetErrorData(device, dataType),ref range, out DeviceErrorsData errorData,value))
         {
-            newValue.Error = (value * errorData.ErrorValuePercent + range * errorData.ErrorRangePercent) * 0.01;
+            newValue.Error = (value * errorData.ErrorValuePercent + range.Value * errorData.ErrorRangePercent) * 0.01;
             return newValue;
         }
         else
@@ -87,5 +87,28 @@ public static class DeviceErrorsUtil
                 $"Range '{range}' was not found in error table '{dataType}' of device '{device}'");
         }
 
+    }
+
+    private static bool GetAutoRangeErrorData(Dictionary<double, DeviceErrorsData> errorDataDict, ref double? range,
+        out DeviceErrorsData errorsData,double value)
+    {
+        if (range != null)
+            return errorDataDict.TryGetValue(range.Value, out errorsData);
+        
+
+        double smallestBiggerRange = double.PositiveInfinity;
+
+        foreach (var pair in errorDataDict)
+        {
+            if (pair.Key > value)
+                smallestBiggerRange = Math.Min(smallestBiggerRange, pair.Key);
+        }
+
+        if (smallestBiggerRange == double.PositiveInfinity)
+            throw new ArgumentException($"There is no range bigger than {value}");
+
+        range = smallestBiggerRange;
+        errorsData = errorDataDict[smallestBiggerRange];
+        return true;
     }
 }
