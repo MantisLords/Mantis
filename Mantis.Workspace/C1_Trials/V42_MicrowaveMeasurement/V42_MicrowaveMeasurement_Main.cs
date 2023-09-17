@@ -15,7 +15,7 @@ public static class V42_MicrowaveMeasurement_Main
         //Part3_WaveLengths.Process();
         //Part4_TotalReflection.Process();
         //Part5_Polarisation.Process();
-        Part6_BraggReflection.Process();
+        //Part6_BraggReflection.Process();
         
         TexPreamble.GeneratePreamble();
     }

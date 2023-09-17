@@ -1,0 +1,156 @@
+﻿%! Author = Salahudin Smailagić
+%! Date = 18.05.2023
+
+% Preamble
+\documentclass[11pt]{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+
+\input{Generated/Preamble}
+
+\pgfplotsset{compat=1.18}
+
+% Document
+\begin{document}
+
+    \author{Salahudin Smailagić}
+    \title{Blatt 5}
+
+    \maketitle
+
+    \section{Gausscher Fehler der Regressionsparameter bei linearer Regression}
+    
+    Angenommen wir haben ein Modell mit k linearen Koeffizienten $a_i$:
+    \newcommand{\funcTrans}{\vec{f}^{T}}
+    \newcommand{\aVec}{\vec{a}}
+    \begin{align*}
+        y(x) &= a_1 \ f_1(x) + a_2 \ f_2(x) + \dots + a_k \ f_k(x) \\
+        &= \begin{pmatrix}
+               f_1(x) & f_2(x) & \dots & f_k(x)
+        \end{pmatrix} \cdot \begin{pmatrix}
+                                a_1 \\
+                                a_2 \\
+                                \vdots \\
+                                a_k
+        \end{pmatrix} \\
+        &= \funcTrans(x) \cdot \aVec
+    \end{align*}
+    
+    Nun messen wir n Datenpunkte $x_i$ und $y_i$. Die $y_i$ sind fehlerbehaftet mit den entsprechenden Fehlern $\Sigma_i$.
+    Wir definieren die Matrix:
+    \newcommand{\yVec}{\vec{y}}
+    \newcommand{\xMatrix}{\boldsymbol{X}}
+    \newcommand{\xMatrixT}{\boldsymbol{X}^T}
+    \begin{align*}
+        \xMatrix &= \begin{pmatrix}
+                        \funcTrans(x_1) \\
+                        \funcTrans(x_2) \\
+                        \vdots \\
+                        \funcTrans(x_n)
+        \end{pmatrix}
+    \end{align*}
+    
+    Und die Fehlermatrix:
+    \newcommand{\eMatrix}{\boldsymbol{\sigma}_{y}}
+    \newcommand{\eMatrixInv}{\boldsymbol{W}}
+    \begin{align*}
+        \eMatrix = \begin{pmatrix}
+                       \sigma_{y_1}^2 \\
+                       & \sigma_{y_2}^2\\
+                       & & \ddots\\
+                       & & & \sigma_{y_n}^2
+        \end{pmatrix}
+    \end{align*}
+    
+    Die Gewichtungsmatrix folgt direkt daraus und zwar:
+    \begin{align*}
+        \eMatrixInv = \eMatrix^{-1}
+    \end{align*}
+    
+    Das gesuchte Chi-Quadrat lässt sich nun aus diesen Matrizen berechnen:
+    \begin{align*}
+        \chi^2 = (\xMatrix \aVec - \yVec)^T \ \eMatrixInv \ (\xMatrix \aVec - \yVec)
+    \end{align*}
+    Analog zu unserem bisherigem Vorgehen bei Regression, müssen wir nun das $\Chi^2$ minimieren um unsere Regressionsparameter zu bekommen.
+    Dazu leiten wir das $\Chi^2$ nach den gesuchten Koeffizienten ab:
+    \begin{align*}
+        \vec{0} &= \nabla_{\aVec} \ \chi^2 = 2 \xMatrixT \eMatrixInv (\xMatrix \aVec - \yVec)
+    \end{align*}
+    Das daraus folgende Gleichungssystem sieht so aus:
+    \begin{align*}
+        \xMatrixT \eMatrixInv \yVec &= \xMatrixT \eMatrixInv \xMatrix \aVec
+    \end{align*}
+    Dieses wird gelöst in dem man die inverse Matrix berechnet wie folgt:
+    \newcommand{\mMatrix}{\boldsymbol{J}}
+    \begin{align*}
+        \aVec &= (\xMatrixT \eMatrixInv \xMatrix)^{-1} \xMatrixT \eMatrixInv \yVec \coloneqq \mMatrix \yVec
+    \end{align*}
+    Um nun die Fehler in $\aVec$ zu bestimmen wird gaussche Fehlerrechnung benutzt. Wir brauchen die Ableitung bzw. in diesem Falle die
+    Jacobi-Matrix von $\aVec$ bezüglich $\yVec$:
+    \newcommand{\jacMatrix}{\boldsymbol{D}_{\yVec} \ \aVec}
+
+    \begin{align*}
+        \jacMatrix &= \jacMatrix \ \mMatrix \yVec = \mMatrix
+    \end{align*}
+    Die Fehlermatrix von $\aVec$ sieht dann wie folgt aus, wobei die Fehler von $\aVec$ auf der Hauptdiagonale sind:
+    \newcommand{\eaMatrix}{\boldsymbol{\sigma}_{a}}
+    \begin{align*}
+        \eaMatrix &\coloneqq (\jacMatrix)^T \eMatrix \jacMatrix = \mMatrix^T \eMatrix \mMatrix
+    \end{align*}
+    \begin{align*}
+        \sigma_{a_i} = \sqrt {(\eaMatrix)_{i,i}}
+    \end{align*}
+    
+    Dieser ist ein allgemeiner Vorgang zur bestimmung der Fehler bei linearer Regression, für das den Spezialfall $k=3$ setze man
+    nur das richtige Modell ein:
+    \begin{align*}
+        y(x) &= a_1 + a_2 x + a_k x^2 \\
+        &= \begin{pmatrix}
+               1 & x & x^2
+        \end{pmatrix} \cdot \aVec \\
+        &= \funcTrans(x) \cdot \aVec
+    \end{align*}
+    
+    \section{Bestimmung der Erbeschleunigung mittels quadratischem Fit}
+    
+    In der Aufgabe haben wir ein Lochblech mit regelmäßigen Bohrungen im Abstand von 2 cm. Das Lochblech wird fallen gelassen und es wird die Zeit gemessen
+    bei der jede Bohrung eine Lichtschranke passiert. Daraus berechnet sich die länge x. Also $\Delta x = \holeDistance$. Daraus ergibt sich die Tabelle:
+    
+    \input{Generated/tab_MetalSheetFallData}
+    
+    Die quadratische Abhängigkeit der Länge x und der Zeit t ist offensichtlich, trotzdem können die Daten nicht linearisiert werden, da auch
+    der lineare koeffizient $\beta$ dabei ist. Das Modell sieht folgendermaßen aus:
+    \begin{align*}
+        x(t) &= \alpha + \beta t + \gamma t^2
+    \end{align*}
+    Nun nutzen wir den in A beschriebenen Vorgang um die Koeffizenten samt Fehler zu bestimmen:
+    \begin{align*}
+        \alpha &= \alphaPoly \\
+        \beta &= \betaPoly \\
+        \gamma &= \gammaPoly
+    \end{align*}
+    Die Fehler der Koeffizenten ergeben sich aus der in der Vorlesung beschriebenen Methode, und zwar wird erst der Fit an die vorhandenen Daten angepasst. Die Daten werden dabei als 
+    fehlerfrei angenommen. Dann wird die mittlere quadratische Abweichung der gemessenen Werte $x_i$ von den gefitteten Funktionenwerten $y(x_i)$ berechnet wie folgt:
+    \begin{equation*}
+        s = \sqrt[2]{\frac{1}{n-3}\\\sum_{1}^{n}(y_i - y(x_i))^2}
+    \end{equation*}
+    dieses so berechnete s wird nun als y-Fehler der Datenpunkte angenommen woraus sich per Gausscher Fehlerrechnung die Fehler der Regressionsparameter ergeben.
+    Die Erbeschleunigung ergibt sich aus dem dritten Koeffizienten mit einem Faktor 2:
+    \begin{align*}
+        g &= 2 \gamma = \gFactor
+    \end{align*}
+    \section{Graphische Darstellung der Daten}
+    Wenn wir nun die Daten aus Table~\ref{tab:MetalSheetFallData} graphisch auftragen und mit dem Fit der sich aus den berechneten Regressionsparametern
+    ergibt überlagern sehen wir:
+
+    \input{Generated/fig_MetalSheetFallGraph}
+    
+    
+
+
+
+
+
+
+
+\end{document}

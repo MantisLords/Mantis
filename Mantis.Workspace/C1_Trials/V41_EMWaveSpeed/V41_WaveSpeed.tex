@@ -13,7 +13,8 @@
 \usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
 \usepackage{ae}                %macht schöneres ß
 \usepackage{typearea}
-\usepackage{amstex}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{amstex}
+\usepackage{siunitx}	         %ermöglicht änderung des Seitenspiegels
 
 
 
@@ -39,7 +40,8 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        This is very abstracvt
+        This is very abstracvt.
+        In fact it is so abstract, that I am scared.
         \\
         Measuerement made: 19. September 2023\\       %Datum ändern!
         Submitted: 26. September 2023                %Datum ändern!
@@ -71,6 +73,11 @@
         \label{coaxial:vel}
         v = \frac{1}{\sqrt{L^*C^*}}.
     \end{align}
+    Since we know the geometry, we can calculate the inductance as well as the capacitance of the coax cable.
+    \begin{align}
+        C^* = 2\pi\epsilon_0\epsilon_r (\ln(\frac{d_a}{di}))^{-1}\endline
+        L^* = \frac{\mu_r\mu_0}{2\pi}\ln(\frac{d_a}{d_i})
+        \end{align}
     By inserting the expressions for L* and C* for a coaxial cable with relative permittivity $\epsilon_r$ and relative magnetic permeability $\mu_r$ we obtain
     \begin{align}
         \label{eq:vel_mat}
@@ -88,13 +95,90 @@
     \end{align}
     where $R$ is a resistor at the end of the cable.
     \section{Experiment and setup}
-    
+    The broad experimental setup can be seen in Fig.1 
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[width=0.9\linewidth]{pictures/Abb2_Versuchsaufbau1}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
             \caption[]{Sed fermentum vestibulum wisi. Nunc dictum ligula at ipsum. Integer vulputate elit sed enim. Sed pede dolor, convallis quis, rhoncus ut, aliquet ut, urna.}   %Beschriftung der Graphik
-            \label{schwarz}                                      %das wird zu Zitiern im Text gebraucht
+            \label{fig:Aufbau}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
-
+    \section{Wave properties in the coax cable}
+    In this section we examine the shape of electromagnetic pulses and their reflections on resistors on the far end of the generator.
+    Furthermore we examine the properties of these pulses, measuring the time it takes a signal to reflect on the far end of the cable and come back as well as creating a standing wave and counting the wavelengths in the cable to determine the propagation velocity.
+    
+    \subsection{Reflected pulses}\label{subsec:wave-impedance-in-the-coax}
+    We use the setup form Fig.1 and take pictures of the voltages shown on the oscilloscope for all of the possible resistor combinations. $R_{near}, R_{far} \in \{ 0,50,\infty\} \Omega$
+    As we know from analogous phenomena (ex. waves on a string), waves behave differently depending on if the end of the string is fixed or not.
+    From Eq. \ref{eq:coaxRef} we know that the reflection coefficient is 0 for R = Z and 1 for $\lim_{R \to \infty}\rho$ meaning that the different resistors simulate fixed and loose ends respectively.
+    To show this experimentally, we start with no resistor at the generator far end, $R_{far} = \infty$.
+    From \ref{eq:coaxRef} we expect the complete reflection of the Signal or $\rho = 1$ and a doubling in amplitude.
+    To minimize reflections on the generator near end, since we want to examine the influence of the resistor at the far end, we set $R_{near}$ to 50$\Omega$.
+    This can be seen in \ref{fig:NoResistorFarEnd}
+    \begin{figure}[htbp]                                 %So bindet man Graphiken ein
+        \begin{center}                                       %zentriert die Graphik
+            \includegraphics[width=0.9\linewidth]{pictures/Abb3_NoResistorFarEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{"Meine Schokoladenseite" - Ronny Thomale}   %Beschriftung der Graphik
+            \label{fig:NoResistorFarEnd}                                      %das wird zu Zitiern im Text gebraucht
+        \end{center}
+    \end{figure}
+    \textit{The figure does not show that due to damping effects. The general trend however is still visible. Some deformation can also be seen, that can be explained by taking the capacitance and inductance of the used cables into account}
+    
+    Now we use the short circuit plug at the generator far end and expect From Eq. \ref{eq:coaxRef} a reflection coefficient of -1 and a vanishing amplitude at the generator far end.
+    This is analogous to a fixed end which forces a node.
+    This is shown in \ref{fig:ShortCircuitFarEnd}, with the damped amplitude.
+    \begin{figure}[htbp]                                 %So bindet man Graphiken ein
+        \begin{center}                                       %zentriert die Graphik
+            \includegraphics[width=0.9\linewidth]{pictures/Abb4_ShortCircuitFaeEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{Ich schaue in deine Seele}   %Beschriftung der Graphik
+            \label{fig:ShortCircuitFarEnd}                                      %das wird zu Zitiern im Text gebraucht
+        \end{center}
+    \end{figure}
+    
+    As we can see form this experiment the reflections of waves on the resistors can pose problems since they can interfere with the incoming signals or even be mistaken with them.
+    Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly $R=Z$ or in this case R$\approx 50\Omega$, this would also mean that the signal at the generator far end would be just the incoming signal since there is nothing to interfere with it.
+    Fig \ref{fig:VanishingReflectionFarEnd} shows exactly that behaviour, besides the damping which is omnipresent in these measurements.
+    \begin{figure}[htbp]                                 
+        \begin{center}                                       
+            \includegraphics[width=0.9\linewidth]{pictures/Abb5_VanishingReflectionFarEnd}      
+            \caption[]{Rhommy}   %Beschriftung der Graphik
+            \label{fig:VanishingReflectionFarEnd}                                      
+        \end{center}
+    \end{figure}
+    
+    noch zu R_{near}
+    
+    As mentioned before, Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly R=Z, and since we want to measure the impedance of the cable ourselves, we vary $R_{far}$ until the reflected pulse is minimal and measure the resistance of $R_{far}$ afterwards.
+    This was done for 4 different types of resistors, and the results are given in Tab. \ref{tab:impedance}
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  resistor  &  resistance $R(\rho=0)$ [\si\ohm]  	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $50,4 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $43,3 \pm 1,0$  	 \\
+            \rule[-5pt]{0pt}{23pt}   resistance decade   &   $50,0 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   short circuit plug   &   -  	 \\
+            \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $48,2 \pm 1,1$  	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
+        \label{tab:impedance}                             %siehe Graphik: zum Zitieren
+    \end{table}
+    
+    diskussion zu den berechneten werten.... wollte nicht ganz passen - wire wound potentiometer.
+    
+    \subsection{Standing waves}
+    The Understanding of standing waves will offer an alternative method of  calculating the propagation speed of the waves in the cable.
+    Here follows a small introduction to the experimentally setup as well as an explanation of the wave behaviour.
+    \subsection{setup}
+    The two outputs of the Generator (41-16) are connected to the two channels of the oscilloscope and using math mode internally added.
+    As shown in Appendix \ref{}, superposing two waves of the same frequency and amplitude shifted by $\pi$ results in a standing wave.
+    Depending on if the ends of...
+    
+    
 \end{document}

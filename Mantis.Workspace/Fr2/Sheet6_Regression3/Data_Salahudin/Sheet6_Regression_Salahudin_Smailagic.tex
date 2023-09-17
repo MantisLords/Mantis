@@ -1,0 +1,64 @@
+﻿%! Author = User
+%! Date = 02.06.2023
+
+% Preamble
+\documentclass[11pt]{article}
+
+\include{Generated/Preamble}
+
+\title{Blatt 6}
+\author{Salahudin Smailagić}
+
+% Document
+    \begin{document}
+
+        \maketitle
+
+        \section{Streuexperiment}
+        In diesem Experiment wurde flüssiger Wasserstoff mit Antiprotonen beschossen und die Winkelverteilung der gestreuten Antiprotonen gemessen.
+        Es wird angenommen, dass die erfassten zählereignisse Poissonverteilt sind und somit der Standardfehler die Wurzel aus dem Mittelwert ist.
+        Um die Daten zu bereinigen müssen wir noch die Hintergrundstreuung substituieren. 
+        
+        \begin{align*}
+            N = N_{voll} - 2 N_{leer}
+        \end{align*}
+        Daraus bekommen wir folgende Daten.
+
+        \include{Generated/tab_HScatteringData}
+        Nun müssen wir ein Legendre-Polynom 2-ten Grades in die Daten fitten:
+        
+        \begin{align*}
+            N(\cos{\phi}) = a_0 P_0 (\cos(\phi)) + a_1 P_1 (\cos(\phi)) + a_2 P_2 (\cos(\phi))
+        \end{align*}
+
+        Wenn wir nun die lineare Regression wie schon In Blatt 5 allgemein beschrieben machen bekommen wir die Regressionsparameter:
+        \begin{align*}
+            a_0 &= \regressionParameterA \\
+            a_1 &= \regressionParameterB \\
+            a_2 &= \regressionParameterC
+        \end{align*}
+
+        %\include{Generated/tab_HScatteringData}
+
+        \section{Güte der Anpassung des Modells an die Daten}
+
+        Das reduzierte Chi-Quadrat der Verteilung ergibt sich zu:
+        \begin{align*}
+            \chi^2 &= \ReducedChiSquared
+        \end{align*}
+
+        Da wir $\DegreesOfFreedom$ Freiheitsgrade haben entspricht das Chi-Quadrat der Wahrschienlichkeit von:
+        \begin{align*}
+            p &= \ProbabilityChiSquared
+        \end{align*}
+
+        Die Wahrscheinlichkeit sugerriert, dass der Fit gut ist.
+
+        \section{Graphische Darstellung}
+
+       Nun werden die Daten zusammen mit der bestimmten Regression graphisch dargestellt:
+
+        \include{Generated/fig_HScattering}
+
+
+    \end{document}
