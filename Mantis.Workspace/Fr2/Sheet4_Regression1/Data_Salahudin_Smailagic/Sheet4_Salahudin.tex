@@ -1,0 +1,95 @@
+﻿%! Author = User
+%! Date = 18.05.2023
+
+% Preamble
+\documentclass[11pt]{article}
+
+\usepackage{arabicore}
+\usepackage{shellesc}
+
+\input{Generated/Preamble}
+
+% Document
+\begin{document}
+
+    \author{Elias Schwarzkopf}
+    \title{Blatt 4- Regression 1}
+
+    \maketitle
+
+    \section{Linearisierung durch Logarithmierung}
+
+   In der Aufgabe soll die Halbwertszeit von Ba-137m bestimmt werden. Als Messwerte liegen uns die Anzahlen der Zerfälle {$\Delta N$} pro Zeitinterwall {$\Delta t$} vor. Diese ist in 20s Blöcke aufgeteilt.
+    Die Zerfallszahl wird durch eine Poissonverteilung beschrieben, da die Zerfallswahrscheinlichkeit jedes Atoms gegen Null geht und die Anzahl der Atome gegen unendlich. Der Standardfehler wird als Wurzel des Wertes berechnet.
+    \begin{equation*}
+        \sigma_{\Delta N} = \sqrt {\Delta N}
+    \end{equation*}
+    Um die Halbwertszeit  $T_s$ zu ermitteln, wird angenommen, dass  $\Delta t << T_s$ weshalb die Änderung der Zerfallsrate innerhalb einer Klasse vernachlässigbar ist. Es ergibt sich:
+    \begin{equation*}
+        \Delta N = \Delta N_0 2^{-t / T_s} = \Delta N_0 e^{\beta t}
+    \end{equation*}
+    Nun können die Daten linearisiert werden, indem der Ln auf beiden Seiten genommen wird. Der Exponent kann dann als Faktor vorgezogen werden. Der Fehler von $ln(\Delta N)$ ergibt sich durch die Taylor-Entwicklung.
+    
+    \begin{equation*}
+        ln(\DElta N) = \ln(\Delta N_0)+\beta t = \alpha + \beta t
+    \end{equation*}
+    Daraus wird die Zerfallszeit berechnet, mit:
+    \begin{equation*}
+       T_s =\frac{-\ln(2)}{\beta}
+        \end{equation*}
+    Berechnet.
+    Linearisiert ergibt sich für die Daten:
+    \input{Generated/tab_BaDecayData}
+    \pagebreak
+   
+
+    \section{Ungewichtete lineare Regression}
+    Mit linearen Regression $y(t) = \alpha + \beta t$ ergibt sich:
+    \begin{equation*}
+        \alpha = \alphaNoError
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaNoError
+    \end{equation*}
+    \begin{equation*}
+        Ts =\frac{-\ln(2)}{\beta}= \halfTimeNoError
+    \end{equation*}
+
+   
+
+    \section{Lineare Regression - Gewichtung nach Gausfehlern}
+    Die lineare Regression wird mit den berechneten Fehlern in y durchgeführt. Die Fehler werden analog zu Blatt 3 berechnet.
+    Für $y(t) = \alpha + \beta t$ kriegen wir:
+    \begin{equation*}
+        \alpha = \alphaGauss
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaGauss
+    \end{equation*}
+    \begin{equation*}
+        Ts =\frac{-\ln(2)}{\beta}= \halfTimeGauss
+    \end{equation*}
+
+    \section{Poissonsche Regression}
+    Wie in der Vorlesung beschrieben wird bei der Regression bei Annahme poissonverteilter Unsicherheiten auf ein numerisches Verfahren zurückgegriffen. Dieses liefert wieder für $y(t) = \alpha + \beta t$:
+    \begin{equation*}
+        \alpha = \alphaPoisson
+    \end{equation*}
+    \begin{equation*}
+        \beta = \betaPoisson
+    \end{equation*}
+    \begin{equation*}
+        Ts =\frac{-\ln(2)}{\beta}= \halfTimePoisson
+    \end{equation*}
+    Für die Fehler wurde auf ein numerisches Verfahren verzichtet. Die Fehler wurden nach Gaußscher Fehlerrechnung berechnet.
+    
+    \section{Diskussion}
+    Die berechneten Werte für {$T_s$} stimmen innerhalb der Fehlerbalken überein. Da die letzte Methode die genaueste ist, wird der dort berechnete Wert verwendet.
+    \begin{equation*}
+        Ts = \halfTimePoisson
+    \end{equation*}
+   Die deutlich aufwändigere Methode zur Berechnung der Poissonschen Regression ist hierbei nicht sinnvoll, da der Mehraufwand nur eine geringe Verbesserung des Ergebnisses bewirkt.
+    
+
+
+\end{document}
