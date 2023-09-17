@@ -1,6 +1,10 @@
 ﻿using Mantis.Core.TexIntegration;
+using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
+using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
+using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
+using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
-namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
+namespace Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
 public static class V42_MicrowaveMeasurement_Main
 {

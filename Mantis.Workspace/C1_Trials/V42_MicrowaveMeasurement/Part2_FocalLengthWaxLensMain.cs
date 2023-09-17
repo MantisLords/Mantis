@@ -9,7 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using ScottPlot;
 
-namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
+namespace Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
 [QuickTable("","tab:focalLengthMeasurement")]
 public record struct FocalLengthWaxLensData

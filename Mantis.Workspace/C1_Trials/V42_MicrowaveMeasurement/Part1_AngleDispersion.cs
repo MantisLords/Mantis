@@ -9,7 +9,7 @@ using MathNet.Numerics;
 using ScottPlot;
 using ScottPlot.Renderable;
 
-namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
+namespace Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
 [QuickTable("","tab:angleDispersion")]
 public record struct AngleDispersionData

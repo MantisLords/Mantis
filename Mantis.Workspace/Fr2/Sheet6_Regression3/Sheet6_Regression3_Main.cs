@@ -1,12 +1,11 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using ScottPlot;
+using ScottPlot.Plottable;
 
 namespace Mantis.Workspace.Fr2.Sheet6_Regression3;
 
@@ -14,18 +13,18 @@ namespace Mantis.Workspace.Fr2.Sheet6_Regression3;
 public record struct HScatteringData
 {
     [QuickTableField("detector angle", "\\degree","\\phi")]
-    public double Angle = 0;
+    public double Angle;
 
     [QuickTableField("scattering count at full target", "", "N_{full}")]
-    public ErDouble ScatteringCount = 0;
+    public ErDouble ScatteringCount;
 
     [QuickTableField("scattering count at empty target", "", "N_{empty}")]
-    public ErDouble BackgroundScatteringCount = 0;
+    public ErDouble BackgroundScatteringCount;
 
     [QuickTableField("cleansed scattering count", "", "N", false)]
-    public ErDouble CleansedScatteringCount = 0;
+    public ErDouble CleansedScatteringCount;
 
-    public double CosOfAngle = 0;
+    public double CosOfAngle;
     
     public HScatteringData(){}
 
@@ -33,7 +32,7 @@ public record struct HScatteringData
 
 public static class Sheet6_Regression3_Main
 {
-    public static void Process()
+    /*public static void Process()
     {
         List<HScatteringData> data =
             new SimpleTableProtocolReader("HScatteringData.csv").ExtractTable<HScatteringData>();
@@ -41,27 +40,48 @@ public static class Sheet6_Regression3_Main
         data.ForEachRef(AddErrorAndCleanseData);
         
         data.CreateTexTable().SaveLabeled();
-        
 
-        RegModel<LegendrePolynomialFunc> model = data.CreateRegModel(e => (e.CosOfAngle, e.CleansedScatteringCount),
-            new ParaFunc<LegendrePolynomialFunc>(3));
-        
-        model.DoLinearRegression();
-        
-        model.AddParametersToPreambleAndLog("LegendreFit");
-        model.AddGoodnessOfFitToPreambleAndLog("LegendreFit");
-        
-        
-        var plt = ScottPlotExtensions.CreateSciPlot("Cos of detector angle",
-            "Scattering Count",
-            "Scattering graph with legendre polynomials");
+        ErDouble[] parameters = data.LinearRegressionLegendrePolynomial(e => (e.CosOfAngle, e.CleansedScatteringCount), 3,
+            RegressionCommand.UseYErrors);
 
-        plt.AddRegModel(model, "Cleansed scattering count", "Best fit legendre polynomial");
-
-        plt.SaveAndAddCommand("fig:LegendreFit","Scattering of antiprotons at hydrogen atoms");
+        int freedom = data.Count - parameters.Length;
+        double reducedChiSquared = CalculateReducedChiSquaredHacked(data, parameters);
+        var chiDistribution = new ChiSquared(freedom);
+        double probability = 1- chiDistribution.CumulativeDistribution(reducedChiSquared * freedom);
+        Console.WriteLine($"Reduced Chi Squared: {reducedChiSquared} \n propability : {probability} \n freedom: {freedom}");
         
+        
+        freedom.AddCommand("DegreesOfFreedom");
+        reducedChiSquared.AddCommand("ReducedChiSquared");
+        probability.AddCommand("ProbabilityChiSquared");
 
-        TexPreamble.AddCommand("^{\\circ}","degree");
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            Console.WriteLine($"Parameters A{i} = {parameters[i].ToString()}");
+            parameters[i].AddCommand($"regressionParameter{(char)(65+i)}");
+        }
+
+        Sketchbook sketchbook = new Sketchbook(
+            axis: new AxisLayout("Cos of detector angle $\\cos(\\phi)$", "Scattering Count $N$"),
+            label: "fig:HScattering",
+            caption: "Scattering of antiprotons at hydrogen atoms",
+            title:"Scattering graph with legendre polynomials Thomas Karb 1.6.23");
+        
+        sketchbook.Add(new DataMarkSketch()
+        {
+            Data = data.Select(e => ((ErDouble)e.CosOfAngle,e.CleansedScatteringCount)),
+            Legend = "Cleansed scattering count"
+        });
+        
+        sketchbook.Add(new FunctionPlot()
+        {
+            FunctionString = $"({parameters[0].Value}) + x * ({parameters[1].Value}) + 0.5 * (3*x^2-1) * ({parameters[2].Value})",
+            Legend = "Best fit legendre polynomial"
+        });
+        
+        sketchbook.SaveLabeled();
+        
+        TexPreamble.AddCommand("^{\\circ}","\\degree");
             
         TexPreamble.GeneratePreamble();
     }
@@ -75,4 +95,23 @@ public static class Sheet6_Regression3_Main
 
         e.CosOfAngle = Math.Cos(e.Angle * Math.PI / 180.0);
     }
+
+    private static double CalculateReducedChiSquaredHacked(List<HScatteringData> data, ErDouble[] parameters)
+    {
+        double chiSquared = 0;
+        
+        int freedom = data.Count - parameters.Length;
+        
+        foreach (var d in data)
+        {
+           var xss = PolynomialRegression.LegendrePolynomialEvaluation(d.CosOfAngle, 3).ToArray();
+            double y = xss[0] * parameters[0].Value + xss[1] * parameters[1].Value + xss[2] * parameters[2].Value;
+            chiSquared += (d.CleansedScatteringCount.Value - y) * (d.CleansedScatteringCount.Value - y) /
+                          d.CleansedScatteringCount.Error / d.CleansedScatteringCount.Error;
+        }
+
+        double reduced = chiSquared / freedom;
+        
+        return reduced ; 
+    }*/
 }
