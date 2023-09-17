@@ -93,6 +93,25 @@ public class QuickTablePropertyAccess<T>
 
         public void ParseValue(ref object instance, string value)
         {
+            if (GetType() == typeof(string))
+            {
+                SetValue(ref instance, value);
+                return;
+            }
+
+            if (GetType() == typeof(bool))
+            {
+                bool v = value == "true" || value == "True";
+                SetValue(ref instance,v);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(value))
+            {
+                SetValue(ref instance,GetDefaultValue());
+                return;
+            }
+
             if (_parseMethod == null)
             {
                 _parseMethod = GetType().GetMethod("Parse", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static,
@@ -109,6 +128,14 @@ public class QuickTablePropertyAccess<T>
         public Type GetType()
         {
             return _field.FieldType;
+        }
+        
+        private object GetDefaultValue()
+        {
+            if (GetType().IsValueType)
+                return Activator.CreateInstance(GetType());
+
+            return null;
         }
     }
 }

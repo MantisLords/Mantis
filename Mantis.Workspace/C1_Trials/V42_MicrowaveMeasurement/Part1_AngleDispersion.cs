@@ -139,7 +139,7 @@ public static class Part1_AngleDispersion
         
         // I use this Utility method to get the voltage error of the Aglient34405-Device. Here these wierd tables from
         // the manual are saved.
-        data.VoltageDiode = DeviceErrorsUtil.CalculateError(Devices.Aglient34405, DataTypes.VoltageDC, voltmeterRange,
-            data.VoltageDiode.Value);
+        data.VoltageDiode = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
+            data.VoltageDiode.Value, voltmeterRange);
     }
 }

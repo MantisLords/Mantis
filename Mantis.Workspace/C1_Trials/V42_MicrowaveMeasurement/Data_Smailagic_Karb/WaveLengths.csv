@@ -1,0 +1,12 @@
+﻿* officialWaveLength,3.21,cm
+
+Wavelengths measured through standing waves
+* standingWavesRootCount,35
+* standingWavesPos1,69.9,0.1,cm
+* standingWavesPos2,126.8,0.1,cm
+
+
+Wavelengths measured via interferometer
+* interMaximaCount,15
+* interPos1,0.5,0.05,cm
+* interPos2,25.05,0.05,cm

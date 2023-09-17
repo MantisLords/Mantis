@@ -17,12 +17,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\" />
       <Folder Include="Fr2\Sheet4_Regression1\Data_Melissa_Balles\Generated\" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_AngleDispersion.png" />
       <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_imageDistance.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_Polarisation.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_TotalReflection.png" />
     </ItemGroup>
 
     <ItemGroup>

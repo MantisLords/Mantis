@@ -20,6 +20,11 @@ public static class CalculatorLogExtension
     {
         commands.AddCommandsToPreamble(labelPrefix);
 
+        commands.LogCommands(labelPrefix);
+    }
+    
+    public static void LogCommands(this IEnumerable<ILogCommand> commands, string labelPrefix)
+    {
         string res = $"{labelPrefix}:\t";
         res += commands.ToLogString();
         Console.WriteLine(res);
@@ -35,6 +40,12 @@ public static class CalculatorLogExtension
         where T : FuncCore, new()
     {
         model.ParaFunction.ParaSet.GetParametersLog().AddCommandsToPreambleAndLog(labelPrefix);
+    }
+    
+    public static void LogParameters<T>(this RegModel<T> model, string labelPrefix )
+        where T : FuncCore, new()
+    {
+        model.ParaFunction.ParaSet.GetParametersLog().LogCommands(labelPrefix);
     }
     
     public static void AddParametersToPreamble<T>(this ParaFunc<T> model, string labelPrefix)

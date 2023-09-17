@@ -1,0 +1,26 @@
+﻿# tab:ringCores,,,,,
+type,name,da in mm,db in mm,n1,n2,height in mm,fillfactor
+"Fe-Ni H2","PERMENORM 5000 H2",260,222,605,80,30,0.9
+"Fe-Ni Z","PERMENORM® 5000 Z",260,220,610,56,30,0.9
+"Steel","ST 37K",260,220,1010,53,30,1
+"Wood","Wood",260,220,1010,250,30,1
+
+# tab:measurementSeriesInfos
+measurementSeries,ringCore,seriesResistance in Ohm,fluxRange in VM,isCurveOneCycle,coercivityEvalMax in B,isRemanenceEvalHAxis,remanenceEvalMin,remanenceEvalMax,saturationEvalMin in H
+"Messreihe #1","Fe-Ni H2",66.7,0.1,true,0.2,,0.6,0.8,
+"Messreihe #2","Fe-Ni H2",0.2,0.1,false
+"Messreihe #3","Fe-Ni H2",0.2,0.1,true,0.75,,0.5,1,1000
+"Messreihe #4","Wood",66.7,0.1,false
+"Messreihe #5","Wood",66.7,0.002,false
+"Messreihe #6","Wood",66.7,0.002,false
+"Messreihe #7","Steel",0.2,0.1,true,0.25,,0.4,0.6,
+"Messreihe #8","Steel",0.2,0.1,false
+"Messreihe #9","Steel",0.2,0.1,false
+"Messreihe #10","Steel",0.2,0.1,false
+"Messreihe #11","Steel",0.2,0.1,false
+"Messreihe #12","Fe-Ni Z",66.7,0.1,false
+"Messreihe #13","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
+"Messreihe #14","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
+"Messreihe #15","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
+"Messreihe #16","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
+
