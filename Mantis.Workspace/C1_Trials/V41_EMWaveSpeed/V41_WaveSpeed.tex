@@ -1,0 +1,100 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{amstex}	         %ermöglicht änderung des Seitenspiegels
+
+
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Betreuer: Ronny Thomale & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Examinig Propagation Properties of Electromagnetic Waves in Coaxial Cables}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+        This is very abstracvt
+        \\
+        Measuerement made: 19. September 2023\\       %Datum ändern!
+        Submitted: 26. September 2023                %Datum ändern!
+        \\
+        \\
+    \end{abstract}
+    }]
+    \section{Introduction}
+    Transmitting signals without losses is very important in all branches of everyday life.
+    Thus, a better understanding of the established methods of conductance is a must.
+    A commonly used mean of signal transmission is the coaxial cable, which is easy to manufacture and due to its construction minimizes energy loss and environmental interference.
+    It can be found everywhere, form telephone lines through cable television signals to broadband internet.
+    In this paper, we want to examine the propagation properies of singlas - electromagnetic waves, through these cables.
+    \section{Theory}
+    \subsection{Wave propagation in cables - The coaxial cable}
+    Coaxial cables are a type of electrical cable consisting of an inner conductor surrounded by a cylindrical conducting shield(usually copper) seperated by a dielectric. In an ideal coaxial
+    cable the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses making it superior to conventional
+    transmission lines. 
+    Further, electromagnetic field inside is shielded form fields outside making the cable ideal for carrying weak signals.
+    These properties explain the widespread usage of coax cables for both carrying weak signals that must not interfere with the environment as well as strong signals to minimize losses.
+    The transmission properties of a coaxial cable are characterized by the capacitance between the two conductors per unit length $C^*$ and inductance per unit length $L^*$
+    Form maxwells equations the voltage and current in the cable are given by:
+    \begin{align*}
+        \frac{\partial^2U}{\partial x^2}=L^*C^*\frac{\partial^2U}{\partial t^2}\\
+        \frac{\partial^2I}{\partial x^2}=L^*C^*\frac{\partial^2I}{\partial t^2}
+    \end{align*}
+    These are wave equations with the wave propagation velocity
+    \begin{align}
+        \label{coaxial:vel}
+        v = \frac{1}{\sqrt{L^*C^*}}.
+    \end{align}
+    By inserting the expressions for L* and C* for a coaxial cable with relative permittivity $\epsilon_r$ and relative magnetic permeability $\mu_r$ we obtain
+    \begin{align}
+        \label{eq:vel_mat}
+        v = \frac{c}{\sqrt{\mu_r\epsilon_r}},
+    \end{align}
+    where c is the speed of light in vacuum.
+    Though there is negligible ohmic resistance, coaxial cables still have an impedance of
+    \begin{align}
+        Z=\sqrt{\frac{L^*}{C^*}}
+    \end{align}
+    and the reflection coefficient $\rho$, which describes the ratio between the amplitude of the incident and the reflected wave, is given by
+    \begin{align}
+        \label{eq:coaxRef}
+        \rho=\frac{R-Z}{R+Z}
+    \end{align}
+    where $R$ is a resistor at the end of the cable.
+    \section{Experiment and setup}
+    
+    \begin{figure}[htbp]                                 %So bindet man Graphiken ein
+        \begin{center}                                       %zentriert die Graphik
+            \includegraphics[width=0.9\linewidth]{pictures/Abb2_Versuchsaufbau1}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{Sed fermentum vestibulum wisi. Nunc dictum ligula at ipsum. Integer vulputate elit sed enim. Sed pede dolor, convallis quis, rhoncus ut, aliquet ut, urna.}   %Beschriftung der Graphik
+            \label{schwarz}                                      %das wird zu Zitiern im Text gebraucht
+        \end{center}
+    \end{figure}
+
+\end{document}
