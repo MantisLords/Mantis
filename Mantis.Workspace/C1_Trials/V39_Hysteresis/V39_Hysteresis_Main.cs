@@ -1,4 +1,5 @@
-﻿using Mantis.Core.FileImporting;
+﻿using Mantis.Core.Calculator;
+using Mantis.Core.FileImporting;
 using Mantis.Core.ScottPlotUtility;
 using ScottPlot;
 
@@ -15,11 +16,10 @@ public static class V39_Hysteresis_Main
         var pascoCsvReader = new PascoCsvReader("C39_Pasco_RawData");
         
         pascoCsvReader.ReadFile();
-        
-        Console.WriteLine(pascoCsvReader);
 
         var seriesInfoReader = new SimpleTableProtocolReader("MeasurementSeriesInfo");
 
+        double errorVoltage = seriesInfoReader.ExtractSingleValue<double>("errorVoltage");
         var ringCores = seriesInfoReader.ExtractTable<RingCore>();
         var seriesInfos = seriesInfoReader.ExtractTable<MeasurementSeriesInfo>();
 
@@ -28,28 +28,46 @@ public static class V39_Hysteresis_Main
         foreach (var pascoSeries in pascoCsvReader.MeasurementSeries)
         {
             var measurementSeries =
-                new HysteresisMeasurementSeries(pascoSeries.Key, pascoSeries.Value, ringCores, seriesInfos);
+                HysteresisMeasurementSeries.InstantiateSeries(pascoSeries.Key, pascoSeries.Value, ringCores, seriesInfos,errorVoltage);
 
             MeasurementSeriesDict[measurementSeries.Name] = measurementSeries;
         }
 
-        foreach (var series in MeasurementSeriesDict.Values)
-        {
-            if (series.IsCurveOneCycle)
-            {
-                var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
+        var series = MeasurementSeriesDict["Messreihe #10"];
+        var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T", pixelWidth: 520);
+        series.PlotData(plt);
+        var dataLimits = plt.GetDataLimits();
+        var xMax = 200;
+        var yMax = dataLimits.YMax / dataLimits.XSpan * xMax;
+        plt.SetAxisLimits(-xMax,xMax,-0.1,0.2);
+        //plt.SetAxisLimits(-xMax,xMax,-yMax,yMax);
+        plt.SaveFigHere(series.Name + "_" + series.RingCore.Name, scale: 4);
 
-                series.CalculateCoercivity();
-                series.CalculateRemanence();
-                series.CalculateSaturation();
-
-                series.PlotData(plt,true);
-
-                plt.Legend(true, Alignment.UpperLeft);
-                
-                plt.SaveFigHere(series.Name,scale:8);
-            }
-        }
+        // foreach (var s in MeasurementSeriesDict.Values)
+        // {
+        //     if (s is NonFerromagneticMeasurementSeries series)
+        //     {
+        //         var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T", pixelWidth: 520);
+        //         series.PlotData(plt,true);
+        //         plt.SaveFigHere(s.Name + "_" + s.RingCore.Name, scale: 4);
+        //     }
+        //
+        //     // if (s is OneCycleMeasurementSeries series)
+        //     // {
+        //     //     var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520*4);
+        //     //
+        //     //     series.CalculateCoercivity();
+        //     //     series.CalculateRemanence();
+        //     //     series.CalculateSaturation();
+        //     //     series.CalculateHysteresisLoss();
+        //     //
+        //     //     series.PlotData(plt,true,drawRegSaturation:true);
+        //     //
+        //     //     plt.Legend(true, Alignment.UpperLeft);
+        //     //     
+        //     //     plt.SaveFigHere(series.Name,scale:4);
+        //     // }
+        // }
 
 
     }

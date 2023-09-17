@@ -61,7 +61,7 @@ public struct ErDouble : INumber<ErDouble>
     /// <summary>
     /// Multiplies the ErDouble with 10^power
     /// </summary>
-    public ErDouble Mul10E(int power)
+    public readonly ErDouble Mul10E(int power)
         => this * Math.Pow(10, power);
 
 
