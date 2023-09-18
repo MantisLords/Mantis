@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Mantis.Core.Calculator;
 using Mantis.Core.FileManagement;
 using Mantis.Workspace.BasicTests;
 using Mantis.Workspace.C1_Trials.V39_Hysteresis;
@@ -21,6 +22,8 @@ Console.WriteLine("Hello, World!");
 
 FileManager.GlobalWorkspace = "C1_Trials/V39_Hysteresis/Data_Smailagic_Karb";
 V39_Hysteresis_Main.Process();
+
+
 
 
 
