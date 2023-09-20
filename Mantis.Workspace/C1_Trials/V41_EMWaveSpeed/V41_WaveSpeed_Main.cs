@@ -115,9 +115,9 @@ public static class V41_WaveSpeed_Main
         frequencyMean.Error = Math.Sqrt( sumForStandardDeviationFreq.Value * 1/(count-1))/Math.Sqrt(count);
         StandingWaveData newData = new StandingWaveData()
         {
-            frequency = sumFreq / count,
-            incommingVoltage = sumInV / count,
-            nodeVoltage = sumNodeV / count,
+            frequency = frequencyMean,
+            incommingVoltage = incommingVMean,
+            nodeVoltage = nodeVMean,
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
