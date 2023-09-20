@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Mantis.Core.Calculator;
 using Mantis.Core.FileManagement;
 using Mantis.Core.TexIntegration;
 using Mantis.Workspace.BasicTests;
@@ -11,4 +12,6 @@ Console.WriteLine("Hello, World!");
 
 FileManager.GlobalWorkspace = "C1_Trials/V41_EMWaveSpeed/Data_Smailagic_Karb";
 V41_Main.Process();
+
+
 

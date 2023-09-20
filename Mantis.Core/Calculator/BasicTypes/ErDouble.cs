@@ -61,7 +61,7 @@ public struct ErDouble : INumber<ErDouble>
     /// <summary>
     /// Multiplies the ErDouble with 10^power
     /// </summary>
-    public ErDouble Mul10E(int power)
+    public readonly ErDouble Mul10E(int power)
         => this * Math.Pow(10, power);
 
 
@@ -192,8 +192,11 @@ public struct ErDouble : INumber<ErDouble>
 
     public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
     {
-        charsWritten = 0;
-        return false;
+        string formatting = format.ToString();
+        string result = this.ToString(formatting, provider);
+        charsWritten = Math.Min(result.Length, destination.Length);
+        result.CopyTo(destination[..charsWritten] );
+        return charsWritten == result.Length;
     }
 
     private int GetDigits(int power)
