@@ -65,19 +65,36 @@ public static class V41_WaveSpeed_Main
        var peakDifferenceRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifferenceRetardation");
        var lengthRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("lengthRetardation");
        var tempGroupedListList = standingWaveList.GroupBy(e => (e.nodeCount,e.isEndFixed)).ToList();
+       lengthRetardation.AddCommand("lengthRetardation","m");
 
        var calculatedMeanList =
            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
        ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
        Console.WriteLine(v);
+       v.AddCommand("velocityRuntime","m/s");
        Console.WriteLine("EpsilonR runtime"+CalculateEpsR(v));
+       CalculateEpsR(v).AddCommand("epsilonRRuntime","");
        ErDouble vRet = CalculateVelocityRuntime(peakDifferenceRetardation, lengthRetardation);
+       vRet.AddCommand("vRetRuntime","m/s");
        Console.WriteLine("Velocity retardation"+vRet);
 
 
        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
-       ;
+       dataForTables[0].frequency.AddCommand("frequencyFirst", "Hz");
+       dataForTables[0].vStanding.AddCommand("vStandingFirst","m/s");
+       dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
+       dataForTables[0].damping.AddCommand("dampingFirst","dB/m");
+       dataForTables[1].frequency.AddCommand("frequencySecond", "Hz");
+       dataForTables[1].vStanding.AddCommand("vStandingSecond","m/s");
+       dataForTables[1].EpsilonR.AddCommand("epsilonRSecond","");
+       dataForTables[1].damping.AddCommand("dampingSecond","dB/m");
+       dataForTables[2].frequency.AddCommand("frequencyThird", "Hz");
+       dataForTables[2].vStanding.AddCommand("vStandingThird","m/s");
+       dataForTables[2].EpsilonR.AddCommand("epsilonRThird","");
+       dataForTables[2].damping.AddCommand("dampingThird","dB/m");
        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
+       Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
+       Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
 
     }
 
@@ -117,7 +134,7 @@ public static class V41_WaveSpeed_Main
         {
             frequency = frequencyMean*1000,
             incommingVoltage = incommingVMean,
-            nodeVoltage = nodeVMean,
+            nodeVoltage = nodeVMean/1000,
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
@@ -155,7 +172,7 @@ public static class V41_WaveSpeed_Main
     }
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
-        ErDouble U2l = U0 - deltaU/1000 ;
+        ErDouble U2l = U0 - deltaU ;
         return  Math.Log((U0 / U2l).Value, 10)* 20 * 1 / 100;
     }
 
@@ -168,12 +185,12 @@ public static class V41_WaveSpeed_Main
             {
                 lambda = 50 * 4;
             }
-            else
+            if(nodeCount==2)
             {
-                lambda = 50 * 3 / 4;
+                lambda = 200/3;
             }
         }
-        else
+        if(openEnd==true)
         { 
             lambda = 50 * 2;
         }

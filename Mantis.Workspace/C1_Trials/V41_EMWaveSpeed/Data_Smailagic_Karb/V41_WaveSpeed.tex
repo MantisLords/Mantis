@@ -14,7 +14,8 @@
 \usepackage{ae}                %macht schöneres ß
 \usepackage{typearea}
 \usepackage{amstex}
-\usepackage{siunitx}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{siunitx}
+\usepackage{mathtools}	         %ermöglicht änderung des Seitenspiegels
 
 
 
@@ -80,7 +81,7 @@
         \end{align}
     By inserting the expressions for L* and C* for a coaxial cable with relative permittivity $\epsilon_r$ and relative magnetic permeability $\mu_r$ we obtain
     \begin{align}
-        \label{eq:vel_mat}
+        \label{eq:vavePropagationVelocity}
         v = \frac{c}{\sqrt{\mu_r\epsilon_r}},
     \end{align}
     where c is the speed of light in vacuum.
@@ -117,8 +118,8 @@
     This can be seen in \ref{fig:NoResistorFarEnd}
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
-            \includegraphics[width=0.9\linewidth]{pictures/Abb3_NoResistorFarEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{"Meine Schokoladenseite" - Ronny Thomale}   %Beschriftung der Graphik
+            \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb3_NoResistorFarEnd (2)}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{$R_{near}=50\Omega, R_{far} = \infty \Omega$}   %Beschriftung der Graphik
             \label{fig:NoResistorFarEnd}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
@@ -129,8 +130,8 @@
     This is shown in \ref{fig:ShortCircuitFarEnd}, with the damped amplitude.
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
-            \includegraphics[width=0.9\linewidth]{pictures/Abb4_ShortCircuitFaeEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{Ich schaue in deine Seele}   %Beschriftung der Graphik
+            \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb4_ShortCircoutFarEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{$R_{near}=50\Omega,R_{far} = 0$}   %Beschriftung der Graphik
             \label{fig:ShortCircuitFarEnd}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
@@ -140,15 +141,17 @@
     Fig \ref{fig:VanishingReflectionFarEnd} shows exactly that behaviour, besides the damping which is omnipresent in these measurements.
     \begin{figure}[htbp]                                 
         \begin{center}                                       
-            \includegraphics[width=0.9\linewidth]{pictures/Abb5_VanishingReflectionFarEnd}      
-            \caption[]{Rhommy}   %Beschriftung der Graphik
+            \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb5_VanishingReflectionFarEnd (2)}      
+            \caption[]{$R_{near}=50\Omega, R_{far}=50\Omega $}   %Beschriftung der Graphik
             \label{fig:VanishingReflectionFarEnd}                                      
         \end{center}
     \end{figure}
     
     noch zu R_{near}
+    \subsection{Wave impedance in coaxial cables}
     
     As mentioned before, Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly R=Z, and since we want to measure the impedance of the cable ourselves, we vary $R_{far}$ until the reflected pulse is minimal and measure the resistance of $R_{far}$ afterwards.
+    Since $R_{near}$ is not important for this measurement, we set it to $R_{near}=50\Omega $ as this would also minimize unwanted reflections.
     This was done for 4 different types of resistors, and the results are given in Tab. \ref{tab:impedance}
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
         \centering
@@ -157,11 +160,10 @@
             \hline
             \rule[-7pt]{0pt}{23pt}  resistor  &  resistance $R(\rho=0)$ [\si\ohm]  	 \\
             \hline
-            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $50,4 \pm 1,1$  	 \\
-            \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $43,3 \pm 1,0$  	 \\
+            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $55,2 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $44,5 \pm 1,0$  	 \\
             \rule[-5pt]{0pt}{23pt}   resistance decade   &   $50,0 \pm 1,1$  	 \\
-            \rule[-5pt]{0pt}{23pt}   short circuit plug   &   -  	 \\
-            \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $48,2 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $52,1 \pm 1,1$  	 \\
             \hline
             \hline
         \end{tabular*}
@@ -169,24 +171,49 @@
         \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
         \label{tab:impedance}                             %siehe Graphik: zum Zitieren
     \end{table}
-    
-    diskussion zu den berechneten werten.... wollte nicht ganz passen - wire wound potentiometer.
-    
-    \subsection{Standing waves}
+    As can be seen from the data, the measured values do not coincide within their errors. The erros were approximated as it was not possible to reach completely wanishing reflections making the measurements uncertain.
+    We assume that Eq \ref{eq:coaxRef} does not hold here due to the internal construction of the two potentiometers which possibly introduces an extra inductive impedance.
+    The final value for the impedance of the cable is calculated as the mean of these values giving Z=
+    \section{Propagation velocities of waves in coaxiall cables}
+    \subsection{Runtime measurement}
+    For this measurement we used the setup from Fig \ref{fig:Aufbau} with $R_{near}=50\Omega and R_{far}=\infty \Omega $.
+    The open end was used to reflect a signal and measure the time it takes the signal to travel the length of the cable two times.
+    The time difference was measured with the cursors of the oszilloscope.
+    This was done for both the coaxiall cable as well as the retardation cable we had available.
+    Since the length of the  coaxiall cable was given to be 50m we used the following formula to determine the velocity
+    \begin{align}
+        \label{eq:runtimeVelocity}
+        v=\frac{2l}{\Delta t}
+        \end{align}
+    which came out to be v=$\velocityRuntime$ at a frequency of 200KHz.
+    According to Eq \ref{eq:vavePropagationVelocity} and assuming $\mu_r = 1$, this velocity corresponds to a relative permittivity $\epsilon_R$ = $\epsilonRuntime$.
+    \endline
+    For the retardation cable, the measured length was $\lengthRetardation$ which corresponds to a velocity of $\vRetRuntime$ at a frequency of f $\approx$ 4KHz.
+    This can be explained by the fact that the retardation cable contains materials with high magnetic permeability $\mu_r$ compared to the $\mu_r \approx 1 $ of common coaxial cables, which results in a lower velocity as can be seen in Eq. \ref{eq:vavePropagationVelocity}.
+    \subsection{Standing wave measurement}
     The Understanding of standing waves will offer an alternative method of  calculating the propagation speed of the waves in the cable.
-    Here follows a small introduction to the experimentally setup as well as an explanation of the wave behaviour.
-    \subsection{setup}
+    The propagation velocity of waves can be calculated via:
+    \begin{align}
+        \label{eq:velocityStanding}
+        v = f\cdot\lambda
+        \end{align}
+    with f being the frequency of the wave and $\lambda$ being the wavelength.
+    Since the frequency can be controlled with the function generator only the wavelength needs to be determined.
+    To determine the wavelength, we make use of the properties of standing waves. 
+    \subsection{Model experiment}
     The two outputs of the Generator (41-16) are connected to the two channels of the oscilloscope and using math mode internally added.
-    As shown in Appendix \ref{}, superposing two waves of the same frequency and amplitude shifted by $\pi$ results in a standing wave.
-    Depending on if the ends of...
+    As shown in Appendix \ref{}, superposing two opposing sine waves of the same frequency and amplitude results in a standing wave.
+    Since the Amplitudes of the initial waves are equal, the standing wave has nodes with amplitude zero, otherwise some amplitude always remains.
+    This behaviour was observed and an example of the visualized image can be seen in Fig \ref{fig:standingWaves}
     \begin{figure}[htbp]
         \begin{center}
-            \includegraphics[width=0.9\linewidth]{pictures/Kiessling}
-            \caption[]{Young Kiessling is not real, he cant hurt you.
-            young Kiessling:}   %Beschriftung der Graphik
-            \label{fig:fig:Kiessling}
+            \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb6_StandingWaves}
+            \caption[]{Superposition of two opposing sine waves with same frequency and amplitude. The amplitude at the nodes is $|U_1 - U_2$ which is 0 in this case.}   %Beschriftung der Graphik
+            \label{fig:standingWaves}
         \end{center}
     \end{figure}
+    \subsection{Standing waves in the coaxiall cable}
+    These waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
     
     
 \end{document}

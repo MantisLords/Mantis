@@ -4,6 +4,12 @@
 * lengthRetardation,0.48,0.04
 * peakDifferenceRetardation,0.000002080,0.000000010
 
+# tab:resistanceData
+52.1
+45.2
+44.5
+50.0
+
 # tab:standingWaveData,,,
 measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
 1,1,971.5,312,5,false,
@@ -11,16 +17,16 @@ measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
 3,1,970.9,308,5,false
 4,1,969.2,312,5,false
 5,1,972.0,312,5,false
-6,1,1960.0,560,5,true
-7,1,1964.0,600,5,true
-8,1,1965.0,600,5,true
+6,1,1952.0,560,5,true
+7,1,1955.0,600,5,true
+8,1,1954.0,600,5,true
 9,1,1956.0,560,5,true
 10,1,1950.0,560,5,true
-11,2,2947.0,680,5,false
+11,2,2949.0,680,5,false
 12,2,2953.0,680,5,false
-13,2,2930.0,680,5,false
-14,2,2943.0,640,5,false
-15,2,2958.0,720,5,false
+13,2,2958.0,680,5,false
+14,2,2953.0,640,5,false
+15,2,2960.0,680,5,false
 
 
 
