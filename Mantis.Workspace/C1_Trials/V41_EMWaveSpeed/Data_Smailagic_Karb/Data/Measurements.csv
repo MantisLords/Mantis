@@ -1,8 +1,8 @@
 ﻿* peakOneCursor ,10
 * peakTwoCursor ,40
-* peakDifference,30
-* lengthRetardation,48,4
-* peakDifferenceRetardation,20
+* peakDifference,0.000000512,0.000000003
+* lengthRetardation,0.48,0.04
+* peakDifferenceRetardation,0.000002080,0.000000010
 
 # tab:standingWaveData,,,
 measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
