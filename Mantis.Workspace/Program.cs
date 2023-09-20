@@ -9,6 +9,6 @@ using Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 
 Console.WriteLine("Hello, World!");
 
-FileManager.GlobalWorkspace = "C1_Trials\\V41_EMWaveSpeed";
+FileManager.GlobalWorkspace = "C1_Trials/V41_EMWaveSpeed/Data_Smailagic_Karb";
 V41_Main.Process();
 
