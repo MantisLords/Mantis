@@ -15,9 +15,10 @@
 \usepackage{typearea}
 \usepackage{amstex}
 \usepackage{siunitx}
-\usepackage{mathtools}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{mathtools}
+\usepackage{german}	         %ermöglicht änderung des Seitenspiegels
 
-
+\include{Generated/Preamble}
 
 \pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
 \typearea{16}                  %stellt Seitenspiegel ein
@@ -32,7 +33,7 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Betreuer: Ronny Thomale & \today\\                          %Kopfzeile - Betreuer
+            Betreuer: Lukas Elter & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Examinig Propagation Properties of Electromagnetic Waves in Coaxial Cables}  %Titel der Versuchs
@@ -200,7 +201,7 @@
     with f being the frequency of the wave and $\lambda$ being the wavelength.
     Since the frequency can be controlled with the function generator only the wavelength needs to be determined.
     To determine the wavelength, we make use of the properties of standing waves. 
-    \subsection{Model experiment}
+    \subsubsection{Model experiment}
     The two outputs of the Generator (41-16) are connected to the two channels of the oscilloscope and using math mode internally added.
     As shown in Appendix \ref{}, superposing two opposing sine waves of the same frequency and amplitude results in a standing wave.
     Since the Amplitudes of the initial waves are equal, the standing wave has nodes with amplitude zero, otherwise some amplitude always remains.
@@ -214,6 +215,25 @@
     \end{figure}
     \subsection{Standing waves in the coaxiall cable}
     These waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \tiny
+        \centering
+        \fontsize{8pt}{8pt}
+        \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccc}
+            \hline
+            \hline
+            \rule[-5pt]{0pt}{23pt}  frequency$\cdot 10^6 Hz$  & velocity$\cdot10^8 \frac{m}{s}$ & $\epsilon_R$   	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   $\frequencyFirst$ & $\vStandingFirst$ &   $\epsilonRFirst$  	 \\
+            \rule[-5pt]{0pt}{23pt}    $\frequencySecond$ & $\vStandingSecond$ &   $\epsilonRSecond$  	 \\
+            \rule[-5pt]{0pt}{23pt}   $\frequencyThird$ & $\vStandingThird$ &   $\epsilonRThird$  	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
+        \label{tab:standingWaveData}                             %siehe Graphik: zum Zitieren
+    \end{table} 
     
     
 \end{document}

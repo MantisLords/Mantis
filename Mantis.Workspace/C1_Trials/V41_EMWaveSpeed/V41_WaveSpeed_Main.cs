@@ -80,18 +80,18 @@ public static class V41_WaveSpeed_Main
 
 
        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
-       dataForTables[0].frequency.AddCommand("frequencyFirst", "Hz");
-       dataForTables[0].vStanding.AddCommand("vStandingFirst","m/s");
+       dataForTables[0].frequency.AddCommand("frequencyFirst");
+       dataForTables[0].vStanding.AddCommand("vStandingFirst");
        dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
-       dataForTables[0].damping.AddCommand("dampingFirst","dB/m");
-       dataForTables[1].frequency.AddCommand("frequencySecond", "Hz");
-       dataForTables[1].vStanding.AddCommand("vStandingSecond","m/s");
-       dataForTables[1].EpsilonR.AddCommand("epsilonRSecond","");
-       dataForTables[1].damping.AddCommand("dampingSecond","dB/m");
-       dataForTables[2].frequency.AddCommand("frequencyThird", "Hz");
-       dataForTables[2].vStanding.AddCommand("vStandingThird","m/s");
-       dataForTables[2].EpsilonR.AddCommand("epsilonRThird","");
-       dataForTables[2].damping.AddCommand("dampingThird","dB/m");
+       dataForTables[0].damping.AddCommand("dampingFirst");
+       dataForTables[1].frequency.AddCommand("frequencySecond");
+       dataForTables[1].vStanding.AddCommand("vStandingSecond");
+       dataForTables[1].EpsilonR.AddCommand("epsilonRSecond");
+       dataForTables[1].damping.AddCommand("dampingSecond");
+       dataForTables[2].frequency.AddCommand("frequencyThird");
+       dataForTables[2].vStanding.AddCommand("vStandingThird");
+       dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
+       dataForTables[2].damping.AddCommand("dampingThird");
        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
@@ -187,7 +187,7 @@ public static class V41_WaveSpeed_Main
             }
             if(nodeCount==2)
             {
-                lambda = 200/3;
+                lambda = 200.0/3.0;
             }
         }
         if(openEnd==true)
