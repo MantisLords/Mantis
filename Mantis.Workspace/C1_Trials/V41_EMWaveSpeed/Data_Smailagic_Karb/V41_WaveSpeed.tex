@@ -16,7 +16,9 @@
 \usepackage{amstex}
 \usepackage{siunitx}
 \usepackage{mathtools}
-\usepackage{german}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{german}
+\usepackage{hyperref}
+\usepackage{hhline}	         %ermöglicht änderung des Seitenspiegels
 
 \include{Generated/Preamble}
 
@@ -192,6 +194,7 @@
     For the retardation cable, the measured length was $\lengthRetardation$ which corresponds to a velocity of $\vRetRuntime$ at a frequency of f $\approx$ 4KHz.
     This can be explained by the fact that the retardation cable contains materials with high magnetic permeability $\mu_r$ compared to the $\mu_r \approx 1 $ of common coaxial cables, which results in a lower velocity as can be seen in Eq. \ref{eq:vavePropagationVelocity}.
     \subsection{Standing wave measurement}
+    \label{subsec:standingWaveMeasurement}
     The Understanding of standing waves will offer an alternative method of  calculating the propagation speed of the waves in the cable.
     The propagation velocity of waves can be calculated via:
     \begin{align}
@@ -216,13 +219,12 @@
     \subsection{Standing waves in the coaxiall cable}
     These waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
-        \tiny
         \centering
         \fontsize{8pt}{8pt}
         \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccc}
             \hline
             \hline
-            \rule[-5pt]{0pt}{23pt}  frequency$\cdot 10^6 Hz$  & velocity$\cdot10^8 \frac{m}{s}$ & $\epsilon_R$   	 \\
+            \rule[-5pt]{0pt}{23pt}  frequency$\cdot 10^6 Hz$  & velocity$\cdot10^8 \frac{m}{s}$ & $\epsilon_r$   	 \\
             \hline
             \rule[-5pt]{0pt}{23pt}   $\frequencyFirst$ & $\vStandingFirst$ &   $\epsilonRFirst$  	 \\
             \rule[-5pt]{0pt}{23pt}    $\frequencySecond$ & $\vStandingSecond$ &   $\epsilonRSecond$  	 \\
@@ -234,6 +236,38 @@
         \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
         \label{tab:standingWaveData}                             %siehe Graphik: zum Zitieren
     \end{table} 
-    
-    
+    \Section{Damping koefficient of koaxiall cables}
+    Contrary to the assumptions from section 1, physical coaxial cables do have a nonzero ohmic resistance.
+    As we have already seen in the oszillator data from Fig. 2-4, the reseistance leads to an exponential decay of the signal through the cable.
+    The amount of damping is characterised by the damping coefficient
+    \begin{align}
+       D^* = 20\cdot \frac{1}{x}\log(\frac{U_0}{U_x}) dB 
+    \end{align}
+    In this experiment we examined the frequancy dependence of the damping coefficient.
+    The setup from \ref{subsec:standingWaveMeasurement} was used to measure the minimal amplitude of the signal.
+    As we have a superposition of two waves with different amplitudes, we know that the amplitude at the nodes is | $U(0) - U(2l)$ |, and since the amplitude on the near end of the generator U(0) is known
+    we can determine U(2l) allowing us to calculate $D^*$.
+    The calculated values are given in Tab. 
+    \begin{table}
+            \centering
+            \caption{}
+            \label{tab:dampingData}
+            \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cc}
+    \hline  
+    \hline
+    \rule[-7pt]{0pt}{23pt}  frequancy & damping coefficient \\
+    \hline
+    \rule[-5pt]{0pt}{23pt}  $\frequencyFirst$ & $ \dampingFirst $ \\
+    \rule[-5pt]{0pt}{23pt}  $\frequencySecond$ & $ \dampingSecond $ \\
+    \rule[-5pt]{0pt}{23pt}  $\frequencyThird$ & $\dampingThird $ \\
+    \hline
+    \hline   
+            \end{tabular*}
+        \end{table}
+    The data shows that the frequency dependence of the damping is inversely proportional meaning that higher frequencies get damped more.
+    The cable acts as a low pass filter.
+    \section{Measurement of the speed of light}\label{sec:speedOfLihgtMeasurement
+
+    \section{Conclusion}\label{sec:Conclusion}
+
 \end{document}
