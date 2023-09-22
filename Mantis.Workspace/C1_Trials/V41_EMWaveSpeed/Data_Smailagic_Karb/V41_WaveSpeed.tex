@@ -210,7 +210,7 @@
     As shown in Appendix \ref{}, superposing two opposing sine waves of the same frequency and amplitude results in a standing wave.
     Since the Amplitudes of the initial waves are equal, the standing wave has nodes with amplitude zero, otherwise some amplitude always remains.
     This behaviour was observed and an example of the visualized image can be seen in Fig \ref{fig:standingWaves}
-    \begin{figure}[htbp]
+    \begin{figure}
         \begin{center}
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb6_StandingWaves}
             \caption[]{Superposition of two opposing sine waves with same frequency and amplitude. The amplitude at the nodes is $|U_1 - U_2$ which is 0 in this case.}   %Beschriftung der Graphik
@@ -219,6 +219,11 @@
     \end{figure}
     \subsection{Standing waves in the coaxiall cable}
     These waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
+    Depending on the resistance at the end of the cable, a node at the near end of the cable can only be created if the frequency is an integer multiple of $\frac{\lambda}{4}$.
+    For a fixed end these integers are even while for open ends they are uneven.
+    The measurements for $\frac{\lambda}{4},\frac{\lambda}{2}$ and $\frac{3\lambda}{4}$ respectively can be seen in Tab. \ref{tab:standingWaveData}.
+    Analogous to the runtime measurement, the velocities and the relative permittivities can be calculated and can be seen Tab. in \ref{tab:standingWaveData} as well.
+    
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
         \centering
         \fontsize{8pt}{8pt}
@@ -227,9 +232,9 @@
             \hline
             \rule[-5pt]{0pt}{23pt}  frequency$\cdot 10^6 Hz$  & velocity$\cdot10^8 \frac{m}{s}$ & $\epsilon_r$   	 \\
             \hline
-            \rule[-5pt]{0pt}{23pt}   $\frequencyFirst$ & $\vStandingFirst$ &   $\epsilonRFirst$  	 \\
-            \rule[-5pt]{0pt}{23pt}    $\frequencySecond$ & $\vStandingSecond$ &   $\epsilonRSecond$  	 \\
-            \rule[-5pt]{0pt}{23pt}   $\frequencyThird$ & $\vStandingThird$ &   $\epsilonRThird$  	 \\
+            \rule[-5pt]{0pt}{23pt}  \tiny $ \frequencyFirst$ & \tiny$ \vStandingFirst$ &   \tiny$ \epsilonRFirst$  	 \\
+            \rule[-5pt]{0pt}{23pt}    \tiny$\frequencySecond$ & \tiny$ \vStandingSecond$ &   \tiny$ \epsilonRSecond$  	 \\
+            \rule[-5pt]{0pt}{23pt}   \tiny$ \frequencyThird$ & \tiny$ \vStandingThird$ &   \tiny$ \epsilonRThird$  	 \\
             \hline
             \hline
         \end{tabular*}
@@ -237,14 +242,14 @@
         \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
         \label{tab:standingWaveData}                             %siehe Graphik: zum Zitieren
     \end{table} 
-    \Section{Damping koefficient of koaxiall cables}
+    \section{Damping coefficient of coaxiall cables}\label{sec:dampingCoefficient}
     Contrary to the assumptions from section 1, physical coaxial cables do have a nonzero ohmic resistance.
-    As we have already seen in the oszillator data from Fig. 2-4, the reseistance leads to an exponential decay of the signal through the cable.
+    As we have already seen in the oscillator data from Fig. 2-4, the reseistance leads to an exponential decay of the signal through the cable.
     The amount of damping is characterised by the damping coefficient
     \begin{align}
        D^* = 20\cdot \frac{1}{x}\log(\frac{U_0}{U_x}) dB 
     \end{align}
-    In this experiment we examined the frequancy dependence of the damping coefficient.
+    In this experiment we examined the frequency dependence of the damping coefficient.
     The setup from \ref{subsec:standingWaveMeasurement} was used to measure the minimal amplitude of the signal.
     As we have a superposition of two waves with different amplitudes, we know that the amplitude at the nodes is | $U(0) - U(2l)$ |, and since the amplitude on the near end of the generator U(0) is known
     we can determine U(2l) allowing us to calculate $D^*$.
@@ -256,7 +261,7 @@
             \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cc}
     \hline  
     \hline
-    \rule[-7pt]{0pt}{23pt}  frequancy & damping coefficient \\
+    \rule[-7pt]{0pt}{23pt}  frequency & damping coefficient \\
     \hline
     \rule[-5pt]{0pt}{23pt}  $\frequencyFirst$ & $ \dampingFirst $ \\
     \rule[-5pt]{0pt}{23pt}  $\frequencySecond$ & $ \dampingSecond $ \\
