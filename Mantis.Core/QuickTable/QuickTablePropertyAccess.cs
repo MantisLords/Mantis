@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Reflection;
+using Mantis.Core.Calculator;
 
 namespace Mantis.Core.QuickTable;
 
@@ -109,6 +110,12 @@ public class QuickTablePropertyAccess<T>
             if (string.IsNullOrEmpty(value))
             {
                 SetValue(ref instance,GetDefaultValue());
+                return;
+            }
+
+            if (GetType() == typeof(ErDouble))
+            {
+                SetValue(ref instance,ErDouble.ParseWithErrorLastDigit(value,null,FieldData.LastDigitError));
                 return;
             }
 

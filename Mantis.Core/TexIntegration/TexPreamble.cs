@@ -11,15 +11,13 @@ public static class TexPreamble
 
     public static List<string> Packages = new List<string>()
     {
-        "amsmath",
-        "tikz",
-        "pgfplots"
     };
 
-    public static void AddCommand(this string content,string label)
+    public static void AddCommand(this string content,string label,int arguments = 0)
     {
         ValidateCommandLabel(label);
-        PreambleWriter.Builder.AppendCommand($"newcommand{{\\{label}}}{{{content}}}");
+        string argString = arguments is > 0 and <= 9 ? "[" + arguments + ']' : "";
+        PreambleWriter.Builder.AppendCommand($"newcommand{{\\{label}}}{argString}{{{content}}}");
     }
     
     public static void AddCommandAndLog(this string content,string label)
@@ -49,6 +47,8 @@ public static class TexPreamble
     {
         StringBuilder packageBuilder = new StringBuilder();
         packageBuilder.AppendLine();
+        
+        packageBuilder.AppendCommand($"newcommand{{\\degree}}{{^\\circ}}");
 
         foreach (string package in Packages)
         {

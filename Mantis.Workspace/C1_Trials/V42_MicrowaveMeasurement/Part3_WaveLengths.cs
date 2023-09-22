@@ -15,7 +15,7 @@ public static class Part3_WaveLengths
         {
             if (_officialWaveLength == 0)
             {
-                var reader = new SimpleTableProtocolReader("WaveLengths.csv");
+                var reader = new SimpleTableProtocolReader("Part3_WaveLengths.csv");
                 _officialWaveLength = reader.ExtractSingleValue<double>("officialWaveLength");
             }
 
@@ -26,7 +26,7 @@ public static class Part3_WaveLengths
 
     public static void Process()
     {
-        var reader = new SimpleTableProtocolReader("WaveLengths.csv");
+        var reader = new SimpleTableProtocolReader("Part3_WaveLengths.csv");
 
         OfficialWaveLength = reader.ExtractSingleValue<double>("officialWaveLength");
         OfficialWaveLength.AddCommandAndLog("OfficialWaveLength","cm");
@@ -45,7 +45,7 @@ public static class Part3_WaveLengths
         var interPos1 = reader.ExtractSingleValue<ErDouble>("interPos1");
         var interPos2 = reader.ExtractSingleValue<ErDouble>("interPos2");
 
-        var interWaveLength = (interPos2 - interPos1) * 2 / interMaximaCount;
+        var interWaveLength = (interPos2 - interPos1) * 4 / interMaximaCount;
         interWaveLength.AddCommandAndLog("InterferometerWaveLength","cm");
         
 
