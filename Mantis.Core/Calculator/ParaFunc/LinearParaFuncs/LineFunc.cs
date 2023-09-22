@@ -2,6 +2,9 @@
 
 namespace Mantis.Core.Calculator;
 
+/// <summary>
+/// Linear function f(x) = A + B x
+/// </summary>
 public class LineFunc : LinearFuncCore,IFixedParameterCount
 {
     public int ParameterCount => 2;

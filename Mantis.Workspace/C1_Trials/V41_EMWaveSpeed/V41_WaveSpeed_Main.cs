@@ -42,43 +42,60 @@ public struct StandingWaveData
     public StandingWaveData(){}
 };
 
+public struct CalculatedData
+{
+    public ErDouble frequency;
+    public ErDouble EpsilonR;
+    public ErDouble vStanding;
+    public ErDouble damping;
+}
+
 public static class V41_WaveSpeed_Main
 {
     public static double frequencyError = 0.01;
     public static double voltageErrorOszi = 0.01;
+    
     public static void Process()
     {
         Console.WriteLine("Ronny");
-        var osziCsvReader = new OsziRowWiseCsvReader("Data\\F0005CH1.csv");
-        osziCsvReader.ReadFile();
-        List < OsziData > dataList= osziCsvReader.Data.ToList();
-        Console.WriteLine(dataList[0].Time);
         
-        dataList.ForEachRef(((ref OsziData data) => CalculateErrors(ref data)));
-        
-        RegModel<LineFunc> model = dataList.CreateRegModel(e => (e.Time, e.Voltage),
-            new ParaFunc<LineFunc>(2)
-            {
-                Units = new[] { "Gradient", "Voltage" }
-            }
-        );
-        model.DoLinearRegression(false);
-        model.AddParametersToPreambleAndLog("VoltagePulseLineFit");
-       ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("time in s", "Voltage in V",pixelWidth:520 * 4);
-       var (errorBar,scatterPlot,functionPlot) = plot.AddRegModel(model, "daten", "fit");
-       scatterPlot.MarkerSize = 5;
-       plot.SaveAndAddCommand("fig:VoltagePulse","caption");
-       
        var standingWaveReader = new SimpleTableProtocolReader("Data\\Measurements");
-       List<StandingWaveData> standingWaveList = InitializeErrors( standingWaveReader.ExtractTable<StandingWaveData>());
-
+       List<StandingWaveData> standingWaveList = standingWaveReader.ExtractTable<StandingWaveData>();
+       var peakDifference = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifference");
+       var peakDifferenceRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifferenceRetardation");
+       var lengthRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("lengthRetardation");
        var tempGroupedListList = standingWaveList.GroupBy(e => (e.nodeCount,e.isEndFixed)).ToList();
+       lengthRetardation.AddCommand("lengthRetardation","m");
 
        var calculatedMeanList =
            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
-       
-       calculatedMeanList
-           
+       ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
+       Console.WriteLine(v);
+       v.AddCommand("velocityRuntime","m/s");
+       Console.WriteLine("EpsilonR runtime"+CalculateEpsR(v));
+       CalculateEpsR(v).AddCommand("epsilonRRuntime","");
+       ErDouble vRet = CalculateVelocityRuntime(peakDifferenceRetardation, lengthRetardation);
+       vRet.AddCommand("vRetRuntime","m/s");
+       Console.WriteLine("Velocity retardation"+vRet);
+
+
+       List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
+       dataForTables[0].frequency.AddCommand("frequencyFirst");
+       dataForTables[0].vStanding.AddCommand("vStandingFirst");
+       dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
+       dataForTables[0].damping.AddCommand("dampingFirst");
+       dataForTables[1].frequency.AddCommand("frequencySecond");
+       dataForTables[1].vStanding.AddCommand("vStandingSecond");
+       dataForTables[1].EpsilonR.AddCommand("epsilonRSecond");
+       dataForTables[1].damping.AddCommand("dampingSecond");
+       dataForTables[2].frequency.AddCommand("frequencyThird");
+       dataForTables[2].vStanding.AddCommand("vStandingThird");
+       dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
+       dataForTables[2].damping.AddCommand("dampingThird");
+       Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
+       Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
+       Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
+
     }
 
     public static StandingWaveData CalculateDataMean(IGrouping<(int,bool),StandingWaveData> listWithSameNodeCount)
@@ -115,9 +132,9 @@ public static class V41_WaveSpeed_Main
         frequencyMean.Error = Math.Sqrt( sumForStandardDeviationFreq.Value * 1/(count-1))/Math.Sqrt(count);
         StandingWaveData newData = new StandingWaveData()
         {
-            frequency = frequencyMean,
+            frequency = frequencyMean*1000,
             incommingVoltage = incommingVMean,
-            nodeVoltage = nodeVMean,
+            nodeVoltage = nodeVMean/1000,
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
@@ -125,31 +142,9 @@ public static class V41_WaveSpeed_Main
     }
 
     
-
-    public static List<StandingWaveData> InitializeErrors(List<StandingWaveData> data)
-    {
-        StandingWaveData e = new StandingWaveData();
-        for (int i = 0; i < data.Count; i++)
-        {
-            e = data[i];
-            e.frequency = new ErDouble(e.frequency.Value, e.frequency.Value * frequencyError);
-            e.nodeVoltage = new ErDouble(e.nodeVoltage.Value, e.nodeVoltage.Value * voltageErrorOszi);
-            e.incommingVoltage = new ErDouble(e.incommingVoltage.Value, e.incommingVoltage.Value * voltageErrorOszi);
-            data[i] = e;
-        }
-
-        return data;
-    }
-
-    public static OsziData CalculateErrors(ref OsziData data)
-    {
-        double osziVoltageError = 0.01;
-        double osziTimeError = 0.01;
-        data.Voltage = new ErDouble(data.Voltage.Value, data.Voltage.Value * osziVoltageError);
-        data.Time = new ErDouble(data.Time.Value, data.Time.Value * osziTimeError);
-        return data;
-    }
-    public static ErDouble CalculateVelocityRuntime(double time, ErDouble length)
+    
+    
+    public static ErDouble CalculateVelocityRuntime(ErDouble time, ErDouble length)
     {
         return 2 * length / time;
     }
@@ -159,21 +154,45 @@ public static class V41_WaveSpeed_Main
         return (3 * Math.Pow(10, 8) / v).Pow(2);
     }
 
+    public static List<CalculatedData> CalculateValuesForTables(List<StandingWaveData> data)
+    {
+        List<CalculatedData> calculatedData = new List<CalculatedData>();
+        for (int i = 0; i < data.Count; i++)
+        {
+            var e = new CalculatedData();
+            e.frequency = data[i].frequency;
+            e.vStanding =
+                CalculateVelocityStanding(data[i].frequency, data[i].isEndFixed, data[i].nodeCount);
+            e.damping = CalculateDamping(data[i].incommingVoltage, data[i].nodeVoltage);
+            e.EpsilonR = CalculateEpsR(e.vStanding);
+            calculatedData.Add(e);
+        }
+
+        return calculatedData;
+    }
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
-        ErDouble U2l = deltaU - U0;
-        return 20 * 1 / 100 * Math.Log((U0 / U2l).Value, 10);
+        ErDouble U2l = U0 - deltaU ;
+        return  Math.Log((U0 / U2l).Value, 10)* 20 * 1 / 100;
     }
 
     public static ErDouble CalculateVelocityStanding(ErDouble f, bool openEnd, int nodeCount)
     {
-        ErDouble lambda = new ErDouble(0, 0);
-        if (openEnd)
+        ErDouble lambda = new ErDouble();
+        if (openEnd==false)
         {
-            lambda = 50 * 4/(2 * nodeCount-1);
+            if (nodeCount == 1)
+            {
+                lambda = 50 * 4;
+            }
+            if(nodeCount==2)
+            {
+                lambda = 200.0/3.0;
+            }
         }
-        else
-        { lambda = 50 * 2/nodeCount;
+        if(openEnd==true)
+        { 
+            lambda = 50 * 2;
         }
         
         return lambda*f;

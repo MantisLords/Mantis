@@ -1,8 +1,14 @@
 ﻿* peakOneCursor ,10
 * peakTwoCursor ,40
-* peakDifference,30
-* lengthRetardation,48,4
-* peakDifferenceRetardation,20
+* peakDifference,0.000000512,0.000000003
+* lengthRetardation,0.48,0.04
+* peakDifferenceRetardation,0.000002080,0.000000010
+
+# tab:resistanceData
+52.1
+45.2
+44.5
+50.0
 
 # tab:standingWaveData,,,
 measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
@@ -22,5 +28,16 @@ measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
 14,2,2943.0,640,5,false
 15,2,2958.0,720,5,false
 
+# tab:lightMeasurement
+distance,time
+3910,29
+4030,32
+4150,34
+7920,54
+8040,58
+8180,61
+11712,81
+11832,84
+11952,86
 
 
