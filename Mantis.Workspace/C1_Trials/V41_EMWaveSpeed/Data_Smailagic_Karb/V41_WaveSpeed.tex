@@ -111,7 +111,7 @@
     In this section we examine the shape of electromagnetic pulses and their reflections on resistors on the far end of the generator.
     Furthermore we examine the properties of these pulses, measuring the time it takes a signal to reflect on the far end of the cable and come back as well as creating a standing wave and counting the wavelengths in the cable to determine the propagation velocity.
     
-    \subsection{Reflected pulses}\label{subsec:wave-impedance-in-the-coax}
+    \subsection{Reflected pulses}\label{subsec:WaveProperitesInTheCoax}
     We use the setup form Fig.1 and take pictures of the voltages shown on the oscilloscope for all of the possible resistor combinations. $R_{near}, R_{far} \in \{ 0,50,\infty\} \Omega$
     As we know from analogous phenomena (ex. waves on a string), waves behave differently depending on if the end of the string is fixed or not.
     From Eq. \ref{eq:coaxRef} we know that the reflection coefficient is 0 for R = Z and 1 for $\lim_{R \to \infty}\rho$ meaning that the different resistors simulate fixed and loose ends respectively.
@@ -179,6 +179,7 @@
     The final value for the impedance of the cable is calculated as the mean of these values giving Z=
     \section{Propagation velocities of waves in coaxiall cables}
     \subsection{Runtime measurement}
+    \label{subsec:runtimeMeasurement}
     For this measurement we used the setup from Fig \ref{fig:Aufbau} with $R_{near}=50\Omega and R_{far}=\infty \Omega $.
     The open end was used to reflect a signal and measure the time it takes the signal to travel the length of the cable two times.
     The time difference was measured with the cursors of the oszilloscope.
@@ -266,8 +267,31 @@
         \end{table}
     The data shows that the frequency dependence of the damping is inversely proportional meaning that higher frequencies get damped more.
     The cable acts as a low pass filter.
-    \section{Measurement of the speed of light}\label{sec:speedOfLihgtMeasurement
-
+    \section{Measurement of the speed of light}
+    \label{sec:speedOfLightMeasurement}
+    In this experiment the speed of light was to be determined using a special LED connected to an oscilloscope.
+    The 20ns wide light pulses were reflected of a mirror placed at a known distance from the diode and the time it took it to travel the disctance was measured.
+    From a total of 9 different measured distances, the speed of light was calculated to:
+    \begin{align}
+        c = \SpeedOfLight \frac{m}{s}
+    \end{align}
+    The obtained value coincides with the literature value\footnote{$c=2.99742458\cdot10^8 \frac{m}{s} $ 2018 CODATA} within one percent which was expected since air has a small refractive index.
+    The uncertainty is largely due to the uncertainty in the time measurement since the significant raise in signal from the noise was decided subjectively.
+    
     \section{Conclusion}\label{sec:Conclusion}
-
+    In this paper we examined the behaviour of electromagnetic waves in coaxiall cables.
+    Analogous to reflection phenomena of waves on a string, we were able to recreate open/fixed ends with different resistors at the far end of the cable.
+    The observed behaviour in the cable was in very good agreement with the theory from \ref{subsec:WaveProperitesInTheCoax}.
+    The wave impedance of the cable was calculate using the method of vanishing reflection.
+    The obtained value of Z=\ref{} is not in agreement with the factory specification of the cable which is due to the internal construction of the used resistors for some of whom Eq. \ref{eq:coaxRef} probably does not hold.
+    Calculating the damping coefficient was done using standing by measuring the amplitude of the node at the near end of the cable.
+    This was done for different frequencies allowing the trend of increase with frequency to be observed.
+    The propagation velocity of the signals through the cable was measured using two different methods. 
+    The runtime measurement from \ref{subsec:runtimeMeasurement} and the standing wave measurement from \ref{subsec:standingWaveMeasurement} show great agreement within the error bars.
+    The standing wave measurement also allowed a dispersion relation to be observed, since an increase in propagation velocity with frequency is obvious.
+    From calculating the relative permittivity data we assume the dielectric to be polyethylene which would be consistent with specifications of most coaxial cables.
+    Afterwards, the speed of light in air was measured using equipment detailed in \ref{sec:speedOfLightMeasurement}.
+    The obtained value was in great agreement with literature.
+    \section{References}\label{sec:references}
+    
 \end{document}
