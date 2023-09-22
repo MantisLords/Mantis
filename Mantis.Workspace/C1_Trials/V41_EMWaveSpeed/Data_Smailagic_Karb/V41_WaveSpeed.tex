@@ -16,7 +16,6 @@
 \usepackage{amstex}
 \usepackage{siunitx}
 \usepackage{mathtools}
-\usepackage{german}
 \usepackage{hyperref}
 \usepackage{hhline}	         %ermöglicht änderung des Seitenspiegels
 
@@ -44,8 +43,16 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        This is very abstracvt.
-        In fact it is so abstract, that I am scared.
+        We examined the behaviour of electromagnetic waves inside coaxial cables by simuating different border conditions e.g. fixed/open ends with different resisitors.
+        The overall findings were in very good agreement with theory allowing us to measure the wave impedance of the used cable by method of impedance matching.
+        The propagation velocities of these waves were measured using the time it took the signal to reach the end of the cable and come back, as well as creating standing waves
+        inside the cable and measuring their wavelenght and frequency.
+        The approach using standing waves allowed for measurement of the amplitude at the nodes which in turn could be used to determine the damping coefficient of the 
+        used cable.
+        The propagation velocity shows a nonlinear dispersion relation as an increase with frequency was observed.
+        This was also visible from the calculated relative permitivities.
+        Lastly, the speed of light in air was measured with a runtime measurement similiar to the one in the coaxial cable.
+        The obtained value for the speed of light coincides with the literature value within 1\%.
         \\
         Measuerement made: 19. September 2023\\       %Datum ändern!
         Submitted: 26. September 2023                %Datum ändern!
@@ -53,14 +60,13 @@
         \\
     \end{abstract}
     }]
-    \section{Introduction}
+    \section{Introduction}\label{sec:introduction}
     Transmitting signals without losses is very important in all branches of everyday life.
     Thus, a better understanding of the established methods of conductance is a must.
     A commonly used mean of signal transmission is the coaxial cable, which is easy to manufacture and due to its construction minimizes energy loss and environmental interference.
     It can be found everywhere, form telephone lines through cable television signals to broadband internet.
     In this paper, we want to examine the propagation properies of singlas - electromagnetic waves, through these cables.
-    \section{Theory}
-    \subsection{Wave propagation in cables - The coaxial cable}
+    \section{Wave propagation in cables - The coaxial cable}
     Coaxial cables are a type of electrical cable consisting of an inner conductor surrounded by a cylindrical conducting shield(usually copper) seperated by a dielectric. In an ideal coaxial
     cable the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses making it superior to conventional
     transmission lines. 
@@ -99,11 +105,12 @@
     \end{align}
     where $R$ is a resistor at the end of the cable.
     \section{Experiment and setup}
-    The broad experimental setup can be seen in Fig.1 
+    The broad experimental setup can be seen in Fig.1. What is not visible from the picture is the internal resistance of the pulse generator, which was also varied during the measurements.
+    This setup was used for all following experiments if not stated otherwise.
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[width=0.9\linewidth]{pictures/Abb2_Versuchsaufbau1}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{Sed fermentum vestibulum wisi. Nunc dictum ligula at ipsum. Integer vulputate elit sed enim. Sed pede dolor, convallis quis, rhoncus ut, aliquet ut, urna.}   %Beschriftung der Graphik
+            \caption[]{The experimentall setup showing the pulse generator used to trigger the oscilloscope externally as well as the coaxiall cable whose near end is at marked with the red circle and far end at the resistor $R_{far}$}   %Beschriftung der Graphik
             \label{fig:Aufbau}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
@@ -126,9 +133,11 @@
             \label{fig:NoResistorFarEnd}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
-    \textit{The figure does not show that due to damping effects. The general trend however is still visible. Some deformation can also be seen, that can be explained by taking the capacitance and inductance of the used cables into account}
+    The doubling in amplitude can not be exactly seen due to damping inside of the cable which follows an exponential decay.
+    Nevertheless, comparing to Fig. \ref{fig:VanishingReflectionFarEnd} it is clear that the amplitude is certainly not just the incoming one.
+    The small deformations in signal which can be seen in all following measurements, can be explained by taking the nonzero capacitance and inductance of the cable into account. 
     
-    Now we use the short circuit plug at the generator far end and expect From Eq. \ref{eq:coaxRef} a reflection coefficient of -1 and a vanishing amplitude at the generator far end.
+    Now we use the short circuit plug at the generator far end and expect From Eq. \ref{eq:coaxRef} a reflection coefficient of $\rho = -1 $ and a vanishing amplitude at the generator far end.
     This is analogous to a fixed end which forces a node.
     This is shown in \ref{fig:ShortCircuitFarEnd}, with the damped amplitude.
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
@@ -149,10 +158,7 @@
             \label{fig:VanishingReflectionFarEnd}                                      
         \end{center}
     \end{figure}
-    
-    noch zu R_{near}
     \subsection{Wave impedance in coaxial cables}
-    
     As mentioned before, Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly R=Z, and since we want to measure the impedance of the cable ourselves, we vary $R_{far}$ until the reflected pulse is minimal and measure the resistance of $R_{far}$ afterwards.
     Since $R_{near}$ is not important for this measurement, we set it to $R_{near}=50\Omega $ as this would also minimize unwanted reflections.
     This was done for 4 different types of resistors, and the results are given in Tab. \ref{tab:impedance}
@@ -163,7 +169,7 @@
             \hline
             \rule[-7pt]{0pt}{23pt}  resistor  &  resistance $R(\rho=0)$ [\si\ohm]  	 \\
             \hline
-            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $55,2 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $45,2 \pm 1,1$  	 \\
             \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $44,5 \pm 1,0$  	 \\
             \rule[-5pt]{0pt}{23pt}   resistance decade   &   $50,0 \pm 1,1$  	 \\
             \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $52,1 \pm 1,1$  	 \\
@@ -213,24 +219,25 @@
     \begin{figure}
         \begin{center}
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb6_StandingWaves}
-            \caption[]{Superposition of two opposing sine waves with same frequency and amplitude. The amplitude at the nodes is $|U_1 - U_2$ which is 0 in this case.}   %Beschriftung der Graphik
+            \caption[]{Superposition of two opposing sine waves with same frequency and amplitude. The amplitude at the nodes is $|U_1 - U_2|$ which is 0 in this case.}   %Beschriftung der Graphik
             \label{fig:standingWaves}
         \end{center}
     \end{figure}
     \subsection{Standing waves in the coaxiall cable}
+    \label{subsec:standingWavesCoax}
     These waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
     Depending on the resistance at the end of the cable, a node at the near end of the cable can only be created if the frequency is an integer multiple of $\frac{\lambda}{4}$.
     For a fixed end these integers are even while for open ends they are uneven.
     The measurements for $\frac{\lambda}{4},\frac{\lambda}{2}$ and $\frac{3\lambda}{4}$ respectively can be seen in Tab. \ref{tab:standingWaveData}.
     Analogous to the runtime measurement, the velocities and the relative permittivities can be calculated and can be seen Tab. in \ref{tab:standingWaveData} as well.
-    
+    As can be seen from the data, the velocity depends on the frequency of the pulse.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
         \centering
         \fontsize{8pt}{8pt}
         \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccc}
             \hline
             \hline
-            \rule[-5pt]{0pt}{23pt}  frequency$\cdot 10^6 Hz$  & velocity$\cdot10^8 \frac{m}{s}$ & $\epsilon_r$   	 \\
+            \rule[-5pt]{0pt}{23pt}  frequency [Hz]  & velocity$ \frac{m}{s}$ & $\epsilon_r$   	 \\
             \hline
             \rule[-5pt]{0pt}{23pt}  \tiny $ \frequencyFirst$ & \tiny$ \vStandingFirst$ &   \tiny$ \epsilonRFirst$  	 \\
             \rule[-5pt]{0pt}{23pt}    \tiny$\frequencySecond$ & \tiny$ \vStandingSecond$ &   \tiny$ \epsilonRSecond$  	 \\
@@ -238,13 +245,13 @@
             \hline
             \hline
         \end{tabular*}
-        \normalsize
-        \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
+        \caption[]{Calculated values for propagation velocity and relative permittivity obtained by measuring the wavelegth of standing waves inside a coaxiall cable}  %siehe Graphik: Beschriftung
         \label{tab:standingWaveData}                             %siehe Graphik: zum Zitieren
     \end{table} 
+    
     \section{Damping coefficient of coaxiall cables}\label{sec:dampingCoefficient}
     Contrary to the assumptions from section 1, physical coaxial cables do have a nonzero ohmic resistance.
-    As we have already seen in the oscillator data from Fig. 2-4, the reseistance leads to an exponential decay of the signal through the cable.
+    As we have already seen in the oscillator data from Fig. 2-4, the resistance leads to an exponential decay of the signal through the cable.
     The amount of damping is characterised by the damping coefficient
     \begin{align}
        D^* = 20\cdot \frac{1}{x}\log(\frac{U_0}{U_x}) dB 
@@ -253,7 +260,7 @@
     The setup from \ref{subsec:standingWaveMeasurement} was used to measure the minimal amplitude of the signal.
     As we have a superposition of two waves with different amplitudes, we know that the amplitude at the nodes is | $U(0) - U(2l)$ |, and since the amplitude on the near end of the generator U(0) is known
     we can determine U(2l) allowing us to calculate $D^*$.
-    The calculated values are given in Tab. 
+    The calculated values are given in Tab. \ref{tab:dampingData}
     \begin{table}
             \centering
             \caption{}
@@ -275,7 +282,7 @@
     \section{Measurement of the speed of light}
     \label{sec:speedOfLightMeasurement}
     In this experiment the speed of light was to be determined using a special LED connected to an oscilloscope.
-    The 20ns wide light pulses were reflected of a mirror placed at a known distance from the diode and the time it took it to travel the disctance was measured.
+    The 20ns wide light pulses were reflected of a mirror placed at a known distance from the diode and the time it took it to travel the distance was measured.
     From a total of 9 different measured distances, the speed of light was calculated to:
     \begin{align}
         c = \SpeedOfLight \frac{m}{s}
@@ -284,7 +291,7 @@
     The uncertainty is largely due to the uncertainty in the time measurement since the significant raise in signal from the noise was decided subjectively.
     
     \section{Conclusion}\label{sec:Conclusion}
-    In this paper we examined the behaviour of electromagnetic waves in coaxiall cables.
+    In this paper we examined the behaviour of electromagnetic waves in coaxial cables.
     Analogous to reflection phenomena of waves on a string, we were able to recreate open/fixed ends with different resistors at the far end of the cable.
     The observed behaviour in the cable was in very good agreement with the theory from \ref{subsec:WaveProperitesInTheCoax}.
     The wave impedance of the cable was calculate using the method of vanishing reflection.
@@ -297,6 +304,58 @@
     From calculating the relative permittivity data we assume the dielectric to be polyethylene which would be consistent with specifications of most coaxial cables.
     Afterwards, the speed of light in air was measured using equipment detailed in \ref{sec:speedOfLightMeasurement}.
     The obtained value was in great agreement with literature.
-    \section{References}\label{sec:references}
-    
+    \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C2, Versuch 41, \grqq Messung der Ausbreitungsgeschwindigkeit
+        von elektromagnetischen Wellen auf Kabeln\grqq, 2021
+        \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
+        \bibitem{codata} E. Tiesinga \textit{et al.}, \grqq CODATA
+        recommended values of the fundamental physical constants: 2018\grqq, Rev. Mod. Phys. 93, 025010 (2021)
+        
+    \end{thebibliography}
+    \newpage
+    \section{Appendix - Exercises from the instruction}\label{sec:appendix}
+    \subsubsection{Numerical example of wave propagation in a cable}
+    In this section we will look at a $50\,\si{\m}$ coaxial cable with a capacitance of $C^*=100\,\frac{\si{\pF}}{\si{\m}}$ and an inductance of $L^*=15\cdot 10^{-8}\,\frac{\si{\H}}{\si{\m}}$, where the outer diameter is linked to the inner diameter by $d_a=3d_i$.
+    \\\\Following the equations in the instructions \cite{instr}, we find for the time it takes a signal to travel through our cable
+    \begin{align*}
+        \Delta t=\frac{\Delta x}{v}=\sqrt{L^*C^*}\Delta x = 0,25\,\si{\ms}.
+    \end{align*}
+    For the relative permittivity we find
+    \begin{align*}
+        \epsilon_r=L^*C^*c^2= 2,25.
+    \end{align*}
+    With this result and the assumption that $\mu_r=1$, we can calculate the characteristic impedance
+    \begin{align*}
+        Z=\sqrt{\frac{\mu_r}{\epsilon_r}\frac{\mu_0}{\epsilon_0}}\frac{1}{2\pi}\ln{\frac{d_a}{d_i}}=44,0\,\si{\Omega}
+    \end{align*}
+    and solving the same equation for $\frac{d_a}{d_i}$ to produce a cable with an impedance of $Z=50\,\si{\Omega}$ results in
+    \begin{align*}
+        \frac{d_a}{d_i}\big( Z=50\,\si{\Omega} \big ) = 3,54.
+    \end{align*}
+    \subsubsection{Mathematical description of waves}
+    The most simple form of a wave is the monochromatic harmonic real valued wave given by
+    \begin{align}\label{eq:simplewave}
+    y(x,t)=a\cdot\sin{2\pi\nu\Big(t-\frac{x}{c}\Big)}.
+    \end{align}
+    The wavelength $\lambda$ is defined as the smallest length satisfying $y(x,t)={y(x+\lambda,t), \forall x,t}$. Plugging this into the wave equation results in the important relation
+    \begin{align*}
+        c=\lambda\nu,
+    \end{align*}
+    where c is the propagation velocity of the wave.
+    \\\\Adding up two waves of the form in eq.~(\ref{eq:simplewave}), we can first look at the special case where the amplitudes $a_1=a_2=:a$ are the same and only the frequencies differ
+    \begin{align}
+        y&=y_1+y_2 \nonumber\\&=2a\cos{\Big(2\pi\nu^*\big(t-\frac{x}{c}\big)\Big)}\sin{\Big(2\pi\nu\big(t-\frac{x}{c}\big)\Big)}
+        \label{eq:superpos_freq}
+    \end{align}
+    with $\nu^*:=\frac{\nu_2-\nu_1}{2}$ and $\nu:=\frac{\nu_2+\nu_1}{2}$. This describes a wave with amplitude $2a$, frequency $\nu$ and an envelope of the frequency $\nu^*$, where at the nodes of the envelope, the amplitude vanishes completely. Considering the superposition of two waves of the form in eq. \ref{eq:simplewave} with the same frequency $\nu$ but different amplitudes $a_1$ and $a_2$, we find
+    \begin{align}
+        y&=y_1+y_2\nonumber\\&=(a_1+a_2)\cos{(kx)}\sin{(\omega t)}\nonumber\\&+ (a_1-a_2)\sin{(kx)}\cos{(\omega t)}
+        \label{eq:superpos_amp}
+    \end{align}
+    where $k=\frac{2\pi\nu}{c}$ and $\omega=2\pi\nu$. This is a superposition of standing waves with amplitudes $a_1+a_2$ and $|a_1-a_2|$ and a separation in phase of $\frac{\pi}{2}$. Thus, the envelope oscillates between the amplitudes $a_1+a_2$ and $|a_1-a_2|$.\\
+    Up to this point, we only considered waves with a linear dispersion and thus constant propagation speed. But in general, the propagation velocity is a function of wavelength $c=c(\lambda)$. Implementing different velocities $c_1=c(\lambda_1)$ and $c_2=c(\lambda_2)$ in eq.~\ref{eq:superpos_freq} and replacing $c_2=c_1-\Delta c$ as well as $\lambda_2=\lambda_1-\Delta\lambda$, where we look at the case of very similar propagation media such that $\Delta\lambda \ll \lambda_1$ and $\Delta c \ll c_1$, we find
+    \begin{align}
+        y=&2a\cos{\Big(\pi\frac{(\lambda_1\Delta c - \Delta\lambda c_1)\cdot t + \Delta\lambda\cdot x}{\lambda_1^2}\Big)}\nonumber\\&\cdot\sin{\Big(2\pi\frac{c_1\cdot t - x}{\lambda_1}\Big)}.
+    \end{align}
+    To compare this result with eq.~\ref{eq:superpos_freq}, we can take the limit $\Delta c \to 0$ and approximate $\lambda_1\lambda_2\approx\lambda_1^2$. Inserting $\nu_i=\frac{c_1}{\lambda_i}$, we receive exactly eq.~\ref{eq:superpos_freq}.
 \end{document}
