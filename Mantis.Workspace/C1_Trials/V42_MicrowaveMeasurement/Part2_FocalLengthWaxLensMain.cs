@@ -83,7 +83,7 @@ public static class Part2_FocalLengthWaxLensMain
         
         var plt = ScottPlotExtensions.CreateSciPlot("Image distance b in cm", "voltage U in V");
 
-        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Received Signal", "Fit normal distribution");
+        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Measured signal", "Gauss-fit",errorBars:false);
         scatterPlot.LineStyle = LineStyle.Solid;
         scatterPlot.LineWidth = 0.75;
         scatterPlot.LineColor = plt.Palette.GetColor(2);
@@ -95,7 +95,7 @@ public static class Part2_FocalLengthWaxLensMain
         vLine.PositionLabelOppositeAxis = true;
         vLine.PositionLabelBackground = vLine.Color;
 
-        plt.Legend(false, Alignment.UpperLeft);
+        plt.Legend(true, Alignment.UpperLeft);
         
         plt.SaveAndAddCommand("fig:imageDistance");
 

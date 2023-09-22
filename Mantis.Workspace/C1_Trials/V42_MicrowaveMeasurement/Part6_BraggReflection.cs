@@ -55,7 +55,7 @@ public static class Part6_BraggReflection
 
         var plt = ScottPlotExtensions.CreateSciPlot("Angle in °", "Voltage in V");
 
-        var (_,scatterPlot) =plt.AddErrorBars(dataSet,label:"Bragg Reflection "+cristalDir);
+        var (_,scatterPlot) =plt.AddErrorBars(dataSet,label:"Bragg diffraction "+cristalDir);
         scatterPlot.LineStyle = LineStyle.Solid;
 
         var vLine = plt.AddVerticalLine(maximumAngle.Value,style:LineStyle.Dash);
@@ -65,7 +65,7 @@ public static class Part6_BraggReflection
 
         plt.Legend(true, Alignment.UpperRight);
 
-        plt.SaveAndAddCommand("fig_BraggReflection" + cristalDirTex);
+        plt.SaveAndAddCommand("fig:BraggReflection" + cristalDirTex);
 
 
     }
