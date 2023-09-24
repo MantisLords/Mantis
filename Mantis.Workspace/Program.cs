@@ -7,11 +7,12 @@ using Mantis.Workspace.BasicTests;
 using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 using Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 
+using Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 
 Console.WriteLine("Hello, World!");
 
-FileManager.GlobalWorkspace = "C1_Trials/V41_EMWaveSpeed/Data_Smailagic_Karb";
-V41_Main.Process();
+FileManager.GlobalWorkspace = "C1_Trials/V31_RealGasStateVariables/Data_Smailagic_Karb/Data";
+V31_Main.Process();
 
 
 
