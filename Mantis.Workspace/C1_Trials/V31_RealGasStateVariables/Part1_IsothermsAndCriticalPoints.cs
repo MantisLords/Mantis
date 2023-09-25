@@ -9,6 +9,7 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
+using MathNet.Numerics.Interpolation;
 using ScottPlot;
 using ScottPlot.Plottable;
 
@@ -37,57 +38,80 @@ public static class Part1_IsothermsAndCriticalPoints
     {
         var csvReader1 = new SimpleTableProtocolReader("ChamberDataTemp1.csv");
         List<VolumePressureData> dataListTemp1 = csvReader1.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp1.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader2 = new SimpleTableProtocolReader("ChamberDataTemp2.csv");
         List<VolumePressureData> dataListTemp2 = csvReader2.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp2.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader3 = new SimpleTableProtocolReader("ChamberDataTemp3.csv");
         List<VolumePressureData> dataListTemp3 = csvReader3.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp3.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader4 = new SimpleTableProtocolReader("ChamberDataTemp4.csv");
         List<VolumePressureData> dataListTemp4 = csvReader4.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp4.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader5 = new SimpleTableProtocolReader("ChamberDataTemp5.csv");
         List<VolumePressureData> dataListTemp5 = csvReader5.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp5.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader6 = new SimpleTableProtocolReader("ChamberDataTemp6.csv");
         List<VolumePressureData> dataListTemp6 = csvReader6.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp6.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader7 = new SimpleTableProtocolReader("ChamberDataTemp7.csv");
         List<VolumePressureData> dataListTemp7 = csvReader7.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp7.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader8 = new SimpleTableProtocolReader("ChamberDataTemp8.csv");
         List<VolumePressureData> dataListTemp8 = csvReader8.ExtractTable<VolumePressureData>("tab:ChamberData");
-        
+        dataListTemp8.ForEachRef((ref VolumePressureData data) =>
+        {
+            data.pressure.Error = 0.1;
+            data.volume.Error = 0.02;
+        });
         var csvReader9 = new SimpleTableProtocolReader("ChamberDataTemp9.csv");
         List<VolumePressureData> dataListTemp9 = csvReader9.ExtractTable<VolumePressureData>("tab:ChamberData");
-
-        double[] fehlerArray = new[]
+        dataListTemp9.ForEachRef((ref VolumePressureData data) =>
         {
-            0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
-            0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02
-        };
-
+            data.pressure.Error = 0.5;
+            data.volume.Error = 0.02;
+        });
+        
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
-        plot.AddScatter(dataListTemp1.Select(e => e.volume.Value).ToArray(),
-            dataListTemp1.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp2.Select(e => e.volume.Value).ToArray(),
-            dataListTemp2.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp3.Select(e => e.volume.Value).ToArray(),
-            dataListTemp3.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp4.Select(e => e.volume.Value).ToArray(),
-            dataListTemp4.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp5.Select(e => e.volume.Value).ToArray(),
-            dataListTemp5.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp6.Select(e => e.volume.Value).ToArray(),
-            dataListTemp6.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp7.Select(e => e.volume.Value).ToArray(),
-            dataListTemp7.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp8.Select(e => e.volume.Value).ToArray(),
-            dataListTemp8.Select(e => e.pressure.Value).ToArray());
-        plot.AddErrorBars(dataListTemp9.Select(e => e.volume.Value).ToArray(),
-            dataListTemp9.Select(e => e.pressure.Value).ToArray());
-
+        plot.Palette = Palette.Category20;
+        plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)));
+        
         List<VolumePressureData> dataForFit = new List<VolumePressureData>();
         CalculateMaxwellLine(dataListTemp1,plot,0.2,0.3,dataForFit);
         CalculateMaxwellLine(dataListTemp2,plot,0.2,0.3,dataForFit);
@@ -96,18 +120,13 @@ public static class Part1_IsothermsAndCriticalPoints
         CalculateMaxwellLine(dataListTemp5,plot,0.1,0.35,dataForFit);
         
         //CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit);
-        //fitting a polynomial to the data
-        RegModel<PolynomialFunc> model = dataForFit.CreateRegModel(e => (e.volume, e.pressure),
-            new ParaFunc<PolynomialFunc>(9)
-            {
-                Units = new[] { "", "", "", "","","","","","" }
-            }
-        );
+        var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
+        plot.AddFunction(x => spline.Interpolate(x),Color.Black);
+        Console.WriteLine("extrema" + spline.Extrema());
+        Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
         
-        model.DoRegressionLevenbergMarquardt(new double[] { 1, 1, 1, 1 ,1,1,1,1,1}, false);
-        model.AddParametersToPreambleAndLog("dataFit");
         
-        plot.AddRegModel(model, "data", "fitted function");
+        //plot.AddRegModel(model, "data", "fitted function");
         plot.SaveAndAddCommand("fig:plot","caption");
 
         List<TemperaturePressureData> temperaturePressureForLogPlot = new List<TemperaturePressureData>();
@@ -129,7 +148,7 @@ public static class Part1_IsothermsAndCriticalPoints
 
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
 
-
+        
 
 
     }

@@ -90,6 +90,6 @@ public static class Sheet4_Regression1_Main
 
     public static void CalculateLog(ref BaDecayData e)
     {
-        e.LogDecayCount = ErDouble.Log(e.DecayCount) ;
+        e.LogDecayCount = ErDouble.Log(e.DecayCount,Math.E) ;
     }
 }

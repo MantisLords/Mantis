@@ -78,7 +78,7 @@ public static class Sheet7_NonLinearRegression_Main
     private static void SetErrorAndCalcLog(ref RadioDecayData e)
     {
         e.DecayCount.Error = Math.Sqrt(e.DecayCount.Value);
-        e.LogDecayCount = ErDouble.Log(e.DecayCount);
+        e.LogDecayCount = ErDouble.Log(e.DecayCount,Math.E);
     }
 
 

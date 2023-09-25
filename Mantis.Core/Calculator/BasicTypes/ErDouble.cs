@@ -78,9 +78,9 @@ public struct ErDouble : INumber<ErDouble>
     /// <summary>
     /// Returns the natural log of the "argument"
     /// </summary>
-    public static ErDouble Log(ErDouble argument)
+    public static ErDouble Log(ErDouble argument,double basis)
     {
-        ErDouble res = Math.Log(argument.Value);
+        ErDouble res = Math.Log(argument.Value,basis);
         res.Error = argument.RelEr;
         return res;
     }

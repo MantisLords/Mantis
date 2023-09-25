@@ -95,7 +95,7 @@ public static class V41_WaveSpeed_Main
        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
-
+    CalculateResistanceMean();
     }
 
     public static StandingWaveData CalculateDataMean(IGrouping<(int,bool),StandingWaveData> listWithSameNodeCount)
@@ -173,7 +173,7 @@ public static class V41_WaveSpeed_Main
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
         ErDouble U2l = U0 - deltaU ;
-        return  Math.Log((U0 / U2l).Value, 10)* 20 * 1 / 100;
+        return ErDouble.Log((U0 / U2l), 10) * 20.0 / 100.0;
     }
 
     public static ErDouble CalculateVelocityStanding(ErDouble f, bool openEnd, int nodeCount)
@@ -196,5 +196,26 @@ public static class V41_WaveSpeed_Main
         }
         
         return lambda*f;
+    }
+
+    public static void CalculateResistanceMean()
+    {
+        double sum = 0;
+        int count = 0;
+        List<ErDouble> list = new List<ErDouble>(){52.1, 45.2, 44.5, 50.0};
+        for (int i = 0; i < list.Count; i++)
+        {
+            sum += list[i].Value;
+            count++;
+        }
+
+        ErDouble mean = sum / count;
+        ErDouble sumformean=0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            sumformean += (list[i].Value - mean)*(list[i].Value-mean);
+        }
+        mean.Error = Math.Sqrt((1/(double)(count-1)) * sumformean.Value)/Math.Sqrt(count);
+        mean.AddCommand("resistanceMean","Ohm");
     }
 }
