@@ -16,28 +16,40 @@ namespace Mantis.Core.ScottPlotUtility;
 public static class ScottPlotExtensions
 {
     public static (ErrorBar,ScatterPlot) AddErrorBars(this ScottPlot.Plot plt, Calculator.DataSet dataSet,Color? color = null,
-        float markerSize = 7F, string label = "",bool logY = false,bool logX = false)
+        float markerSize = 4F, string label = "",bool logY = false,bool logX = false,bool errorBars = true)
     {
         var (xs, xErP, xErN) = ConvertDataPoints(dataSet.XValues, dataSet.XErrors, logX);
         var (ys, yErP, yErN) = ConvertDataPoints(dataSet.YValues, dataSet.YErrors, logY);
 
         var scatter = plt.AddScatter(xs, ys, color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
+        scatter.MarkerShape = MarkerShape.eks;
         
-        var errorBar = plt.AddErrorBars(xs, ys, xErP,xErN,yErP,yErN, scatter.Color, 0f);
-        errorBar.LineWidth = 1.5f;
-        
+
+        ErrorBar errorBar = null;
+        if (errorBars)
+        {
+            errorBar = plt.AddErrorBars(xs, ys, xErP, xErN, yErP, yErN, scatter.Color, 0f);
+            errorBar.LineWidth = 0.75f;
+        }
+
         return (errorBar,scatter);
     }
 
     public static (ErrorBar,ScatterPlot) AddErrorBars(this Plot plt, IEnumerable<(ErDouble, ErDouble)> data,
-        Color? color = null, float markerSize = 7F,string label = "",bool logY = false,bool logX = false)
+        Color? color = null, float markerSize = 4F,string label = "",bool logY = false,bool logX = false,bool errorBars = true)
     {
         var (xs, xErP, xErN) = ConvertDataPoints(data.Select(e => e.Item1.Value), data.Select(e => e.Item1.Error), logX);
         var (ys, yErP, yErN) = ConvertDataPoints(data.Select(e => e.Item2.Value), data.Select(e => e.Item2.Error), logY);
 
-        var errorBar = plt.AddErrorBars(xs, ys,xErP,xErN,yErP,yErN, color, 0f);
-        errorBar.LineWidth = 1.5f;
-        var scatter = plt.AddScatter(xs, ys, errorBar.Color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
+        var scatter = plt.AddScatter(xs, ys,color:color, markerSize: markerSize, lineStyle: LineStyle.None, label: label);
+        scatter.MarkerShape = MarkerShape.eks;
+        ErrorBar errorBar = null;
+        if (errorBars)
+        {
+            errorBar = plt.AddErrorBars(xs, ys, xErP, xErN, yErP, yErN, scatter.Color, 0f);
+            errorBar.LineWidth = 0.75f;
+        }
+
         return (errorBar,scatter);
     }
 
@@ -89,33 +101,41 @@ public static class ScottPlotExtensions
     }
 
     public static (ErrorBar,ScatterPlot, FunctionPlot) AddRegModel<T>(this Plot plt, RegModel<T> model, string labelData = "",
-        string labelFunction = "",bool logX = false,bool logY = false)
+        string labelFunction = "",bool logX = false,bool logY = false,bool errorBars = true)
         where T : FuncCore, new()
     {
-        var (graphErrors,scatterPlot) = plt.AddErrorBars(model.Data, label: labelData,logX:logX,logY:logY);
+        var (graphErrors,scatterPlot) = plt.AddErrorBars(model.Data, label: labelData,logX:logX,logY:logY,errorBars:errorBars);
         var graphFunction = plt.AddFunction(model.ParaFunction, label: labelFunction,logX:logX,logY:logY);
         return (graphErrors,scatterPlot, graphFunction);
     }
 
-    public static void SaveAndAddCommand(this Plot plt,string label,string caption,double scale = 4)
+    public static void SaveAndAddCommand(this Plot plt,string label,string? caption = null,double scale = 4)
     {
+        int argumentCount = 0;
+        
         string path = label.Replace(':', '_').Replace(' ', '_');
         string commandLabel = path.Replace("_", null);
         plt.SaveFigHere(path, scale: scale);
 
         StringBuilder builder = new StringBuilder();
-        builder.AppendCommand("begin{figure}[h]");
-        
-        builder.AppendCommand($"includegraphics[width = \\textwidth]{{{FileManager.GetRelativeCurrentOutputDir(true) +  path}}}");
-        builder.AppendCommand("centering");
+        builder.AppendCommand("begin{figure}[htbp]");
+        builder.AppendBegin("center");        
+        builder.AppendCommand($"includegraphics[width = 0.9\\linewidth]{{{FileManager.GetRelativeCurrentOutputDir(true) +  path}}}");
+
         if(!string.IsNullOrEmpty(caption))
             builder.AppendCaption(caption);
-        
+        else
+        {
+            argumentCount++;
+            builder.AppendCaption("#"+argumentCount);
+        }
+
         builder.AppendLabel(label);
+        builder.AppendEnd("center");
         
         builder.AppendEnd("figure");
         
-        TexPreamble.AddCommand(builder.ToString(),commandLabel);
+        TexPreamble.AddCommand(builder.ToString(),commandLabel,argumentCount);
     }
 
     public static string SaveFigHere(this Plot plt,string filePath,
@@ -127,8 +147,9 @@ public static class ScottPlotExtensions
         return plt.SaveFig(path, width, height, lowQuality, scale);
     }
 
+    // pixelWidth = 520
     public static Plot CreateSciPlot(string xLabel, string yLabel, string title = "", double relHeight = 0.75,
-        int pixelWidth = 520)
+        int pixelWidth = 438)
     {
         var plt = new Plot(pixelWidth,(int)(pixelWidth * relHeight ));
         plt.ConfigureToSciStyle(xLabel,yLabel,title);
@@ -137,14 +158,22 @@ public static class ScottPlotExtensions
 
     public static void ConfigureToSciStyle(this Plot plt,string xLabel,string yLabel,string title = "")
     {
-        plt.Palette = Palette.Microcharts;
+        string[] customColors = {"#000000","#d63638","#135e96","#005c12"};
+
+        // create a custom palette and set it in the plot module
+        plt.Palette = ScottPlot.Palette.FromHtmlColors(customColors);
+        //plt.Palette = Palette.Microcharts;
+        
         //Console.WriteLine(ScottPlot.Drawing.InstalledFont.ValidFontName("CMU Serif"));
         plt.Style(new SciStyle());
         
         plt.XAxis.TickMarkDirection(false);
         plt.YAxis.TickMarkDirection(false);
-        plt.RightAxis.Ticks(true,true,false);
-        plt.RightAxis.TickMarkDirection(false);
+
+        var rightAxis = plt.RightAxis;
+        rightAxis.Ticks(true,true,false);
+        rightAxis.TickMarkDirection(false);
+        
         plt.TopAxis.Ticks(true,true,false);
         plt.TopAxis.TickMarkDirection(false);
         plt.Legend();

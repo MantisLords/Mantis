@@ -15,7 +15,7 @@ namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
 public record struct BraggData
 {
     [QuickTableField("angle", "°")] public ErDouble Angle = 0;
-    [QuickTableField("voltage", "V")] public ErDouble Voltage = 0;
+    [QuickTableField("voltage", "V",lastDigitError:1)] public ErDouble Voltage = 0;
     
     public BraggData(){}
 }
@@ -30,11 +30,12 @@ public static class Part6_BraggReflection
 
     public static void ProcessBraggReflection(string cristalDir,int h,int k,int l,string cristalDirTex)
     {
-        var reader = new SimpleTableProtocolReader("BraggReflection" + cristalDir);
+        var reader = new SimpleTableProtocolReader("Part6_BraggReflection" + cristalDir);
 
         var errorAngle = reader.ExtractSingleValue<double>("error_angle");
         var voltmeterRange = reader.ExtractSingleValue<double>("voltmeterRange");
         var maximumAngle = reader.ExtractSingleValue<ErDouble>("maximum");
+        var voltageOffset = reader.ExtractSingleValue<double>("voltageOffset");
 
         var dhkl = Part3_WaveLengths.OfficialWaveLength / 2.0 / ErDouble.Sin(maximumAngle * Constants.Degree);
         var d = dhkl * Math.Sqrt(h * h + k * k + l * l);
@@ -46,15 +47,15 @@ public static class Part6_BraggReflection
         dataList.ForEachRef((ref BraggData data) =>
         {
             data.Angle.Error = errorAngle;
-            data.Voltage.CalculateDeviceError(Devices.Aglient34405,DataTypes.VoltageDC,voltmeterRange);
-            data.Voltage -= MinVoltage;
+            //data.Voltage.CalculateDeviceError(Devices.Aglient34405,DataTypes.VoltageDC,voltmeterRange);
+            data.Voltage -= voltageOffset;
         });
 
         var dataSet = dataList.CreateDataSet(e => (e.Angle, e.Voltage));
 
         var plt = ScottPlotExtensions.CreateSciPlot("Angle in °", "Voltage in V");
 
-        var (_,scatterPlot) =plt.AddErrorBars(dataSet,label:"Bragg Reflection "+cristalDir);
+        var (_,scatterPlot) =plt.AddErrorBars(dataSet,label:"Bragg diffraction "+cristalDir);
         scatterPlot.LineStyle = LineStyle.Solid;
 
         var vLine = plt.AddVerticalLine(maximumAngle.Value,style:LineStyle.Dash);
@@ -64,7 +65,7 @@ public static class Part6_BraggReflection
 
         plt.Legend(true, Alignment.UpperRight);
 
-        plt.SaveFigHere("fig_BraggReflection" + cristalDir);
+        plt.SaveAndAddCommand("fig:BraggReflection" + cristalDirTex);
 
 
     }

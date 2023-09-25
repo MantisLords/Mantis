@@ -410,6 +410,26 @@ public struct ErDouble : INumber<ErDouble>
 
     #region Parse
 
+    public static ErDouble ParseWithErrorLastDigit(string s, IFormatProvider? provider, double errorLastDigit)
+    {
+        ErDouble value = double.Parse(s, provider);
+        if (errorLastDigit <= 0) return value;
+        
+        s = s.Trim();
+        int digitsAfterPoint = 0;
+        if (s.Contains('.'))
+        {
+            for (;digitsAfterPoint < s.Length;digitsAfterPoint++)
+            {
+                if (s[s.Length - digitsAfterPoint - 1] == '.')
+                    break;
+            }
+        }
+
+        value.Error = Math.Pow(10, -digitsAfterPoint) * errorLastDigit;
+        return value;
+    }
+
     public static ErDouble Parse(string s, IFormatProvider? provider)
     {
         return double.Parse(s, provider);

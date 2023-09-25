@@ -16,7 +16,7 @@ public record struct AngleDispersionData
 {
     [QuickTableField("angle", "\\degree")] public ErDouble Angle = 0;
 
-    [QuickTableField("diodeVoltage", "V")] public ErDouble VoltageDiode = 0;
+    [QuickTableField("diodeVoltage", "V",lastDigitError:1)] public ErDouble VoltageDiode = 0;
     
     public AngleDispersionData(){}
 }
@@ -36,7 +36,7 @@ public static class Part1_AngleDispersion
         // We have to initialize the csv-reader. We need to give it the file-path
         // Note that the file path you enter here is relative to the FileManage.GlobalPath which you specified in the
         // Program.cs file.
-        var csvReader = new SimpleTableProtocolReader("AngleDispersion.csv");
+        var csvReader = new SimpleTableProtocolReader("Part1_AngleDispersion.csv");
         
         // Then we want to extract single values in the csv-file
         // Single Values are marked with the '* ' token in the csv-file.
@@ -65,6 +65,11 @@ public static class Part1_AngleDispersion
         //     CalculateErrors(ref e,voltmeterRange,errorAngle);
         //     dataList[i] = e;
         // }
+
+        ErDouble voltageOffset = csvReader.ExtractSingleValue<double>("voltageOffset");
+        
+        dataList.ForEachRef((ref AngleDispersionData data) => 
+            data.VoltageDiode -= voltageOffset);
         
         // Step 3: Regression
         // First we need to create a RegModel
@@ -122,14 +127,14 @@ public static class Part1_AngleDispersion
         // Next I add the RegModel to the Plot
         // It will automatically draw the DataPoints and the Function Curve
         // You need to specify the legend - labels
-        plot.AddRegModel(model, "Output of the receiver", "Gauss Fit");
+        plot.AddRegModel(model, "Reciever output", "Gauss Fit",errorBars:false);
         
         // Change the Legend alignment
         plot.Legend(true, Alignment.UpperRight);
         
         // Last Save the plot and also add a reference to the TexPreamble file. So you can conveniently use it in your
         // Tex-file with the \figAngleDispersion command
-        plot.SaveAndAddCommand("fig:AngleDispersion","caption");
+        plot.SaveAndAddCommand("fig:AngleDispersion");
 
     }
 
@@ -139,7 +144,7 @@ public static class Part1_AngleDispersion
         
         // I use this Utility method to get the voltage error of the Aglient34405-Device. Here these wierd tables from
         // the manual are saved.
-        data.VoltageDiode = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
-            data.VoltageDiode.Value, voltmeterRange);
+        // data.VoltageDiode = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
+        //     data.VoltageDiode.Value, voltmeterRange);
     }
 }

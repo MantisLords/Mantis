@@ -16,7 +16,7 @@ public record struct FocalLengthWaxLensData
 {
     [QuickTableField("receiverPos", "cm")] public ErDouble ReceiverPos = 0;
 
-    [QuickTableField("voltage", "V")] public ErDouble Voltage = 0;
+    [QuickTableField("voltage", "V",lastDigitError:1)] public ErDouble Voltage = 0;
 
     public ErDouble EffectiveReceiverPos = 0;
     
@@ -31,7 +31,7 @@ public static class Part2_FocalLengthWaxLensMain
 {
     public static void Process()
     {
-        var csvReader = new SimpleTableProtocolReader("FocalLengthWaxLens.csv");
+        var csvReader = new SimpleTableProtocolReader("Part2_FocalLengthWaxLens.csv");
 
         List<FocalLengthWaxLensData> data = csvReader.ExtractTable<FocalLengthWaxLensData>();
 
@@ -51,11 +51,14 @@ public static class Part2_FocalLengthWaxLensMain
             csvReader.ExtractSingleValue<ErDouble>("distanceHornEndEffectiveReceiverPos");
         var distanceReceiverPosHornEnd = csvReader.ExtractSingleValue<ErDouble>("distanceReceiverPosHornEnd");
         var errorReceiverPos = csvReader.ExtractSingleValue<double>("error_receiverPos");
-        
+
+        var voltageOffset = csvReader.ExtractSingleValue<double>("voltageOffset");
         
         data.ForEachRef((ref FocalLengthWaxLensData element) =>
-                CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,distanceHornEndEffectiveReceiverPos,distanceReceiverPosHornEnd,1)
+                CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,distanceHornEndEffectiveReceiverPos,distanceReceiverPosHornEnd,1,voltageOffset)
             );
+        
+        data.Sort(((a, b) => a.ReceiverPos.CompareTo(b.ReceiverPos.Value)));
 
 
         RegModel<GaussFunc> model = data.CreateRegModel(e => (e.ImageDistance, e.Voltage),
@@ -73,24 +76,38 @@ public static class Part2_FocalLengthWaxLensMain
         var imageDistance = model.ErParameters[2];
         imageDistance.AddCommandAndLog("ImageDistance","cm");
         var objectDistance = lensPos - effectiveEmitterPos;
+        objectDistance.AddCommandAndLog("ObjectDistance","cm");
         // 1/f = 1/b + 1/g
         var focalLength = 1 / (1 / imageDistance + 1 / objectDistance);
         focalLength.AddCommandAndLog("FocalLength","cm");
         
-        var plt = ScottPlotExtensions.CreateSciPlot("image distance b in cm", "voltage U in V");
+        var plt = ScottPlotExtensions.CreateSciPlot("Image distance b in cm", "voltage U in V");
 
-        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "received Signal", "Fit normal distribution");
+        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Measured signal", "Gauss-fit",errorBars:false);
         scatterPlot.LineStyle = LineStyle.Solid;
+        scatterPlot.LineWidth = 0.75;
+        scatterPlot.LineColor = plt.Palette.GetColor(2);
+        funcPlot.LineColor = plt.Palette.GetColor(1);
         
-        plt.SaveAndAddCommand("fig:imageDistance","Gauss fit");
+        var vLine = plt.AddVerticalLine(imageDistance.Value,style:LineStyle.Dash);
+        vLine.Color = plt.Palette.GetColor(0);
+        vLine.PositionLabel = true;
+        vLine.PositionLabelOppositeAxis = true;
+        vLine.PositionLabelBackground = vLine.Color;
+
+        plt.Legend(true, Alignment.UpperLeft);
+        
+        plt.SaveAndAddCommand("fig:imageDistance");
 
     }
 
     private static void CalculateErrorAndImageDistance(ref FocalLengthWaxLensData element, ErDouble lensPos,
-        double errorReceiverPos,ErDouble distanceHornEndEffectiveReceiverPos,ErDouble distanceReceiverPosHornEnd, double voltageRange)
+        double errorReceiverPos,ErDouble distanceHornEndEffectiveReceiverPos,ErDouble distanceReceiverPosHornEnd, double voltageRange,double voltageOffset)
     {
-        element.Voltage = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
-            element.Voltage.Value, voltageRange);
+        // element.Voltage = DeviceErrorsUtil.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
+        //     element.Voltage.Value, voltageRange);
+
+        element.Voltage += voltageOffset;
         
         element.ReceiverPos.Error = errorReceiverPos;
 
