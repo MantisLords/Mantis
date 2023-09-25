@@ -62,24 +62,30 @@ public static class Part1_IsothermsAndCriticalPoints
         var csvReader9 = new SimpleTableProtocolReader("ChamberDataTemp9.csv");
         List<VolumePressureData> dataListTemp9 = csvReader9.ExtractTable<VolumePressureData>("tab:ChamberData");
 
+        double[] fehlerArray = new[]
+        {
+            0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+            0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02
+        };
+
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
         plot.AddScatter(dataListTemp1.Select(e => e.volume.Value).ToArray(),
             dataListTemp1.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp2.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp2.Select(e => e.volume.Value).ToArray(),
             dataListTemp2.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp3.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp3.Select(e => e.volume.Value).ToArray(),
             dataListTemp3.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp4.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp4.Select(e => e.volume.Value).ToArray(),
             dataListTemp4.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp5.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp5.Select(e => e.volume.Value).ToArray(),
             dataListTemp5.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp6.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp6.Select(e => e.volume.Value).ToArray(),
             dataListTemp6.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp7.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp7.Select(e => e.volume.Value).ToArray(),
             dataListTemp7.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp8.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp8.Select(e => e.volume.Value).ToArray(),
             dataListTemp8.Select(e => e.pressure.Value).ToArray());
-        plot.AddScatter(dataListTemp9.Select(e => e.volume.Value).ToArray(),
+        plot.AddErrorBars(dataListTemp9.Select(e => e.volume.Value).ToArray(),
             dataListTemp9.Select(e => e.pressure.Value).ToArray());
 
         List<VolumePressureData> dataForFit = new List<VolumePressureData>();
@@ -90,7 +96,7 @@ public static class Part1_IsothermsAndCriticalPoints
         CalculateMaxwellLine(dataListTemp5,plot,0.1,0.35,dataForFit);
         
         //CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit);
-
+        //fitting a polynomial to the data
         RegModel<PolynomialFunc> model = dataForFit.CreateRegModel(e => (e.volume, e.pressure),
             new ParaFunc<PolynomialFunc>(9)
             {
