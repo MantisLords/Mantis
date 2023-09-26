@@ -4,6 +4,7 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
+using Mantis.Workspace.BasicTests;
 using Mantis.Workspace.C1_Trials.Utility;
 using MathNet.Numerics;
 using ScottPlot;
@@ -129,8 +130,17 @@ public static class Part1_AngleDispersion
         // You need to specify the legend - labels
         plot.AddRegModel(model, "Reciever output", "Gauss Fit",errorBars:false);
         
+        double xn = model.ErParameters[2].Value - fwhm.Value / 2;
+        double xp = model.ErParameters[2].Value + fwhm.Value / 2;
+        double y = model.ParaFunction.EvaluateAtDouble(xp);
+        var bracket = plot.AddBracket(xn, y, xp, y, "fwhm");
+        bracket.Color = plot.Palette.GetColor(2);
+        
+        
         // Change the Legend alignment
         plot.Legend(true, Alignment.UpperRight);
+        
+        plot.AxisAutoY(0.2,0);
         
         // Last Save the plot and also add a reference to the TexPreamble file. So you can conveniently use it in your
         // Tex-file with the \figAngleDispersion command

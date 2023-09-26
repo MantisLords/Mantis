@@ -9,18 +9,21 @@ public record PlotRegInfo(RegModel<LineFunc> Model, double PointH, double PointB
 public record PlotEvalDataInfo(PlotRegInfo InfoPositive, PlotRegInfo InfoNegative, string LabelRegression,
     string LabelPoint)
 {
-    public void Plot(Plot plt, bool plotRegPoints, bool plotLine, bool plotPoint)
+    public void Plot(Plot plt, bool plotRegPoints, bool plotLine, bool plotPoint,int colorIndex)
     {
+        
         if (plotRegPoints)
         {
-            var (_,scatter) = plt.AddErrorBars(InfoPositive.Model.Data, markerSize: 2);
-            plt.AddErrorBars(InfoNegative.Model.Data, markerSize: 2,color:scatter.Color);
+            var pointColor = Palette.Microcharts.GetColor(1+colorIndex);
+            plt.AddErrorBars(InfoPositive.Model.Data, markerSize: 2,color:pointColor);
+            plt.AddErrorBars(InfoNegative.Model.Data, markerSize: 2,color:pointColor);
         }
 
         if (plotLine)
         {
-            var funcPlot = plt.AddFunction(InfoPositive.Model.ParaFunction, lineWidth: 1,label:LabelRegression,lineStyle:LineStyle.DashDot);
-            plt.AddFunction(InfoNegative.Model.ParaFunction, lineWidth: 1,color: funcPlot.Color,lineStyle:LineStyle.DashDot);
+            var lineColor = plt.Palette.GetColor(1 + colorIndex);
+            plt.AddFunction(InfoPositive.Model.ParaFunction, lineWidth: 1,label:LabelRegression,lineStyle:LineStyle.DashDot,color:lineColor);
+            plt.AddFunction(InfoNegative.Model.ParaFunction, lineWidth: 1,color: lineColor,lineStyle:LineStyle.DashDot);
         }
 
         if (plotPoint)

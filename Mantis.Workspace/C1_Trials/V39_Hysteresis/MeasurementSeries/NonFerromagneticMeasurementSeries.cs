@@ -1,5 +1,6 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.TexIntegration;
 using MathNet.Numerics;
 using ScottPlot;
 
@@ -9,6 +10,8 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 {
     public ErDouble? MagneticPermeability = null;
     private RegModel<LineFunc>? LinearFit = null;
+
+    public bool DrawBestFit = true;
     
     internal NonFerromagneticMeasurementSeries(string name, List<PascoData> rawData, MeasurementSeriesInfo seriesInfo, RingCore ringCore, double errorVoltage, bool removeDrift = true, bool centerData = true) : base(name, rawData, seriesInfo, ringCore, errorVoltage, removeDrift, centerData)
     {
@@ -23,15 +26,20 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
         MagneticPermeability = slope / Constants.MagneticPermeability;
     }
 
-    public void PlotData(Plot plt,bool drawBestFit = true)
+    public override void SaveAndLogCalculatedData()
+    {
+        MagneticPermeability?.AddCommandAndLog("MagneticPermeability"+Name+RingCore.Type,"Tm/A");
+    }
+
+    public override Plot PlotData(Plot plt)
     {
         base.PlotData(plt);
 
-        if (drawBestFit)
+        if (DrawBestFit)
         {
             plt.AddFunction(LinearFit.ParaFunction, label: "Best fit for calculating\nmagnetic permeability");
         }
         
-        Console.WriteLine($"Magnetic Permeability {MagneticPermeability.ToString()}");
+        return plt;
     }
 }

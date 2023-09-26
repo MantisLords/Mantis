@@ -16,6 +16,7 @@
 \usepackage{amstex}
 \usepackage{siunitx}
 \usepackage{hyperref}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{subcaption}
 
 \include{Generated/Preamble}
 
@@ -36,31 +37,34 @@
             Tutor: ? & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Experimental methods for examining properties of classical light with microwaves and using bragg reflection to examin cirstal structur}  %Titel der Versuchs
+    \title{Experimental methods for examining properties of classical light with microwaves: Polarisation, Total Reflaction
+    and tunneling; Using cristel model to demonstrate bragg reflection}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
         We used experiments with microwaves to show the wave character of light.
-        Basic methods are used to test our devices.
-        Via inteference and stationary waves we determined the wavelenght.
+        By useing simple methods we find the disporsion of the used Gunn diode and the focal length
+        of the wax lens of our experiment.
+        Via inteference and stationary waves we determined the wavelenght of the microwaves.
         Furthermore we verify the properties polarisation and total reflection.
         And we demonstrate the method of bragg diffraction with a cristel model.
+        At last we show qualitatively the usage of a metal tube as waveguide.
         \\
         Measuerement made: 21. September 2023\\       %Datum ändern!
         Submitted: 26. September 2023                %Datum ändern!
         \\
         \\
     \end{abstract}
-    }]
+    }] 
     \section{Introduction}
     To study wave-properties of light we use microwaves.
     They have a large wave lenght in the cm-range.
     Effects like interference and tunneling occur on a macroscopic scale, which makes it easy to show them
     in an experiment.
-    Because all properties showed here with microwaves apply also for light in the visible spectrum, you can use 
-    reuse our results, but on a different scale of length.
+    Because all properties shown here apply also for light in the visible spectrum, you can 
+    adopt the presented methods, but on a different scale of length.
     \section{Experimental setup}
     \subsection{Emitter}
     A Gunn diode was used to create the microwaves in our experiments. 
@@ -77,15 +81,17 @@
 
 
     \subsection{Lens}
-    For the experiments with bragg reflection and tunnel effect we need parallel light rays.
+    For the experiments with bragg diffraction and tunnel effect we need parallel light rays.
     We used a wax lens for focusing the emitted microwaves.
     To determine the focal length, the lens was placed away from the emitting diode.
-    The effective object (emitter) distance after~\cite{pasco} in our setup was $g = \ObjectDistance$
+    The object-distance\footnote{emitter-lense distance after ~\cite{pasco}} in our setup was $g = \ObjectDistance$
     Then by varying the receiver positions the intensity was measured as shown in figure ~\ref{fig:imageDistance}. 
     Because the wavelength is in the cm range, the diameter of the resulting airy disk is also in the cm range.
     This means there is no distance were the object (emitter) is completely focused as you would expect from geometric optics.
-    So to access the image distance we made a gauss-fit over the intensity distribution and used the maximum of the fit as
-    reference. 
+    So to get the actual image-distance you need to find the maximum.
+    Since we have few data points with much noise we use a gauss curve to find an approximation of the maximum.
+    Though the actual theoretical intensity-distribution is more complicated.
+    
     
     \figimageDistance{We measure the signal depending on the reciever-lens distance $b$.
     The intensity fluctuates since a stationary wave overlaps.
@@ -125,8 +131,9 @@
     As the second approach we use an interferometer.
     The emitted light is split by a fiberboard as semi-transparent mirror in two perpendicular rays.
     They are then reflected by two metal sheets and reunited again by the fiberboard. 
-    In the resulting ray interferes constructive or destructive depending on the difference between the two optical paths .
-    We move the position of one mirror and after seeing 15 maxima and minima on the detector we read the changed
+    The resulting ray interferes constructively or destructively depending on the difference between the two optical paths .
+    We move the position of one mirror to change the optical path.
+    After seeing 15 maxima and minima on the detector we read the changed
     path length.
     With our setup we have determined the wavelength as:
     \begin{align*}
@@ -161,11 +168,27 @@
         I = I_0 \cos^4( \phi )
     \end{align}
     If we compare the theoretical function to the measured data as in ~\ref{fig:Polarisation} we see a strong deviation.
-    This is probably due to the low number of lattice bars, which makes the polarisation filter not ideal.
+    Multiple factors could be responsible for this result.
+    Firstly the polarisation filter used, is a lattice consisting of 22 metal bars. 
+    The relatively low count of bars makes it not an ideal linear polarisation filter.
+    Furthermore signal loss over the distance may cause the deviation.
+    Lastly it could be because of the cutoff from the receiver.
+    Maybe too weak signals are being cutoff and so the curve is deformed.
+    To verify these hypotheses more measurements are required.
+    
     \figPolarisation{Transmitted intensity through a polarisation filter. 
     Though the shape of the curve fits, there is a strong deviation from the theory by Malus ~\eqref{eq:cos4}}
     
     \section{Total inner reflection and tunnel effect}
+    
+    \begin{figure}[htbp]
+        \includegraphics[width=0.9\linewidth]{setup-total-reflection}
+        \centering
+        \caption{Experimental setup for showing total reflection and tunnel effect.
+        In the gap between the the double prism a evanescent wave is formed.
+        The itensity declines exponentaly according to equation ~\eqref{eq:ExpTransDecline}}
+        \label{fig:SetupTotalReflection}
+    \end{figure}
     An important property of light which we were able to show, is total reflection and evanescent waves.
     For the experiment we emitted microwaves on a paraffin wax prism. 
     On the $45\degree$ paraffin-air boundary the rays are totally reflected and we detect them in an $90\degree$ rotated
@@ -173,10 +196,16 @@
     After the paraffin-air boundary an evanescent wave is formed.
     Its intensity declines exponentially.
     \begin{align}
-        I \propto e^{\frac{-2x}{s}} 
+        \label{eq:ExpTransDecline}
+        I_{trans} = I_0 e^{\frac{-2x}{s}} 
     \end{align}
     Here $x$ is the perpendicular distance and $s$ is the declination rate which depends on the wavelength, 
     the angle of reflection and the refractive index.
+    Because of energy conservation, the reflected intensity is:
+    \begin{align*}
+        I_{ref} = I_0 (1 - e^{\frac{-2x}{s}})
+    \end{align*}
+    
 
     You can detect the evanescent wave by a adding a second prism after the $ 45\degree$ boundary parallel to the first one
     in the distance $x$.
@@ -190,27 +219,41 @@
 
     \section{Bragg Reflection}
     If you have monochromatic waves with a wavelength around the atomic scale (x-ray, neutrons or electrons) you can
-    determine the lattice constant d of a cubic cristal via bragg diffraction. 
-    In Bragg's model the cristal is a set of discrete planes where waves are reflected.
-    If the waves have the correct wavelength and hit the planes in the correct angle the reflected waves interfere 
+    determine the lattice constant $d$ of a cubic cristal via bragg diffraction. 
+    In Bragg's model the cristal is a set of discrete planes, where waves are being reflected.
+    If the waves have the correct wavelengths and hit the planes in the correct angle, the reflected waves interfere 
     constructively and you see a bragg peak as a result~\cite{gerth}.
     
-    The cristal planes can be indexed via the parameters $h,\,k,\,l$.
-    For the angle $\Theta$ where a break peak occurs the following relation applies:
+    The cristal planes can be indexed via the parameters $(h,\,k,\,l)$ .
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.49\linewidth}
+            \centering
+            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_100}
+        \end{subfigure}
+        \begin{subfigure}{0.49\linewidth}
+            \centering
+            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_110}
+        \end{subfigure}
+        \caption{Bragg-planes for a cubic cristal model with indices $(h,\,k,\,l)$.
+        Images from ~\cite{miller}}
+        \label{fig:BraggPlanesIndices}
+    \end{figure}
+    For the angle $\Theta$, for which a peak occurs, the following relation applies:
     \begin{align}
         \label{eq:BraggAngle}
         \frac{d}{\sqrt{h^2+k^2+l^2}} = \frac{\lambda}{2 \sin(\Theta)}
     \end{align}
     
-    To demonstrate the principle we use a basic cristal model, consisting of metal bars arranged in a grid structure.
-    For examining real crystals it would require electromagnetic waves with much smaller wavelengths.
+    To demonstrate the principle, we use a basic cristal model, consisting of metal bars arranged in a grid structure.
+    For examining real crystals, it would require electromagnetic waves with much smaller wavelengths.
     We realize the experiment by placing the emitter in the focal point of the wax lens, so the cristal is hit by
-    parallel light rays.
-    The cristal model is then rotated about $\Theta$ and the detector about $2\Theta$ to actualize the Bragg condition.
+    parallel light-rays.
+    The cristal model is then rotated about $\Theta$ and the detector about $2\Theta$, to actualize the Bragg condition.
     
-    We have done two measurement series: For the plane-orientation $h = 1,\,k = 0,\,l = 0$ and for $h = 1,\,k = 1,\\l = 0$ as 
-    you can see in figure~\ref{fig:BraggReflectionOneZeroZero} and figure~\ref{fig:BraggReflectionOneOneZero}.
-    If we use equation~\eqref{eq:BraggAngle} to calculate the lattice constant from our measurement series, we get:
+    We have done two measurement-series: For the plane-orientation $(h=1,\,k=0,\,l=0)$ and for $(h=1,\,k=1,\,l=0)$.
+    As you can see in figure~\ref{fig:BraggReflectionOneZeroZero} and figure~\ref{fig:BraggReflectionOneOneZero}.
+    If we use equation~\eqref{eq:BraggAngle} to calculate the lattice constant from our measurement-series, we get:
     \begin{align*}
         d_{100} = \CristalconstantOneZeroZero \\
         d_{110} = \CristalconstantOneOneZero
@@ -228,8 +271,8 @@
     The waves are being reflected in its interior and thus guided by the tube.
     We placed the emitter at one end of the tube and the receiver at the other.
     A signal is being detected.
-    If you put a plug on the one end, no signal is being blocked.
-    This proves the waves are guided inside of the tube and not on its surface.
+    If you plug one end, no signal is being detected.
+    This proves, the waves are guided inside of the tube and not on its surface.
     Also the tube preserves the polarisation of the emitted light.
     This was shown by simply rotating the receiver, since it only detects v-polarized light.
 
@@ -245,7 +288,7 @@
     The effect of total reflection and tunnel effect was demonstrated by using a double prism.
     The intensity of the evanescent waves declines exponentially.
     We used a cristal model to show the method of bragg diffraction.
-    The lattice constant was determined to $d_{100} = \CristalconstantOneZeroZero$.
+    The lattice constant was determined to be $d_{100} = \CristalconstantOneZeroZero$.
     At last we used a metal tube as waveguide.
     We demonstrated qualitatively it preserves the polarisation of the guided light.
     
@@ -257,7 +300,7 @@
         \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
         recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
         88, 035009 (2016))
-        %\bibitem{miller} \url{https://de.wikipedia.org/wiki/Datei:Miller_Indizes_Ebenen.png}, zuletzt aufgerufen am 14.09.2021
+        \bibitem{miller} \url{https://de.wikipedia.org/wiki/Datei:Miller_Indizes_Ebenen.png}, zuletzt aufgerufen am 14.09.2021
         \bibitem{pasco} Pasco Microwave Optics System (WA-9314C) Instruction Manual
         %\bibitem{missing} \url{https://en.wikipedia.org/wiki/Transverse_mode}, zuletzt aufgerufen am 8.10.2021
         \bibitem{imageMichelsonInterferometerWiki} \url{https://en.wikipedia.org/wiki/Michelson_interferometer#/media/File:Michelson_interferometer_with_labels.svg}, last visit 23.09.23

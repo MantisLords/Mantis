@@ -13,9 +13,20 @@ public static class TexPreamble
     {
     };
 
-    public static void AddCommand(this string content,string label,int arguments = 0)
+    public static void AddCommand(this string content,string label,int arguments = 0,bool makeLabelValid = true)
     {
-        ValidateCommandLabel(label);
+        if (!IsValidCommandLabel(label, out char invalidChar))
+        {
+            if(!makeLabelValid)
+                throw new ArgumentException(
+                $"The tex command label '{label}' is invalid. The character '{invalidChar}' is invalid");
+            else
+            {
+                label = MakeLabelValid(label);
+            }
+        }
+        
+        
         string argString = arguments is > 0 and <= 9 ? "[" + arguments + ']' : "";
         PreambleWriter.Builder.AppendCommand($"newcommand{{\\{label}}}{argString}{{{content}}}");
     }
@@ -26,17 +37,17 @@ public static class TexPreamble
         Console.WriteLine($"{label} = {content}");
     }
 
-    public static void AddCommand<T>(this INumber<T> number, string label, string unit = "") where T : INumber<T>
+    public static void AddCommand<T>(this INumber<T> number, string label, string unit = "",bool makeLabelValid = true) where T : INumber<T>
     {
         string res = number.ToString("G4",CultureInfo.InvariantCulture);
         if (!string.IsNullOrEmpty(unit))
             res += "\\ " + unit;
-        AddCommand(res,label);
+        AddCommand(res,label,makeLabelValid:makeLabelValid);
     }
     
-    public static void AddCommandAndLog<T>(this INumber<T> number, string label, string unit = "") where T : INumber<T>
+    public static void AddCommandAndLog<T>(this INumber<T> number, string label, string unit = "",bool makeLabelValid = true) where T : INumber<T>
     {
-        number.AddCommand(label,unit);
+        number.AddCommand(label,unit,makeLabelValid);
         string res = label + " = " + number.ToString("g4",CultureInfo.InvariantCulture);
         if (!string.IsNullOrEmpty(unit))
             res += " " + unit;
@@ -68,6 +79,27 @@ public static class TexPreamble
             throw new ArgumentException(
                 $"The tex command label '{label}' is invalid. The character '{invalidChar}' is invalid");
         }
+    }
+
+    private static string[] NumbersAsWords = new[]
+        {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+    
+    private static string MakeLabelValid(string label)
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach (char c in label)
+        {
+            if (char.IsLetter(c))
+                builder.Append(c);
+            else if (char.IsDigit(c))
+            {
+                int i = (int) c - 48;
+                if(i > 0 && i < NumbersAsWords.Length)
+                    builder.Append(NumbersAsWords[i]);
+            }
+        }
+
+        return builder.ToString();
     }
 
     private static bool IsValidCommandLabel(string label,out char invalidChar)

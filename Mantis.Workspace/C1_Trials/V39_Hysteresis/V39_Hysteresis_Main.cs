@@ -1,6 +1,7 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.TexIntegration;
 using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
@@ -35,41 +36,24 @@ public static class V39_Hysteresis_Main
             MeasurementSeriesDict[measurementSeries.Name] = measurementSeries;
         }
 
-        // var series = MeasurementSeriesDict["Messreihe #10"];
-        // var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T", pixelWidth: 520);
-        // series.PlotData(plt);
-        // var dataLimits = plt.GetDataLimits();
-        // var xMax = 200;
-        // var yMax = dataLimits.YMax / dataLimits.XSpan * xMax;
-        // plt.SetAxisLimits(-xMax,xMax,-0.1,0.2);
-        // //plt.SetAxisLimits(-xMax,xMax,-yMax,yMax);
-        // plt.SaveFigHere(series.Name + "_" + series.RingCore.Name, scale: 4);
-
-        foreach (var s in MeasurementSeriesDict.Values)
+        if (MeasurementSeriesDict["Messreihe #1"] is OneCycleMeasurementSeries series1)
         {
-            // if (s is NonFerromagneticMeasurementSeries series)
-            // {
-            //     var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T", pixelWidth: 520);
-            //     series.PlotData(plt,true);
-            //     plt.SaveFigHere(s.Name + "_" + s.RingCore.Name, scale: 4);
-            // }
-        
-            if (s is OneCycleMeasurementSeries series)
-            {
-                var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520*4);
-            
-                series.CalculateCoercivity();
-                series.CalculateRemanence();
-                series.CalculateSaturation();
-                series.CalculateHysteresisLoss();
-            
-                series.PlotData(plt,true,drawRegSaturation:true);
-            
-                plt.Legend(true, Alignment.UpperLeft);
-                
-                plt.SaveFigHere(series.Name,scale:4);
-            }
+            series1.DrawRegRemanence = true;
+            series1.DrawRegCoercivity = true;
         }
+        ((MeasurementSeriesDict["Messreihe #13"] as OneCycleMeasurementSeries)!).DrawRegSaturation = true;
+        
+        foreach (var series in MeasurementSeriesDict.Values)
+        {
+            series.SaveAndLogCalculatedData();
+            
+            var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520);
+            series.PlotData(plt);
+            plt.SaveFigHere(series.Name+series.RingCore.Type,scale:4);
+            
+        }
+        
+        TexPreamble.GeneratePreamble();
 
     }
     

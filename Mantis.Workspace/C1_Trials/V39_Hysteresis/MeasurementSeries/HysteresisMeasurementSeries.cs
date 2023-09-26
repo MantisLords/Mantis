@@ -82,7 +82,7 @@ public class HysteresisMeasurementSeries
         
         for (int i = 0; i < hysteresisData.Length; i++)
         {
-            var data = new HysteresisData(pascoData[i].Time,pascoData[i].VoltageA,pascoData[i].VoltageB,0,0);
+            var data = new HysteresisData(pascoData[i].Time,pascoData[i].CurrentA / 10.0,pascoData[i].CurrentB / 10.0,0,0);
 
             hysteresisData[i] = data;
         }
@@ -110,16 +110,17 @@ public class HysteresisMeasurementSeries
 
     
 
-    public Plot PlotData(Plot plt)
+    public virtual Plot PlotData(Plot plt)
     {
-        
             //var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
             
-            AddHBData(plt, DataList, "");
+            AddHBData(plt, DataList, RingCore.Name);
             
             return plt;
             //plt.SaveFigHere(Name, scale: 8);
     }
+    
+    public virtual void SaveAndLogCalculatedData(){}
 
     private ScatterPlot AddHBData(Plot plt,HysteresisData[] data,string legend)
     {

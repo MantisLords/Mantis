@@ -1,5 +1,6 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.TexIntegration;
 using MathNet.Numerics.Interpolation;
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -28,9 +29,16 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     public ErDouble? Remanence = null;
     private PlotEvalDataInfo? _remanencePlotInfo = null;
     public ErDouble? Saturation = null;
+    public ErDouble? SaturationPermeability = null;
     private PlotEvalDataInfo? _saturationPlotInfo = null;
 
     public ErDouble? HysteresisLoss = null;
+
+    public bool DrawCalculatedValues = true;
+    public bool DrawRegCoercivity = false;
+    public bool DrawRegRemanence = false;
+    public bool DrawRegSaturation = false;
+    public bool DrawRegPoints = false;
     
     internal OneCycleMeasurementSeries(string name,List<PascoData> rawData,MeasurementSeriesInfo seriesInfo,RingCore ringCore,double errorVoltage,bool removeDrift,bool centerData) 
         : base(name, rawData, seriesInfo, ringCore,errorVoltage, removeDrift, centerData)
@@ -38,6 +46,11 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         var (_HBPositiveList, _HBNegativeList) = FindPositiveAndNegativeData();
         HBPositiveList = _HBPositiveList.ToArray();
         HBNegativeList = _HBNegativeList.ToArray();
+
+        CalculateCoercivity();
+        CalculateRemanence();
+        CalculateSaturation();
+        CalculateHysteresisLoss();
     }
     
     public void CalculateCoercivity()
@@ -97,16 +110,18 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     {
         try
         {
-            var (saturationPositive, saturationPositiveInfo) = CalculateSaturation(HBPositiveList, 1);
-            var (saturationNegative, saturationNegativeInfo) = CalculateSaturation(HBNegativeList, -1);
-            Saturation = (saturationPositive - saturationNegative) / 2;
-            _saturationPlotInfo = new PlotEvalDataInfo(saturationPositiveInfo, saturationNegativeInfo,
+            var satInfoPos = CalculateSaturation(HBPositiveList, 1);
+            var satInfoNeg = CalculateSaturation(HBNegativeList, -1);
+            
+            Saturation = (satInfoPos.Model.ErParameters[0] - satInfoNeg.Model.ErParameters[0]) / 2;
+            SaturationPermeability = (satInfoPos.Model.ErParameters[1] + satInfoNeg.Model.ErParameters[1]) / 2;
+            _saturationPlotInfo = new PlotEvalDataInfo(satInfoPos, satInfoNeg,
                 "Line fit for\nevaluating saturation", "Saturation");
 
         }catch(ArgumentException){}
     }
     
-    private (ErDouble,PlotRegInfo) CalculateSaturation(HBData[] points, int sign)
+    private PlotRegInfo CalculateSaturation(HBData[] points, int sign)
     {
         if(SeriesInfo.SaturationEvalMin == 0)
             throw new ArgumentException("You have to set saturation limits");
@@ -115,9 +130,8 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
                 out RegModel<LineFunc> model))
         {
             ErDouble saturation = model.ErParameters[0];
-            Console.WriteLine("mu "+model.ErParameters[1]);
             PlotRegInfo info = new PlotRegInfo(model,0, saturation.Value);
-            return (saturation, info);
+            return info;
         }
         else
             throw new ArgumentException("You have to set coercivity limits");
@@ -204,21 +218,34 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     
 
 
-    public void PlotData(Plot plt, bool drawCalculatedValues = true, bool drawRegCoercivity = false,
-        bool drawRegRemanence = false, bool drawRegSaturation = false, bool drawRegPoints = false)
+    public override Plot PlotData(Plot plt)
     {
         base.PlotData(plt);
         
-        if(_coercifityPlotInfo != null) _coercifityPlotInfo.Plot(plt,drawRegPoints,drawRegCoercivity,drawCalculatedValues);
-        if(_remanencePlotInfo != null) _remanencePlotInfo.Plot(plt,drawRegPoints,drawRegRemanence,drawCalculatedValues);
-        if(_saturationPlotInfo != null) _saturationPlotInfo.Plot(plt,drawRegPoints,drawRegSaturation,drawCalculatedValues);
+        plt.Legend(true, Alignment.UpperLeft);
+        
+        if(_coercifityPlotInfo != null) _coercifityPlotInfo.Plot(plt,DrawRegPoints,DrawRegCoercivity,DrawCalculatedValues,0);
+        if(_remanencePlotInfo != null) _remanencePlotInfo.Plot(plt,DrawRegPoints,DrawRegRemanence,DrawCalculatedValues,1);
+        if(_saturationPlotInfo != null) _saturationPlotInfo.Plot(plt,DrawRegPoints,DrawRegSaturation,DrawCalculatedValues,2);
         //AddHBData(plt, HBNegativeList, "Negative HB Data");
-            
-        Console.WriteLine($"{Name}-{base.RingCore.Name}\tRem {Remanence.ToString()}\tCoer {Coercivity.ToString()}\tSat {Saturation.ToString()} Los: {HysteresisLoss.ToString()}");
-
-
+        
+        return plt;
     }
-    
+
+    public override void SaveAndLogCalculatedData()
+    {
+        base.SaveAndLogCalculatedData();
+        
+        Remanence?.Value.AddCommand("Remanence"+Name+RingCore.Type,"T");
+        Coercivity?.Value.AddCommand("Coercivity"+Name+RingCore.Type,"A/m");
+        Saturation?.Value.AddCommand("Saturation"+Name+RingCore.Type,"T");
+        SaturationPermeability?.Value.AddCommand("SaturationPermeability"+Name+RingCore.Type,"Tm/A");
+        HysteresisLoss?.Value.AddCommand("HysteresisLoss"+Name+RingCore.Type,"J");
+        
+        Console.WriteLine($"{Name}-{base.RingCore.Name}\n\tRemanence {Remanence.ToString()}\n\tCoercivity {Coercivity.ToString()}\n\tSaturation {Saturation.ToString()} \n\tLos: {HysteresisLoss.ToString()}" +
+                          $"\n\tMu {SaturationPermeability}");
+    }
+
     private ScatterPlot AddHBData(Plot plt,HBData[] data,string legend)
     {
         if (data.Length == 0) return null;

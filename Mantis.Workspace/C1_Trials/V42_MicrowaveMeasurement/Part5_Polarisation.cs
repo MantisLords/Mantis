@@ -72,7 +72,7 @@ public static class Part5_Polarisation
 
         var plt = ScottPlotExtensions.CreateSciPlot("Angle phi in °", "Voltage U in V");
         
-        plt.AddErrorBars(dataList.Select(e => (e.Angle, e.Voltage)), label: "Output voltage\nof receiver",errorBars:false);
+        var (erBars,_) = plt.AddErrorBars(dataList.Select(e => (e.Angle, e.Voltage)), label: "Output voltage\nof receiver",errorBars:true);
         var max = dataList.Max(e => e.Voltage.Value);
         Func<double, double?> cos4 = x => max * Math.Pow(Math.Cos(x * Constants.Degree), 4);
         var funcPlt = plt.AddFunction(cos4);

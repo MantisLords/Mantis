@@ -1,0 +1,133 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{amstex}
+\usepackage{siunitx}
+\usepackage{hyperref}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{subcaption}
+
+\include{Generated/Preamble}
+
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Tutor: ? & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Magnetic hysteresis curves and characteristic magnetic properties of Fe-Ni-Alloy and Steel}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+        
+        
+        
+        \\
+        Measuerement made: 21. September 2023\\       %Datum ändern!
+        Submitted: 26. September 2023                %Datum ändern!
+        \\
+        \\
+    \end{abstract}
+    }] 
+    \section{Introduction}
+    Ferromagnetic materials have a high magnetic permeability.
+    In paramagnets and diamagnets the resulting magnetic field (B-Field) directly depends on the
+    extern magnetic field applied (H-Field).
+    In contrast in ferromagnets the resulting B-Field is also depending on the magnetisation history of the material.
+    The relation of H-field and B-field is described by the hysteresis curve.
+    This phenomena enables permanent magnets.
+    It enables to magnetize and demagnetize materials such as iron.
+    This characteristic relation described by the hysteresis is important for applications in transformers,
+    electric-motors, etc.
+    In this paper we examine the hysteresis curve of two specific Fe-Ni alloys and steel Sk 732.
+    
+    \section{Theory}
+    
+    The magnetic properties of a material are caused by the spins of the electrons.
+    In an ferromagnetic material the individual spins of the electrons do not cancel each other out, so every atom has an
+    resulting spin.
+    But every spin creates a magnetic dipole moment.
+    Meaning every atom carries a magnetic dipole moment.
+    In a ferromagnetic material the spin of neighboring atoms couple,
+    creating domains where the atomic spins are aligned. 
+    Those domains also called Weiss domains are separated by small boundaries, only a few atoms wide.
+    In the 'unmagnetized' state the magnetic dipole moments of each Weiss domain, cancel each other out, resulting in
+    a magnetic field of zero.
+    If you now apply an external magnetic field the boundaries of the Weiss domains move, so the magnetic moments of the
+    domains align with the direction of the applied H-field.
+    So the H-Field gets amplified by a large amount.
+    
+    But the Weiss domains alone, would not explain permanent magnets and hysteresis. 
+    Since in an perfect isotropic cristal, if you would remove the external H-field, the boundaries of the Weiss domains
+    would move back to the initial position of lowest energy. 
+    Thus the material would be 'unmagnetized' again.
+    
+    A real material on the other hand is anisotropic.
+    It has defects on the cristal lattice.
+    After removing the external H-Field, the boundary walls get pinned on those defects.
+    So the Weiss domains can not go back in their initial configuration, thus the material stays magnetized.
+    This effect results in the hysteresis curve.
+    
+    You can release the walls of their pinned state by heating the material, by causing vibrations through e.g.: hammering,  
+    or by applying an oscillating external B-field as shown in section ~\ref{subsec:steel}.
+    
+    The hysteresis curve is characterized by a multitude of properties:
+    If you apply the H-field the weiss domains will align.
+    Thus amplifying the B-field. 
+    By increasing the H-field even more, all dipole moments will be aligned and there is no amplification anymore.
+    This saturation state is characterized by the threshold $B_{sat}$.
+    After wards the B-field only increases with the vacuum permeability $\mu_0$.
+    Now after removing the external H-field, the remaining B-field is called remanence $B_{R}$.
+    The coercivity $H_C$ is the magnetic force (H-field) the material can withstand, without being demagnetized.
+    
+    Moving the weiss domains, costs energy.
+    This energy loss, when cycling the hysteresis curve, can be calculated with the material density $\rho$:
+    
+    \begin{align}
+        \label{eq:EnergyLoss}
+        \xi = \frac{E}{m} = \frac{1}{\rho} \oint{B dH}
+    \end{align}
+    
+    This is the area under the hysteresis curve.
+    
+    \section{Experimental setup}
+    
+    \section{Hysteresis curves}
+    \subsection{Steel ST37K}
+    \label{subsec:steel}
+    \subsection{PERMENORM 5000 H2 Fe-Ni-Aloy}
+    \subsection{PERMENORM 5000 Z Fe-Ni-Aloy}
+    \subsection{Wood as reference}
+    \section{summary}
+    
+    
+    %FF: Angabe der verwendeten Literatur mit Quellennachweis.
+    \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        
+    \end{thebibliography}
+    
+\end{document}
