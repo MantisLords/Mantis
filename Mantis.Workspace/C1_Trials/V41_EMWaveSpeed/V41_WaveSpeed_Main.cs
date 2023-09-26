@@ -96,6 +96,10 @@ public static class V41_WaveSpeed_Main
        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
     CalculateResistanceMean();
+
+    ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Frequency [Hz]","damping[dB/m]");
+    plot.AddErrorBars(dataForTables.Select(e => (e.frequency, e.damping)));
+    plot.SaveAndAddCommand("dampingPlot");
     }
 
     public static StandingWaveData CalculateDataMean(IGrouping<(int,bool),StandingWaveData> listWithSameNodeCount)
@@ -216,6 +220,6 @@ public static class V41_WaveSpeed_Main
             sumformean += (list[i].Value - mean)*(list[i].Value-mean);
         }
         mean.Error = Math.Sqrt((1/(double)(count-1)) * sumformean.Value)/Math.Sqrt(count);
-        mean.AddCommand("resistanceMean","Ohm");
+        mean.AddCommand("resistanceMean","\\Omega");
     }
 }
