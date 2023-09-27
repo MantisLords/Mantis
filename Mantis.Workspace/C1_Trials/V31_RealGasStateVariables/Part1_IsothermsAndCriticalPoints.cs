@@ -103,32 +103,34 @@ public static class Part1_IsothermsAndCriticalPoints
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
         plot.Palette = Palette.Category20;
         plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)));
-        plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)));
+         plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)));
         
         List<VolumePressureData> dataForFit = new List<VolumePressureData>();
-        CalculateMaxwellLine(dataListTemp1,plot,0.2,0.3,dataForFit);
-        CalculateMaxwellLine(dataListTemp2,plot,0.2,0.3,dataForFit);
-        CalculateMaxwellLine(dataListTemp3,plot,0.15,0.4,dataForFit);
-        CalculateMaxwellLine(dataListTemp4,plot,0.1,0.2,dataForFit);
-        CalculateMaxwellLine(dataListTemp5,plot,0.1,0.35,dataForFit);
+        CalculateMaxwellLine(dataListTemp1,plot,0.25,0.5,dataForFit,100);
+         CalculateMaxwellLine(dataListTemp2,plot,0.25,0.5,dataForFit,1000);
+         CalculateMaxwellLine(dataListTemp3,plot,0.25,0.4,dataForFit,1000);
+         CalculateMaxwellLine(dataListTemp4,plot,0.5,0.5,dataForFit,1.0);
+         CalculateMaxwellLine(dataListTemp5,plot,0.5,0.35,dataForFit,0.9);
         
-        //CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit);
-        var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
-        plot.AddFunction(x => spline.Interpolate(x),Color.Black);
-        Console.WriteLine("extrema" + spline.Extrema());
-        Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
+        CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit,100);
+         var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
+         plot.AddFunction(x => spline.Interpolate(x),Color.Black);
+         Console.WriteLine("extrema " + spline.Extrema());
+         Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
+         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,3F,MarkerShape.filledTriangleUp);
         
         
         //plot.AddRegModel(model, "data", "fitted function");
         plot.SaveAndAddCommand("fig:plot","caption");
-
+        
+        
         List<TemperaturePressureData> temperaturePressureForLogPlot = new List<TemperaturePressureData>();
         CreateTemperaturePressureData(dataForFit, csvReader1,temperaturePressureForLogPlot,0);
         CreateTemperaturePressureData(dataForFit, csvReader2,temperaturePressureForLogPlot,2);
@@ -147,7 +149,7 @@ public static class Part1_IsothermsAndCriticalPoints
             temperaturePressureForLogPlot.Select(e => 1 / (e.temperature.Value)).ToArray());
 
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
-
+        
         
 
 
@@ -167,7 +169,7 @@ public static class Part1_IsothermsAndCriticalPoints
         return returnList;
     }
 
-    public static void CalculateMaxwellLine(List<VolumePressureData> data, ScottPlot.Plot plot,double sensitivity,double variance,List<VolumePressureData> dataForFit)
+    public static void CalculateMaxwellLine(List<VolumePressureData> data, ScottPlot.Plot plot,double sensitivity,double variance,List<VolumePressureData> dataForFit,double lowerlimit)
     {
         List<VolumePressureData> returnList = new List<VolumePressureData>();
         double sum = 0;
@@ -178,14 +180,16 @@ public static class Part1_IsothermsAndCriticalPoints
             var m = new VolumePressureData();
             e = data[i];
             m = data[i + 1];
-            if (Math.Abs(data[i+1].pressure.Value - data[i].pressure.Value) <= sensitivity)
+            if (Math.Abs(data[i+1].pressure.Value - data[i].pressure.Value) <= sensitivity && data[i].volume.Value <= lowerlimit)
             {
                 sum += e.pressure.Value;
                 returnList.Add(e);
                 returnList.Add(m);
+                Console.WriteLine(e.pressure.Value+" and data "+m.pressure.Value);
                 count++;
             }
             Console.WriteLine(sum/count);
+            
         }
         List<VolumePressureData> maxwellLine1 = CreateMaxwellLine(sum / count, returnList,variance,dataForFit);
         plot.AddScatter(maxwellLine1.Select(e => e.volume.Value).ToArray(),
