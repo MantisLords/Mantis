@@ -70,6 +70,8 @@ public static class TexPreamble
         PreambleWriter.Builder.Insert(0, packageBuilder.ToString());
         
         PreambleWriter.Save("Preamble");
+
+        PreambleWriter.Clear();
     }
 
     private static void ValidateCommandLabel(string label)

@@ -34,39 +34,48 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Tutor: ? & \today\\                          %Kopfzeile - Betreuer
+            Tutor: Jochen Kaupp & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Experimental methods for examining properties of classical light with microwaves: Polarisation, Total Reflaction
-    and tunneling; Using cristel model to demonstrate bragg reflection}  %Titel der Versuchs
+    and tunneling; Using crystal model to demonstrate bragg reflection}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        We used experiments with microwaves to show the wave character of light.
-        By useing simple methods we find the disporsion of the used Gunn diode and the focal length
-        of the wax lens of our experiment.
-        Via inteference and stationary waves we determined the wavelenght of the microwaves.
-        Furthermore we verify the properties polarisation and total reflection.
-        And we demonstrate the method of bragg diffraction with a cristel model.
+        We use microwaves to study the wave character of light.
+        Thier wavelength in cm range make it possible to reveil properties of EM-waves, which would
+        for visible light require significantly more complex setups.
+        Firstly the wavelength can be easely measured by counting nodes.
+        Herefor we use a setup with standing waves and a michelson interferometer.
+        We verify polarisation and Malus'law for linear-polarisation-filters.
+        Furthermore we show total reflection and the tunnel effect, which only can be explained
+        by the wave character of the used microwaves.
+        These effects are then applied for bragg diffraction.
+        We use an exemplary crystal model to demonstrate the principle.
         At last we show qualitatively the usage of a metal tube as waveguide.
         \\
         Measuerement made: 21. September 2023\\       %Datum ändern!
-        Submitted: 26. September 2023                %Datum ändern!
+        Submitted: 28. September 2023                %Datum ändern!
         \\
         \\
     \end{abstract}
     }] 
     \section{Introduction}
     To study wave-properties of light we use microwaves.
-    They have a large wave lenght in the cm-range.
+    They have a large wavelength in the cm-range.
     Effects like interference and tunneling occur on a macroscopic scale, which makes it easy to show them
     in an experiment.
     Because all properties shown here apply also for light in the visible spectrum, you can 
-    adopt the presented methods, but on a different scale of length.
+    adopt the presented methods on a smaller lengthscale.
     \section{Experimental setup}
     \subsection{Emitter}
+
+    \figAngleDispersion{Angle dispersion of the Gunn diode used in our setup.
+    We fit a gauss curve to get an approximation of the variance.
+        $fwhm = \AngleDispersionGaussFWHM$}
+    
     A Gunn diode was used to create the microwaves in our experiments. 
     It has a horn antenna for focusing the light.
     We measured the angle-intensity-relation and made a basic gauss-fit to get a rough estimate of the light dispersion (cf.~\ref{fig:AngleDispersion}).
@@ -74,13 +83,14 @@
     \begin{align*}
         fwhm = \AngleDispersionGaussFWHM
     \end{align*}
-
-    \figAngleDispersion{Angle dispersion of the Gunn diode used in our setup.
-    We fit a gauss curve to get an approximation of the variance. 
-    $fwhm = \AngleDispersionGaussFWHM$}
-
-
+    
     \subsection{Lens}
+
+    \figimageDistance{We measure the signal depending on the reciever-lens distance $b$.
+    The intensity fluctuates since a stationary wave overlaps.
+    We apply a gauss-fit to get the maximum image distance.
+    This can be used to calculate the focal length after the lens formula ~\eqref{eq:LensFormula}}
+    
     For the experiments with bragg diffraction and tunnel effect we need parallel light rays.
     We used a wax lens for focusing the emitted microwaves.
     To determine the focal length, the lens was placed away from the emitting diode.
@@ -91,12 +101,6 @@
     So to get the actual image-distance you need to find the maximum.
     Since we have few data points with much noise we use a gauss curve to find an approximation of the maximum.
     Though the actual theoretical intensity-distribution is more complicated.
-    
-    
-    \figimageDistance{We measure the signal depending on the reciever-lens distance $b$.
-    The intensity fluctuates since a stationary wave overlaps.
-    We apply a gauss-fit to get the maximum image distance.
-    This can be used to calculate the focal length after the lens formula ~\eqref{eq:LensFormula}}
     
     Here the image distance is 
     \begin{align*}
@@ -128,6 +132,16 @@
         \lambda = \StandingWavesWaveLength
     \end{align*}
     \subsection{Michelson interferometer}
+
+    \begin{figure}[htbp]
+        \includegraphics[width=0.9\linewidth]{Interferometer}
+        \center
+        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \label{fig:Interferometer}
+    \end{figure}
+    
     As the second approach we use an interferometer.
     The emitted light is split by a fiberboard as semi-transparent mirror in two perpendicular rays.
     They are then reflected by two metal sheets and reunited again by the fiberboard. 
@@ -139,15 +153,11 @@
     \begin{align*}
         \lambda = \InterferometerWaveLength
     \end{align*}
-    \begin{figure}[htbp]
-        \includegraphics[width=0.9\linewidth]{Interferometer}
-        \center
-        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
-        detector. This depends on the wavelength of the ligth, which enables you to measure it.
-        Graphic from~\cite{imageMichelsonInterferometerWiki}}
-        \label{fig:Interferometer}
-    \end{figure}
     \section{Polarisation}
+
+    \figPolarisation{Transmitted intensity through a polarisation filter.
+    Though the shape of the curve fits, there is a strong deviation from the theory by Malus ~\eqref{eq:cos4}}
+    
     The Gunn diode with the horn antenna in our setup emits vertical polarized light.
     Also the receiver detects in default configuration only vertical polarized light.
     This can be easily shown by rotating the receiver about $ 90\degree$.
@@ -176,9 +186,6 @@
     Maybe too weak signals are being cutoff and so the curve is deformed.
     To verify these hypotheses more measurements are required.
     
-    \figPolarisation{Transmitted intensity through a polarisation filter. 
-    Though the shape of the curve fits, there is a strong deviation from the theory by Malus ~\eqref{eq:cos4}}
-    
     \section{Total inner reflection and tunnel effect}
     
     \begin{figure}[htbp]
@@ -189,6 +196,10 @@
         The itensity declines exponentaly according to equation ~\eqref{eq:ExpTransDecline}}
         \label{fig:SetupTotalReflection}
     \end{figure}
+
+    \figTotalReflection{We measure the transmitted and reflected signal at a double prism.
+    The transmitted signal declines exponentially. This can be explained by the tunnel effect.}
+    
     An important property of light which we were able to show, is total reflection and evanescent waves.
     For the experiment we emitted microwaves on a paraffin wax prism. 
     On the $45\degree$ paraffin-air boundary the rays are totally reflected and we detect them in an $90\degree$ rotated
@@ -213,18 +224,16 @@
     detected.
     We have measured the reflected and transmitted microwaves for different gap sizes $x$ and then applied an exponential 
     fit as you can see in~\ref{fig:TotalReflection}
-
-    \figTotalReflection{We measure the transmitted and reflected signal at a double prism.
-    The transmitted signal declines exponentially. This can be explained by the tunnel effect.}
+    
 
     \section{Bragg Reflection}
     If you have monochromatic waves with a wavelength around the atomic scale (x-ray, neutrons or electrons) you can
-    determine the lattice constant $d$ of a cubic cristal via bragg diffraction. 
-    In Bragg's model the cristal is a set of discrete planes, where waves are being reflected.
+    determine the lattice constant $d$ of a cubic crystal via bragg diffraction. 
+    In Bragg's model the crystal is a set of discrete planes, where waves are being reflected.
     If the waves have the correct wavelengths and hit the planes in the correct angle, the reflected waves interfere 
     constructively and you see a bragg peak as a result~\cite{gerth}.
     
-    The cristal planes can be indexed via the parameters $(h,\,k,\,l)$ .
+    The crystal planes can be indexed via the parameters $(h,\,k,\,l)$ .
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.49\linewidth}
@@ -235,21 +244,27 @@
             \centering
             \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_110}
         \end{subfigure}
-        \caption{Bragg-planes for a cubic cristal model with indices $(h,\,k,\,l)$.
+        \caption{Bragg-planes for a cubic crystal model with indices $(h,\,k,\,l)$.
         Images from ~\cite{miller}}
         \label{fig:BraggPlanesIndices}
     \end{figure}
+
+    \figBraggReflectionOneZeroZero{Bragg diffraction on the 100-plane of a cubic lattice model.
+    A peak was detected at the first bragg-maxima}
+    \figBraggReflectionOneOneZero{Bragg diffraction on the 110-plane of a cubic lattice model.
+    Here the bragg-peak occurs at a greater angle compared to the 100-palne}
+
     For the angle $\Theta$, for which a peak occurs, the following relation applies:
     \begin{align}
         \label{eq:BraggAngle}
         \frac{d}{\sqrt{h^2+k^2+l^2}} = \frac{\lambda}{2 \sin(\Theta)}
     \end{align}
     
-    To demonstrate the principle, we use a basic cristal model, consisting of metal bars arranged in a grid structure.
+    To demonstrate the principle, we use a basic crystal model, consisting of metal bars arranged in a grid structure.
     For examining real crystals, it would require electromagnetic waves with much smaller wavelengths.
-    We realize the experiment by placing the emitter in the focal point of the wax lens, so the cristal is hit by
+    We realize the experiment by placing the emitter in the focal point of the wax lens, so the crystal is hit by
     parallel light-rays.
-    The cristal model is then rotated about $\Theta$ and the detector about $2\Theta$, to actualize the Bragg condition.
+    The crystal model is then rotated about $\Theta$ and the detector about $2\Theta$, to actualize the Bragg condition.
     
     We have done two measurement-series: For the plane-orientation $(h=1,\,k=0,\,l=0)$ and for $(h=1,\,k=1,\,l=0)$.
     As you can see in figure~\ref{fig:BraggReflectionOneZeroZero} and figure~\ref{fig:BraggReflectionOneOneZero}.
@@ -259,11 +274,6 @@
         d_{110} = \CristalconstantOneOneZero
     \end{align*}
     
-    \figBraggReflectionOneZeroZero{Bragg diffraction on the 100-plane of a cubic lattice model.
-    A peak was detected at the first bragg-maxima}
-    \figBraggReflectionOneOneZero{Bragg diffraction on the 110-plane of a cubic lattice model.
-    Here the bragg-peak occurs at a greater angle compared to the 100-palne}
-
     \section{Waveguide}
     
     Lastly we examined a simple waveguide for microwaves.
@@ -287,7 +297,7 @@
     We could show the polarization of the emitted light and at least qualitatively verify Malus' law. 
     The effect of total reflection and tunnel effect was demonstrated by using a double prism.
     The intensity of the evanescent waves declines exponentially.
-    We used a cristal model to show the method of bragg diffraction.
+    We used a crystal model to show the method of bragg diffraction.
     The lattice constant was determined to be $d_{100} = \CristalconstantOneZeroZero$.
     At last we used a metal tube as waveguide.
     We demonstrated qualitatively it preserves the polarisation of the guided light.

@@ -35,6 +35,8 @@ public class HysteresisMeasurementSeries
     public readonly double FluxRange; // VM
     public bool IsDriftRemoved { get; private set; } = false;
     public bool IsDataCentered { get; private set; } = false;
+    
+    public readonly string Label;
 
 
     protected HysteresisMeasurementSeries(string name,List<PascoData> rawData,MeasurementSeriesInfo seriesInfo,RingCore ringCore,double errorVoltage,bool removeDrift = true,bool centerData = true)
@@ -54,6 +56,11 @@ public class HysteresisMeasurementSeries
         
         CalculateHAndB();
         ErrorB = errorVoltage * CalculateBFactor();
+
+        if (SeriesInfo.Usage != "")
+            Label = SeriesInfo.Usage + RingCore.Type;
+        else
+            Label = SeriesInfo.MeasurementSeriesName + RingCore.Type;
 
     }
 

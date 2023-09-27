@@ -66,6 +66,7 @@
     In this paper we examine the hysteresis curve of two specific Fe-Ni alloys and steel Sk 732.
     
     \section{Theory}
+    \label{sec:Theory}
     
     The magnetic properties of a material are caused by the spins of the electrons.
     In an ferromagnetic material the individual spins of the electrons do not cancel each other out, so every atom has an
@@ -116,13 +117,130 @@
     
     \section{Experimental setup}
     
+    \begin{figure}[htbp]
+        \includegraphics[width=0.9\linewidth]{ExperimentalSetup}
+        \caption{Setup for capturing hysteresis curves.
+        Channel X of the digital interface measures the current in the field-creating-coil $N_1$.
+        The ring core conducts the H-field.
+        The resulting B-field is measured by the induction-coil $N_2$.
+        The flux meter integrates analog the voltage of the induction coil and its output is captured by
+        channel Y.
+        This enables to calculate the B-field at the induction-coil.}
+        \label{fig:ExperimentalSetup}
+    \end{figure}
+    
+    We have four ring cores of different materials.
+    To capture their magnetic properties we use the experimental setup shown in figure ~\ref{fig:ExperimentalSetup}. 
+    The external magnetic field is created by the first coil $N_1$.
+    We measure the current via the voltage drop $U_{in}$ at the first resistor.
+    Captured by the digital interface at Channel X.
+    For small currents we use $R = (66.7 \pm 1.4) \Omega$, else we use $R = 0.20 \Omega$.
+    The field created by the first coil can then be calculated with:
+    \begin{align}
+        \label{eq:CalculateHField}
+        H = \frac{N_1}{\frac{\pi}{2}(d_i + d_o)R}U_{in}
+    \end{align}
+    Where $d_i$ and $d_o$ are the inner and outer diameter of the ring core and $N_1$ is the winding number of the
+    field-creating-coil.
+    
+    The ring core conducts the field and induces a current in the second coil $N_2$.
+    To assess the conducted B-field, we use a flux-meter, which integrates analogously, the flux change of the second coil.
+    It's output is then captured by channel Y of the digital interface.
+    
+    The induced current depends on the effective area penetrated by the conducted field.
+    \begin{align}
+        \label{eq:EffectiveAreaOfInductionCoil}
+        A_{eff} = \frac{1}{2} (d_o - d_i) h f
+    \end{align}
+    Here $h$ is the height of the second coil and $d_o$ and $d_i$ the outer and inner diameter.
+    Furthermore $f$ is the effective percentage by which the ring core is filled with the ferromagnetic material.
+    This has to be account for since the second and third ring core consist of $0.1 mm$ thin Fe-Ni-bands, which are coated by a oxid layer.
+    The effective fill percentage of these core is $f = 90\%$.
+    
+    Via Ampere's law you can calculate the induced current by the B-field.
+    Therefor with the integrated current measured at channel Y $U_{out}$, you can infer the conducted field:
+    \begin{align}
+        \label{eq:CalculateBField} 
+        B = \frac{\gamma_f}{N_2 A_{eff}} U_{F}
+    \end{align}
+    Where $\gamma_f$ is the integration factor of the flux meter.
+    
+    Since the flux meter integrates analogously, there is an undetermined integration constants shifting the output
+    voltage $U_{out}$.
+    This shift is corrected by centering the data afterwards.
+    Furthermore the flux meter has an finite input resistance, which results in a constant drift of the output voltage,
+    especially for small currents.
+    The following data is adjusted for both those effects.
+    
     \section{Hysteresis curves}
     \subsection{Steel ST37K}
     \label{subsec:steel}
+    
+    \figExCoercivityRemanenceSteel{Hysteresis curve for steel ST37K\@.
+    Via linear regression the coercivity $H_C = \CoercivityExCoercivityRemanenceSteel$ and remanence $B_R = \RemanenceExCoercivityRemanenceSteel$ was accessed.
+    Furthermore with numerical integration the energy loss after equation~\eqref{eq:EnergyLoss} is $\xi = \HysteresisLossExCoercivityRemanenceSteel$.
+    The saturation point was not reached.}
+    
+    We examined a ring core made of steel ST37K\@.
+    The captured hysteresis curve can be seen in figure~\ref{fig:ExCoercivityRemanenceSteel}.
+    To get the coercivity and remanence we apply linear regression around the H- and B-axis respectively.
+    Since the the curve is in proximity of the intersection linear.
+    \begin{align*}
+        H_C &= \CoercivityExCoercivityRemanenceSteel \\
+        B_R &= \RemanenceExCoercivityRemanenceSteel
+    \end{align*}
+    The error was inferred by the statistical scattering of the data points around the linear regression.
+    Please be aware that this approach only reflects statistical errors.
+    In our measurements we have a large amount of systematical errors, due to the fact that magnetic hysteresis is
+    highly dependent on the geometry of the used ring cores. 
+    To make our results reproducible, a far greater control over the geometry would be required.
+    Because this paper is more concerned with qualitative results, all quantitative results only really apply for the
+    local setup used by us.
+    
+    
+    The energy loss was calculated by numerical integrating the curve and applying equation~\eqref{eq:EnergyLoss}:
+    \begin{align*}
+        \xi = \HysteresisLossExCoercivityRemanenceSteel
+    \end{align*}
+    Similarly the error was determined by the statistical scattering of the data points.
+    
+    \subsubsection*{Irreversibility of hysteresis}
+    
+    \figExIrreversibilitySteel{Hysteresis curve for ST37K.
+    By briefly changing direction of the applyied H-field a hysteresis-branch is formed.
+    This shows the time dependence of ferromagnetical materials. 
+    It can be explained via Weiss domains (c.f. section~\ref{sec:Theory})}
+    
+    As stated in section~\ref{sec:Theory}, the hysteresis curve depends on the magnetization history
+    of the material. 
+    This effect can be revealed by briefly changing the direction of the external H-field.
+    Compare figure~\ref{fig:ExIrreversibilitySteel} where after changing the field direction a branch in the curve
+    is formed.
+    The magnetization does not return to its previous state as would be naively expected.
+    
+    \subsubsection*{Demagnetization}
+    
+    \figExDemagnetizationSteel{}
+    
+    As shown in the previous section, after you reverse the polarisation of the external field, the magnetisation
+    is weaker as in the previous state.
+    You can use this fact to demagnetize the material.
+    This was achieved by periodically flipping the H-field and decreasing its strength each step,
+    The magnetic moments of the weiss domains get more and more disordered, until no remanence-field is left.
+    The lowest energetic state is reached.
+    
+    As you can see in figure~\ref{fig:ExDemagnetizationSteel} the state of demagnetization is not
+    completely reached.
+    If you want to attain it perfectly, you have to flip the H-field after the coercivity is reached.
+    But since we flipped the H-field manually this proved to be difficult. 
+    
     \subsection{PERMENORM 5000 H2 Fe-Ni-Aloy}
+    
+    
+    
     \subsection{PERMENORM 5000 Z Fe-Ni-Aloy}
     \subsection{Wood as reference}
-    \section{summary}
+    \section{Summary}
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.

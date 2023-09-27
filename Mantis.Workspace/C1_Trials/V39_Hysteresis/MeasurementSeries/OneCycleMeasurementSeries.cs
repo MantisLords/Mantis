@@ -236,13 +236,13 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     {
         base.SaveAndLogCalculatedData();
         
-        Remanence?.Value.AddCommand("Remanence"+Name+RingCore.Type,"T");
-        Coercivity?.Value.AddCommand("Coercivity"+Name+RingCore.Type,"A/m");
-        Saturation?.Value.AddCommand("Saturation"+Name+RingCore.Type,"T");
-        SaturationPermeability?.Value.AddCommand("SaturationPermeability"+Name+RingCore.Type,"Tm/A");
-        HysteresisLoss?.Value.AddCommand("HysteresisLoss"+Name+RingCore.Type,"J");
+        Remanence?.AddCommand("Remanence"+Label,"T");
+        Coercivity?.AddCommand("Coercivity"+Label,"A/m");
+        Saturation?.AddCommand("Saturation"+Label,"T");
+        SaturationPermeability?.AddCommand("SaturationPermeability"+Label,"Tm/A");
+        HysteresisLoss?.AddCommand("HysteresisLoss"+Label,"J/kg");
         
-        Console.WriteLine($"{Name}-{base.RingCore.Name}\n\tRemanence {Remanence.ToString()}\n\tCoercivity {Coercivity.ToString()}\n\tSaturation {Saturation.ToString()} \n\tLos: {HysteresisLoss.ToString()}" +
+        Console.WriteLine($"{Label}\n\tRemanence {Remanence.ToString()}\n\tCoercivity {Coercivity.ToString()}\n\tSaturation {Saturation.ToString()} \n\tLos: {HysteresisLoss.ToString()}" +
                           $"\n\tMu {SaturationPermeability}");
     }
 

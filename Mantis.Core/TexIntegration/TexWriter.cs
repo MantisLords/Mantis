@@ -28,4 +28,9 @@ public class TexWriter
         File.WriteAllText(path,Builder.ToString());
     }
 
+    public void Clear()
+    {
+        Builder.Clear();
+    }
+
 }

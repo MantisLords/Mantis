@@ -33,15 +33,15 @@ public static class V39_Hysteresis_Main
             var measurementSeries =
                 HysteresisMeasurementSeries.InstantiateSeries(pascoSeries.Key, pascoSeries.Value, ringCores, seriesInfos,errorVoltage);
 
-            MeasurementSeriesDict[measurementSeries.Name] = measurementSeries;
+            MeasurementSeriesDict[measurementSeries.Label] = measurementSeries;
         }
 
-        if (MeasurementSeriesDict["Messreihe #1"] is OneCycleMeasurementSeries series1)
+        if (MeasurementSeriesDict["ExCoercivityRemanenceSteel"] is OneCycleMeasurementSeries series1)
         {
             series1.DrawRegRemanence = true;
             series1.DrawRegCoercivity = true;
         }
-        ((MeasurementSeriesDict["Messreihe #13"] as OneCycleMeasurementSeries)!).DrawRegSaturation = true;
+        ((MeasurementSeriesDict["ExSaturationFe-Ni Z"] as OneCycleMeasurementSeries)!).DrawRegSaturation = true;
         
         foreach (var series in MeasurementSeriesDict.Values)
         {
@@ -49,7 +49,7 @@ public static class V39_Hysteresis_Main
             
             var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520);
             series.PlotData(plt);
-            plt.SaveFigHere(series.Name+series.RingCore.Type,scale:4);
+            plt.SaveAndAddCommand("fig:"+series.Label);
             
         }
         

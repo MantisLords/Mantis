@@ -7,6 +7,7 @@ namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 public record struct MeasurementSeriesInfo
 {
     [QuickTableField("measurementSeries")] public string MeasurementSeriesName = "";
+    [QuickTableField("usage")] public string Usage = "";
     [QuickTableField("ringCore")] public string RingCoreName = "";
 
     [QuickTableField("seriesResistance", "Ohm")]
@@ -26,6 +27,7 @@ public record struct MeasurementSeriesInfo
 
     [QuickTableField("saturationEvalMin", "H")]
     public double SaturationEvalMin = 0;
-    
+
     public MeasurementSeriesInfo(){}
+    
 }
