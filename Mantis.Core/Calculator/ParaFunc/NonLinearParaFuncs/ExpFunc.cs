@@ -2,6 +2,8 @@
 
 namespace Mantis.Core.Calculator;
 
+
+
 public class ExpFunc : FuncCore,IFixedParameterCount
 {
     public override double CalculateGradient(Vector<double> parameters, double x, int index, double prevValue)

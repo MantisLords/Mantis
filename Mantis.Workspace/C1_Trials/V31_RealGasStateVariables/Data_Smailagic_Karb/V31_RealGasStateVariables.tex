@@ -1,0 +1,105 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{hhline}
+
+
+\include{Data/Generated/Preamble}
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Betreuer: Lukas Elter & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Phase Transition and Critical Points of SF_6}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+       
+        \\
+        Measuerement made: 26. September 2023\\       %Datum ändern!
+        Submitted: 26. September 2023                %Datum ändern!
+        \\
+        \\
+    \end{abstract}
+    }]
+    \section{Introduction}\label{sec:introdction}
+    The technical application of gasses has been very important in a variety of engineering branches. 
+    A better understanding of their properties through a \texit{good} theoretical model as well as precise empirical data is of high importance.
+    The most trivial model of a gas is that of the ideal gas, which assumes infinitely small molecules interacting only by bumping the walls of the container.
+    The comparison with experimental data reveals the limitations of the model as its \textit{region of applicability} is small and it fails completely at modeling phase transitions.
+    An expansion of the model which tries to correct for the finite volume of the molecules as well as adding an intermolecular interaction by adding two more parameters was developed by Van der Waal.
+    This model shows greater agreement with data but still fails to model a phase transition or a state of coexistence of two phases.
+    Nonetheless, the Van der Waals model allows an approximation of the coexistence region by a maxwells methods which we will discuss in this paper.
+    To compare the two models mentioned above, and explore their limitations Sulfur hexafluoride (SF_6\)) was used.
+    SF_6\) is a colorless, odorless, non-flammable and otherwise completely inert gas. 
+    The molecule has an octahedral geometry consisting of six fluorine atoms attached to a central sulfur atom.
+    Its easy to reach temperature and pressure for phase transition from gas to liquid make it ideal for the for testing the limits of our theories in a safe environment.
+    For that, the state variables pressure, volume and temperature are measured, allowing later to calculate the critical point of the gas.
+    \section{Theory: Ideal gas and Van der Waals equation}\label{sec:theory}
+    Modeling a gas with the assumption of infinitely small molecules interacting only by bumping into each other, one gets the ideal gas equation
+    \begin{align}
+        pV=\nu RT
+    \end{align}
+    with p being the pressure, V the volume, $\nu$ the amount of substance, R the universal gas constant and T being the temperature of the gas.
+    
+    Van der Waal expands this theory by adding two more parameters.
+    One accounting for the finite volume of each molecule and the second one accounting for a gas specific attractive intermolecular interaction.
+    \begin{align}
+    (p+\frac{\nu^2 a}{V^2})(V-\nu b) = \nu RT
+    \end{align}
+    The Van der Waals model, while showing better agreement with theory still fails to model the phase transition form gas to liquid which exhibits a region of coexistence of the two phases. 
+    By decreasing the volume in the coexistence region a part of the gas transitions into liquid leaving the pressure unchanged, which can be seen as a horizontal line in the P-V diagram.
+    The coexistence region shows an inversely proportional temperature dependence making it narrower for higher temperatures until vanishing completely when the critical point is reached.
+    After that point, the liquid and gaseus phase are indistinguishable.
+    \section{Recording of isotherms and determination of the critical point}\label{sec:Measurement}
+    \begin{figure}
+        \label{fig:construction}
+        \begin{center}
+        \includegraphics[]{Data/Generated/Construction}
+        \caption[]{The Construciton of the measurement with}
+        \end{center}
+    \end{figure}
+    With this Construction, a total of 9 isotherms were recorded. 
+    For the recording it was necesary to keep the pressure chamber on constant temperature which was done using an external thermostat.
+    The volume was then set with the Hg pillar and the according reading on the manometer was written down.
+    It was essential to wait for the thermodynamic equilibrium to set after every manipulation of the parameters, before collecting any data.
+    The redorded data can be seen in Fig. \ref{fig:binodal} and \ref{fig:binodalZoom}.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.2]{Data/Generated/fig_plot}\label{fig:binodal}
+            \caption[]{The isoterms}
+            \includegraphics[scale=0.2]{Data/Generated/plotZoom}\label{fig:binodalZoom}
+            \caption[]{Zoomed in view}
+        \end{center}
+    \end{figure}
+    
+\end{document}

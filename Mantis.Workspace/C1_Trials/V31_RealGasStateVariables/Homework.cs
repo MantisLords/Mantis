@@ -8,17 +8,17 @@ public class Homework
     public static void Process()
     {
         double n = 1;//mol
-        double R = 8.314;//
+        double R = 8.314*10;//
         double T = 288.7;//K
-        double a = 365.8 * Math.Pow(10, -3);//mol
-        double b = 42.75 * Math.Pow(10,-6);
+        double a = 3.658 * Math.Pow(10, 6);//mol
+        double b = 42.75;
 
-        var function1 = new Func<double, double?>(V => n * R * T / V);
-        var function2 = new Func<double, double?>(V => n*R*T/(V-n*b)-n*n*a/(V*V));
+        var function1 = new Func<double, double?>(V => R * T / V);
+        var function2 = new Func<double, double?>(V => R*T/(V-b)-a/Math.Pow(V,2));
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
-        plot.SetAxisLimits(0,0.600,0,100);
+        plot.SetAxisLimits(45,600,20,100);
         plot.AddFunction(function1,Color.Black);
-        plot.AddFunction(function2, Color.Red);
+        plot.AddFunction(function2,Color.Red);
         plot.SaveAndAddCommand("HomeworkPlotFirst","caption");
     }
 }

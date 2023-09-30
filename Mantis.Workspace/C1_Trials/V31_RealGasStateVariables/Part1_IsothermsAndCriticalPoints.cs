@@ -9,6 +9,7 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Interpolation;
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -40,56 +41,56 @@ public static class Part1_IsothermsAndCriticalPoints
         List<VolumePressureData> dataListTemp1 = csvReader1.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp1.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader2 = new SimpleTableProtocolReader("ChamberDataTemp2.csv");
         List<VolumePressureData> dataListTemp2 = csvReader2.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp2.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader3 = new SimpleTableProtocolReader("ChamberDataTemp3.csv");
         List<VolumePressureData> dataListTemp3 = csvReader3.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp3.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader4 = new SimpleTableProtocolReader("ChamberDataTemp4.csv");
         List<VolumePressureData> dataListTemp4 = csvReader4.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp4.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader5 = new SimpleTableProtocolReader("ChamberDataTemp5.csv");
         List<VolumePressureData> dataListTemp5 = csvReader5.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp5.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader6 = new SimpleTableProtocolReader("ChamberDataTemp6.csv");
         List<VolumePressureData> dataListTemp6 = csvReader6.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp6.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader7 = new SimpleTableProtocolReader("ChamberDataTemp7.csv");
         List<VolumePressureData> dataListTemp7 = csvReader7.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp7.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader8 = new SimpleTableProtocolReader("ChamberDataTemp8.csv");
         List<VolumePressureData> dataListTemp8 = csvReader8.ExtractTable<VolumePressureData>("tab:ChamberData");
         dataListTemp8.ForEachRef((ref VolumePressureData data) =>
         {
-            data.pressure.Error = 0.1;
+            data.pressure.Error = 0.25;
             data.volume.Error = 0.02;
         });
         var csvReader9 = new SimpleTableProtocolReader("ChamberDataTemp9.csv");
@@ -124,11 +125,13 @@ public static class Part1_IsothermsAndCriticalPoints
          plot.AddFunction(x => spline.Interpolate(x),Color.Black);
          Console.WriteLine("extrema " + spline.Extrema());
          Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
-         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,3F,MarkerShape.filledTriangleUp);
+         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp);
         
         
         //plot.AddRegModel(model, "data", "fitted function");
         plot.SaveAndAddCommand("fig:plot","caption");
+        plot.SetAxisLimits(0.5,0.8,33,38);
+        plot.SaveAndAddCommand("plotZoom","caption");
         
         
         List<TemperaturePressureData> temperaturePressureForLogPlot = new List<TemperaturePressureData>();
@@ -144,13 +147,24 @@ public static class Part1_IsothermsAndCriticalPoints
         temperaturePlot.SaveAndAddCommand("fig:temperaturePlot","caption");
         
         ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("temperature", "pressure");
+       
         temperatureLogPlot.AddScatter(
-            temperaturePressureForLogPlot.Select(e => Math.Log(e.pressure.Value,Math.E)).ToArray(),
-            temperaturePressureForLogPlot.Select(e => 1 / (e.temperature.Value)).ToArray());
+            temperaturePressureForLogPlot.Select(e => 1.0 / (e.temperature.Value)).ToArray(),
+            temperaturePressureForLogPlot.Select(e => Math.Log(e.pressure.Value)).ToArray());
 
+        
+        
+        RegModel<ExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>(1/e.temperature,e.pressure),
+            new ParaFunc<ExpFunc>(2)
+        {
+            Units = new[]{"",""}
+        }
+            );
+        expoModel.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, true);
+        expoModel.AddParametersToPreambleAndLog("expoData");
+       // temperatureLogPlot.AddRegModel(expoModel, "temp", "pressure", false);
+        //temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
-        
-        
 
 
     }
