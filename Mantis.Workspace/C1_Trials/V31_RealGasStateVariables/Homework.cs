@@ -1,7 +1,13 @@
 ﻿using System.Drawing;
+using Mantis.Core.Calculator;
+using Mantis.Core.FileImporting;
+using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.Utility;
 
 namespace Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
+
+[QuickTable("", "ChamberData")]
 
 public class Homework
 {
@@ -20,5 +26,6 @@ public class Homework
         plot.AddFunction(function1,Color.Black);
         plot.AddFunction(function2,Color.Red);
         plot.SaveAndAddCommand("HomeworkPlotFirst","caption");
+        
     }
 }

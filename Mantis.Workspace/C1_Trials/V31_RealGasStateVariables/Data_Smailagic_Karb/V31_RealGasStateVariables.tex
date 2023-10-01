@@ -80,7 +80,7 @@
     By decreasing the volume in the coexistence region a part of the gas transitions into liquid leaving the pressure unchanged, which can be seen as a horizontal line in the P-V diagram.
     The coexistence region shows an inversely proportional temperature dependence making it narrower for higher temperatures until vanishing completely when the critical point is reached.
     After that point, the liquid and gaseus phase are indistinguishable.
-    \section{Recording of isotherms and determination of the critical point}\label{sec:Measurement}
+    \section{Recording of isotherms and determining the critical point}\label{sec:Measurement}
     \begin{figure}
         \label{fig:construction}
         \begin{center}
@@ -89,10 +89,10 @@
         \end{center}
     \end{figure}
     With this Construction, a total of 9 isotherms were recorded. 
-    For the recording it was necesary to keep the pressure chamber on constant temperature which was done using an external thermostat.
+    For the recording it was necessary to keep the pressure chamber on constant temperature which was done using an external thermostat.
     The volume was then set with the Hg pillar and the according reading on the manometer was written down.
     It was essential to wait for the thermodynamic equilibrium to set after every manipulation of the parameters, before collecting any data.
-    The redorded data can be seen in Fig. \ref{fig:binodal} and \ref{fig:binodalZoom}.
+    The redorded data can be seen in Fig. \ref{fig:binodal} and Fig.  \ref{fig:binodalZoom}.
     \begin{figure}
         \begin{center}
             \includegraphics[scale=0.2]{Data/Generated/fig_plot}\label{fig:binodal}
@@ -101,5 +101,54 @@
             \caption[]{Zoomed in view}
         \end{center}
     \end{figure}
+    The coexistence regions in which the isotherms are horizontal are highlighted and a line was drawn between the beginning and end point of the region.
+    The end points were then used to interpolate a curve through them, which marks roughly the coexistence region as a whole as well as allowing extrapolation of the critical point of the gas which could not be
+    determined through direct experiment due to the uncertainties.
+    The curve marking the region of coexistence is called the binodal.
+    The exact algorithm which was used is explained in detail in the Appendix.
+    The extremum of the binodal marks teh critical point of the gas, SF_6\) in this case and is calculated to be at
+    \begin{align}
+        P_{crit} = \criticalPressure 
+        \endline
+        V_{crit} = \criticalVolume 
+        \end{align}
+    The estimated temperature at the critical point is $T_{crit} = (46.3 \pm 0.3)$ since the maximum appears to be exactly between the 46.1\degree\) and the 46.6\degree\) isotherms.
+    This is value is eyeballed since this method does not allow a more precise conclusion.
+    The errors of the critical values for volume and pressure are estimates as well.
+    Since the interpolation error is assumed to be small, the errors are mostly the reading errors of the Hg pillar and the manometer.
+    For smaller volumes outside the coexistence region the gas exhibits a very rapid pressure increase, this is due to the fact that all the gas has turned into liquid which is incompressible.
+    \subsection{Steam pressure curve}\label{subsec:steamPressureCurve}
+    From the data in Fig. \ref{fig:binodal} and the constructed maxwell horizontals one can plot the temperature dependence of the pressure as can be seen in the inlet in Fig. \ref{}.
+    However, the theoretical form of the steam pressure curve is predicted as follows:
+    \begin{align}
+        p=b(T)e^\frac{E_{steam}}{k_B T}
+    \end{align}
+    This prediction can be explained by the Boltzmann distribution of the molecules, since only the molecules that have enough energy to leave the liquid phase evaporate.
+    The height of this energy barrier is E_{steam}\) in this case.
+    In the chosen depicting of the data, it seems they follow a linear trend allowing us to assume the model is right.
+    With this, one can calculate the evaporation energy E_{steam}\) from the fitted exponential curve to be
+    \begin{align}
+        E_{steam} = \evaporationEnergyPerMole \frac{J}{mol}
+        \endline \text{with } k_B \text{ being } 1.380649\cdot 10^{-23}\frac{J}{K}
+    \end{align}
+    The evaporation energy is given in units of energy per mole since the evaporation energy of one molecule is not handy. 
+    From the intersection point with the critical pressure, the critical temperature can be calculated $T_{crit}=$.
+    The obtained value is.......
+    Possible explanations for this could be the clarity of the gas, or systematical errors in the measurement process due to not being in the thermodynamical equilibrium.
+    This value does however coincide with the value estimated form the P-V diagramm and is going to be used in all following calculations since the other value is a mere estimate.
+    
+    \subsection{Gas specific parameters for the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
+    The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{})
+    Their values are calculated to be $a = \parameterA \frac{Pa m^6}{mol^2}$ and $b =\parameterB \frac{m^3}{mol}$.
+    These values do not coincide withe the literature values of $A_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = \frac{m^3}{mol}$.
+    From these, the amount of substance can be calculated as well $\nu = \amountOfSubstance mol$.
+    Finally, we can use the definition of the critical coefficient
+    \begin{align}\label{eq:critcalCoeff}
+        K_K = \frac{\nu RT}{pV}
+    \end{align}
+    to calculate the deviation of SF_6\) from a true VdW-gas.
+    But since we assumed SF_6\) to be a VdW gas when we calculated the amount of substance, this would provide us no new information.
+    
+    \section{Comparing with theory}\label{sec:comaringTheory}
     
 \end{document}

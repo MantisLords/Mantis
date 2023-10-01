@@ -16,6 +16,7 @@ using ScottPlot.Plottable;
 
 namespace Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 
+
 [QuickTable("", "ChamberData")]
 public record struct VolumePressureData
 {
@@ -32,6 +33,7 @@ public struct TemperaturePressureData
     public ErDouble temperature;
     public ErDouble pressure;
 }
+
 public static class Part1_IsothermsAndCriticalPoints
 {
     
@@ -122,12 +124,20 @@ public static class Part1_IsothermsAndCriticalPoints
         
         CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit,100);
          var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
-         plot.AddFunction(x => spline.Interpolate(x),Color.Black);
+         plot.AddFunction(x => spline.Interpolate(x), Color.Black);
          Console.WriteLine("extrema " + spline.Extrema());
          Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
          plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp);
-        
-        
+
+         ErDouble criticalVolume = new ErDouble(spline.Extrema().Item2, 0.05);
+         ErDouble criticalPressure = new ErDouble(spline.Interpolate(spline.Extrema().Item2), 0.5);
+         ErDouble criticalTemperature = new ErDouble(46.3, 0.3);
+         criticalPressure.AddCommand("criticalPressure","bar");
+         criticalVolume.AddCommand("criticalVolume","cm^3");
+         
+         CalculateA(criticalPressure,criticalVolume,criticalTemperature).AddCommand("parameterA");
+         CalculateB(criticalPressure,criticalVolume,criticalTemperature).AddCommand("parameterB");
+         CalculateNu(CalculateB(criticalPressure, criticalVolume, criticalTemperature), criticalVolume).AddCommand("amountOfSubstance");
         //plot.AddRegModel(model, "data", "fitted function");
         plot.SaveAndAddCommand("fig:plot","caption");
         plot.SetAxisLimits(0.5,0.8,33,38);
@@ -142,31 +152,31 @@ public static class Part1_IsothermsAndCriticalPoints
         CreateTemperaturePressureData(dataForFit, csvReader5,temperaturePressureForLogPlot,8);
         
         ScottPlot.Plot temperaturePlot = ScottPlotExtensions.CreateSciPlot("temperature", "pressure");
-        temperaturePlot.AddScatter(temperaturePressureForLogPlot.Select(e => e.temperature.Value).ToArray(),
-            temperaturePressureForLogPlot.Select(e => e.pressure.Value).ToArray());
+        temperaturePlot.AddErrorBars(temperaturePressureForLogPlot.Select(e=>(e.temperature,e.pressure)));
         temperaturePlot.SaveAndAddCommand("fig:temperaturePlot","caption");
         
-        ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("temperature", "pressure");
-       
-        temperatureLogPlot.AddScatter(
-            temperaturePressureForLogPlot.Select(e => 1.0 / (e.temperature.Value)).ToArray(),
-            temperaturePressureForLogPlot.Select(e => Math.Log(e.pressure.Value)).ToArray());
+        ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("inverse temperature", "pressure");
+        
+        temperatureLogPlot.AddErrorBars(
+            temperaturePressureForLogPlot.Select(e => ((e.temperature+273.15).Pow(-1),e.pressure)));
 
         
         
-        RegModel<ExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>(1/e.temperature,e.pressure),
+        RegModel<ExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>((273.15+e.temperature).Pow(-1),e.pressure),
             new ParaFunc<ExpFunc>(2)
         {
             Units = new[]{"",""}
         }
             );
         expoModel.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, true);
-        expoModel.AddParametersToPreambleAndLog("expoData");
-       // temperatureLogPlot.AddRegModel(expoModel, "temp", "pressure", false);
-        //temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
+        expoModel.AddParametersToPreambleAndLog("LineData");
+        temperatureLogPlot.AddRegModel(expoModel, "inverse temp", "log of pressure ", false);
+      // temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
+
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
-
-
+        expoModel.ErParameters[1].AddCommand("regressionExponent");
+        CalculateEvaporationEnergy(expoModel.ErParameters[1]).AddCommand("evaporationEnergy");
+        CalculateEvaporationEnergy(expoModel.ErParameters[1]*6.22*Math.Pow(10,23)*(-1)).AddCommand("evaporationEnergyPerMole");
     }
 
     private static List<TemperaturePressureData> CreateTemperaturePressureData(List<VolumePressureData> data,
@@ -174,15 +184,35 @@ public static class Part1_IsothermsAndCriticalPoints
     {
         TemperaturePressureData e = new TemperaturePressureData();
         
-            e.pressure = data[index].pressure.Value;
+            e.pressure = data[index].pressure;
+            e.pressure.Error=0.5;
             e.temperature = reader.ExtractSingleValue<double>("temperature");
+            e.temperature.Error = 0.2;
             returnList.Add(e);
-            
-        
-
-        return returnList;
+            return returnList;
     }
 
+    private static ErDouble CalculateEvaporationEnergy(ErDouble regressionParameter)
+    {
+        return regressionParameter * 1.380694 * Math.Pow(10, -23);
+    }
+
+    public static ErDouble CalculateB(ErDouble pk, ErDouble vk, ErDouble tk)
+    {
+        Console.WriteLine(pk+ " "+vk+" "+tk);
+        return ((tk+273.15) / pk) * (83.144 / 8) * Math.Pow(10, -6);//m^3/mol
+    }
+
+    public static ErDouble CalculateNu(ErDouble b, ErDouble vk)
+    {
+        return vk*Math.Pow(10,-6) / (b*3);
+    }
+    public static ErDouble CalculateA(ErDouble pk, ErDouble vk, ErDouble tk)
+    {
+        ErDouble b = CalculateB(pk, vk, tk);
+        return pk * 27 * b.Pow(2)*Math.Pow(10,5);//Pa*m^6/mol^2
+    }
+    
     public static void CalculateMaxwellLine(List<VolumePressureData> data, ScottPlot.Plot plot,double sensitivity,double variance,List<VolumePressureData> dataForFit,double lowerlimit)
     {
         List<VolumePressureData> returnList = new List<VolumePressureData>();
