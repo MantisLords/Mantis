@@ -19,6 +19,8 @@ public static class NonLinearRegression
     {
         var objective = GetNonlinearObjectiveModel(model,useYErrors);
         var res = new LevenbergMarquardtMinimizer().FindMinimum(objective, initialGuess);
+        
+        //Console.WriteLine($"Standard Errors: {res.StandardErrors}");
 
         if (res.ReasonForExit != ExitCondition.Converged )
             Console.WriteLine($"Finished LM! Reason for exit: {res.ReasonForExit} Iterations: {res.Iterations}");
@@ -27,7 +29,7 @@ public static class NonLinearRegression
         if (!useYErrors)
         {
             double sigmaSqrt = objective.Value / objective.DegreeOfFreedom;
-            covariance *= sigmaSqrt;
+            covariance  *= sigmaSqrt;
         }
         
         model.ParaFunction.ParaSet.SetParametersAndErrorsWithApprox(objective.Point,covariance);

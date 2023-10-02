@@ -60,6 +60,7 @@
     This model shows greater agreement with data but still fails to model a phase transition or a state of coexistence of two phases.
     Nonetheless, the Van der Waals model allows an approximation of the coexistence region by a maxwells methods which we will discuss in this paper.
     To compare the two models mentioned above, and explore their limitations Sulfur hexafluoride (SF_6\)) was used.
+    
     SF_6\) is a colorless, odorless, non-flammable and otherwise completely inert gas. 
     The molecule has an octahedral geometry consisting of six fluorine atoms attached to a central sulfur atom.
     Its easy to reach temperature and pressure for phase transition from gas to liquid make it ideal for the for testing the limits of our theories in a safe environment.
@@ -84,7 +85,7 @@
     \begin{figure}
         \label{fig:construction}
         \begin{center}
-        \includegraphics[]{Data/Generated/Construction}
+        \includegraphics[scale=0.8]{Data/Generated/Construction}
         \caption[]{The Construciton of the measurement with}
         \end{center}
     \end{figure}
@@ -132,15 +133,14 @@
         \endline \text{with } k_B \text{ being } 1.380649\cdot 10^{-23}\frac{J}{K}
     \end{align}
     The evaporation energy is given in units of energy per mole since the evaporation energy of one molecule is not handy. 
-    From the intersection point with the critical pressure, the critical temperature can be calculated $T_{crit}=$.
-    The obtained value is.......
-    Possible explanations for this could be the clarity of the gas, or systematical errors in the measurement process due to not being in the thermodynamical equilibrium.
-    This value does however coincide with the value estimated form the P-V diagramm and is going to be used in all following calculations since the other value is a mere estimate.
+    From the intersection point with the critical pressure, the critical temperature can be calculated $T_{crit}=\criticalTemp K$.
+    The value coincides with the literature value $T_{crit} = 45.54\degree C$ which is mostly due to the large error which comes from the fitting method.
+    This value also coincides with the value estimated form the P-V diagram and is going to be used in all following calculations since the other value is a mere estimate.
     
     \subsection{Gas specific parameters for the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
     The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{})
     Their values are calculated to be $a = \parameterA \frac{Pa m^6}{mol^2}$ and $b =\parameterB \frac{m^3}{mol}$.
-    These values do not coincide withe the literature values of $A_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = \frac{m^3}{mol}$.
+    These values do not coincide withe the literature values of $a_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = \frac{m^3}{mol}$.
     From these, the amount of substance can be calculated as well $\nu = \amountOfSubstance mol$.
     Finally, we can use the definition of the critical coefficient
     \begin{align}\label{eq:critcalCoeff}
@@ -150,5 +150,83 @@
     But since we assumed SF_6\) to be a VdW gas when we calculated the amount of substance, this would provide us no new information.
     
     \section{Comparing with theory}\label{sec:comaringTheory}
+    To compare the two models mentioned in this paper, we plotted them in Fig.  \ref{fig:comparingTheories}.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.2]{Data/Generated/comparationPlot}
+            \caption[]{comparing theories}
+            \label{fig:comparingTheories}
+        \end{center}
+    \end{figure}
+    As expected, the data follows the ideal gas equation very poorly.
+    The predicted pressures are high at every point of the graph since there is no modification on the pressure in the model and it fails completely to predict what happens in the phase transition region.
+    The Van der Waals model on the other hand, does a much better job of predicting the pressure although it also predicts slightly higher values than the observed ones.
+    It is likely that the parameter governing the attractive intermolecular force does not modify the pressure enough.
+    The model clearly fails at the phase transition region where the predicted maxwell line should divide the VdW curve in two equal parts, which could not be observed.
+    This goes to show that while adding a intermolecular interaction greatly improves agreement with experiment, the model still does not cover every situation a gas can be in.
+    Both models show better agreement with the data at large volumes.
+    \section[]{Conclusion}\label{sec:conclusion}
+    We were able to examine the properties of SF_6\) with our measurements.
+    By recording isotherms at different volumes and according pressures we were able to extrapolate the critical point of SF_6\) in the P-V diagram.
+    The critical values came out to be $P_{crit}=\criticalPressure$ , $V_{crit}=\criticalVolume$ and $T_{crit}=(46.3\pm 0.3)$.
+    From the pressures at the coexistence region and their according temperatures pressure-temperature tuples could be used to determine their functional
+    relation revealing to be exponential.
+    Form the exponential fit the evaporation energy could be calculated and with that a more precise value for the critical temperature could be determined
+    $T_{crit}=\criticalTemp \degree$.
+    From the critical parameters, the free parameters of the Van der Waals model $a=\parameterA \frac{Pa m^6}{mol^2} $ and $b=\parameterB \frac{m^3}{mol} $ could be calculated, as well as the amount of substance
+    $\nu = \amountOfSubstance mol$.
+    The graphical comparison of the two models and the experimental data showed the advantages of the Van der Waals model over the ideal gas model since it did a much better job predicting
+    the pressure.
+    However, both models failed at predicting the coexistence region at the phase transition from gas to liquid.
+    \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C1, Versuch 31, Zustandsgrößen realer Gase, 2021
+        \bibitem{crc} D. R. Lide: \grqq CRC Handbook of Chemistry
+        and Physics\grqq , CRC Press, Boca Raton, 84th
+        edition, 2004
+        \bibitem{dilo} \url{https://dilo.eu/sf6-gas}, zuletzt aufgerufen am 02.10.2023
+    \end{thebibliography}
+    \newpage
+    \section[]{Appendix}\label{sec:apendix}
+    \subsection{Critical parameters and the VdW parameters}\label{subsec:criticalParams}
+    The parameters of the Van der Waals model are directly dependent on the critical parameters of the gas.
+    Since the critical point is the point from which the liquid and gas phase are indistinguishable, the Van der Waals isotherm has a saddle point there.
+    Mathematically this is given by:
+    \begin{equation}\label{eq:anh1}
+    \begin{split}
+        0 & \overset{!}{=}\frac{dp}{dV}\\
+        & =-\frac{\nu R T}{(V-\nu b)^2}+\frac{2 \nu^2 a}{V^3}
+    \end{split}
+    \end{equation}
+\begin{equation}\label{eq:anh2}
+\begin{split}
+    0 & \overset{!}{=}\frac{d^2p}{dV^2}\\
+    & =\frac{2 \nu R T}{(V-\nu b)^3}-\frac{b \nu^2 a}{V^4}
+\end{split}
+\end{equation}
+These two equations can be solved for $\nu$RT and set equal, yielding:
+\begin{align}
+    V_\text{Crit} = 3\nu b
+\end{align}
+Put into Eq. (7) allows to calculate $T_{crit}$ and similarly $P_{crit}$
+\begin{align}
+    T_\text{Crit}=\frac{8a}{27bR}
+\end{align}
+\begin{align}
+    p_\text{Crit}=\frac{a}{27b^2}
+\end{align}
+    From these equations the values of a and b can easily be obtained.
+    \subsection{Maxwell horizontals method}\label{subsec:maxwellMethod}
+    \subsubsection{From the data}\label{subsubsec:maxwellFormData}
+    Explain and add a picture
+    \subsubsection{Maxwell horizontals theoretically}\label{subsec:maxwellFromTheory}
+    The Van der Waals model allows an aproximation of the maxwell horizontal since the area between the maxwell curve and the Van der Waals equation is should be zero integrated over the
+    coexistence region.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.2]{Data/Generated/HomeworkPlotFirst}
+            \caption[]{comparing theories}
+            \label{fig:homeworkPlotOne}
+        \end{center}
+    \end{figure}
     
 \end{document}

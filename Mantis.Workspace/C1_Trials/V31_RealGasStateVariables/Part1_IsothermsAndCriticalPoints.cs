@@ -11,6 +11,7 @@ using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Interpolation;
+using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
 using ScottPlot.Plottable;
 
@@ -32,6 +33,16 @@ public struct TemperaturePressureData
 {
     public ErDouble temperature;
     public ErDouble pressure;
+}
+
+public class InvExpFunc : AutoDerivativeFunc,IFixedParameterCount
+{
+    public override double CalculateResult(Vector<double> p, double x)
+    {
+        return p[0] * Math.Exp(p[1] / x);
+    }
+
+    public int ParameterCount => 2;
 }
 
 public static class Part1_IsothermsAndCriticalPoints
@@ -124,7 +135,9 @@ public static class Part1_IsothermsAndCriticalPoints
         
         CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit,100);
          var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
-         plot.AddFunction(x => spline.Interpolate(x), Color.Black);
+         var f = plot.AddFunction(x => spline.Interpolate(x), Color.Black);
+         f.XMax = 1.650;
+         f.XMin = 0.375;
          Console.WriteLine("extrema " + spline.Extrema());
          Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
          plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp);
@@ -157,19 +170,19 @@ public static class Part1_IsothermsAndCriticalPoints
         
         ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("inverse temperature", "pressure");
         
-        temperatureLogPlot.AddErrorBars(
-            temperaturePressureForLogPlot.Select(e => ((e.temperature+273.15).Pow(-1),e.pressure)));
+        //temperatureLogPlot.AddErrorBars(
+        //    temperaturePressureForLogPlot.Select(e => ((e.temperature+273.15).Pow(-1),e.pressure)));
 
         
         
-        RegModel<ExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>((273.15+e.temperature).Pow(-1),e.pressure),
-            new ParaFunc<ExpFunc>(2)
+        RegModel<InvExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>((273.15+e.temperature),e.pressure),
+            new ParaFunc<InvExpFunc>(2)
         {
             Units = new[]{"",""}
         }
             );
-        expoModel.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, true);
-        expoModel.AddParametersToPreambleAndLog("LineData");
+        expoModel.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, false);
+        expoModel.AddParametersToPreambleAndLog("ExpoData");
         temperatureLogPlot.AddRegModel(expoModel, "inverse temp", "log of pressure ", false);
       // temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
 
@@ -177,6 +190,26 @@ public static class Part1_IsothermsAndCriticalPoints
         expoModel.ErParameters[1].AddCommand("regressionExponent");
         CalculateEvaporationEnergy(expoModel.ErParameters[1]).AddCommand("evaporationEnergy");
         CalculateEvaporationEnergy(expoModel.ErParameters[1]*6.22*Math.Pow(10,23)*(-1)).AddCommand("evaporationEnergyPerMole");
+        CalculateCriticalTemp(expoModel.ErParameters[1], criticalPressure,
+            expoModel.ErParameters[0]).AddCommand("criticalTemp");
+        
+        //comparing with theory
+        double T = 30.2 + 273.15;//K
+        double R = 83.144;//bar*cm^3/K*mol
+        double b = CalculateB(criticalPressure, criticalVolume, criticalTemperature).Value * Math.Pow(10, 6);//cm^3/mol
+        double a = CalculateA(criticalPressure, criticalVolume, criticalTemperature).Value * Math.Pow(10, 7);//bar*cm^6/mol^2
+        double nu = CalculateNu(CalculateB(criticalPressure, criticalVolume, criticalTemperature), criticalVolume).Value;//mol
+        Console.WriteLine("a=" + a + " b= " + b + " nu= " + nu );
+        
+        ScottPlot.Plot comparationPlot = ScottPlotExtensions.CreateSciPlot("volume[cm^3]", "pressure[bar]");
+        var idealGas = new Func<double, double?>((v) => R * T * nu / v);
+        var vdWGas = new Func<double, double?>((v) => nu * R * T / (v - nu * b) - nu * nu * a / (v * v));
+        comparationPlot.AddFunction(idealGas, Color.Red);
+        var funkiton1 = comparationPlot.AddFunction(vdWGas, Color.Blue);
+        comparationPlot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)),Color.Black);
+        comparationPlot.SetAxisLimits(0,3.5,12.5,47.5);
+        funkiton1.XMin = 0.3;
+        comparationPlot.SaveAndAddCommand("comparationPlot","caption");
     }
 
     private static List<TemperaturePressureData> CreateTemperaturePressureData(List<VolumePressureData> data,
@@ -192,6 +225,10 @@ public static class Part1_IsothermsAndCriticalPoints
             return returnList;
     }
 
+    private static ErDouble CalculateCriticalTemp(ErDouble b, ErDouble p, ErDouble expoRegParameter0)
+    {
+        return (b / ErDouble.Log(p / expoRegParameter0,Math.E))-273.15;//degC
+    }
     private static ErDouble CalculateEvaporationEnergy(ErDouble regressionParameter)
     {
         return regressionParameter * 1.380694 * Math.Pow(10, -23);
@@ -205,7 +242,7 @@ public static class Part1_IsothermsAndCriticalPoints
 
     public static ErDouble CalculateNu(ErDouble b, ErDouble vk)
     {
-        return vk*Math.Pow(10,-6) / (b*3);
+        return vk*Math.Pow(10,-6) / (b*3);//mol
     }
     public static ErDouble CalculateA(ErDouble pk, ErDouble vk, ErDouble tk)
     {
