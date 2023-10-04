@@ -81,7 +81,7 @@
     By decreasing the volume in the coexistence region a part of the gas transitions into liquid leaving the pressure unchanged, which can be seen as a horizontal line in the P-V diagram.
     The coexistence region shows an inversely proportional temperature dependence making it narrower for higher temperatures until vanishing completely when the critical point is reached.
     After that point, the liquid and gaseus phase are indistinguishable.
-    \section{Recording of isotherms and determining the critical point}\label{sec:Measurement}
+    \section{Recording of isotherms and determining the critical point} \label{sec:Measurement}
     \begin{figure}
         \label{fig:construction}
         \begin{center}
@@ -93,12 +93,12 @@
     For the recording it was necessary to keep the pressure chamber on constant temperature which was done using an external thermostat.
     The volume was then set with the Hg pillar and the according reading on the manometer was written down.
     It was essential to wait for the thermodynamic equilibrium to set after every manipulation of the parameters, before collecting any data.
-    The redorded data can be seen in Fig. \ref{fig:binodal} and Fig.  \ref{fig:binodalZoom}.
+    The recorded data can be seen in Fig. \ref{fig:binodal} and Fig.  \ref{fig:binodalZoom}.
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.2]{Data/Generated/fig_plot}\label{fig:binodal}
+            \includegraphics[scale=0.18]{Data/Generated/fig_plot}\label{fig:binodal}
             \caption[]{The isoterms}
-            \includegraphics[scale=0.2]{Data/Generated/plotZoom}\label{fig:binodalZoom}
+            \includegraphics[scale=0.18]{Data/Generated/plotZoom}\label{fig:binodalZoom}
             \caption[]{Zoomed in view}
         \end{center}
     \end{figure}
@@ -140,7 +140,7 @@
     \subsection{Gas specific parameters for the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
     The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{})
     Their values are calculated to be $a = \parameterA \frac{Pa m^6}{mol^2}$ and $b =\parameterB \frac{m^3}{mol}$.
-    These values do not coincide withe the literature values of $a_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = \frac{m^3}{mol}$.
+    These values do not coincide withe the literature values of $a_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = 8.79\cdot 10^{-5} \frac{m^3}{mol}$.
     From these, the amount of substance can be calculated as well $\nu = \amountOfSubstance mol$.
     Finally, we can use the definition of the critical coefficient
     \begin{align}\label{eq:critcalCoeff}
@@ -215,16 +215,30 @@ Put into Eq. (7) allows to calculate $T_{crit}$ and similarly $P_{crit}$
     p_\text{Crit}=\frac{a}{27b^2}
 \end{align}
     From these equations the values of a and b can easily be obtained.
-    \subsection{Maxwell horizontals method}\label{subsec:maxwellMethod}
+    \subsection{Maxwell lines method}\label{subsec:maxwellMethod}
     \subsubsection{From the data}\label{subsubsec:maxwellFormData}
     Explain and add a picture
-    \subsubsection{Maxwell horizontals theoretically}\label{subsec:maxwellFromTheory}
-    The Van der Waals model allows an aproximation of the maxwell horizontal since the area between the maxwell curve and the Van der Waals equation is should be zero integrated over the
-    coexistence region.
+    \subsubsection{Maxwell lines theoretically}\label{subsubsec:maxwellFromTheory}
+    The Van der Waals model allows an approximation of the maxwell horizontal since the area between the Van der Waals curve and a the maxwell line should be zero.
+    Mathematically that means
+    \begin{align}
+        \int_{V1}^{V2} |VdW - P| dV
+        \end{align}
+    which delivers a condition for the pressure P:
+    \begin{align}
+        P=\log\frac{V2-b}{V1-b} RT - \frac{a}{v^2}
+    \end{align}
+    This condition along with Eq. (2) remaining fulfilled at the volumes V1 and V2 gives a system of equations which can be solved numerically.
+    Since solving the system of highly nonlinear equations with three free parameters brute force is tricky, we evaded that by implementing a different algorithm
+    which first finds the pressure region in which the constant pressure function has three intersections with the VdW curve and then minimizes the area function
+    with the two outer intersection points being the borders of integration.
+    The obtained value for P is $59.334\pm 0.002 bar$ while the error is due to the numerical method.
+    This was visualized in Fig. \ref{fig:homeworkPlotOne} in which the VdW curve with the maxwell line can be seen as well as the ideal gas curve for reference.
     \begin{figure}
         \begin{center}
             \includegraphics[scale=0.2]{Data/Generated/HomeworkPlotFirst}
-            \caption[]{comparing theories}
+            \caption[]{Theoretical isoterms of CO_2\) with following parameters:
+            T = $288.7K$, $\nu=1 mol$, $a=3.658\cdot 10^6 \frac{bar cm^6}{mol^2}$, $b=42.75 \frac{cm^3}{mol}$, $P_{Maxwell}=59.334 bar$}
             \label{fig:homeworkPlotOne}
         \end{center}
     \end{figure}

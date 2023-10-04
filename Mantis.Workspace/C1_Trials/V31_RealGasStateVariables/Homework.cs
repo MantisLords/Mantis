@@ -21,11 +21,14 @@ public class Homework
 
         var function1 = new Func<double, double?>(V => R * T / V);
         var function2 = new Func<double, double?>(V => R*T/(V-b)-a/Math.Pow(V,2));
+        var constantFunction = new Func<double, double?>(v => 59.334);
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
         plot.SetAxisLimits(45,600,20,100);
         plot.AddFunction(function1,Color.Black);
         plot.AddFunction(function2,Color.Red);
+        plot.AddFunction(constantFunction, Color.Blue);
         plot.SaveAndAddCommand("HomeworkPlotFirst","caption");
         
     }
+    
 }

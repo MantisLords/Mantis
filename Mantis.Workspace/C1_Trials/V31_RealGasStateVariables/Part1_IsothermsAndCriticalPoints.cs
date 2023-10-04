@@ -14,6 +14,7 @@ using MathNet.Numerics.Interpolation;
 using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
 using ScottPlot.Plottable;
+using ScottPlot.Renderable;
 
 namespace Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 
@@ -116,15 +117,15 @@ public static class Part1_IsothermsAndCriticalPoints
         
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
         plot.Palette = Palette.Category20;
-        plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)));
-         plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)));
+        plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)),label:"30.2");
+        plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)),label:"35.1");
+         plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)),label:"40.1");
+         plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)),label:"43.1");
+         plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)),label:"45.1");
+         plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)),label:"46.1");
+         plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)),label:"46.6");
+         plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)),label:"47.2");
+         plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)),label:"48.2");
         
         List<VolumePressureData> dataForFit = new List<VolumePressureData>();
         CalculateMaxwellLine(dataListTemp1,plot,0.25,0.5,dataForFit,100);
@@ -135,12 +136,13 @@ public static class Part1_IsothermsAndCriticalPoints
         
         CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit,100);
          var spline = CubicSpline.InterpolateAkima(dataForFit.Select(e => e.volume.Value), dataForFit.Select(e => e.pressure.Value));
-         var f = plot.AddFunction(x => spline.Interpolate(x), Color.Black);
+         var f = plot.AddFunction(x => spline.Interpolate(x), Color.Black,2D);
+         f.Label = "interpolated binodal";
          f.XMax = 1.650;
          f.XMin = 0.375;
          Console.WriteLine("extrema " + spline.Extrema());
          Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
-         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp);
+         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp,label:"Critical point");
 
          ErDouble criticalVolume = new ErDouble(spline.Extrema().Item2, 0.05);
          ErDouble criticalPressure = new ErDouble(spline.Interpolate(spline.Extrema().Item2), 0.5);
@@ -152,6 +154,7 @@ public static class Part1_IsothermsAndCriticalPoints
          CalculateB(criticalPressure,criticalVolume,criticalTemperature).AddCommand("parameterB");
          CalculateNu(CalculateB(criticalPressure, criticalVolume, criticalTemperature), criticalVolume).AddCommand("amountOfSubstance");
         //plot.AddRegModel(model, "data", "fitted function");
+        plot.Legend(true,Alignment.UpperRight);
         plot.SaveAndAddCommand("fig:plot","caption");
         plot.SetAxisLimits(0.5,0.8,33,38);
         plot.SaveAndAddCommand("plotZoom","caption");
@@ -192,7 +195,6 @@ public static class Part1_IsothermsAndCriticalPoints
         CalculateEvaporationEnergy(expoModel.ErParameters[1]*6.22*Math.Pow(10,23)*(-1)).AddCommand("evaporationEnergyPerMole");
         CalculateCriticalTemp(expoModel.ErParameters[1], criticalPressure,
             expoModel.ErParameters[0]).AddCommand("criticalTemp");
-        
         //comparing with theory
         double T = 30.2 + 273.15;//K
         double R = 83.144;//bar*cm^3/K*mol
