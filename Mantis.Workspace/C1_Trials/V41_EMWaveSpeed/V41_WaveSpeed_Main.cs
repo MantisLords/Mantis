@@ -24,7 +24,7 @@ public record struct OsziPulseData
 }//OsziData anscheinend schon da
 
 [QuickTable("","tab:standingWaveData")]
-public struct StandingWaveData
+public record struct StandingWaveData
 {
     
     [QuickTableField("frequency","Hz")]
@@ -69,6 +69,21 @@ public static class V41_WaveSpeed_Main
 
        var calculatedMeanList =
            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
+       
+       try
+       {
+           var nodeVoltageError = standingWaveReader.ExtractSingleValue<double>("nodeVoltageError");
+           calculatedMeanList.ForEachRef((ref StandingWaveData data) =>
+           {
+               data.nodeVoltage.Error = nodeVoltageError * 0.001;
+               //data.incommingVoltage.Error = nodeVoltageError;
+           });
+       }
+       catch (Exception e)
+       {
+            Console.WriteLine(e.Message);
+       }
+       
        ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
        Console.WriteLine(v);
        v.AddCommand("velocityRuntime","m/s");
@@ -80,6 +95,8 @@ public static class V41_WaveSpeed_Main
 
 
        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
+       
+       
        dataForTables[0].frequency.AddCommand("frequencyFirst");
        dataForTables[0].vStanding.AddCommand("vStandingFirst");
        dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
@@ -138,6 +155,8 @@ public static class V41_WaveSpeed_Main
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
+        
+        Console.WriteLine($"New Wave data {newData.ToString()}");
         return newData;
     }
 
@@ -173,7 +192,9 @@ public static class V41_WaveSpeed_Main
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
         ErDouble U2l = U0 - deltaU ;
-        return  Math.Log((U0 / U2l).Value, 10)* 20 * 1 / 100;
+        var res =ErDouble.Log((U0 / U2l)) / Math.Log(10)* 20 * 1 / 100;
+        Console.WriteLine($"Res {res} U2l {U2l}");
+        return res;
     }
 
     public static ErDouble CalculateVelocityStanding(ErDouble f, bool openEnd, int nodeCount)

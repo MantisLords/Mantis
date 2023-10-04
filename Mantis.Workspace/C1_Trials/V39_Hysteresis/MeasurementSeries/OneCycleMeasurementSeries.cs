@@ -1,6 +1,8 @@
-﻿using Mantis.Core.Calculator;
+﻿using System.Reflection.Metadata;
+using Mantis.Core.Calculator;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
+using MathNet.Numerics;
 using MathNet.Numerics.Interpolation;
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -19,21 +21,24 @@ public record struct HBData(double H, double B) : IComparable<HBData>
     }
 }
 
+public record struct CycleCharacteristicProperties(
+    ErDouble? Coercivity, 
+    ErDouble? Remanence, 
+    ErDouble? Saturation,
+    ErDouble? SaturationPermeability,
+    ErDouble? HysteresisLoss);
+
 public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
 {
     public readonly HBData[] HBPositiveList;
     public readonly HBData[] HBNegativeList;
     
-    public ErDouble? Coercivity = null;
     private PlotEvalDataInfo? _coercifityPlotInfo = null;
-    public ErDouble? Remanence = null;
     private PlotEvalDataInfo? _remanencePlotInfo = null;
-    public ErDouble? Saturation = null;
-    public ErDouble? SaturationPermeability = null;
     private PlotEvalDataInfo? _saturationPlotInfo = null;
 
-    public ErDouble? HysteresisLoss = null;
-
+    public CycleCharacteristicProperties CharacProperties = new CycleCharacteristicProperties();
+    
     public bool DrawCalculatedValues = true;
     public bool DrawRegCoercivity = false;
     public bool DrawRegRemanence = false;
@@ -63,7 +68,8 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         
         var (coercivityPositive,coercivityPositiveInfo) = CalculateCoercivity(HBPositiveList);
         var (coercivityNegative,coercivityNegativeInfo) = CalculateCoercivity(HBNegativeList);
-        Coercivity = (-coercivityPositive + coercivityNegative) / 2;
+        Console.WriteLine($"{Label} CorerPos {coercivityPositive} CorerNeg {coercivityNegative}");
+        CharacProperties.Coercivity = new[] {-coercivityPositive, coercivityNegative}.WeightedMean(useMaxCovariance:false);
         _coercifityPlotInfo = new PlotEvalDataInfo(coercivityPositiveInfo, coercivityNegativeInfo,
             "Line fit for\nevaluation coercivity", "Coercivity");
         
@@ -88,7 +94,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     {
         var (remanencePositive,remanencePositiveInfo) = CalculateRemanence(HBPositiveList,1);
         var (remanenceNegative,remanenceNegativeInfo) = CalculateRemanence(HBNegativeList,-1);
-        Remanence = (remanencePositive - remanenceNegative) / 2;
+        CharacProperties.Remanence = new[] {-remanenceNegative, remanencePositive}.WeightedMean();
         _remanencePlotInfo = new PlotEvalDataInfo(remanencePositiveInfo, remanenceNegativeInfo,
             "Line fit for\nevaluating remanence", "Remanence");
     }
@@ -113,8 +119,11 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
             var satInfoPos = CalculateSaturation(HBPositiveList, 1);
             var satInfoNeg = CalculateSaturation(HBNegativeList, -1);
             
-            Saturation = (satInfoPos.Model.ErParameters[0] - satInfoNeg.Model.ErParameters[0]) / 2;
-            SaturationPermeability = (satInfoPos.Model.ErParameters[1] + satInfoNeg.Model.ErParameters[1]) / 2;
+            CharacProperties.Saturation = new[] {- satInfoNeg.Model.ErParameters[0], satInfoPos.Model.ErParameters[0]}.WeightedMean();
+            //Console.WriteLine($"MuPos {satInfoPos.Model.ErParameters[1]} MuNeg {satInfoNeg.Model.ErParameters[1]}");
+            CharacProperties.SaturationPermeability = new[] {satInfoNeg.Model.ErParameters[1], satInfoPos.Model.ErParameters[1]}.WeightedMean();
+            CharacProperties.SaturationPermeability /= Constants.MagneticPermeability;
+            
             _saturationPlotInfo = new PlotEvalDataInfo(satInfoPos, satInfoNeg,
                 "Line fit for\nevaluating saturation", "Saturation");
 
@@ -167,7 +176,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         areaUnderCurve.Error = 0.5 * Math.Abs(areaUnderCurveMax - areaUnderCurveMin);
         double errorFromErrorB = ErrorB * (HBPositiveList[^1].H - HBPositiveList[0].H);
         areaUnderCurve.Error = Math.Max(areaUnderCurve.Error, errorFromErrorB);
-        HysteresisLoss = areaUnderCurve  / RingCore.Density.Mul10E(3) ;
+        CharacProperties.HysteresisLoss = areaUnderCurve  / RingCore.Density.Mul10E(3) ;
         
     }
 
@@ -223,6 +232,11 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         base.PlotData(plt);
         
         plt.Legend(true, Alignment.UpperLeft);
+
+        //AddHBDataP(plt, HBPositiveList, "pos");
+        //AddHBDataP(plt, HBNegativeList, "neg");
+        
+        //return plt;
         
         if(_coercifityPlotInfo != null) _coercifityPlotInfo.Plot(plt,DrawRegPoints,DrawRegCoercivity,DrawCalculatedValues,0);
         if(_remanencePlotInfo != null) _remanencePlotInfo.Plot(plt,DrawRegPoints,DrawRegRemanence,DrawCalculatedValues,1);
@@ -232,18 +246,27 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         return plt;
     }
 
+    private ScatterPlot AddHBDataP(Plot plt,HBData[] data,string legend)
+    {
+        if (data.Length == 0) return null;
+        var xs = data.Select(e => CheckDouble(e.H)).ToArray();
+        var ys = data.Select(e => CheckDouble(e.B)).ToArray();
+        
+        return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
+    }
+    
+
     public override void SaveAndLogCalculatedData()
     {
         base.SaveAndLogCalculatedData();
         
-        Remanence?.AddCommand("Remanence"+Label,"T");
-        Coercivity?.AddCommand("Coercivity"+Label,"A/m");
-        Saturation?.AddCommand("Saturation"+Label,"T");
-        SaturationPermeability?.AddCommand("SaturationPermeability"+Label,"Tm/A");
-        HysteresisLoss?.AddCommand("HysteresisLoss"+Label,"J/kg");
+        // CharacProperties.Remanence?.AddCommand("Remanence"+Label,"T");
+        // CharacProperties.Coercivity?.AddCommand("Coercivity"+Label,"A/m");
+        // CharacProperties.Saturation?.AddCommand("Saturation"+Label,"T");
+        // CharacProperties.SaturationPermeability?.AddCommand("SaturationPermeability"+Label,"Tm/A");
+        // CharacProperties.HysteresisLoss?.AddCommand("HysteresisLoss"+Label,"J/kg");
         
-        Console.WriteLine($"{Label}\n\tRemanence {Remanence.ToString()}\n\tCoercivity {Coercivity.ToString()}\n\tSaturation {Saturation.ToString()} \n\tLos: {HysteresisLoss.ToString()}" +
-                          $"\n\tMu {SaturationPermeability}");
+        Console.WriteLine($"{Label}\t{CharacProperties}");
     }
 
     private ScatterPlot AddHBData(Plot plt,HBData[] data,string legend)
@@ -253,12 +276,6 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         var ys = data.Select(e => CheckDouble(e.B)).ToArray();
         
         return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
-    }
-
-    private static double CheckDouble(double v)
-    {
-
-        return double.IsFinite(v) && !double.IsNaN(v) ? v : 0;
     }
 
     private (List<HBData>,List<HBData>) FindPositiveAndNegativeData()

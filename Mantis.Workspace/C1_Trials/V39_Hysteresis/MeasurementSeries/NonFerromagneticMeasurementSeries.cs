@@ -28,7 +28,7 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 
     public override void SaveAndLogCalculatedData()
     {
-        MagneticPermeability?.AddCommandAndLog("MagneticPermeability"+Label,"Tm/A");
+        //MagneticPermeability?.AddCommandAndLog("MagneticPermeability"+Label,"Tm/A");
     }
 
     public override Plot PlotData(Plot plt)

@@ -21,17 +21,19 @@ public record PlotEvalDataInfo(PlotRegInfo InfoPositive, PlotRegInfo InfoNegativ
 
         if (plotLine)
         {
-            var lineColor = plt.Palette.GetColor(1 + colorIndex);
+            var lineColor = plt.Palette.GetColor( colorIndex);
             plt.AddFunction(InfoPositive.Model.ParaFunction, lineWidth: 1,label:LabelRegression,lineStyle:LineStyle.DashDot,color:lineColor);
             plt.AddFunction(InfoNegative.Model.ParaFunction, lineWidth: 1,color: lineColor,lineStyle:LineStyle.DashDot);
         }
 
         if (plotPoint)
         {
+            var lineColor = Palette.Category10.GetColor( colorIndex);
             var pointPlt = plt.AddPoint(InfoPositive.PointH, InfoPositive.PointB, shape: MarkerShape.openCircle,
                 label: LabelPoint);
+            pointPlt.Color = lineColor;
             plt.AddPoint(InfoNegative.PointH, InfoNegative.PointB, shape: MarkerShape.openCircle,
-                color: pointPlt.Color);
+                color: lineColor);
         }
     }
 }

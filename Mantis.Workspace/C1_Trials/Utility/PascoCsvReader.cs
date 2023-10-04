@@ -7,7 +7,7 @@ public record struct PascoData(double Time, double VoltageA, double CurrentA, do
 
 public class PascoCsvReader : RowWiseCsvReaderBase
 {
-    public int DataColumnCount = 6;
+    public int DataColumnCount = 3;
 
     public Dictionary<string, List<PascoData>> MeasurementSeries = new Dictionary<string, List<PascoData>>();
 
@@ -15,7 +15,7 @@ public class PascoCsvReader : RowWiseCsvReaderBase
 
     public int SeriesCount = 0;
 
-    public string FirstHeaderElementStart = "Datum und Zeit ";
+    public string FirstHeaderElementStart = "Zeit (s) ";
 
     public readonly CultureInfo CultureInfo;
     
@@ -41,7 +41,7 @@ public class PascoCsvReader : RowWiseCsvReaderBase
             _measurementSeries = new List<PascoData>[SeriesCount]; 
             for (int i = 0; i < SeriesCount; i++)
             {
-                int columnIndex = i * 6;
+                int columnIndex = i * DataColumnCount;
                 _measurementSeries[i] = new List<PascoData>();
 
                 string seriesName = row[columnIndex].Substring(FirstHeaderElementStart.Length);
@@ -52,15 +52,15 @@ public class PascoCsvReader : RowWiseCsvReaderBase
         {
             for (int i = 0; i < SeriesCount; i++)
             {
-                int columnIndex = i * 6;
+                int columnIndex = i * DataColumnCount;
                 if (!string.IsNullOrEmpty(row[columnIndex]))
                 {
                     var element = new PascoData(
+                        double.Parse(row[columnIndex + 0], CultureInfo),
                         double.Parse(row[columnIndex + 1], CultureInfo),
+                        0,//double.Parse(row[columnIndex + 3], CultureInfo),
                         double.Parse(row[columnIndex + 2], CultureInfo),
-                        double.Parse(row[columnIndex + 3], CultureInfo),
-                        double.Parse(row[columnIndex + 4], CultureInfo),
-                        double.Parse(row[columnIndex + 5], CultureInfo)
+                        0//double.Parse(row[columnIndex + 5], CultureInfo)
                     );
                     _measurementSeries[i].Add(element);
                 }

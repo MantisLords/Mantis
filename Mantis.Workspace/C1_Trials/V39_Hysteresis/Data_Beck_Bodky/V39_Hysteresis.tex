@@ -37,8 +37,7 @@
             Tutor: ? & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Magnetic hysteresis curves and characteristic magnetic properties of two industrial Fe-Ni-Alloys and 
-    construction steel}  %Titel der Versuchs
+    \title{Magnetic hysteresis curves and characteristic magnetic properties of Fe-Ni-Alloy and Steel}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
@@ -84,11 +83,11 @@
     So the H-Field gets amplified by a large amount.
     
     But the Weiss domains alone, would not explain permanent magnets and hysteresis. 
-    In a perfect isotropic cristal, if you would first polarize the cristal and then unpolarize it, 
-    the Weiss domains would first align with the H-field and then simply go back to their initial state of lowest energy.
-    Thus there would be no remanence field left, as seen in ferromagnetic materials.
+    Since in an perfect isotropic cristal, if you would remove the external H-field, the boundaries of the Weiss domains
+    would move back to the initial position of lowest energy. 
+    Thus the material would be 'unmagnetized' again.
     
-    A real ferromagnetic material on the other hand is anisotropic.
+    A real material on the other hand is anisotropic.
     It has defects on the cristal lattice.
     After removing the external H-Field, the boundary walls get pinned on those defects.
     So the Weiss domains can not go back in their initial configuration, thus the material stays magnetized.
@@ -178,8 +177,8 @@
     \label{subsec:steel}
     
     \figExCoercivityRemanenceSteel{Hysteresis curve for steel ST37K\@.
-    Via linear regression the coercivity $H_C = \CoercivitySteel$ and remanence $B_R = \RemanenceSteel$ was accessed.
-    Furthermore with numerical integration the energy loss after equation~\eqref{eq:EnergyLoss} is $\xi = \HysteresisLossSteel$.
+    Via linear regression the coercivity $H_C = \CoercivityExCoercivityRemanenceSteel$ and remanence $B_R = \RemanenceExCoercivityRemanenceSteel$ was accessed.
+    Furthermore with numerical integration the energy loss after equation~\eqref{eq:EnergyLoss} is $\xi = \HysteresisLossExCoercivityRemanenceSteel$.
     The saturation point was not reached.}
     
     We examined a ring core made of steel ST37K\@.
@@ -187,22 +186,21 @@
     To get the coercivity and remanence we apply linear regression around the H- and B-axis respectively.
     Since the the curve is in proximity of the intersection linear.
     \begin{align*}
-        H_C &= \CoercivitySteel \\
-        B_R &= \RemanenceSteel
+        H_C &= \CoercivityExCoercivityRemanenceSteel \\
+        B_R &= \RemanenceExCoercivityRemanenceSteel
     \end{align*}
     The error was inferred by the statistical scattering of the data points around the linear regression.
     Please be aware that this approach only reflects statistical errors.
     In our measurements we have a large amount of systematical errors, due to the fact that magnetic hysteresis is
     highly dependent on the geometry of the used ring cores. 
-    Moreover depending on the manufacturing process, the grain size varies, which greatly affects the permeability of
-    the material.
-    To make our results reproducible, a far greater control over these factors would be required.
+    To make our results reproducible, a far greater control over the geometry would be required.
     Because this paper is more concerned with qualitative results, all quantitative results only really apply for the
     local setup used by us.
     
+    
     The energy loss was calculated by numerical integrating the curve and applying equation~\eqref{eq:EnergyLoss}:
     \begin{align*}
-        \xi = \HysteresisLossSteel
+        \xi = \HysteresisLossExCoercivityRemanenceSteel
     \end{align*}
     Similarly the error was determined by the statistical scattering of the data points.
     
@@ -215,200 +213,39 @@
     
     As stated in section~\ref{sec:Theory}, the hysteresis curve depends on the magnetization history
     of the material. 
-    This effect can be revealed by briefly flipping the direction of the external H-field.
+    This effect can be revealed by briefly changing the direction of the external H-field.
     Compare figure~\ref{fig:ExIrreversibilitySteel} where after changing the field direction a branch in the curve
     is formed.
-    The magnetization does not return to its previous state, instead it is weaker.
-    
-    This is due to the fact, that moving the boundaries over the lattice defects costs energy $E_{def}$.
-    As you can see in figure~\ref{fig:ExIrreversibilitySteel} if we start in a polarized state
-    and now remove the H-field, the magnetic moments scatter, to reach an energetic more favorable state.
-    We get energy $E_{moments}$.
-    So the energy change is:
-    \begin{align*}
-        \Delta E &= E_{moments} - E_{def}
-    \end{align*}
-    If we now increase the H-field and polarize the material again, we have to again put in this energy $E_{moments}$.
-    But it still costs energy to move the boundaries between the weiss domains over defects $E_{def}$.
-    So the energy change is:
-    \begin{align*}
-        \Delta E &= - E_{moments} - E_{def}
-    \end{align*}
-    But this means we have overall lost energy, thus the polarisation has to be weaker.
-    
-    This fact holds also true if we traverse the whole hysteresis loop.
-    We have determined this exact energetic loss in the previous section to be:
-    \begin{align*}
-        \xi = \HysteresisLossSteel
-    \end{align*}
+    The magnetization does not return to its previous state as would be naively expected.
     
     \subsubsection*{Demagnetization}
     
     \figExDemagnetizationSteel{}
     
-    As shown in the previous section, after you reverse the rate of change of the external field, the magnetisation
+    As shown in the previous section, after you reverse the polarisation of the external field, the magnetisation
     is weaker as in the previous state.
     You can use this fact to demagnetize the material.
     This was achieved by periodically flipping the H-field and decreasing its strength each step,
     The magnetic moments of the weiss domains get more and more disordered, until no remanence-field is left.
     The lowest energetic state is reached.
     
-    As you can see in figure~\ref{fig:ExDemagnetizationSteel} we did not reach the state of demagnetization perfectly.
-    This is due the fact, that we controlled the H-field manually.
+    As you can see in figure~\ref{fig:ExDemagnetizationSteel} the state of demagnetization is not
+    completely reached.
+    If you want to attain it perfectly, you have to flip the H-field after the coercivity is reached.
+    But since we flipped the H-field manually this proved to be difficult. 
     
     \subsection{PERMENORM 5000 H2 Fe-Ni-Aloy}
     
-    \figExSaturationFeNiHTwo{Captured hysteresis curve for 0.1mm thick Fe-Ni 'PERMENOR 5000 H2' strips.
-    To test if we have reached the saturation, a line was fitted at the end of the curve.
-    The determined permeablity is $\mu = \SaturationPermeabilityFeNiHTwo \mu_0$.
-    This means we have not reached the saturation point, where the permability should be $\mu = \mu_0$.}
     
-    The second core, which we examined, consisted of the industrial Fe-Ni-Alloy 'PERMENORM 5000 H2'.
-    It is constructed out of 0.1 mm thin metal bands.
-    The thickness of the metal strips greatly influences the magnetic properties of the material~\cite{feniDatasheet}.
-    For the measurement we used the former setup but with the additional resistor $R = (66.7 \pm 1.4) \Omega$,
-    to have a higher resolution, since we had a maximum current of $I = 100mA$.
-    
-    By applying linear regression, we determine the coercivity and remanence field.
-    Furthermore via numerical integration we calculated the energy loss.
-    \begin{align*}
-        H_C &= \CoercivityFeNiHTwo \\
-        B_R &= \RemanenceFeNiHTwo \\
-        \xi &= \HysteresisLossFeNiHTwo
-    \end{align*}
-    
-    As mentioned these values have a high degree of systematical uncertainty.
-    We can compare them with the datasheet of the manufacturer~\cite{feniDatasheet}.
-    The coercivity for 0.35mm thick 'PERMENORM 5000 H2' strips is:
-    \begin{align*}
-        H_C &= 3 \ A/m
-    \end{align*}
-    Our results are in the same order but do not agree.
-    This is due to the fact that there is no datasheet for 0.1mm thick strips publicly available.
-    But the thickness as a high impact.
-    Further the values of the datasheet have a large uncertainty themself.
-    
-    As mentioned in section~\ref{sec:Theory} there is a point where the applied H-field is great enough,
-    so all magnetic moments are aligned.
-    At this saturation point there is no amplification of the magnetic field.
-    The slope of the hysteresis curve is $\mu_0$.
-    
-    To test, weather we have reached the saturation point, we fit a line at the end of the hysteresis
-    curve as shown in figure~\ref{fig:ExSaturationFe-Ni H2}.
-    The field and the permeability are:
-    \begin{align*}
-        B_S &= \SaturationFeNiHTwo \\
-        \mu &= \SaturationPermeabilityFeNiHTwo \ \mu_0
-    \end{align*}
-    Obviously we have not reached the saturation point.
-    The datasheet confirms this.
-    It states, the saturation magnetization at $H = 40 \ kA/m$ to be:
-    \begin{align*}
-        B_S &= 1.60 \ T
-    \end{align*}
-    In our measurement we did not reach such a strong H-field.
-    The coils did not withstand such high currents.
-    A more robust setup would be required.
-    
-    If we compare this Fe-Ni-Alloy to the previous core out of steel ST37K, we see the alloy as a much lower coercivity and subsequent energy
-    loss.
-    This makes it ideal for applications in current transformers and magnetic shielding~\cite{feniDatasheet}.
     
     \subsection{PERMENORM 5000 Z Fe-Ni-Aloy}
-    
-    \figExFeNiZ{Hysteresis curve for the Fe-Ni-Alloy 'PERMENORM 5000 Z'.
-    It also consists of 0.1mm thin strips.
-    The maximum permeablity is high, while the coercivity is still low $H_C = \CoercivityFeNiZ $.
-    The material can also be used for transformer cores, magnetic shielding and current and positioning 
-    sensors~\cite{feniDatasheet}.
-    }
-    
-    The third core consisted of the Fe-Ni-Alloy 'PERMENORM 5000 Z'.
-    It is also constructed out of 0.1mm thin Fe-Ni-strips.
-    Analogously to the coercivity, remanence and energy loss was calculated:
-    \begin{align*}
-        H_C &= \CoercivityFeNiZ \\
-        B_R &= \RemanenceFeNiZ \\
-        \xi &= \HysteresisLossFeNiZ
-    \end{align*}
-    
-    Also to test weather we have reached the saturation point, we determined the permeability at the end of the curve:
-    \begin{align*}
-        B_S &= \SaturationFeNiZ \\
-        \mu &= \SaturationPermeabilityFeNiZ \ \mu_0
-    \end{align*}
-    Obviously the saturation point was also not reached.
-    There is no datasheet publicly available to verify these results.
-    
-    Since the maximum permeability is quite high as seen in figure~\ref{fig:ExFe-Ni Z} and the coercivity is still
-    low, the material can also be used in transformers, magnetic shields and current and positioning sensors~\cite{feniDatasheet}.
-    
     \subsection{Wood as reference}
-    
-    \figMessreiheKernFourOneEightTwoRWood{Paramagnetic amplification by a ring core consisting of wood.
-    Via regression the susceptibility was calculated: $\chi &= \WoodMagneticSusceptibility$.
-    The susceptibility is very high, which makes the material superparamagnetic.
-    Probably the core does not consist of wood after all.
-    We can not verify this, because we did not build the core.}
-    
-    To compare our results, we examined a core made of wood as an example for a paramagnetic material.
-    
-    Paramagnetism is caused by magnetic moments of unpaired spins.
-    Similarly to ferromagnetism these magnetic moments do align, when an external H-field is applied,
-    and thus amplifying it.
-    But in contrast to ferromagnetism, no weiss domains are formed, meaning the polarisation does not depend
-    on the history.
-    Furthermore the amplification by paramagnets is weak.
-    The susceptibility is generally in the order of:
-    \begin{align*}
-        \chi  &\sim 10^{-5}
-    \end{align*}
-    
-    As you can see in figure~\ref{fig:Messreihe_Kern4_18_2_RWood} in our measurements, no hysteresis curve was formed.
-    This shows the examined material is paramagnetic.
-    The susceptibility was determined by fitting a line in the data points.
-    \begin{align*}
-        \chi &= \frac{\mu}{\mu_0} - 1 = \WoodMagneticSusceptibility
-    \end{align*}
-    
-    The measured susceptibility is much higher as would be expected from a paramagnetic material.
-    In fact the susceptibility is great enough, that the material can be considered superparamagnetic.
-    Probably the core did not solely consist of wood.
-    There has to be another material part of the core.
-    Maybe it is a ferromagnet above the curie temperature, since they exhibit superparamagnetic behaviour.
-    We can not verify these theories, because we did not build the cores.
-    A closer inspection would be required.
-    
     \section{Summary}
-    
-    
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
-        \bibitem{feniDatasheet} Datasheet PERMENORM 5000 H2: \url{https://vacuumschmelze.de/03_Documents/Brochures/PERMENORM%205000%20V5%20H2%20Strip.pdf},
-        last visited 02.10.2023
+        
     \end{thebibliography}
-    
-    \section{Appendix}
-
-    \subsection{Flux drift}
-
-    \figNoDriftRemovalWood{Captured magnetic curve for wood core.
-    The data is centered but the flux drift caused by the flux meter was not accounted for.
-    This is due to the capacitor of the flux meter discharges over time.}
-    
-    To capture the induced B-field we use a flux meter.
-    It integrates the voltage surges of the coil and outputs an analog signal.
-    For the integration it uses a capacitor.
-    But the capacitor naturally discharges overtime.
-    This results in the flux drift, where the B-field seemingly increases over time 
-    as can be seen in figure~\ref{fig:NoDriftRemovalWood}.
-    To account for this effect the B-field at the start $B_s$ and at the end $B_e$ are used to calculate the shift
-    over time.
-    \begin{align*}
-        \dot{B}_{drift} &= \frac{B_e - B_a}{\Delta t}
-    \end{align*}
-    All data points are then offset by this factor.
     
 \end{document}

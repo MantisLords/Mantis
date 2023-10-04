@@ -10,6 +10,9 @@ public record struct MeasurementSeriesInfo
     [QuickTableField("usage")] public string Usage = "";
     [QuickTableField("ringCore")] public string RingCoreName = "";
 
+    [QuickTableField("isHFieldFlipped")] public bool IsHFieldFlipped = false;
+    [QuickTableField("isBFieldFlipped")] public bool IsBFieldFlipped = false;
+
     [QuickTableField("seriesResistance", "Ohm")]
     public ErDouble SeriesResistance = 0;
 

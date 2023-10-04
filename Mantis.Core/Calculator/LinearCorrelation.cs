@@ -45,4 +45,9 @@ public static class LinearCorrelation
         double cof = sigmaXY / Double.Sqrt(sigmaXX * sigmaYY);
         return cof;
     }
+    
+    private static (double, double) XYMean(this IEnumerable<(double, double)> data)
+    {
+        return (data.Select(e => e.Item1).Mean(), data.Select(e => e.Item2).Mean());
+    }
 }
