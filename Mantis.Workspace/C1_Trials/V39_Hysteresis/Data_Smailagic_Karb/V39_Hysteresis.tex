@@ -34,7 +34,7 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Tutor: ? & \today\\                          %Kopfzeile - Betreuer
+            Tutor: Johanna Klas & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Magnetic hysteresis curves and characteristic magnetic properties of two industrial Fe-Ni-Alloys and 
@@ -44,39 +44,48 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        
-        
-        
+        We present a method to study magnetic properties of ferromagnetic materials.
+        For three exemplary materials their distictive hysterises curves are recorded.
+        We show how to identify the characteristic attributes: coercivity, remenance-field and the
+        energy-loss for one loop.
+        Thier theoretical origin and thier affect on the usage of the material are explained.
+        With our setup we did not reach the saturation field, but we demonstrate how you can verify from the curve
+        wether you have reached the saturation point.
+        Lastly a paramagnetic material is examined as comparison.
+        It's susceptibility was determined.
+        As the theory suggests, its permeablity is much lower compared to the ferromagnetic cores.
         \\
         Measuerement made: 21. September 2023\\       %Datum ändern!
-        Submitted: 26. September 2023                %Datum ändern!
+        Submitted: 6. October 2023                %Datum ändern!
         \\
         \\
     \end{abstract}
     }] 
     \section{Introduction}
-    Ferromagnetic materials have a high magnetic permeability.
-    In paramagnets and diamagnets the resulting magnetic field (B-Field) directly depends on the
-    extern magnetic field applied (H-Field).
-    In contrast in ferromagnets the resulting B-Field is also depending on the magnetisation history of the material.
-    The relation of H-field and B-field is described by the hysteresis curve.
-    This phenomena enables permanent magnets.
-    It enables to magnetize and demagnetize materials such as iron.
-    This characteristic relation described by the hysteresis is important for applications in transformers,
-    electric-motors, etc.
-    In this paper we examine the hysteresis curve of two specific Fe-Ni alloys and steel Sk 732.
+    
+    For industrial applications such as transformers, electric motors, etc. it is important to know how ferromagnetic
+    materials behave and conduct magnetic fields.
+    We want to study these effects and analyse them.
+    With a simple setup of two coils, we can measure the conducted magnetic field of the ferromagnetic cores.
+    Since the magnetization of a ferromagnetic material also depends on the magnetization-history, we get distinctive hysteresis curves.
+    This time dependence is important for explaining permanent magnetism and how much energy is lost when you flip the
+    polarisation of a the material.
+    As it occurs for example in transformers.
+    We show how you can extract from the captured data these important properties.
+    For three exemplary materials this method is demonstrated.
+    The method can then be used in an industrial context for analysing utilized ferromagnetic materials.
     
     \section{Theory}
     \label{sec:Theory}
     
     The magnetic properties of a material are caused by the spins of the electrons.
-    In an ferromagnetic material the individual spins of the electrons do not cancel each other out, so every atom has an
+    In a ferromagnetic material the individual spins of the electrons do not cancel each other out, so every atom has a
     resulting spin.
     But every spin creates a magnetic dipole moment.
     Meaning every atom carries a magnetic dipole moment.
     In a ferromagnetic material the spin of neighboring atoms couple,
     creating domains where the atomic spins are aligned. 
-    Those domains also called Weiss domains are separated by small boundaries, only a few atoms wide.
+    Those domains also called Weiss domains are separated by small boundaries, only a few atoms wide\cite{feymanLecturesWeisDomains}.
     In the 'unmagnetized' state the magnetic dipole moments of each Weiss domain, cancel each other out, resulting in
     a magnetic field of zero.
     If you now apply an external magnetic field the boundaries of the Weiss domains move, so the magnetic moments of the
@@ -124,7 +133,7 @@
         Channel X of the digital interface measures the current in the field-creating-coil $N_1$.
         The ring core conducts the H-field.
         The resulting B-field is measured by the induction-coil $N_2$.
-        The flux meter integrates analog the voltage of the induction coil and its output is captured by
+        The flux meter integrates analogously the voltage of the induction coil and its output is captured by
         channel Y.
         This enables to calculate the B-field at the induction-coil.}
         \label{fig:ExperimentalSetup}
@@ -156,10 +165,10 @@
     Here $h$ is the height of the second coil and $d_o$ and $d_i$ the outer and inner diameter.
     Furthermore $f$ is the effective percentage by which the ring core is filled with the ferromagnetic material.
     This has to be account for since the second and third ring core consist of $0.1 mm$ thin Fe-Ni-bands, which are coated by a oxid layer.
-    The effective fill percentage of these core is $f = 90\%$.
+    The effective fill percentage of these cores is $f = 90\%$.
     
     Via Ampere's law you can calculate the induced current by the B-field.
-    Therefor with the integrated current measured at channel Y $U_{out}$, you can infer the conducted field:
+    Therefor with the integrated current measured at channel Y: $U_{out}$, you can infer the conducted field:
     \begin{align}
         \label{eq:CalculateBField} 
         B = \frac{\gamma_f}{N_2 A_{eff}} U_{F}
@@ -169,8 +178,9 @@
     Since the flux meter integrates analogously, there is an undetermined integration constants shifting the output
     voltage $U_{out}$.
     This shift is corrected by centering the data afterwards.
-    Furthermore the flux meter has an finite input resistance, which results in a constant drift of the output voltage,
-    especially for small currents.
+    Furthermore the capacitor of the flux meter discharges naturally over time.
+    This results in a constant drift of the output voltage,
+    especially for small currents (compare section~\ref{subsec:fluxDrift}).
     The following data is adjusted for both those effects.
     
     \section{Hysteresis curves}
@@ -182,7 +192,7 @@
     Furthermore with numerical integration the energy loss after equation~\eqref{eq:EnergyLoss} is $\xi = \HysteresisLossSteel$.
     The saturation point was not reached.}
     
-    We examined a ring core made of steel ST37K\@.
+    We examined a ring core made of common construction steel ST37K\@.
     The captured hysteresis curve can be seen in figure~\ref{fig:ExCoercivityRemanenceSteel}.
     To get the coercivity and remanence we apply linear regression around the H- and B-axis respectively.
     Since the the curve is in proximity of the intersection linear.
@@ -205,6 +215,11 @@
         \xi = \HysteresisLossSteel
     \end{align*}
     Similarly the error was determined by the statistical scattering of the data points.
+    
+    To determine the area under the curve we also tried the alternative approach of cutting out paper-curves and
+    weighing the cutout.
+    This turned out to be inaccurate.
+    See appendix~\ref{subsec:ManualIntegration} for the results.
     
     \subsubsection*{Irreversibility of hysteresis}
     
@@ -244,7 +259,11 @@
     
     \subsubsection*{Demagnetization}
     
-    \figExDemagnetizationSteel{}
+    \figExDemagnetizationSteel{Hysteresis curve for steel ST37K.
+    The steel was demagnetized by continously flipping and decreasing the applied H-field.
+    Because of energy losses, the magnetization gets weaker every time you reverse the H-field.
+    In the inlet can be seen, we did not exactly reach a state of complete demagnitization.
+    This is due to the constraint, that we did control the H-field manually.}
     
     As shown in the previous section, after you reverse the rate of change of the external field, the magnetisation
     is weaker as in the previous state.
@@ -353,7 +372,7 @@
     
     To compare our results, we examined a core made of wood as an example for a paramagnetic material.
     
-    Paramagnetism is caused by magnetic moments of unpaired spins.
+    Paramagnetism is caused by magnetic moments of unpaired spins\cite{gerth}.
     Similarly to ferromagnetism these magnetic moments do align, when an external H-field is applied,
     and thus amplifying it.
     But in contrast to ferromagnetism, no weiss domains are formed, meaning the polarisation does not depend
@@ -381,18 +400,60 @@
     
     \section{Summary}
     
+    We wanted to examine the characteristic hysteresis curve for ferromagnetic materials.
+    For this we used a setup of two coils.
+    The first on creates the H-field.
+    This field is then conducted by the ferromagnetic core, and induces a current in the second coil.
+    Via analog integration we can determine the conducted B-field.
+    
+    For three ferromagnetic materials we tested this setup.
+    For steel ST37K we captured the hysteresis curve and via linear regression we calculated the coercivity
+    $H_C = \CoercivitySteel$ and the remanence field $B_R = \RemanenceSteel$.
+    Furthermore with numerical integration we can calculate the energy loss of traversing on hysteresis loop:
+    $\xi = \HysteresisLossSteel$.
+    The irreversibility of hysteresis was shown by briefly flipping the direction of the H-field.
+    This was then applied to demagnetize the steel core, by continuously flipping the direction till now remanence-field
+    was left.
+    
+    We repeated this process for the industrial Fe-Ni alloy 'PERMENORM 5000 H2'.
+    It is a soft magnetic material.
+    It coercivity was measured to be $H_C = \CoercivityFeNiHTwo$, the remanence $B_R = \RemanenceFeNiHTwo$
+    and the energy loss $\xi = \HysteresisLossFeNiHTwo$.
+    We tested weather we have reached the saturation point by applying a linear fit at the end of the curve.
+    The measured slope was $\mu = \SaturationPermeabilityFeNiHTwo \ \mu_0$, which means we did not reach saturation.
+    Far greater H-Fields would be required.
+    
+    For the magnetically harder alloy 'PERMENORM 5000 Z' the characteristic properties were:
+    $H_C = \CoercivityFeNiZ$, $B_R = \RemanenceFeNiZ$ and $\xi = \HysteresisLossFeNiZ$.
+    Here we also did not reach the saturation point.
+    
+    Lastly a paramagnetic core was examined.
+    It's susceptibility was measured as $\chi = \WoodMagneticSusceptibility$.
+    This would make the core superparamagnetic.
+    
+    Please note all stated values above only really apply for our local setups. 
+    Magnetic hysteresis is greatly dependent on the manufacturing process of the material and it's exact geometry.
+    In this paper we wanted to show the principle on how to capture hysteresis and
+    how to extract the important magnetic properties.
+    For more general applicable data, greater control over the material and geometry would be necessary.
     
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
+        \bibitem{feymanLecturesWeisDomains}  Feynman, Richard P.; Robert B. Leighton; Matthew Sands (1963).
+        The Feynman Lectures on Physics. Volume 2.
         \bibitem{feniDatasheet} Datasheet PERMENORM 5000 H2: \url{https://vacuumschmelze.de/03_Documents/Brochures/PERMENORM%205000%20V5%20H2%20Strip.pdf},
         last visited 02.10.2023
     \end{thebibliography}
     
+    %\clearpage
+    
     \section{Appendix}
 
     \subsection{Flux drift}
+    \label{subsec:fluxDrift}
 
     \figNoDriftRemovalWood{Captured magnetic curve for wood core.
     The data is centered but the flux drift caused by the flux meter was not accounted for.
@@ -410,5 +471,36 @@
         \dot{B}_{drift} &= \frac{B_e - B_a}{\Delta t}
     \end{align*}
     All data points are then offset by this factor.
+    
+    \subsection{Integration via paper-cutout}
+    \label{subsec:ManualIntegration}
+    
+    To determine the energy loss of one hysteresis loop the area under the curve has to be determined.
+    We used the numerical approach, by fitting a spline through the curve and then integrating that spline.
+    An alternative approach we tried, is to printout the hysteresis curves.
+    Then cutting out the curve, which we then weighted with a precision scale.
+    The energy loss for the steel core determined by this method is:
+    \begin{align*}
+        \xi &= (0.2759 \pm 0.0013) \ J/kg
+    \end{align*}
+    Comparing that to the numerical result:
+    \begin{align*}
+        \xi &= \HysteresisLossSteel
+    \end{align*}
+    These values do not agree with respect to their uncertainties.
+    This is due to the fact, that for the error of the cutout-method only the scale uncertainty was used.
+    Since the dominating manual error of the cutout cannot reasonably be determined.
+    
+    Analogously the value for the Fe-Ni-Alloy 'PERMENORM 5000 H2' is:
+    \begin{align*}
+        \xi &= (2.749 \pm 0.017) \cdot 10^{-3} \ J/kg
+    \end{align*}
+    In comparison the numerical result:
+    \begin{align*}
+        \xi &= \HysteresisLossFeNiHTwo
+    \end{align*}
+    Since the cutout method has such high unreliability, those results were not shown in the main paper.
+    
+    
     
 \end{document}
