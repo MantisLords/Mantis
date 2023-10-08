@@ -34,7 +34,7 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Betreuer: Lukas Elter & \today\\                          %Kopfzeile - Betreuer
+            Betreuer: Jannis Seufert & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Phase Transition and Critical Points of SF_6}  %Titel der Versuchs
@@ -43,10 +43,17 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-       
-        \\
+       In this paper we recorded isotherms of SF_6\) gas in order to examine their agreement with current theories and compare the theories among themselves.
+       The Van der Waals model shows much better agreemet with the recorded data but still fails at the phase transition region where the isotherm follows a constant pressure function.
+       These regions of constant pressure, called coexistence regions were used to determine the critical parameters of SF_6\) T_{Crit} =$\criticalTemp\degree C$, V_{Crit} =$\criticalVolume$ and 
+       P_{Crit} =$\criticalPressure$.
+       The predicted exponential dependence P(T) was explored and under the assumption of its truth the evaporation energy in SF_6\) could be calcualted E_{Evap} = $\evaporationEnergyPerMole \frac{J}{mol}$.
+       The parameters of the Van der Waals model could also be determined a = $\parameterA$ and b =$\parameterB$.
+       We also explored the maxwell construction which allows an aproximation of the region of constant pressure by calculating it for some set of parameters and comparing to experiment.
+       \\
+       \\
         Measuerement made: 26. September 2023\\       %Datum ändern!
-        Submitted: 26. September 2023                %Datum ändern!
+        Submitted: 10. October 2023                %Datum ändern!
         \\
         \\
     \end{abstract}
@@ -82,36 +89,37 @@
     The coexistence region shows an inversely proportional temperature dependence making it narrower for higher temperatures until vanishing completely when the critical point is reached.
     After that point, the liquid and gaseus phase are indistinguishable.
     \section{Recording of isotherms and determining the critical point} \label{sec:Measurement}
-    \begin{figure}
-        \label{fig:construction}
-        \begin{center}
-        \includegraphics[scale=0.8]{Data/Generated/Construction}
-        \caption[]{The Construciton of the measurement with}
-        \end{center}
-    \end{figure}
-    With this Construction, a total of 9 isotherms were recorded. 
-    For the recording it was necessary to keep the pressure chamber on constant temperature which was done using an external thermostat.
-    The volume was then set with the Hg pillar and the according reading on the manometer was written down.
+    For the measurements, a chamber with variable volume was used.
+    The temperature was regulated with a water-bath, keeping the chamber on a constant predetermined temperature.
+    With this construction, a total of 9 isotherms were recorded. % Ref figure
+    The volume was varied from bigger to smaller and the according reading on the manometer was written down.
     It was essential to wait for the thermodynamic equilibrium to set after every manipulation of the parameters, before collecting any data.
     The recorded data can be seen in Fig. \ref{fig:binodal} and Fig.  \ref{fig:binodalZoom}.
     \begin{figure}
         \begin{center}
             \includegraphics[scale=0.18]{Data/Generated/fig_plot}\label{fig:binodal}
-            \caption[]{The isoterms}
-            \includegraphics[scale=0.18]{Data/Generated/plotZoom}\label{fig:binodalZoom}
-            \caption[]{Zoomed in view}
+            \caption[]{Datapoints of the recorded isotherms of $\amountOfSubstance mol$ of SF_6\) at Temperature values ranging from 30.2$\degree C$ to 48.2$\degree C$. The end points of the visible straight lines at the regions of constant pressure were
+            used to determine the coexistence region which is shaded in blue here. The critical point is the extremum of the coexistence region at $P=\criticalPressure$ and $V=\criticalVolume$ and an estimated
+            T=$(46.3\pm0.3)\degree C$}
         \end{center}
     \end{figure}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.18]{Data/Generated/plotZoom}\label{fig:binodalZoom}
+            \caption[]{An enlarged view of the the critical point of SF_6\) determied from recorded isotherms whose temperature values range from 43.1$\degree C$ to 48.2$\degree C$}
+        \end{center}
+        \end{figure}
     The coexistence regions in which the isotherms are horizontal are highlighted and a line was drawn between the beginning and end point of the region.
     The end points were then used to interpolate a curve through them, which marks roughly the coexistence region as a whole as well as allowing extrapolation of the critical point of the gas which could not be
     determined through direct experiment due to the uncertainties.
     The curve marking the region of coexistence is called the binodal.
-    The exact algorithm which was used is explained in detail in the Appendix.
-    The extremum of the binodal marks teh critical point of the gas, SF_6\) in this case and is calculated to be at
+    The exact algorithm which was used is explained in detail in the Appendix. % Make clear it referece to Maxwell Lines
+    The extremum of the binodal marks the critical point of the gas. 
+    For SF_6\) it was calculated to be at
     \begin{align}
-        P_{crit} = \criticalPressure 
+        P_{crit} &= \criticalPressure 
         \endline
-        V_{crit} = \criticalVolume 
+        V_{crit} &= \criticalVolume 
         \end{align}
     The estimated temperature at the critical point is $T_{crit} = (46.3 \pm 0.3)$ since the maximum appears to be exactly between the 46.1\degree\) and the 46.6\degree\) isotherms.
     This is value is eyeballed since this method does not allow a more precise conclusion.
@@ -119,28 +127,37 @@
     Since the interpolation error is assumed to be small, the errors are mostly the reading errors of the Hg pillar and the manometer.
     For smaller volumes outside the coexistence region the gas exhibits a very rapid pressure increase, this is due to the fact that all the gas has turned into liquid which is incompressible.
     \subsection{Steam pressure curve}\label{subsec:steamPressureCurve}
-    From the data in Fig. \ref{fig:binodal} and the constructed maxwell horizontals one can plot the temperature dependence of the pressure as can be seen in the inlet in Fig. \ref{}.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.18]{Data/Generated/fig_tempLogPlot}\label{fig:tempLogPLot}
+            \caption[]{Examination of the functional dependence of P(T). The assumed exponential dependence does seem given on the first look, but the value of $\chi_{\text{Red}}=\residual$ suggest a clear case of overfitting since there is
+            not enough data points. Form the intersection of the exponential curve and the critical pressure the critical temperature is $T_{\text{Crit}}=\criticalTemp\degree C$}
+        \end{center}
+    \end{figure}
+    From the data in Fig. \ref{fig:binodal} and the constructed maxwell lines one can plot the temperature dependence of the pressure as can be seen in the inlet in Fig. \ref{fig:tempLogPLot}.
     However, the theoretical form of the steam pressure curve is predicted as follows:
     \begin{align}
         p=b(T)e^\frac{E_{steam}}{k_B T}
     \end{align}
     This prediction can be explained by the Boltzmann distribution of the molecules, since only the molecules that have enough energy to leave the liquid phase evaporate.
     The height of this energy barrier is E_{steam}\) in this case.
-    In the chosen depicting of the data, it seems they follow a linear trend allowing us to assume the model is right.
-    With this, one can calculate the evaporation energy E_{steam}\) from the fitted exponential curve to be
+    Since we do not have a lot of data-points the apparent exponential fit can not give certainty over of the functional dependence P(T).
+    This is also obvious from the reduced $\chi$ value which in is in this case $\chi_{\text{Red}}=\residual$ suggesting a clear case of overfitting.
+    For more certainty, we would need more data.
+    From the fitted exponential parameter, one can calculate the evaporation energy E_{steam}\)
     \begin{align}
         E_{steam} = \evaporationEnergyPerMole \frac{J}{mol}
         \endline \text{with } k_B \text{ being } 1.380649\cdot 10^{-23}\frac{J}{K}
     \end{align}
     The evaporation energy is given in units of energy per mole since the evaporation energy of one molecule is not handy. 
-    From the intersection point with the critical pressure, the critical temperature can be calculated $T_{crit}=\criticalTemp K$.
-    The value coincides with the literature value $T_{crit} = 45.54\degree C$ which is mostly due to the large error which comes from the fitting method.
+    From the intersection point with the critical pressure, the critical temperature can be calculated $T_{crit}=\criticalTemp\degree C $.
+    The value coincides with the literature value $T_{crit} = 45.54\degree C$ [2] which is mostly due to the large error which comes from the fitting method.
     This value also coincides with the value estimated form the P-V diagram and is going to be used in all following calculations since the other value is a mere estimate.
     
     \subsection{Gas specific parameters for the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
-    The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{})
+    The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{sec:apendix}).
     Their values are calculated to be $a = \parameterA \frac{Pa m^6}{mol^2}$ and $b =\parameterB \frac{m^3}{mol}$.
-    These values do not coincide withe the literature values of $a_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = 8.79\cdot 10^{-5} \frac{m^3}{mol}$.
+    These values do not coincide withe the literature values of $a_{Lit} = 0.786 \frac{Pa m^6}{mol^2}$ and $b_{Lit} = 8.79\cdot 10^{-5} \frac{m^3}{mol}$ [2].
     From these, the amount of substance can be calculated as well $\nu = \amountOfSubstance mol$.
     Finally, we can use the definition of the critical coefficient
     \begin{align}\label{eq:critcalCoeff}
@@ -154,7 +171,8 @@
     \begin{figure}
         \begin{center}
             \includegraphics[scale=0.2]{Data/Generated/comparationPlot}
-            \caption[]{comparing theories}
+            \caption[]{Comparing experimental data of $\amountOfSubstance mol$ of SF_6\) at $30.3\degree C$ with the Van der Waals model and the ideal gas model using the parameters:
+            $a=\parameterA \frac{Pa\cdot m^6}{mol^2}$ and $b=\parameterB \frac{m^3}{mol}$}
             \label{fig:comparingTheories}
         \end{center}
     \end{figure}
@@ -168,7 +186,7 @@
     \section[]{Conclusion}\label{sec:conclusion}
     We were able to examine the properties of SF_6\) with our measurements.
     By recording isotherms at different volumes and according pressures we were able to extrapolate the critical point of SF_6\) in the P-V diagram.
-    The critical values came out to be $P_{crit}=\criticalPressure$ , $V_{crit}=\criticalVolume$ and $T_{crit}=(46.3\pm 0.3)$.
+    The critical values came out to be $P_{crit}=\criticalPressure$ , $V_{crit}=\criticalVolume$ and $T_{crit}=(46.3\pm 0.3)\degree$.
     From the pressures at the coexistence region and their according temperatures pressure-temperature tuples could be used to determine their functional
     relation revealing to be exponential.
     Form the exponential fit the evaporation energy could be calculated and with that a more precise value for the critical temperature could be determined
@@ -185,7 +203,7 @@
         edition, 2004
         \bibitem{dilo} \url{https://dilo.eu/sf6-gas}, zuletzt aufgerufen am 02.10.2023
     \end{thebibliography}
-    \newpage
+    \clearpage
     \section[]{Appendix}\label{sec:apendix}
     \subsection{Critical parameters and the VdW parameters}\label{subsec:criticalParams}
     The parameters of the Van der Waals model are directly dependent on the critical parameters of the gas.
@@ -217,22 +235,25 @@ Put into Eq. (7) allows to calculate $T_{crit}$ and similarly $P_{crit}$
     From these equations the values of a and b can easily be obtained.
     \subsection{Maxwell lines method}\label{subsec:maxwellMethod}
     \subsubsection{From the data}\label{subsubsec:maxwellFormData}
-    Explain and add a picture
-    \subsubsection{Maxwell lines theoretically}\label{subsubsec:maxwellFromTheory}
-    The Van der Waals model allows an approximation of the maxwell horizontal since the area between the Van der Waals curve and a the maxwell line should be zero.
+    The experimental determination of the maxwell lines- like we did in \ref{sec:Measurement} is done by  grouping all the points which are seperated by less or equal the reading error (in this case 0.25 bar).
+    Then, the pressure mean of these points is calculated and the line is placed at that pressure value. 
+    Lastly, the end points of the line are set as the outermost points whose pressure difference with the line is less or equal the reading error.
+    These end points are then used as data-points through which a the binodal is fitted.
+    \subsubsection{Theoretically}\label{subsubsec:maxwellFromTheory}
+    The Van der Waals model allows an approximation of the maxwell line since the area between the Van der Waals curve and a the maxwell line should be zero.
     Mathematically that means
     \begin{align}
         \int_{V1}^{V2} |VdW - P| dV
         \end{align}
     which delivers a condition for the pressure P:
     \begin{align}
-        P=\log\frac{V2-b}{V1-b} RT - \frac{a}{v^2}
+        P=\log(\frac{V2-b}{V1-b}) RT - \frac{a}{v^2}
     \end{align}
     This condition along with Eq. (2) remaining fulfilled at the volumes V1 and V2 gives a system of equations which can be solved numerically.
     Since solving the system of highly nonlinear equations with three free parameters brute force is tricky, we evaded that by implementing a different algorithm
     which first finds the pressure region in which the constant pressure function has three intersections with the VdW curve and then minimizes the area function
     with the two outer intersection points being the borders of integration.
-    The obtained value for P is $59.334\pm 0.002 bar$ while the error is due to the numerical method.
+    The obtained value for P is $(59.335\pm 0.002) bar$ while the error is due to the numerical method.
     This was visualized in Fig. \ref{fig:homeworkPlotOne} in which the VdW curve with the maxwell line can be seen as well as the ideal gas curve for reference.
     \begin{figure}
         \begin{center}

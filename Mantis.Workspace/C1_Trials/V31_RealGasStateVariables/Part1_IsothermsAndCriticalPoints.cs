@@ -115,17 +115,17 @@ public static class Part1_IsothermsAndCriticalPoints
             data.volume.Error = 0.02;
         });
         
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
+        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume [cm^3]", "pressure [bar]");
         plot.Palette = Palette.Category20;
-        plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)),label:"30.2");
-        plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)),label:"35.1");
-         plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)),label:"40.1");
-         plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)),label:"43.1");
-         plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)),label:"45.1");
-         plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)),label:"46.1");
-         plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)),label:"46.6");
-         plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)),label:"47.2");
-         plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)),label:"48.2");
+        plot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)),label:"30.2°C");
+        plot.AddErrorBars(dataListTemp2.Select(e => (e.volume, e.pressure)),label:"35.1°C");
+         plot.AddErrorBars(dataListTemp3.Select(e => (e.volume, e.pressure)),label:"40.1°C");
+         plot.AddErrorBars(dataListTemp4.Select(e => (e.volume, e.pressure)),label:"43.1°C");
+         plot.AddErrorBars(dataListTemp5.Select(e => (e.volume, e.pressure)),label:"45.1°C");
+         plot.AddErrorBars(dataListTemp6.Select(e => (e.volume, e.pressure)),label:"46.1°C");
+         plot.AddErrorBars(dataListTemp7.Select(e => (e.volume, e.pressure)),label:"46.6°C");
+         plot.AddErrorBars(dataListTemp8.Select(e => (e.volume, e.pressure)),label:"47.2°C");
+         plot.AddErrorBars(dataListTemp9.Select(e => (e.volume, e.pressure)),label:"48.2°C");
         
         List<VolumePressureData> dataForFit = new List<VolumePressureData>();
         CalculateMaxwellLine(dataListTemp1,plot,0.25,0.5,dataForFit,100);
@@ -142,8 +142,22 @@ public static class Part1_IsothermsAndCriticalPoints
          f.XMin = 0.375;
          Console.WriteLine("extrema " + spline.Extrema());
          Console.WriteLine(spline.Interpolate(spline.Extrema().Item2));
-         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,5F,MarkerShape.filledTriangleUp,label:"Critical point");
+         plot.AddPoint(spline.Extrema().Item2, spline.Interpolate(spline.Extrema().Item2),Color.Red,8F,MarkerShape.openCircle,label:"Critical point");
+         
+         // wählt 100 punkte aus der interpolierten spline um darunter farbig machen zu können
+         double xvalue = 0.372;
+         List<VolumePressureData> fillList = new List<VolumePressureData>();
+         for (int i = 0; i < 100; i++)
+         {
+             VolumePressureData e = new VolumePressureData();
+             e.volume = xvalue;
+             e.pressure = spline.Interpolate(xvalue);
+             xvalue += 0.01273;
+             fillList.Add(e);
+         }
 
+         plot.AddFill(fillList.Select(e => e.volume.Value).ToArray(), fillList.Select(e => e.pressure.Value).ToArray(),
+             24.29,Color.FromArgb(70,65,50,150));
          ErDouble criticalVolume = new ErDouble(spline.Extrema().Item2, 0.05);
          ErDouble criticalPressure = new ErDouble(spline.Interpolate(spline.Extrema().Item2), 0.5);
          ErDouble criticalTemperature = new ErDouble(46.3, 0.3);
@@ -154,9 +168,11 @@ public static class Part1_IsothermsAndCriticalPoints
          CalculateB(criticalPressure,criticalVolume,criticalTemperature).AddCommand("parameterB");
          CalculateNu(CalculateB(criticalPressure, criticalVolume, criticalTemperature), criticalVolume).AddCommand("amountOfSubstance");
         //plot.AddRegModel(model, "data", "fitted function");
-        plot.Legend(true,Alignment.UpperRight);
+        var legend = plot.Legend(true,Alignment.UpperRight);
+        legend.FontSize = 9;
         plot.SaveAndAddCommand("fig:plot","caption");
         plot.SetAxisLimits(0.5,0.8,33,38);
+        plot.Legend(false);
         plot.SaveAndAddCommand("plotZoom","caption");
         
         
@@ -171,25 +187,34 @@ public static class Part1_IsothermsAndCriticalPoints
         temperaturePlot.AddErrorBars(temperaturePressureForLogPlot.Select(e=>(e.temperature,e.pressure)));
         temperaturePlot.SaveAndAddCommand("fig:temperaturePlot","caption");
         
-        ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("inverse temperature", "pressure");
+        ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("inverse temperature[1/K]", "pressure[bar]");
         
-        //temperatureLogPlot.AddErrorBars(
-        //    temperaturePressureForLogPlot.Select(e => ((e.temperature+273.15).Pow(-1),e.pressure)));
+        temperatureLogPlot.AddErrorBars(
+            temperaturePressureForLogPlot.Select(e => ((e.temperature+273.15).Pow(-1),e.pressure)));
 
         
         
-        RegModel<InvExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>((273.15+e.temperature),e.pressure),
-            new ParaFunc<InvExpFunc>(2)
+        RegModel<ExpFunc> expoModel = temperaturePressureForLogPlot.CreateRegModel(e=>((273.15+e.temperature).Pow(-1),e.pressure),
+            new ParaFunc<ExpFunc>(2)
         {
             Units = new[]{"",""}
         }
             );
         expoModel.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, false);
         expoModel.AddParametersToPreambleAndLog("ExpoData");
-        temperatureLogPlot.AddRegModel(expoModel, "inverse temp", "log of pressure ", false);
-      // temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
-
+        temperatureLogPlot.AddRegModel(expoModel, "Inverse temperature with error", "Exponential fit for pressure dependence", false,logY:false);
+        temperatureLogPlot.Legend(true, Alignment.LowerLeft);
+        temperatureLogPlot.AddHorizontalLine(36.26, Color.Red,label:"Critical pressure at 36.26 bar");
+        temperatureLogPlot.SetAxisLimits(0.00312,0.0033);
+        //temperatureLogPlot.XAxis.TickLabelFormat("e",false);
+        expoModel.CalculateReducedResidual().AddCommandAndLog("residual");
+        // temperatureLogPlot.SetAxisLimits(0,0.2,22,38);
+        
+        //temperatureLogPlot.YAxis.SetLabelsToLog();
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
+        ScottPlot.Plot linePlot = ScottPlotExtensions.CreateSciPlot("INverse temperature", "Pressure");
+        linePlot.AddRegModel(expoModel, "Inverse temperature with error", "Exponential fit for pressure dependence", false,logY:true);
+        linePlot.SaveAndAddCommand("fig_lineTempPlot");
         expoModel.ErParameters[1].AddCommand("regressionExponent");
         CalculateEvaporationEnergy(expoModel.ErParameters[1]).AddCommand("evaporationEnergy");
         CalculateEvaporationEnergy(expoModel.ErParameters[1]*6.22*Math.Pow(10,23)*(-1)).AddCommand("evaporationEnergyPerMole");
@@ -206,11 +231,15 @@ public static class Part1_IsothermsAndCriticalPoints
         ScottPlot.Plot comparationPlot = ScottPlotExtensions.CreateSciPlot("volume[cm^3]", "pressure[bar]");
         var idealGas = new Func<double, double?>((v) => R * T * nu / v);
         var vdWGas = new Func<double, double?>((v) => nu * R * T / (v - nu * b) - nu * nu * a / (v * v));
-        comparationPlot.AddFunction(idealGas, Color.Red);
-        var funkiton1 = comparationPlot.AddFunction(vdWGas, Color.Blue);
-        comparationPlot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)),Color.Black);
+        var funktion2 = comparationPlot.AddFunction(idealGas, Color.Red);
+        funktion2.Label = "Ideal gas";
+        var funktion1 = comparationPlot.AddFunction(vdWGas, Color.Blue);
+        funktion1.Label = "Van der Waals gas";
+        comparationPlot.AddErrorBars(dataListTemp1.Select(e => (e.volume, e.pressure)), Color.Black,
+            label: "Measurement data");
         comparationPlot.SetAxisLimits(0,3.5,12.5,47.5);
-        funkiton1.XMin = 0.3;
+        funktion1.XMin = 0.3;
+        comparationPlot.Legend(true, Alignment.UpperRight);
         comparationPlot.SaveAndAddCommand("comparationPlot","caption");
     }
 

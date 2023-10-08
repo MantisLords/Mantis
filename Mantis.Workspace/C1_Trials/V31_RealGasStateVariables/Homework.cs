@@ -1,9 +1,11 @@
 ﻿using System.Drawing;
+using System.Reflection.Emit;
 using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.Utility;
+using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 
@@ -24,9 +26,14 @@ public class Homework
         var constantFunction = new Func<double, double?>(v => 59.334);
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
         plot.SetAxisLimits(45,600,20,100);
-        plot.AddFunction(function1,Color.Black);
-        plot.AddFunction(function2,Color.Red);
-        plot.AddFunction(constantFunction, Color.Blue);
+        var plot1 = plot.AddFunction(function1,Color.Black);
+        plot1.Label = "Ideal gas";
+        var plot2 = plot.AddFunction(function2,Color.Red);
+        plot2.Label = "Van der Waals gas";
+        var plot3 = plot.AddFunction(constantFunction, Color.Blue);
+        plot3.Label = "Maxwell line";
+        var legend = plot.Legend(true,Alignment.UpperRight);
+        legend.FontSize = 9;
         plot.SaveAndAddCommand("HomeworkPlotFirst","caption");
         
     }
