@@ -18,6 +18,9 @@
 \usepackage{mathtools}
 \usepackage{hyperref}
 \usepackage{hhline}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{caption}
+\usepackage{biblatex}
+\captionsetup{font=footnotesize}
 
 \include{Generated/Preamble}
 
@@ -43,16 +46,18 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        We examined the behaviour of electromagnetic waves inside coaxial cables by simuating different border conditions e.g. fixed/open ends with different resisitors.
-        The overall findings were in very good agreement with theory allowing us to measure the wave impedance of the used cable by method of impedance matching.
-        The propagation velocities of these waves were measured using the time it took the signal to reach the end of the cable and come back, as well as creating standing waves
-        inside the cable and measuring their wavelenght and frequency.
-        The approach using standing waves allowed for measurement of the amplitude at the nodes which in turn could be used to determine the damping coefficient of the 
-        used cable.
-        The propagation velocity shows a nonlinear dispersion relation as an increase with frequency was observed.
-        This was also visible from the calculated relative permitivities.
-        Lastly, the speed of light in air was measured with a runtime measurement similiar to the one in the coaxial cable.
-        The obtained value for the speed of light coincides with the literature value within 1\%.
+        The widespread usability of coaxial cables makes it important to understand their properties and limitations.
+        Some of the limitations being their bad performance at high frequencies or the possibility of pertubations due to reflections inside the cable.
+        In order to understand these better, we explored a method of analyzing pulses inside the coaxial cable by looking at their reflections of of the end of the cable.
+        By changing the resistance at the end, we succesfully simulated different border conditions allowing us to measure the impedance of the cable.
+        The impedance was calculated to be $Z=\resistanceMean$ which is in agreement....Since they are typically normed to $Z=50\Ohm$
+        Another important property, the propagation velocity of signals inside the cable was examined using two different approaches which yielded 
+        the values $v=\velocityRuntime$ and $v=\vStandingFirst$.
+        The second method allowed observation of the frequency dependence of this velocity showing a nonlinear dispersion relation.
+        Lastly, the damping inside the coaxial cable was calcualted showing an increase with frequency as well.
+        Subsequently, the speed of light in air was measured, delivering the value $c=\SpeedOfLight$.
+        This value shows great agreement with the theoretical value $c=...$.
+        
         \\
         Measuerement made: 19. September 2023\\       %Datum ändern!
         Submitted: 26. September 2023                %Datum ändern!
@@ -62,16 +67,15 @@
     }]
     \section{Introduction}\label{sec:introduction}
     Transmitting signals without losses is very important in all branches of everyday life.
-    Thus, a better understanding of the established methods of conductance is a must.
-    A commonly used mean of signal transmission is the coaxial cable, which is easy to manufacture and due to its construction minimizes energy loss and environmental interference.
-    It can be found everywhere, form telephone lines through cable television signals to broadband internet.
-    In this paper, we want to examine the propagation properies of singlas - electromagnetic waves, through these cables.
+    Coaxial cables have been known for their wide usability in signal transmission.
+    Therefore, a better understanding of their transmittance properties as well as possible limitations is of high importance.
+
+    Coaxial cables are a type of electrical cable consisting of an inner conductor surrounded by a cylindrical conducting shield(usually copper) seperated by a dielectric. 
+    In an ideal coaxial cable, the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses making it superior to conventional
+    transmission lines.
+    In this paper we want to examine, the transmittance properties of coaxial cables while emphasizing the possible problems and limitations.
+    
     \section{Wave propagation in cables - The coaxial cable}
-    Coaxial cables are a type of electrical cable consisting of an inner conductor surrounded by a cylindrical conducting shield(usually copper) seperated by a dielectric. In an ideal coaxial
-    cable the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses making it superior to conventional
-    transmission lines. 
-    Further, electromagnetic field inside is shielded form fields outside making the cable ideal for carrying weak signals.
-    These properties explain the widespread usage of coax cables for both carrying weak signals that must not interfere with the environment as well as strong signals to minimize losses.
     The transmission properties of a coaxial cable are characterized by the capacitance between the two conductors per unit length $C^*$ and inductance per unit length $L^*$
     Form maxwells equations the voltage and current in the cable are given by:
     \begin{align*}
@@ -104,64 +108,90 @@
         \rho=\frac{R-Z}{R+Z}
     \end{align}
     where $R$ is a resistor at the end of the cable.
-    \section{Experiment and setup}
-    The broad experimental setup can be seen in Fig.1. What is not visible from the picture is the internal resistance of the pulse generator, which was also varied during the measurements.
-    This setup was used for all following experiments if not stated otherwise.
+    \section{Wave reflection properties in the coaxial cable}
+    \label{sec:reflectionProperties}
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
-            \includegraphics[width=0.9\linewidth]{pictures/Abb2_Versuchsaufbau1}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{The experimentall setup showing the pulse generator used to trigger the oscilloscope externally as well as the coaxiall cable whose near end is at marked with the red circle and far end at the resistor $R_{far}$}   %Beschriftung der Graphik
-            \label{fig:Aufbau}                                      %das wird zu Zitiern im Text gebraucht
+            \includegraphics[width=1.3\linewidth,scale=1.5]{pictures/Construction}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
+            \caption[]{The experimentall setup showing the used pulse generator used to generate $30\,$ns pulses. 
+            The two channels of the oscilloscope are connected to the two Resistors $R_{\text{Near/Far}}$ which are on the end of the cable.
+            The coaxial cable has a lenght of $l=50\text{m}$ and wave impedance of $50\,\Omega$ per factory specification.}   %Beschriftung der Graphik
+            \label{fig:Construction}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
-    \section{Wave properties in the coax cable}
-    In this section we examine the shape of electromagnetic pulses and their reflections on resistors on the far end of the generator.
-    Furthermore we examine the properties of these pulses, measuring the time it takes a signal to reflect on the far end of the cable and come back as well as creating a standing wave and counting the wavelengths in the cable to determine the propagation velocity.
+    In order to examine the reflection properties of waves inside the cable we made use of \autoref{eq:coaxRef} which suggested, that the reflection
+    coefficient $\rho$ depends on the resistance at the end of the cable.
+    For this experiment we used $30\,$ns pulses generated by the frequency generator and connected both ends of the cable to an oscilloscope.
+    The experimental setup can be seen in \autoref{fig:Construction}.
+    The pulses were then recorded with the oscilloscope as the resistance at the far end of the cable was varied to simulate an open or fixed end.
+    The used resistors varied form from $R=0\,\Omega $ realized by a short circuit, to $R=50\,\Omega$ and $R=\infty$ realized by leaving the end of the cable open.
+    Furthermore, we set up a runtime measurement experiment in which we measure the time it takes a signal to travel the lenght of the cable two times.
+    Form that measured time, we calculate the propagation velocity of the pulses in the cable.
     
     \subsection{Reflected pulses}\label{subsec:WaveProperitesInTheCoax}
-    We use the setup form Fig.1 and take pictures of the voltages shown on the oscilloscope for all of the possible resistor combinations. $R_{near}, R_{far} \in \{ 0,50,\infty\} \Omega$
+    We use the setup form \autoref{fig:Construction} and took pictures of the voltages shown on the oscilloscope for all of the possible resistor combinations. $R_{\text{Near}}, R_{\text{Far}} \in \{ 0,50,\infty\}$
     As we know from analogous phenomena (ex. waves on a string), waves behave differently depending on if the end of the string is fixed or not.
-    From Eq. \ref{eq:coaxRef} we know that the reflection coefficient is 0 for R = Z and 1 for $\lim_{R \to \infty}\rho$ meaning that the different resistors simulate fixed and loose ends respectively.
+    From \autoref{eq:coaxRef} we know that the reflection coefficient is 0 for R = Z and $\rho = 1 $ for $R \to \infty$ meaning that the different resistors simulate fixed and loose ends respectively.
     To show this experimentally, we start with no resistor at the generator far end, $R_{far} = \infty$.
-    From \ref{eq:coaxRef} we expect the complete reflection of the Signal or $\rho = 1$ and a doubling in amplitude.
-    To minimize reflections on the generator near end, since we want to examine the influence of the resistor at the far end, we set $R_{near}$ to 50$\Omega$.
-    This can be seen in \ref{fig:NoResistorFarEnd}
+    From \autoref{eq:coaxRef} we expect the complete reflection of the Signal or $\rho = 1$ and a doubling in amplitude at the generator far end.
+    In order to minimize reflections on the generator near end, since we want to examine the influence of the resistor at the far end, we set $R_{near}$ to 50$\,\Omega$.
+    This can be seen in \autoref{fig:NoResistorFarEnd}.
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb3_NoResistorFarEnd (2)}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{CH 1: The signal and the reflection at the generator near end with $R_{near}=50\Omega and R_{far} = \infty\Omega.$ CH 2: The amplitude at the far end of the generator showing doubling in amplitude.}   %Beschriftung der Graphik
+            \caption[]{Observation of a $30\,$ns pulse with initial amplitude $10\,$mV and its reflection in a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            The used frequency was $f=200\,$kHz and the resistor values $R_{\text{Near}}=50\,\Omega$ and $R_{\text{Far}} = \infty$.
+            
+                CH 1: The near end of the cable. The amplitude of the reflected signal allows for approximation of the damping coming out to be... 
+                
+                CH 2: The Amplitude at the far end of the cable not showing the expected doubling due to damping, but an amplitude consistent with the aprroximated damping of around... }   %Beschriftung der Graphik
             \label{fig:NoResistorFarEnd}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
     The doubling in amplitude can not be exactly seen due to damping inside of the cable which follows an exponential decay.
-    Nevertheless, comparing to Fig. \ref{fig:VanishingReflectionFarEnd} it is clear that the amplitude is certainly not just the incoming one.
-    The small deformations in signal which can be seen in all following measurements, can be explained by taking the nonzero capacitance and inductance of the cable into account. 
-    
-    Now we use the short circuit plug at the generator far end and expect From Eq. \ref{eq:coaxRef} a reflection coefficient of $\rho = -1 $ and a vanishing amplitude at the generator far end.
-    This is analogous to a fixed end which forces a node.
-    This is shown in \ref{fig:ShortCircuitFarEnd}, with the damped amplitude.
+    Nevertheless, comparing to Fig.\autoref{fig:VanishingReflectionFarEnd} it is clear that the amplitude is certainly not just the incoming one.
+    The small deformations in signal which can be seen in all following measurements, are caused by the pulse generator. 
+    By setting $R_{\text{Far}} = 0\,\Omega$ i.e by a short circuit plug, we continue our observations.
+    From \autoref{eq:coaxRef} we expect a reflection coefficient of $\rho = -1$ and thereby a vanishing amplitude at the far end of the cable.
+    This is analogous to a fixed end of a string which forces a node at that point.
+    This is shown in \autoref{fig:ShortCircuitFarEnd}.
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb4_ShortCircoutFarEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{CH 1: The signal and the reflection at the generator near end with $R_{near}=50\Omega$ and $ R_{far} = 0\Omega.$ CH 2: The amplitude at the far end of the generator showing zero amplitude.}   %Beschriftung der Graphik
+            \caption[]{Observation of a $30\,$ns pulse with initial amplitude $10\,$mV and its reflection in a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            The used frequency was $f=200\,$kHz and the resistor values $R_{\text{Near}}=50\,\Omega$ and $ R_{\text{Far}} = 0\,\Omega.$
+                
+                CH 1: Generator near end of the cable. The reflected pulse exhibits a negative sign which is consistent with the reflection coefficient of $\rho = -1$.
+                The obvious damping is due to the nonzero ohmic resistance.
+                
+                CH 2: The amplitude at the far end of the generator showing zero amplitude. This is consistent with the calculated reflection coefficient, causing perfect anihilation of the incoming wave with the reflected one.}   %Beschriftung der Graphik
             \label{fig:ShortCircuitFarEnd}                                      %das wird zu Zitiern im Text gebraucht
         \end{center}
     \end{figure}
     
     As we can see form this experiment the reflections of waves on the resistors can pose problems since they can interfere with the incoming signals or even be mistaken with them.
-    Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly $R=Z$ or in this case R$\approx 50\Omega$, this would also mean that the signal at the generator far end would be just the incoming signal since there is nothing to interfere with it.
-    Fig \ref{fig:VanishingReflectionFarEnd} shows exactly that behaviour, besides the damping which is omnipresent in these measurements.
+    \autoref{eq:coaxRef} predicts a vanishing reflection at exactly $R=Z$ or in this case $R \approx 50\,\Omega$.
+    This would also mean that the signal at the generator far end would be just the incoming signal since there is nothing to interfere with it.
+    \autoref{fig:VanishingReflectionFarEnd} shows exactly that behaviour, besides the damping due to ohmic resistance which is omnipresent in these measurements.
     \begin{figure}[htbp]                                 
         \begin{center}                                       
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb5_VanishingReflectionFarEnd (2)}      
-            \caption[]{CH 1: The signal at the generator near end with $R_{near}=50\Omega and R_{far}=50\Omega$ showing no reflection. CH 2: The amplitude at the far end of the generator showing the damped incoming amplitude.}   %Beschriftung der Graphik
+            \caption[]{Observation of a $30\,$ns pulse with initial amplitude $10\,$mV and its reflection in a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            The used frequency was $f=200\,$kHz and the resistor values $R_{\text{Near}}=50\,\Omega$ and $ R_{\text{Far}} = 50\,\Omega.$
+            
+                CH 1: The signal at the generator near end showing only the incomming signal but no reflection. This was expected since the reflection coefficient is calcualted to be $\rho = 0$. 
+                
+                CH 2: The amplitude at the far end of the generator showing a damped amplitude. This was expected, since there is no reflected wave. The damping is once more
+            caused by the nonzero ohmic resistance and is consistent with the findings from \autoref{fig:NoResistorFarEnd} with a damping of about 60\%\)
+            }   %Beschriftung der Graphik
             \label{fig:VanishingReflectionFarEnd}                                      
         \end{center}
     \end{figure}
     \subsection{Wave impedance in coaxial cables}
-    As mentioned before, Eq. \ref{eq:coaxRef} predicts a vanishing reflection at exactly R=Z, and since we want to measure the impedance of the cable ourselves, we vary $R_{far}$ until the reflected pulse is minimal and measure the resistance of $R_{far}$ afterwards.
-    Since $R_{near}$ is not important for this measurement, we set it to $R_{near}=50\Omega $ as this would also minimize unwanted reflections.
-    This was done for 4 different types of resistors, and the results are given in Tab. \ref{tab:impedance}
+    As mentioned before, \autoref{eq:coaxRef} predicts a vanishing reflection at exactly $R=Z$, and since we want to measure the impedance of the cable ourselves, we vary $R_{\text{Far}}$ until the reflected pulse is minimal.
+    We then measure the resistance of $R_{\text{Far}}$ afterwards.
+    Since $R_{\text{Near}}$ is not important for this measurement, we set it to $R_{\text{Near}}=50\,\Omega$ as this would also minimize unwanted reflections.
+    This was done for 4 different types of resistors, and the results are given in Tab. \autoref{tab:impedance}
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
         \centering
         \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cc}
@@ -169,10 +199,10 @@
             \hline
             \rule[-7pt]{0pt}{23pt}  resistor  &  resistance $R(\rho=0)$ [\si\ohm]  	 \\
             \hline
-            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $45,2 \pm 1,1$  	 \\
-            \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $44,5 \pm 1,0$  	 \\
-            \rule[-5pt]{0pt}{23pt}   resistance decade   &   $50,0 \pm 1,1$  	 \\
-            \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $52,1 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   carbon film potentiometer   &   $45.2 \pm 1.1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   wire wound potentiometer   &   $44.5 \pm 1.0$  	 \\
+            \rule[-5pt]{0pt}{23pt}   resistance decade   &   $50.0 \pm 1,1$  	 \\
+            \rule[-5pt]{0pt}{23pt}   $50\,\si\ohm$ end plug   &   $52.1 \pm 1.1$  	 \\
             \hline
             \hline
         \end{tabular*}
@@ -180,7 +210,9 @@
         \caption[]{Impedance of a coaxial cable measured with different types of resistors by impedance matching.}  %siehe Graphik: Beschriftung
         \label{tab:impedance}                             %siehe Graphik: zum Zitieren
     \end{table}
-    As can be seen from the data, the measured values do not coincide within their errors. The erros were approximated as it was not possible to reach completely wanishing reflections making the measurements uncertain.
+    
+    As can be seen from the data, the measured values do not coincide within their errors.
+    The errors were approximated as it was not possible to reach completely vanishing reflections making the measurements uncertain.
     We assume that Eq \ref{eq:coaxRef} does not hold here due to the internal construction of the two potentiometers which possibly introduces an extra inductive impedance.
     The final value for the impedance of the cable is calculated as the mean of these values giving Z=$\resistanceMean \Omega$;
     \section{Propagation velocities of waves in coaxiall cables}
