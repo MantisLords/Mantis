@@ -38,8 +38,10 @@ public static class PartC_SpeedOfLight
         var speedOfLight = model.ErParameters[1].Mul10E(6);
         speedOfLight.AddCommandAndLog("SpeedOfLight");
 
-        Plot plot = ScottPlotExtensions.CreateSciPlot("distance", "time");
-        
+        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("time [ns]","distance [mm]");
+        plot.AddRegModel(model, "linearRegression");
+        plot.SaveAndAddCommand("regressionPLot");
+
     }
     
 

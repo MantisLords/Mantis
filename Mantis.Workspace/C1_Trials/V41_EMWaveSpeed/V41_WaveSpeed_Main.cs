@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using Mantis.Workspace.BasicTests;
 using Mantis.Workspace.C1_Trials.Utility;
+using MathNet.Numerics;
 using Microsoft.VisualBasic;
 using ScottPlot;
 using ScottPlot.Drawing.Colormaps;
@@ -81,24 +83,40 @@ public static class V41_WaveSpeed_Main
 
        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
        dataForTables[0].frequency.AddCommand("frequencyFirst");
+       (dataForTables[0].frequency*Math.Pow(10,-6)).AddCommand("frequencyTableFirst");
        dataForTables[0].vStanding.AddCommand("vStandingFirst");
+       (dataForTables[0].vStanding*Math.Pow(10,-8)).AddCommand("vStandingTableFirst");
        dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
        dataForTables[0].damping.AddCommand("dampingFirst");
        dataForTables[1].frequency.AddCommand("frequencySecond");
+       (dataForTables[1].frequency*Math.Pow(10,-6)).AddCommand("frequencyTableSecond");
        dataForTables[1].vStanding.AddCommand("vStandingSecond");
+       (dataForTables[1].vStanding*Math.Pow(10,-8)).AddCommand("vStandingTableSecond");
        dataForTables[1].EpsilonR.AddCommand("epsilonRSecond");
        dataForTables[1].damping.AddCommand("dampingSecond");
        dataForTables[2].frequency.AddCommand("frequencyThird");
+       (dataForTables[2].frequency*Math.Pow(10,-6)).AddCommand("frequencyTableThird");
        dataForTables[2].vStanding.AddCommand("vStandingThird");
+       (dataForTables[2].vStanding*Math.Pow(10,-8)).AddCommand("vStandingTableThird");
        dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
        dataForTables[2].damping.AddCommand("dampingThird");
        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
     CalculateResistanceMean();
-
+    double[] xFordamping = new[] { dataForTables[0].frequency.Value, dataForTables[2].frequency.Value };
+    double[] xError = new[] { dataForTables[0].frequency.Error, dataForTables[2].frequency.Error };
+    double[] yFordamping = new[] { dataForTables[0].damping.Value, dataForTables[2].damping.Value };
+    double[] yError = new[] { dataForTables[0].damping.Error, dataForTables[2].damping.Error };
+    double[] xSecondForDamping = new[] { dataForTables[1].frequency.Value };
+    double[] ySecondForDamping = new[] { dataForTables[1].damping.Value };
+    double[] xErrorSecond = new[] { dataForTables[1].frequency.Error };
+    double[] yErrorSecond = new[] { dataForTables[1].damping.Error };
     ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Frequency [Hz]","damping[dB/m]");
-    plot.AddErrorBars(dataForTables.Select(e => (e.frequency, e.damping)));
+    plot.AddErrorBars(dataForTables.Select(e=>(e.frequency,e.damping)));
+    plot.AddScatterPoints(xSecondForDamping, ySecondForDamping, Color.Black, markerSize: 7F, MarkerShape.filledSquare,
+        "nana");
+    plot.AddScatterPoints(xFordamping, yFordamping, Color.Red,9F,MarkerShape.filledTriangleDown,"sada" );
     plot.SaveAndAddCommand("dampingPlot");
     }
 
@@ -133,12 +151,11 @@ public static class V41_WaveSpeed_Main
 
         incommingVMean.Error = Math.Sqrt((1/(double)(count-1)) * sumForStandardDeviationIncomV.Value)/Math.Sqrt(count);
         nodeVMean.Error = Math.Sqrt(sumForStandardDeviationNodeV.Value * 1/(count-1))/Math.Sqrt(count);
-        frequencyMean.Error = Math.Sqrt( sumForStandardDeviationFreq.Value * 1/(count-1))/Math.Sqrt(count);
         StandingWaveData newData = new StandingWaveData()
         {
-            frequency = frequencyMean*1000,
-            incommingVoltage = incommingVMean,
-            nodeVoltage = nodeVMean/1000,
+            frequency = new ErDouble(frequencyMean.Value*1000,5000),
+            incommingVoltage = incommingVMean*1000,
+            nodeVoltage = nodeVMean,
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
@@ -177,7 +194,7 @@ public static class V41_WaveSpeed_Main
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
         ErDouble U2l = U0 - deltaU ;
-        return ErDouble.Log((U0 / U2l), 10) * 20.0 / 100.0;
+        return Math.Pow(10,3)* ErDouble.Log((U0 / U2l), 10) * 20.0 / 100.0;
     }
 
     public static ErDouble CalculateVelocityStanding(ErDouble f, bool openEnd, int nodeCount)
