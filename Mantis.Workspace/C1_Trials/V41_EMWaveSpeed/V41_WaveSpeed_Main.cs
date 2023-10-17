@@ -50,6 +50,7 @@ public struct CalculatedData
     public ErDouble EpsilonR;
     public ErDouble vStanding;
     public ErDouble damping;
+    public ErDouble nodeVoltage;
 }
 
 public static class V41_WaveSpeed_Main
@@ -73,6 +74,9 @@ public static class V41_WaveSpeed_Main
            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
        ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
        Console.WriteLine(v);
+       calculatedMeanList[0].nodeVoltage.AddCommand("nodeVoltageOne");
+       calculatedMeanList[1].nodeVoltage.AddCommand("nodeVoltageTwo");
+       calculatedMeanList[2].nodeVoltage.AddCommand("nodeVoltageThree");
        v.AddCommand("velocityRuntime","m/s");
        Console.WriteLine("EpsilonR runtime"+CalculateEpsR(v));
        CalculateEpsR(v).AddCommand("epsilonRRuntime","");
@@ -80,7 +84,7 @@ public static class V41_WaveSpeed_Main
        vRet.AddCommand("vRetRuntime","m/s");
        Console.WriteLine("Velocity retardation"+vRet);
 
-
+       
        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
        dataForTables[0].frequency.AddCommand("frequencyFirst");
        (dataForTables[0].frequency*Math.Pow(10,-6)).AddCommand("frequencyTableFirst");
@@ -100,6 +104,7 @@ public static class V41_WaveSpeed_Main
        (dataForTables[2].vStanding*Math.Pow(10,-8)).AddCommand("vStandingTableThird");
        dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
        dataForTables[2].damping.AddCommand("dampingThird");
+
        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
@@ -115,8 +120,8 @@ public static class V41_WaveSpeed_Main
     ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Frequency [Hz]","damping[dB/m]");
     plot.AddErrorBars(dataForTables.Select(e=>(e.frequency,e.damping)));
     plot.AddScatterPoints(xSecondForDamping, ySecondForDamping, Color.Black, markerSize: 7F, MarkerShape.filledSquare,
-        "nana");
-    plot.AddScatterPoints(xFordamping, yFordamping, Color.Red,9F,MarkerShape.filledTriangleDown,"sada" );
+        "Standing waves with open far end");
+    plot.AddScatterPoints(xFordamping, yFordamping, Color.Red,9F,MarkerShape.filledTriangleDown,"Standing waves with short circuit at far end" );
     plot.SaveAndAddCommand("dampingPlot");
     }
 
@@ -185,6 +190,7 @@ public static class V41_WaveSpeed_Main
             e.vStanding =
                 CalculateVelocityStanding(data[i].frequency, data[i].isEndFixed, data[i].nodeCount);
             e.damping = CalculateDamping(data[i].incommingVoltage, data[i].nodeVoltage);
+            e.damping.Error = ;
             e.EpsilonR = CalculateEpsR(e.vStanding);
             calculatedData.Add(e);
         }
@@ -223,7 +229,7 @@ public static class V41_WaveSpeed_Main
     {
         double sum = 0;
         int count = 0;
-        List<ErDouble> list = new List<ErDouble>(){52.1, 45.2, 44.5, 50.0};
+        List<ErDouble> list = new List<ErDouble>(){52.1, 50.0};
         for (int i = 0; i < list.Count; i++)
         {
             sum += list[i].Value;

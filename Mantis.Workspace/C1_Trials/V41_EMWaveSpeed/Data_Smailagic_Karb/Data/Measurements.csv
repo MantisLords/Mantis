@@ -6,17 +6,17 @@
 
 # tab:resistanceData
 52.1
-45.2
-44.5
+45
+44
 50.0
 
 # tab:standingWaveData,,,
 measurement,nodeCount,frequency,nodeVoltage,incomingVoltage,isEndFixed
-1,1,971.5,312,5,false,
-2,1,971.1,308,5,false
-3,1,970.9,308,5,false
+1,1,971.5,322,5,false
+2,1,971.1,298,5,false
+3,1,970.9,300,5,false
 4,1,969.2,312,5,false
-5,1,972.0,312,5,false
+5,1,972.0,320,5,false
 6,1,1960.0,560,5,true
 7,1,1964.0,600,5,true
 8,1,1965.0,600,5,true
