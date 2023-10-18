@@ -69,7 +69,7 @@ public static class V41_WaveSpeed_Main
        var lengthRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("lengthRetardation");
        var tempGroupedListList = standingWaveList.GroupBy(e => (e.nodeCount,e.isEndFixed)).ToList();
        lengthRetardation.AddCommand("lengthRetardation","m");
-
+        
        var calculatedMeanList =
            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
        ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
@@ -82,6 +82,7 @@ public static class V41_WaveSpeed_Main
        CalculateEpsR(v).AddCommand("epsilonRRuntime","");
        ErDouble vRet = CalculateVelocityRuntime(peakDifferenceRetardation, lengthRetardation);
        vRet.AddCommand("vRetRuntime","m/s");
+       (lengthRetardation * 2*(19.0 * Math.Pow(10, -7))).AddCommand("expectedRetardation");
        Console.WriteLine("Velocity retardation"+vRet);
 
        
@@ -190,7 +191,6 @@ public static class V41_WaveSpeed_Main
             e.vStanding =
                 CalculateVelocityStanding(data[i].frequency, data[i].isEndFixed, data[i].nodeCount);
             e.damping = CalculateDamping(data[i].incommingVoltage, data[i].nodeVoltage);
-            e.damping.Error = ;
             e.EpsilonR = CalculateEpsR(e.vStanding);
             calculatedData.Add(e);
         }

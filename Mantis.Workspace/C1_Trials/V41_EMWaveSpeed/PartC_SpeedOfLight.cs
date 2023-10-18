@@ -39,7 +39,7 @@ public static class PartC_SpeedOfLight
         speedOfLight.AddCommandAndLog("SpeedOfLight");
 
         ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("time [ns]","distance [mm]");
-        plot.AddRegModel(model, "linearRegression");
+        plot.AddRegModel(model, "Measured distance-time pairs","Line fitted per gaussian-regression");
         plot.SaveAndAddCommand("regressionPLot");
 
     }
