@@ -10,8 +10,8 @@ public record NumberLogCom<T>(string Label, INumber<T> Number, string Unit = "")
         string res = Number.ToString(isLatex?"G4":"g4",CultureInfo.InvariantCulture);
         if (!string.IsNullOrEmpty(Unit))
         {
-            if (isLatex) res += '\\';
-            res += " " + Unit;
+            if (isLatex) res += $"\\, \\mathrm{{{Unit}}}";
+            else res += " " + Unit;
         }
 
         return (Label, res);

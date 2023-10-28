@@ -38,27 +38,33 @@ public static class V39_Hysteresis_Main
                 MeasurementSeriesDict[measurementSeries.Label] = measurementSeries;
             }
         }
-
-        if (MeasurementSeriesDict["ExCoercivityRemanenceSteel"] is OneCycleMeasurementSeries series1)
-        {
-            series1.DrawRegRemanence = true;
-            series1.DrawRegCoercivity = true;
-        }
-        ((MeasurementSeriesDict["ExSaturationFe-Ni H2"] as OneCycleMeasurementSeries)!).DrawRegSaturation = true;
         
                 
         foreach (var series in MeasurementSeriesDict.Values)
         {
             //if (series is OneCycleMeasurementSeries oneCycleMeasurementSeries)
             //    oneCycleMeasurementSeries.DrawRegPoints = true;
+
+            if (series is OneCycleMeasurementSeries oneCycleMeasurementSeries)
+            {
+                if (series.SeriesInfo.Usage == "ExCoercivityRemanence")
+                {
+                    oneCycleMeasurementSeries.DrawRegRemanence = true;
+                    oneCycleMeasurementSeries.DrawRegCoercivity = true;
+                }
+                else if (series.SeriesInfo.Usage == "ExSaturation")
+                {
+                    oneCycleMeasurementSeries.DrawRegSaturation = true;
+                }
+            }
             
             series.SaveAndLogCalculatedData();
             
             var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520);
             series.PlotData(plt);
             
-            if(series.Label == "ExDemagnetizationSteel") PlotExDemagnetization(plt,series);
-            if(series.Label == "ExIrreversibilitySteel") PlotExIrreversibility(plt,series);
+            if(series.SeriesInfo.Usage == "ExDemagnetization") PlotExDemagnetization(plt,series);
+            if(series.SeriesInfo.Usage == "ExIrreversibility") PlotExIrreversibility(plt,series);
             
             plt.SaveAndAddCommand("fig:"+series.Label);
         }
@@ -135,18 +141,24 @@ public static class V39_Hysteresis_Main
 
     private static void PlotExDemagnetization(Plot plt, HysteresisMeasurementSeries series)
     {
+        var black = plt.Palette.GetColor(0);
         var red = plt.Palette.GetColor(1);
         var blue = plt.Palette.GetColor(2);
         
         var inletPlot = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520,relHeight:1);
+
+        inletPlot.AddHorizontalLine(0, black,0.5f);
+        inletPlot.AddVerticalLine(0, black,0.5f);
+        
         series.PlotData(inletPlot);
-        if (inletPlot.GetPlottables()[0] is ScatterPlot scatter)
+        if (inletPlot.GetPlottables()[2] is ScatterPlot scatter)
         {
             scatter.MarkerSize = 3;
+            scatter.Color = black;
         }
         inletPlot.SetAxisLimits(-200,200,-0.15,0.05);
         
-        inletPlot.AddArrow(0, 0, 50, 0.025, color: red,lineWidth:3);
+        inletPlot.AddArrow(-100,-0.05, -50, -0.025, color: red,lineWidth:3);
         inletPlot.AddArrow(100, -0.025, 50, -0.05, color: blue,lineWidth:3);
 
         var bitmap = inletPlot.GetBitmap();

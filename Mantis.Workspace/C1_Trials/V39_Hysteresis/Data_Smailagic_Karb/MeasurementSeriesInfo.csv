@@ -5,7 +5,7 @@ type,name,isFerromagnetic,da in mm,db in mm,n1,n2,height in mm,fillfactor,densit
 "Fe-Ni H2","PERMENORM 5000 H2",true,260,220,605,80,30,0.9,8.25,0.01
 "Fe-Ni Z","PERMENORM® 5000 Z",true,260,220,610,56,30,0.9,8.25,0.01
 "Steel","ST 37K",true,260,220,1010,53,30,1,7.80,0.01
-"Wood","Wood",false,260,220,1010,250,30,1,,
+"Wood","Holzkern",false,260,220,1010,250,30,1,,
 ,,,,,,,,,,
 # tab:measurementSeriesInfos
 measurementSeries,usage,ringCore,seriesResistance in Ohm,fluxRange in VM,isHFieldFlipped,isBFieldFlipped,isCurveOneCycle,coercivityEvalMax in B,isRemanenceEvalHAxis,remanenceEvalMin,remanenceEvalMax,saturationEvalMin in H,

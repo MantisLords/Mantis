@@ -37,7 +37,8 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 
         if (DrawBestFit)
         {
-            plt.AddFunction(LinearFit.ParaFunction, label: "Best fit for calculating\nmagnetic permeability");
+            plt.AddFunction(LinearFit.ParaFunction,
+                label: "Fit zu Bestimmung\nder Permeabilität"); //"Best fit for calculating\nmagnetic permeability");
         }
         
         return plt;

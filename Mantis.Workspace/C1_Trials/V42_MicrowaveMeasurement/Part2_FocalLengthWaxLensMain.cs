@@ -69,6 +69,8 @@ public static class Part2_FocalLengthWaxLensMain
 
 
         model.DoRegressionLevenbergMarquardt(new double[] {0,1, 90, 100 },useYErrors:false);
+        
+        //model.GetGoodnessOfFitLog().LogCommands("Godnees");
         //model.DoRegressionLevenbergMarquardtWithXErrors(initialGuess, 10);
         
         //model.AddParametersToPreambleAndLog("FocalLengthGaussFit");

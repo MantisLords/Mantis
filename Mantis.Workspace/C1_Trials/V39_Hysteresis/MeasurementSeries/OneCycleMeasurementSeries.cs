@@ -71,8 +71,9 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         Console.WriteLine($"{Label} CorerPos {coercivityPositive} CorerNeg {coercivityNegative}");
         CharacProperties.Coercivity = new[] {-coercivityPositive, coercivityNegative}.WeightedMean(useMaxCovariance:false);
         _coercifityPlotInfo = new PlotEvalDataInfo(coercivityPositiveInfo, coercivityNegativeInfo,
-            "Line fit for\nevaluation coercivity", "Coercivity");
-        
+            "Fit zum Bestimmen\nder Koerzitivfeldstärke",
+            "Koerzitivfeldstärke"); //"Line fit for\nevaluation coercivity", "Coercivity");
+
     }
 
     private (ErDouble,PlotRegInfo) CalculateCoercivity(HBData[] points)
@@ -96,7 +97,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         var (remanenceNegative,remanenceNegativeInfo) = CalculateRemanence(HBNegativeList,-1);
         CharacProperties.Remanence = new[] {-remanenceNegative, remanencePositive}.WeightedMean();
         _remanencePlotInfo = new PlotEvalDataInfo(remanencePositiveInfo, remanenceNegativeInfo,
-            "Line fit for\nevaluating remanence", "Remanence");
+            "Fit zum Bestimmen\ndes Remanenzfelds", "Remanenzfeld"); //"Line fit for\nevaluating remanence", "Remanence");
     }
 
     private (ErDouble,PlotRegInfo) CalculateRemanence(HBData[] points, int sign)
@@ -123,9 +124,10 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
             //Console.WriteLine($"MuPos {satInfoPos.Model.ErParameters[1]} MuNeg {satInfoNeg.Model.ErParameters[1]}");
             CharacProperties.SaturationPermeability = new[] {satInfoNeg.Model.ErParameters[1], satInfoPos.Model.ErParameters[1]}.WeightedMean();
             CharacProperties.SaturationPermeability /= Constants.MagneticPermeability;
-            
+
             _saturationPlotInfo = new PlotEvalDataInfo(satInfoPos, satInfoNeg,
-                "Line fit for\nevaluating saturation", "Saturation");
+                "Fit zur Bestimmung\nder Sättigung",
+                "Sättigungsfeld"); //"Line fit for\nevaluating saturation", "Saturation");
 
         }catch(ArgumentException){}
     }

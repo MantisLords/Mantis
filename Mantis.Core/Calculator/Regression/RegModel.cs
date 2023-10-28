@@ -37,7 +37,7 @@ public class RegModel<T> where T : FuncCore,new()
      {
          Vector<double> distance =
                  ParaFunction.CalculateResultPointWise(Data.XValues) - Data.YValues;
-             var residual = distance.DotProduct(Weights * distance);
+             var residual = distance.DotProduct( distance); // Weights should also be multiplied?
              return residual / DegreesOfFreedom;
 
      }

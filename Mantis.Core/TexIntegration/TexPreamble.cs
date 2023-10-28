@@ -41,7 +41,7 @@ public static class TexPreamble
     {
         string res = number.ToString("G4",CultureInfo.InvariantCulture);
         if (!string.IsNullOrEmpty(unit))
-            res += "\\ " + unit;
+            res += "\\, \\mathrm{" + unit + "}";
         AddCommand(res,label,makeLabelValid:makeLabelValid);
     }
     

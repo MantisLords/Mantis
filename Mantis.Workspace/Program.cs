@@ -9,11 +9,11 @@ using Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 
 Console.WriteLine("Hello, World!");
 
-// FileManager.GlobalWorkspace = "C1_Trials/V41_EMWaveSpeed/Data_Christ_Graf";
+// FileManager.GlobalWorkspace = "C1_Trials/V41_EMWaveSpeed/Data_Smailagic_Karb";
 // V41_Main.Process();
 
-//FileManager.GlobalWorkspace = "C1_Trials/V42_MicrowaveMeasurement/Data_Smailagic_Karb";
-//V42_MicrowaveMeasurement_Main.Process();
+FileManager.GlobalWorkspace = "C1_Trials/V42_MicrowaveMeasurement/Data_Smailagic_Karb";
+V42_MicrowaveMeasurement_Main.Process();
 
-FileManager.GlobalWorkspace = "C1_Trials/V39_Hysteresis/Data_Smailagic_Karb";
-V39_Hysteresis_Main.Process();
+// FileManager.GlobalWorkspace = "C1_Trials/V39_Hysteresis/Data_Smailagic_Karb";
+// V39_Hysteresis_Main.Process();

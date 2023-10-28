@@ -31,6 +31,9 @@ public static class NonLinearRegression
         }
         
         model.ParaFunction.ParaSet.SetParametersAndErrorsWithApprox(objective.Point,covariance);
+        
+        // Console.WriteLine($"StandarErrors: MathNet: {res.StandardErrors} Me: {model.ParaFunction.ParaSet} \n R: {objective.Value}" +
+        //                   $" RAlt: {model.CalculateReducedResidual()}");
 
         return res;
     }
