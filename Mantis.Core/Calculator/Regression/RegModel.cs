@@ -1,6 +1,7 @@
 ﻿using Mantis.Core.LogCommands;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Statistics;
 
 namespace Mantis.Core.Calculator;
 
@@ -45,6 +46,25 @@ public class RegModel<T> where T : FuncCore,new()
      public double CalculateFitProbability() =>
          CalculateReducedResidualProbability(CalculateReducedResidual(), DegreesOfFreedom);
 
+     public double CalculateRSquared() => CalculateRSquared(CalculateReducedResidual());
+     public double CalculateRSquared(double reducedResidual)
+     {
+         var residual = reducedResidual * DegreesOfFreedom;
+         var yMean = Data.YValues.Mean();
+         var ssTotDistance = Data.YValues - yMean;
+         var ssTot = ssTotDistance.DotProduct(ssTotDistance);
+
+         var rSquared = 1 - residual / ssTot;
+         return rSquared;
+     }
+
+     public double CalculateAdjustedRSquared() => CalculateAdjustedRSquared(CalculateRSquared());
+
+     private double CalculateAdjustedRSquared(double rSquared)
+     {
+         return 1 - (1 - rSquared) * (Data.Count - 1) / (DegreesOfFreedom - 1);
+     }
+
      private double CalculateReducedResidualProbability(double reducedResidual, int degreeOfFreedom)
      {
          var chiDistribution = new ChiSquared(degreeOfFreedom);
@@ -68,6 +88,11 @@ public class RegModel<T> where T : FuncCore,new()
          double reducedResidual = CalculateReducedResidual();
          commands.Add("Reduced Residual",reducedResidual);
          commands.Add("Probability",CalculateReducedResidualProbability(reducedResidual,DegreesOfFreedom));
+
+         double rSquared = CalculateRSquared(reducedResidual);
+         commands.Add("R Squared",rSquared);
+         commands.Add("Adjusted R Squared",CalculateAdjustedRSquared(rSquared));
+         
          return commands;
      }
 }

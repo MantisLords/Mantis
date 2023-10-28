@@ -44,17 +44,40 @@
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        We use microwaves to study the wave character of light.
-        Thier wavelength in cm range make it possible to reveil properties of EM-waves, which would
-        for visible light require significantly more complex setups.
-        Firstly the wavelength can be easely measured by counting nodes.
-        Herefor we use a setup with standing waves and a michelson interferometer.
-        We verify polarisation and Malus'law for linear-polarisation-filters.
-        Furthermore we show total reflection and the tunnel effect, which only can be explained
-        by the wave character of the used microwaves.
-        These effects are then applied for bragg diffraction.
-        We use an exemplary crystal model to demonstrate the principle.
-        At last we show qualitatively the usage of a metal tube as waveguide.
+%        We use microwaves to study the wave character of light.
+%        Thier wavelength in cm range make it possible to reveil properties of EM-waves, which would
+%        for visible light require significantly more complex setups.
+%        Firstly the wavelength can be easely measured by counting nodes.
+%        Herefor we use a setup with standing waves and a michelson interferometer.
+%        We verify polarisation and Malus'law for linear-polarisation-filters.
+%        Furthermore we show total reflection and the tunnel effect, which only can be explained
+%        by the wave character of the used microwaves.
+%        These effects are then applied for bragg diffraction.
+%        We use an exemplary crystal model to demonstrate the principle.
+%        At last we show qualitatively the usage of a metal tube as waveguide.
+        
+        Die Maxwell-Gleichungen beschreiben Licht als elektromagnetische Welle.
+        Ziel dieses Papers ist der Nachweis der Welleneigenschaften.
+        Wir nutzen hierzu eine Gunn-Diode, welche Microwellen emittiert.
+        Aus der Wellenoptik ergibt sich, dass vor einem Spiegel sich stehende Wellen ausbilden.
+        Wir nutzen diese Eigenschaft, um die Wellenlänge der Diode zu bestimmen, indem wir die Knoten der sthenden
+        Welle zählen: $\lambda = \StandingWavesWaveLength$.
+        Ferner interferieren zwei überlagerte Lichtstrahlen.
+        Mit Hilfe eines Micealson-Interferometers nutzen wir dies, für eine zweite Bestimmung der Wellenlänge 
+        $\lambda = \InterferometerWaveLength$.
+        Elektro-magnetische Wellen sind keine skalaren Wellen, sondern sind polarisiert.
+        Dies weisen wir nach, indem wir einen linearen Polfilter verwenden.
+        Wir können das Gesetz von Malus, welches die Durchlass-Intensität des Polfilters in Abhängigkeit des Winkels
+        beschreibt, zu mindest qualitativ bestätigen.
+        Hinter einer Fläche, an der die Lichtstrahlen totalreflektiert werden, bildet sich laut der Theorie
+        evaleszente Wellen aus. % TODO Rechtschreibung
+        Wir weisen diese nach unter Verwendung zweier Wachsprismen.
+        Die Intensität der evaleszenten Welle nimmt exponentiell ab, was wir bestätigen können.
+        Die Reflexions- und Interferenzeigenschaften macht sich die Methode der Bragg-Reflexion zu nutze,
+        um Gitterkonstanten zu bestimmen.
+        Wir demonstrieren das Prinzip anhand eines Kristallmodels.
+        Zu letzt zeigen wir qualitativ, dass ein Metalschlauch als Wellenleiter verwendet werden kann.
+        
         \\
         Measuerement made: 21. September 2023\\       %Datum ändern!
         Submitted: 28. September 2023                %Datum ändern!
@@ -69,8 +92,23 @@
     in an experiment.
     Because all properties shown here apply also for light in the visible spectrum, you can 
     adopt the presented methods on a smaller lengthscale.
+    
     \section{Experimenteller Aufbau}
-    \subsection{Emitter}
+    Für unsere Experimente benutzen wir das `PASCO Microwave Optics System WA-9316A'.
+    \subsection{Empfänger}
+    
+    Wir benutzten den im `PASCO'-System enthaltenen Empfänger ´WA-9802'.
+    Er ist eine Scotty-Diode, welche nur linear polarisiertes Licht detektiert.
+    Zur Fokussierung ist eine Horn-Antenne auf dem Empfänger montiert.
+    Der Empfänger gibt eine Spannung aus, welche wir dann mit dem Voltmeter Agilent 34405A messen.
+    Es ist anzumerken die ausgegebene Spannung ist weder proportional zur Intensität $I$ der Mikrowellen oder zum E-Feld $E$.
+    Stattdessen ist es ein Zwischenwert~\cite{pasco}.
+    Aus diesem Grund können wir nicht von der Spannung auf die Intensität zurück rechnen.
+    Deswegen sind in all unseren Daten nur die gemessenen Spannungen angegeben.
+    Ferner gibt der Empfänger eine Spannung aus, auch wenn keine Mikrowellen vorhanden sind.
+    Diese Nullpunktverschiebung ist aus den angegebenen Daten korrigiert worden.
+    
+    \subsection{Transmitter}
 
 %    \figAngleDispersion{Angle dispersion of the Gunn diode used in our setup.
 %    We fit a gauss curve to get an approximation of the variance.
@@ -79,7 +117,7 @@
         Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
         Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität zu messen.
         Wir passen eine generische Gaußkurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
-        $fwhm = \AngleDispersionGaussFWHM$ .
+        $fwhm = \AngleDispersionGaussFWHM$ . % TODO Graphiken
     }
     
 
@@ -88,17 +126,27 @@
 %    We measured the angle-intensity-relation and made a basic gauss-fit to get a rough estimate of the light dispersion (cf.~\ref{fig:AngleDispersion}).
 %    The full-width-half-maximum of the used emitter is
 
-    Zur Erzeugung der Mikrowellen in unseren Experimenten wurde eine Gunn-Diode verwendet. 
-    Sie hat eine Hornantenne zur Fokussierung des Lichts. 
-    Wir haben die Winkel-Intensitäts-Beziehung gemessen und einen
-    einfachen Gauß-Fit durchgeführt, um eine grobe Abschätzung der Lichtstreuung zu erhalten (vgl. 1). 
+    Wir benutzen den Transmitter `WA-9801' aus dem `PASCO'-System.
+    Dieser ist eine Gunn-Diode auf der ebenfalls eine Horn-Antenne montiert ist.
+    Diese emittiert Mikrowellen mit einer Wellenlänge von $\lambda = \OfficialWaveLength$ laut Hersteller.
+    
+    Zu nächst wollen wir die Winkeldispersion der Gunn-Diode bestimmen, um etwaige Fehler durch eine
+    große Streuung abschätzen zu können.
+    In einem Bereich von $\pm 90 ^{\circ}$ messen wir die Intensität in Abhängigkeit des Winkels.
+    Die Daten sind in Abbildung~\ref{fig:AngleDispersion} aufgetragen.
+    Wir führen einen Gauß-Fit durch, um eine grobe Abschätzung der Lichtstreuung zu erhalten.
+    Auf den tatsächlichen funktionellen Zusammenhang können wir nicht zurück schließen, da die gemessene Spannung
+    nicht proportional zur Intensität ist.
     Das Full-width-half-maximum der verwendeten Diode ist
     
     \begin{align*}
         fwhm = \AngleDispersionGaussFWHM
     \end{align*}
     
-    Der Fehler wurde aus den Parameterfehlern des Fits bestimmt.
+    Der angegebene Fehler wurde über die Parameterfehlern des Fits bestimmt.
+    Er bestimmt sich aus der Streuung der Datenpunkte.
+    Der systematische Fehler, welcher sich aus der auf Grund der unbekannten Spannung-Intensität-Beziehung ergibt, kann
+    nicht abgeschätzt werden.
     
     \subsection{Linse}
 
@@ -127,16 +175,25 @@
 
     Für die Experimente mit Bragg-Beugung und Tunneleffekt benötigen wir parallele Lichtstrahlen. 
     Wir verwendeten eine Wachslinse zur Fokussierung der emittierten Mikrowellen. 
-    Um die Brennweite zu bestimmen, wurde die Linse von der emittierenden Diode entfernt platziert. 
-    Die Gegenstandsweite betrug in unserem Aufbau $g = \ObjectDistance$.
-    Anschließend wurde die Intensität durch Variation der Empfängerpositionen gemessen, wie in Abbildung~\ref{fig:imageDistance} dargestellt.
-    Da die Wellenlänge im cm-Bereich liegt, liegt auch der Durchmesser der resultierenden Airy-Scheibchens im cm-Bereich.
+    Um die Brennweite zu bestimmen, wird die Linse ca.\ $80 \mathrm{cm}$ entfernt von der emittierenden Diode platziert. 
+    Die Gegenstandweite zwischen Linse und Transmitter betrug in unserem Aufbau $g = \ObjectDistance$.
+    Hier zu wurde der Abstand zwischen der Mitte der Linse und der effektiven Position des Senders nach~\cite{pasco} gemessen.
+    
+    Nun wird der Empfänger auf der anderen Seite positioniert.
+    Für verschiedene Abstände zur Linse wir die Intensität gemessen.
+    Es muss auch hier die effektive Position des Empfängers nach~\cite{pasco} berücksichtigt werden.
+    Der Intensitätsverlauf ist in Abbildung~\ref{fig:imageDistance} dargestellt.
+    
+    Da die Wellenlänge der Mikrowellen im cm-Bereich liegt, liegt auch der Durchmesser 
+    des resultierenden Airy-Scheibchens hinter der Linse auch im cm-Bereich.
     Das bedeutet, dass es keine Entfernung gibt, in der das Objekt vollständig fokussiert ist, wie man es in der
     geometrischen Optik erwarten würde. 
     Um die tatsächliche Bildentfernung zu ermitteln, muss man also das Maximum finden.
-    Da wir nur wenige Datenpunkte mit viel Rauschen haben, verwenden wir eine Gaußkurve,
-    um eine Annäherung an das Maximum zu finden.
-    Die tatsächliche theoretische Intensitätsverteilung ist jedoch komplizierter.
+    
+    Wir verwenden auch hier wieder eine generische Gauss-Kurve, um dass Maximum abzuschätzen.
+    Denn neben der oben beschrieben Verzerrung der Daten durch die Scotty-Diode, ist in dieser Messung ein
+    starkes Rauschen vorhanden.
+    Hinter der Linse bildet sich eine stehende Welle aus, welche den Verlauf überlagert.
     
 %    Here the image distance is 
     
@@ -146,8 +203,10 @@
         b = \ImageDistance
     \end{align*}
 
+    Auch hier ist der Fehler aus der statistischen Streuung der Datenpunkte um den Fit bestimmt worden.
+    Er spiegelt nicht die systematischen Fehler wieder.
 %    Now we can calculate the focal length after the lens formula
-    Damit können wir die Brennweite berechnen nach der Abbildungsgleichung:
+    Mit der Bildweite können wir nun die Brennweite berechnen nach der Abbildungsgleichung:
     
     \begin{align}
         \label{eq:LensFormula}
@@ -159,18 +218,19 @@
         f = \FocalLength
     \end{align*}
     
-    \section{Wavelength measurement}
-    It is important to know the wavelength of the light for the subsequent experiments.
-    The wavelength by the manufacturer of the diode is
-    \begin{align*}
-        \lambda = \OfficialWaveLength
-    \end{align*}
-    To verify this we used two setups.
-    \subsection{Stationary wave}
-    For the first approach we create stationary waves.
-    We position a mirror opposite of the emitter in a distance of $1m$.
-    Then we move the receiver between mirror and diode and count the nodes of the resulting standing wave.
-    We then measure the distance around 40 nodes and can calculate the wavelength:
+    \section{Wellenlängen Messung}
+    \subsection{Stehende Welle}
+%    For the first approach we create stationary waves.
+%    We position a mirror opposite of the emitter in a distance of $1m$.
+%    Then we move the receiver between mirror and diode and count the nodes of the resulting standing wave.
+%    We then measure the distance around 40 nodes and can calculate the wavelength:
+    
+    
+    
+    Für den ersten Ansatz erzeugen wir stehende Wellen. 
+    Wir positionieren einen Spiegel gegenüber dem Sender in einem Abstand von $1\, \mathrm{m}$. 
+    Dann bewegen wir den Empfänger zwischen Spiegel und Diode und zählen die Knotenpunkte der entstehenden stehenden Welle. 
+    Wir messen dann den Abstand um 40 Knoten und können die Wellenlänge berechnen:
     \begin{align*}
         \lambda = \StandingWavesWaveLength
     \end{align*}
