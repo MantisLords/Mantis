@@ -143,7 +143,7 @@
     From the data in Fig. \ref{binodal} and the constructed maxwell lines one can plot the temperature dependence of the pressure as can be seen in Fig. \ref{fig:tempLogPLot}.
     However, the theoretical form of the steam pressure curve is predicted as follows:
     \begin{align}
-        p=b(T)e^\frac{E_{steam}}{k_B T}
+        p=\gamma(T)e^\frac{E_{steam}}{k_B T}
     \end{align}
     This prediction can be explained by the Boltzmann distribution of the molecules, since only the molecules that have enough energy to leave the liquid phase evaporate.
     The height of this energy barrier is E_{steam}\) in this case.
@@ -202,7 +202,7 @@
     Since the coexistence region gets narrower for higher temperatures until completely vanishing at exactly the critical point, we recorded isotherms for different temperatures
     and approximated where the coexistence region lies in the P-V diagram.
     The extremum of the approximated region marks the critical point.
-    The critical values for our used gas SF_6\) came out to be $P_{\text{Crit}}=\criticalPressure$ , $V_{\text{Crit}}=\criticalVolume$ and $T_{\text{Crit}}=(46.3\pm 0.3)\degree$, from which the parameters of the Van der Waals model could be determined
+    The critical values for our used gas SF_6\) came out to be $P_{\text{Crit}}=\criticalPressure$ , $V_{\text{Crit}}=\criticalVolume$ and $T_{\text{Crit}}=(47.0\pm 1.5)\degree$, from which the parameters of the Van der Waals model could be determined
     $a=\parameterA \frac{Pa m^6}{mol^2} $ and $b=\parameterB \frac{m^3}{mol} $.
     These were used to compare the two models to experimental data.
     The Van der Waals model proved legitimate by showing greater agreement experimental data over a larger range of volumes.
@@ -265,9 +265,11 @@ Put into Eq. (7) allows to calculate $T_{crit}$ and similarly $P_{crit}$
     These end points are then used as data-points through which a the binodal is fitted.
     \subsubsection{Theoretically}\label{subsubsec:maxwellFromTheory}
     The Van der Waals model allows an approximation of the maxwell line since the area between the Van der Waals curve and a the maxwell line should be zero.
+    This is based on the idea of path independence of the work in the P-V diagram (in thermodynamic equillibrium).
+    This would mean that
     Mathematically that means
     \begin{align}
-        \int_{V1}^{V2} |VdW - P| dV
+        \int_{V1}^{V2} |\text{Van der Waals function} - P| dV = 0
         \end{align}
     which delivers a condition for the pressure P:
     \begin{align}

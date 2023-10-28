@@ -39,10 +39,10 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Betreuer: Lukas Elter & \today\\                          %Kopfzeile - Betreuer
+            Tutor: Lukas Elter & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Examinig Propagation Properties of Electromagnetic Waves in Coaxial Cables}  %Titel der Versuchs
+    \title{Methods of Examinig Propagation Properties of Electromagnetic Waves in Coaxial Cables}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
@@ -55,7 +55,7 @@
         The first method makes use of pulses whose reflections can be looked at on the oscilloscope.
         The behaviour and shape of the reflections can be altered by different resistors at the reflective end, therefore allowing
         the impedance to be calculated.
-        We demonstrated this with a cable with an impedance of $Z=50\,\Omega$ per factory specification. 
+        We demonstrated this with a cable with an impedance of $Z=50\,\Omega$ per factory specification [1].
         The measured value is $Z=\resistanceMean$.
         The method was then used to measure the propagation velocity of signals inside the coaxial cable at $200\,$kHz which was calculated to be $v_{\text{Runtime}}=\velocityRuntime$.
         And we showed that it could be used for similar measurements as well by measuring the speed of light in air - resulting in $c=\SpeedOfLight \frac{\text{m}}{\text{s}} $.
@@ -63,8 +63,8 @@
         One drawback of this method is that it can only be used in an environment where the dispersion relation does not play a huge role.
         For that reason, this method does not allow the damping to be determined quantitavely.
         The second method uses standing waves inside the cable.
-        The properties of the waves allow for conclusions about the propagation velocity and,
-        since the efects of the dispersion relation dont play a huge role here, it allows for calculating the damping.
+        The properties of the waves allow for conclusions about the propagation velocity.
+        Since the efects of the dispersion relation dont play a huge role here, it allows for calculating the damping.
         The drawback here is that the method can not be used over such a wide frequency range, and it can only be used for discrete frequencies - corresponding to the harmonics of standing waves.
         \\
         \\
@@ -78,16 +78,15 @@
     \section{Introduction}\label{sec:introduction}
     The widespread usage of coaxial cables makes it important to understand their properties but also their limitations,
     like the bad performance at high frequencies or the possibility of perturbations due to reflections at the end of the cable.
-    Here, we will look at two different approaches which allow measurement of the propagation velocity and the damping inside these cables.
+    Here, we will look at two different approaches which allow for measurement of the propagation velocity and the damping inside these cables.
     
     Coaxial cables are a type of electrical cable consisting of an inner conductor surrounded by a cylindrical conducting shield(usually copper) seperated by a dielectric. 
-    In an ideal coaxial cable, the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses making it superior to conventional
-    transmission lines.
+    In an ideal coaxial cable, the electromagnetic field carrying the signals (electromagnetic waves) only exist in the space between the conductor and the shield allowing for almost no power losses.
     In this paper we want to examine the transmittance properties of coaxial cables while emphasizing the two used methods and comparing the methods between each other.
     
     \section{Wave propagation in cables - The coaxial cable}
-    The transmission properties of a coaxial cable are characterized by the capacitance between the two conductors per unit length $C^*$ and inductance per unit length $L^*$
-    From maxwells equations the voltage and current in the cable are given by:
+    The transmission properties of a coaxial cable are characterized by the capacitance between the two conductors per unit length $C^*$ and inductance per unit length $L^*$.
+    From the Kirchhoff laws for electric circuits the voltage and current in the cable can be derived:
     \begin{align*}
         \frac{\partial^2U}{\partial x^2}=L^*C^*\frac{\partial^2U}{\partial t^2}\\
         \frac{\partial^2I}{\partial x^2}=L^*C^*\frac{\partial^2I}{\partial t^2}
@@ -119,20 +118,23 @@
     \end{align}
     where $R$ is a resistor at the end of the cable.
     \section{Pulse method}
-    At one end of the cable (referred to as the generator/cable near end) a function generator the type Keysight 33220A (with an output impedance of $50\,\Omega$
+    In this method, voltage pulses of known frequency and amplitude are sent through the coaxial cable.
+    The reflections of these pulses can then be looked at on the oscilloscope.
+    From the delay between initial and reflected pulse, the velocity can be determined.
+    At one end of the cable (referred to as the generator/cable near end) a function generator of the type Keysight 33220A (with an output impedance of $50\,\Omega$)
     was connected,as well as CH1 of a Tektronix TDS 1001B two-channel oscilloscope
     (with an input impedance of $1\,\text{M}\Omega$).
     The other end of the cable (referred to as the generator/cable far end) was connected to CH2 of the oscilloscope.
     For this experiment we used $30\,$ns pulses generated by the frequency generator at $200\,$kHz and an amplitude of $5\,$V\@.
-    The pulses were sent through the coaxial cable and the delay of the reflected pulse was measured with the oscilloscope.
+    The pulses were sent through the coaxial cable and the delay of the reflected pulses was measured with the oscilloscope.
     The experimental setup can be seen in \autoref{fig:Construction}.
     \label{sec:propagationVelocities}
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[width=1.3\linewidth,scale=1.5]{pictures/Construction}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{The main part of the experimentall setup consisted of the Keysight-33220A function generator used to generate $30\,$ns pulses at $5\,$V initial amplitude, and a $50\,$m long
-            coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
-            The two channels of a Tektronix TDS 1001B oscilloscope were connected to the two Resistors $R_{\text{Near/Far}}$ which are on the ends of the cable.
+            \caption[]{The main part of the experimentall setup consisted of the Keysight-33220A function generator used to generate $30\,$ns pulses with $5\,$V initial amplitude, and a $50\,$m long
+            coaxial cable with a wave impedance of $50\,\Omega$ per factory specification [1].
+            The two channels of a Tektronix TDS 1001B oscilloscope were connected to the two Resistors $R_{\text{Near/Far}}$ which are at the ends of the cable.
             By changing the resistance at the ends of the cable, different reflection behaviour of the pulses can be observed on the oscilloscope reading.
             }   %Beschriftung der Graphik
             \label{fig:Construction}                                      %das wird zu Zitiern im Text gebraucht
@@ -141,25 +143,25 @@
     \subsection{Runtime measurement}
     \label{subsec:runtimeMeasurement}
     For this measurement we used the setup from \autoref{fig:Construction} with $R_{\text{Near}}=50\,\Omega$ and $R_{\text{Far}}=\infty$.
-    The open end was used to reflect a signal.
+    The open end was used to reflect the signal.
     The time it takes the signal to travel back and forth through the cable was measured with the cursor of the oscilloscope.
     Since the length of the coaxial cable was given to be $50\,$m we used the following formula to determine the velocity
     \begin{align}
         \label{eq:runtimeVelocity}
         v=\frac{2l}{\Delta t}
     \end{align}
-    which came out to be $v = \velocityRuntime$ at a frequency of 200KHz.
+    which came out to be $v = \velocityRuntime$ at a frequency of $200\,$kHz.
     According to \autoref{eq:vavePropagationVelocity} and assuming $\mu_r = 1$, this velocity corresponds to a relative permittivity $\epsilon_R = \epsilonRRuntime$.
     
     The same method was then used with another cable called the retardation cable.
-    The retardation cable had a known retardation of $19\,$ns per cm.
+    The retardation cable has a retardation of $19\,$ns per cm.
     Its length was measured to be l = $\lengthRetardation$.
     We obtained a value of $\vRetRuntime$ at a frequency of $f = 4\,$kHz.
     The expected retardation was $\expectedRetardation\,$s but our measured delay was $(2.080\pm 0.10)\cdot10^{-6}\,$s.
     The values do not coincide within their errors by a tiny margin.
-    It is important to keep in mid that the retardation itself is also frequency dependent and perhaps we should have used a different frequency in order to compare the results.
+    It is important to keep in mind that the retardation itself is also frequency dependent and perhaps we should have used a different frequency in order to compare the results.
     Since the retardation cable has a much higher damping coefficient than our previous coaxial cable,
-    the pulse gets modified a lot upon reflection and gets considerably wider.
+    the pulse gets deformed a lot and gets considerably wider.
     This is due to the damping of higher frequencies, making the pulse narrower in the frequency domain but wider in the time domain.
     Therefore, the point at which the pulse begins can not be determined absolutely.
     The much slower propagation speed inside the retardation cable is due to the fact that the retardation cable contains materials with high magnetic permeability $\mu_r$ compared to the $\mu_r \approx 1 $ of
@@ -169,9 +171,10 @@
     Nonetheless, using wider pulses would allow for some of the effects to be small or even negligible.
     \subsection{Measurement of the speed of light}
     \label{subsec:speedOfLightMeasurement}
-    In this experiment the speed of light was to be determined using an light pulse generated by an LED, and a receiver connected to an oscilloscope.
-    The pulse width was set to $20\,$ns per...
-    The pulses were reflected by a mirror placed at a known distance from the diode and the time it took it to travel the distance was measured.
+    In this experiment the speed of light was determined using an light pulse generated by an LED, and a receiver connected to an oscilloscope.
+    The LED was set to generate $20\,$ns wide pulses [1].
+    The pulses were reflected by a mirror placed at a known distance from the diode.
+    The time it took it to travel the distance was measured with the cursors of the oscilloscope.
     From a total of 9 different measured distances, the speed of light was calculated to:
     \begin{align}
         c = \SpeedOfLight \frac{m}{s}
@@ -194,14 +197,14 @@
     \label{sec:reflectionProperties}
     \subsection{Reflection phenomena inside the cable}
     Now we do not want to look only at the delay of the reflected pulse, but also at its shape.
-    In order to examine these reflection properties of waves inside the cable we make use of \autoref{eq:coaxRef} which suggests, that the reflection
+    In order to examine the reflection behaviour we make use of \autoref{eq:coaxRef} which suggests, that the reflection
     coefficient $\rho$ depends on the resistance at the end of the cable.
     
     The pulses were then recorded with the oscilloscope while the resistance at the far end of the cable was varied to simulate an open or fixed end.
     The used resistors varied from $R=0\,\Omega $ realized by a short circuit, to $R=50\,\Omega$ and $R=\infty$ realized by leaving the end of the cable open.
     
     Using the setup from \autoref{fig:Construction}, pictures of the voltages shown on the oscilloscope for all of the possible resistor combinations $R_{\text{Near}}, R_{\text{Far}} \in \{\, 0,50\,\Omega,\infty\ \,\}$ can be taken.
-    As we know from analogous phenomena -- like waves on a string -- waves behave differently depending on if the end of the string is fixed or not.
+    As we know from analogous phenomena -- like waves on a string -- waves behave differently depending on whether the end of the string is fixed or not.
     From \autoref{eq:coaxRef} we know that the reflection coefficient is $\rho = 0 $ for $R = Z$ and $\rho = 1 $ for $R \to \infty$ meaning that the different resistors simulate fixed and loose ends respectively.
     To show this experimentally, we start with no resistor at the generator far end, $R_{\text{Far}} = \infty$.
     From \autoref{eq:coaxRef} we expect the complete reflection of the Signal or $\rho = 1$ and a doubling in amplitude at the generator far end.
@@ -210,23 +213,26 @@
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb3_NoResistorFarEnd (2)}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{oscilloscope reading of a $30\,$ns pulse with initial amplitude $5\,$V and its reflection.
-            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            \caption[]{Oscilloscope reading of a $30\,$ns pulse with initial amplitude $5\,$V and its reflection.
+            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification [1].
             The used frequency is $f=200\,$kHz and the resistor values $R_{\text{Near}}=50\,\Omega$ and $R_{\text{Far}} = \infty$.
             
                 CH 1: At the near end of the cable, the amplitude of the reflected signal allows for approximation of the damping due to ohmic resistance.
-                By looking at CH2 and comparing the shown amplitude with the reflected wave on CH1 (right), we approximate the amplitude of the reflected signal as being $40\%$ of the amplitude on CH2.
+                By looking at CH1 and comparing the initial amplitude (left) with the reflected amplitude on (right), we approximate the amplitude of the reflected signal as being $35\%$ of the amplitude on CH2.
+                This would mean that an amplitude at the end would be $60\%$ of the initial one.
                 
-                CH 2: With the damping in mind the amplitude at the far end of the cable not would not show doubling of the initial amplitude but $120\%$ of it.
+                CH 2: With the damping in mind the amplitude at the far end of the cable would not show doubling of the initial amplitude but $120\%$ of it.
                 The initial $5\,$V would then be $6\,$V.
-                This is exactly what we observe.}   
+                This is what we observe.}   
             \label{fig:NoResistorFarEnd}                                      
         \end{center}
     \end{figure}
-    The doubling in amplitude can not be exactly seen due to damping inside of the cable which follows an exponential decay, but the damping can be approximated.
-    By looking at CH2 and comparing the amplitude to the reflected wave on CH1, we approximate the reflected wave to be $40\%$ of the amplitude on CH2.
-    This would mean, that the amplitude at the far end of the cable should be $120\%$ of the initial one.
-    This is exactly what we observe.
+    The amplitude at the end (CH2) should double.
+    This can not be exactly seen due to damping inside of the cable which follows an exponential decay.
+    By looking at CH1 and comparing the amplitude to the reflected signal, we approximate the reflected wave to be $35\%$ of the initial amplitude.
+    This would mean, that the amplitude at the far end of the cable should be $60\%$ of the initial one.
+    If we then keep in mind that the incoming amplitude at the end should double, we would expect to see $120\%$ of the initial amplitude to be observed on CH2.
+    This is what we observe.
     The small deformations in the initial signal which can be seen in all following measurements, are caused by the pulse generator.
     The deformations of the reflected pulse however, are not coursed by the equipment, but are due to the intrinsic frequency -- pulse width uncertainty relation.
     The initial pulse has a finite width, making it also finitely wide in the frequency domain.
@@ -241,13 +247,13 @@
     \begin{figure}[htbp]                                 %So bindet man Graphiken ein
         \begin{center}                                       %zentriert die Graphik
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb4_ShortCircoutFarEnd}      %das eingentliche Einbinden; "schwarz" ist der Dateiname ohne Endung
-            \caption[]{oscilloscope reading of a $30\,$ns pulse with initial amplitude $5\,$V and its reflection.
-            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            \caption[]{Oscilloscope reading of a $30\,$ns pulse with initial amplitude $5\,$V and its reflection.
+            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification [1].
             The frequency is $f=200\,$kHz and the resistor values are $R_{\text{Near}}=50\,\Omega$ and $ R_{\text{Far}} = 0\,\Omega.$
                 
                 CH 1: At the near end of the cable, the reflected pulse exhibits a negative sign.
                 This is is consistent with the reflection coefficient of $\rho = -1$.
-                The damping of the cable was approximated to be $60\%$ per $50\,$m, which is in agreement with this observation.
+                The damping of the cable was approximated to be $40\%$ per $50\,$m, which is in agreement with this observation.
                 
                 CH 2: The amplitude at the far end of the generator is vanishing.
                 This is consistent with the calculated reflection coefficient $\rho = -1$, causing perfect anihilation of the incoming wave with the reflected one.}   %Beschriftung der Graphik
@@ -263,14 +269,14 @@
     \begin{figure}[htbp]                                 
         \begin{center}                                       
             \includegraphics[angle=90,width=0.9\linewidth]{pictures/Abb5_VanishingReflectionFarEnd (2)}      
-            \caption[]{oscilloscope reading of a $30\,$ns pulse with initial amplitude $10\,$mV and its reflection.
-            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification.
+            \caption[]{Oscilloscope reading of a $30\,$ns pulse with initial amplitude $10\,$mV and its reflection.
+            The pulses are inside a $50\,$m long coaxial cable with a wave impedance of $50\,\Omega$ per factory specification [1].
             The frequency is $f=200\,$kHz and the resistor values are $R_{\text{Near}}=50\,\Omega$ and $ R_{\text{Far}} = 50\,\Omega.$
             
                 CH 1: The reading at the generator near end is showing only the incomming signal but no reflection.
                 This was expected since the reflection coefficient is calcualted to be $\rho = 0$. 
                 
-                CH 2: The reading at the far end of the generator showing an amplitude which is about $40\%$ of the initial one.
+                CH 2: The reading at the far end of the generator showing an amplitude which is about $60\%$ of the initial one.
                 Since there is no reflected wave, seeing only the damped incomming wave is exactly what was expected.
                 
             }   %Beschriftung der Graphik
@@ -319,7 +325,7 @@
     
     \section{Standing wave method}
     \label{subsec:standingWaveMethod}
-    The Understanding of standing waves will offer an alternative method of calculating the propagation velocity inside the cable which can be calculated via:
+    The understanding of standing waves will offer an alternative method of calculating the propagation velocity inside the cable which can be calculated via:
     \begin{align}
         \label{eq:velocityStanding}
         v = f\cdot\lambda
@@ -331,9 +337,10 @@
     Standing waves can be created in a coaxial cable by sending a sine signal and letting it be reflected on the far end of the cable.
     Depending on the resistance at the end of the cable, a node at the near end of the cable can only occur if the length is an integer multiple of $\frac{\lambda}{4}$.
     For a fixed end these integers are even while for open ends they are uneven.
-    The measurements for $\frac{\lambda}{4},\frac{\lambda}{2}$ and $\frac{3\lambda}{4}$ respectively can be seen in \autoref{tab:standingWaveData}
-    Analogously to the runtime measurement, the velocities and the relative permittivities can be calculated and can be seen \autoref{tab:standingWaveData} as well.
+    The measurements for $\frac{\lambda}{4},\frac{\lambda}{2}$ and $\frac{3\lambda}{4}$ respectively can be seen in \autoref{tab:standingWaveData}.
+    Analogously to the runtime measurement, the velocities and the relative permittivities can be calculated and can be seen in \autoref{tab:standingWaveData} as well.
     As can be seen from the data, the velocity depends on the frequency of the pulse.
+    In this experiment we used a cable different to the one in \autoref{sec:propagationVelocities}, because it has a lower damping.
     From the obtained values, we assume the dielectric to be polyethylene whose value is $\epsilon_{R} = 2.25$ at $1\,$KHz [3].
     This would be consistent with specifications of most coaxial cables.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
@@ -367,10 +374,9 @@
        D^*(x) = 20\cdot \frac{1}{x}\log(\frac{U_0}{U(x)})\,\text{dB} 
     \end{align}
     In this experiment we examined the frequency dependence of the damping coefficient.
-    The same setup from \autoref{subsec:standingWaveMeasurement} was used to measure the minimal amplitude of the signal.
     As we have a superposition of two waves with different amplitudes, we know that the amplitude at the nodes is | $U(0) - U(2l)$ |, and since the amplitude on the near end of the generator $U(0)$ is known to be $5\,$V
     we can determine $U(2l)$ allowing us to calculate $D^*$.
-    The calculated values are given in \autoref{tab:dampingData}
+    The calculated values are given in \autoref{tab:dampingData}.
     \begin{table}
         \centering
         \fontsize{7pt}{8pt}\selectfont
@@ -393,7 +399,7 @@
     \end{table}
     The data shows that the frequency dependence of the damping is inversely proportional meaning that higher frequencies get damped more.
     The cable acts as a low pass filter.
-    This is visualised in \autoref{fig:dampingFigure}
+    This is visualised in \autoref{fig:dampingFigure}.
     \begin{figure}
     \begin{center}
         \includegraphics[width=\linewidth]{Generated/dampingPlot}
@@ -404,19 +410,29 @@
         \label{fig:dampingFigure}
     \end{center}
     \end{figure}
+
+    This method avoids some problems of the first method, but introduces some new ones.
+    Determining the frequencies of standing waves like it was done in this paper is very prone to error.
+    The manual adjustments of the frequency when determining the voltage at the nodes is highly uncertain. 
+    An alternative would be, not to adjust the nodes at the end of the cable manually but to take data points of the amplitudes and then fit a function to them.
+    This would allow for determining the nodes much more accurately.
+    Another drawback is the rather large scale at which this method can be done, making it impossible to do a measurement similar to the speed of light measurement we did with the first method.
     
     \section{Conclusion}\label{sec:Conclusion}
-    With both methods, we were able to successfully examine properties of the coaxial cable.
+    With both methods, we were able to successfully examine properties of coaxial cables.
+    The first method uses pulses which are sent through the cable and measures the runtime.
     We showed that the propagation velocity can be measured which yielded $v_{\text{Runtime}}=\velocityRuntime$ at a frequency of $200\,$kHz,
-    and used the same method to determine the velocity of light in air which was measured to be $c=\SpeedOfLight$.
-    By doing that we showed the wide range of frequencies where the method can be used.
+    and used the same method to determine the velocity of light in air which was measured to be $c=\SpeedOfLight \frac{m}{s}$.
+    By doing that, we showed the wide range of frequencies where the method can be used.
     Using different resistors at the ends of our cable, we recreated different reflection phenomena, which then allowed us to 
     find the conditions under which the reflections are minimal.
     This happens to be when the resistance at the end matches the wave impedance of the cable which was measured to be $Z= \resistanceMean $.
     A drawback of this method is that it heavily depends on the dispersion relation, therefore making it impossible to calculate the damping due to the
     frequency -- pulse width uncertainty relation.
     
-    The second method did not allow for the measurement of the wave impedance so easily.
+    The second method uses stranding waves.
+    From the properties of standing waves conclusions about the velocity and the damping can be made.
+    This method did not allow for the measurement of the wave impedance.
     However, the damping and the propagation velocity could be measured for 3 different frequencies, allowing a nonlinear dispersion relation to be observed.
     This is due to the fact, that the value of $\epsilon_{\text{R}}$ of the dielectric in the cable, changes with frequency, which could also be verified via measurement.
     This method does avoid the problems of the first method, but introduces some new ones.
@@ -424,9 +440,8 @@
     An alternative would be, not to adjust the nodes at the end of the cable manually but to take data points of the amplitudes and then fit a function to them.
     This would allow for determining the nodes much more accurately.
     Another drawback is the rather large scale at which this method can be done, making it impossible to do a measurement similar to the speed of light measurement we did with the first method.
-    \begin{thebibliography}  
-        %so wird das Literaturverzeichnis erstellt
-        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C2, Versuch 41, \grqq Messung der Ausbreitungsgeschwindigkeit von elektromagnetischen Wellen auf Kabeln\grqq, 2021
+    \begin{thebibliography}
+        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C2, Versuch 41, \grqq Messung der Ausbreitungsgeschwindigkeit von elektromagnetischen Wellen auf Kabeln
         \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
         \bibitem{codata} E. Tiesinga \textit{et al.}, \grqq CODATA recommended values of the fundamental physical constants: 2018\grqq, Rev. Mod. Phys. 93, 025010 (2021)
         \bibitem{young} Young, H. D.; Freedman, R. A.; Lewis, A. L. (2012). University Physics with Modern Physics (13th ed.). Addison-Wesley. p. 801. ISBN 978-0-321-69686-1.
