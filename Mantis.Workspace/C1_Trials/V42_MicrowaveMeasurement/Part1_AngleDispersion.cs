@@ -102,7 +102,7 @@ public static class Part1_AngleDispersion
         // Now I do a Levenberg Marquradt regression
         // The first method parameter is the initial Guess of the free-parameters. Make sure that they are
         // not completely wrong. Because then the regression won't work 
-        model.DoRegressionLevenbergMarquardt(new double[] {0, 1, 0, 1},true);
+        model.DoRegressionLevenbergMarquardt(new double[] {0, 1, 0, 1},false);
         
         // Now the free parameters were calculated in the regression and saved to the RegModel
         // We can now log them and also add them to the TexPreamble so we can use them in the LaTex-file
@@ -123,12 +123,12 @@ public static class Part1_AngleDispersion
         
         // The first creates a pre-configured Plot with all the style settings I like
         // You can change those settings via the 'plot' object
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Angle in °", "Voltage in V");
+        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Winkel in °","Spannung in V");//"Angle in °", "Voltage in V");
         
         // Next I add the RegModel to the Plot
         // It will automatically draw the DataPoints and the Function Curve
         // You need to specify the legend - labels
-        plot.AddRegModel(model, "Reciever output", "Gauss Fit",errorBars:false);
+        plot.AddRegModel(model, "Signal des Empfängers", "Gauss-Anpassung", errorBars: false); //"Reciever output", "Gauss Fit",errorBars:false);
         
         double xn = model.ErParameters[2].Value - fwhm.Value / 2;
         double xp = model.ErParameters[2].Value + fwhm.Value / 2;

@@ -71,13 +71,15 @@ public static class Part5_Polarisation
         // model.AddParametersToPreambleAndLog("PolarisationFit");
         // model.AddGoodnessOfFitToPreamble("PolarisationFit");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Angle phi in °", "Voltage U in V");
-        
-        var (erBars,_) = plt.AddErrorBars(dataList.Select(e => (e.Angle, e.Voltage)), label: "Output voltage\nof receiver",errorBars:true);
+        string phi = "\u03d5";
+        var plt = ScottPlotExtensions.CreateSciPlot($"Winkel {phi} in °","Spannung U in V");//"Angle phi in °", "Voltage U in V");
+
+        var (erBars, _) = plt.AddErrorBars(dataList.Select(e => (e.Angle, e.Voltage)),
+            label: "Signal des\nEmpfängers", errorBars: true);//label: "Output voltage\nof receiver",errorBars:true);
         var max = dataList.Max(e => e.Voltage.Value);
         Func<double, double?> cos4 = x => max * Math.Pow(Math.Cos(x * Constants.Degree), 4);
         var funcPlt = plt.AddFunction(cos4);
-        funcPlt.Label = "Theoretical\ncos^4(x)";
+        funcPlt.Label = $"Theoretischer\nVerlauf:\ncos^4({phi})";//"Theoretical\ncos^4(x)";
 
         // plt.AddFunction(model.ParaFunction, label: "U0 + Ur * cos(phi)^(4a)");
         

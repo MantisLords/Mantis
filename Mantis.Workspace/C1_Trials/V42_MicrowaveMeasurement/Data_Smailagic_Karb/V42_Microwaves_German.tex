@@ -17,8 +17,12 @@
 \usepackage{siunitx}
 \usepackage{hyperref}	         %ermöglicht änderung des Seitenspiegels
 \usepackage{subcaption}
+\usepackage{german}
 
 \include{Generated/Preamble}
+
+\usepackage{mathdesign}
+\usepackage{dsfont}
 
 
 \pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
@@ -34,12 +38,17 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Tutor: Jochen Kaupp & \today\\                          %Kopfzeile - Betreuer
+            Betreuer: Jochen Kaupp & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Experimental methods for examining properties of classical light with microwaves: Polarisation, Total Reflaction
-    and tunneling; Using crystal model to demonstrate bragg reflection}  %Titel der Versuchs
-    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+%    \title{Experimental methods for examining properties of classical light with microwaves: Polarisation, Total Reflaction
+%    and tunneling; Using crystal model to demonstrate bragg reflection}  %Titel der Versuchs
+    \title{
+    Experimentelle Methoden mit Mikrowellen um qualitativ die Welleneigenschaften des Lichts nachzuweisen:
+    Interferenz, Polarisation und frustrierte Totalreflexion; Verwendung eines Kristallmodells um
+    Bragg-Reflexion zu demonstrieren
+    }
+    \author{Salahudin Smailagić und Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
@@ -63,42 +72,68 @@
         Wir nutzen diese Eigenschaft, um die Wellenlänge der Diode zu bestimmen, indem wir die Knoten der sthenden
         Welle zählen: $\lambda = \StandingWavesWaveLength$.
         Ferner interferieren zwei überlagerte Lichtstrahlen.
-        Mit Hilfe eines Micealson-Interferometers nutzen wir dies, für eine zweite Bestimmung der Wellenlänge 
+        Mit Hilfe eines Michelson-Interferometers nutzen wir dies, für eine zweite Bestimmung der Wellenlänge 
         $\lambda = \InterferometerWaveLength$.
-        Elektro-magnetische Wellen sind keine skalaren Wellen, sondern sind polarisiert.
-        Dies weisen wir nach, indem wir einen linearen Polfilter verwenden.
+        Elektromagnetische Wellen sind keine skalaren Wellen, sondern sind polarisiert.
+        Dies weisen wir nach, indem wir einen Linearpolarisator verwenden.
         Wir können das Gesetz von Malus, welches die Durchlass-Intensität des Polfilters in Abhängigkeit des Winkels
         beschreibt, zu mindest qualitativ bestätigen.
         Hinter einer Fläche, an der die Lichtstrahlen totalreflektiert werden, bildet sich laut der Theorie
-        evaleszente Wellen aus. % TODO Rechtschreibung
-        Wir weisen diese nach unter Verwendung zweier Wachsprismen.
-        Die Intensität der evaleszenten Welle nimmt exponentiell ab, was wir bestätigen können.
+        evaneszente Wellen aus. 
+        Wir weisen diese nach, unter Verwendung eines Doppelprismas.
+        Die Intensität der evaneszenten Welle nimmt exponentiel ab, was wir bestätigen können.
         Die Reflexions- und Interferenzeigenschaften macht sich die Methode der Bragg-Reflexion zu nutze,
         um Gitterkonstanten zu bestimmen.
-        Wir demonstrieren das Prinzip anhand eines Kristallmodels.
+        Wir demonstrieren das Prinzip anhand eines Kristallmodels und bestimmen den Gitterabstand zu
+        $d_{100} = \CristalconstantOneZeroZero$.
         Zu letzt zeigen wir qualitativ, dass ein Metalschlauch als Wellenleiter verwendet werden kann.
         
         \\
-        Measuerement made: 21. September 2023\\       %Datum ändern!
-        Submitted: 28. September 2023                %Datum ändern!
+        
+        Messung: 21. September 2023\\       %Datum ändern!
+        Erstabgabe: 28. September 2023 \\               %Datum ändern!
+        Zweitabgabe: 29 Oktober 2023
         \\
         \\
     \end{abstract}
     }] 
-    \section{Introduction}
-    To study wave-properties of light we use microwaves.
-    They have a large wavelength in the cm-range.
-    Effects like interference and tunneling occur on a macroscopic scale, which makes it easy to show them
-    in an experiment.
-    Because all properties shown here apply also for light in the visible spectrum, you can 
-    adopt the presented methods on a smaller lengthscale.
+    \section{Einleitung}
+%    To study wave-properties of light we use microwaves.
+%    They have a large wavelength in the cm-range.
+%    Effects like interference and tunneling occur on a macroscopic scale, which makes it easy to show them
+%    in an experiment.
+%    Because all properties shown here apply also for light in the visible spectrum, you can 
+%    adopt the presented methods on a smaller lengthscale.
+    
+    Die Maxwell-Gleichungen bilden die Grundlagen der Elektrodynamik. % TODO Longer Intro: What questions are beeing resolved?
+    Hiermit lässt sich Licht als elektromagnetische Welle beschreiben,
+    wobei E- und B-Feld jeweils senkrecht zu einander schwingen.
+    Um die Welleneigenschaften des Lichts nachzuweisen nutzen wir Mikrowellen.
+    
+    Sie haben Wellenlängen im cm-Bereich, was die Wellenphänomene auf makroskopischer Skala sichtbar macht.
+    Zunächst wollen wir Interferenz untersuchen.
+    Wir überlagern hierzu zwei entgegengesetzte kohärente Wellen und erzeugen somit eine stehende Welle.
+    Dir ortsfesten Knoten dieser können dann gemessen werden.
+    Als zweites möchten wir die Polarisation der Mikrowellen vorführen.
+    Hierzu wird ein Polfilter verwendet, welcher nur linear polarisiertes Licht durchlässt.
+    Als drittes zeigen wir den Effekt der evaneszenten Welle.
+    Diese fällt exponentiell ab und transportiert keine Energie.
+    Die gezeigten Eigenschaften werden dann dazu verwendet, um Bragg-Reflexion zu demonstrieren.
+    Hier wird an verschiedenen Ebenen eines Gitters die einlaufenden Wellen reflektiert.
+    Die reflektierten Wellen interferieren dann mit einander konstruktiv, sofern die Bragg-Bedingung erfüllt ist.
+    Daraus lässt sich die Gitterkonstante bestimmen.
+    
+    Die hier gezeigten Phänomene gelten auch für elektromagnetischen Wellen mit kleineren Wellenlängen.
+    So können die hier gezeigten Experimente auf sichtbares Licht und Röntgenstrahlung übertragen werden,
+    wobei hier der Nachweis deutlich aufwändiger ist.
+    
     
     \section{Experimenteller Aufbau}
     Für unsere Experimente benutzen wir das `PASCO Microwave Optics System WA-9316A'.
     \subsection{Empfänger}
     
-    Wir benutzten den im `PASCO'-System enthaltenen Empfänger ´WA-9802'.
-    Er ist eine Scotty-Diode, welche nur linear polarisiertes Licht detektiert.
+    Wir benutzten den im Pasco-System enthaltenen Empfänger `WA-9802'.
+    Dieser ist eine Scotty-Diode, welche nur linear polarisiertes Licht detektiert.
     Zur Fokussierung ist eine Horn-Antenne auf dem Empfänger montiert.
     Der Empfänger gibt eine Spannung aus, welche wir dann mit dem Voltmeter Agilent 34405A messen.
     Es ist anzumerken die ausgegebene Spannung ist weder proportional zur Intensität $I$ der Mikrowellen oder zum E-Feld $E$.
@@ -120,9 +155,9 @@
 %        $fwhm = \AngleDispersionGaussFWHM$}
     \figAngleDispersion{
         Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
-        Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität zu messen.
-        Wir passen eine generische Gaußkurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
-        $fwhm = \AngleDispersionGaussFWHM$ . % TODO Graphiken
+        Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität gemessen.
+        Wir passen eine generische Gausskurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
+        $fwhm = \AngleDispersionGaussFWHM$ . 
     }
     
 
@@ -139,7 +174,7 @@
     große Streuung abschätzen zu können.
     In einem Bereich von $\pm 90 ^{\circ}$ messen wir die Intensität in Abhängigkeit des Winkels.
     Die Daten sind in Abbildung~\ref{fig:AngleDispersion} aufgetragen.
-    Wir führen einen Gauß-Fit durch, um eine grobe Abschätzung der Lichtstreuung zu erhalten.
+    Wir führen einen Gauss-Fit durch, um eine grobe Abschätzung der Lichtstreuung zu erhalten.
     Auf den tatsächlichen funktionellen Zusammenhang können wir nicht zurück schließen, da die gemessene Spannung
     nicht proportional zur Intensität ist.
     Das Full-width-half-maximum der verwendeten Diode ist
@@ -159,11 +194,13 @@
 %    The intensity fluctuates since a stationary wave overlaps.
 %    We apply a gauss-fit to get the maximum image distance.
 %    This can be used to calculate the focal length after the lens formula ~\eqref{eq:LensFormula}}
-    \figimageDistance{Wir messen die Intesität in Abhängigkeit der Bildweite $b$.
+    \figimageDistance{
+    Um die Brennweite der verwendeten Wachslinse zu bestimmen, verschieben wir den Empfänger 
+    hinter der Linse und messen das Signal in Abhängigkeit der Bildweite $b$.
     Die Intesität schwankt stark, da sich eine stehende Welle überlagert.
-    Wir verwenden eine generische Gauß-Anpassung, um eine Abschätzung des Maximums zu erhalten:
+    Wir verwenden eine generische Gauss-Anpassung, um eine Abschätzung des Maximums zu erhalten:
     $b = \ImageDistance$.
-    Mit der Abbildungsgleichung~\ref{eq:LensFormula} kann die Brennweite bestimmt werden:
+    Mit der Abbildungsgleichung~\eqref{eq:LensFormula} kann die Brennweite bestimmt werden:
     $f = \FocalLength$.
     }
     
@@ -180,12 +217,12 @@
 
     Für die Experimente mit Bragg-Beugung und Tunneleffekt benötigen wir parallele Lichtstrahlen. 
     Wir verwendeten eine Wachslinse zur Fokussierung der emittierten Mikrowellen. 
-    Um die Brennweite zu bestimmen, wird die Linse ca.\ $80 \mathrm{cm}$ entfernt von der emittierenden Diode platziert. 
+    Um die Brennweite zu bestimmen, wird die Linse ca.\ $80\, \mathrm{cm}$ entfernt von der emittierenden Diode platziert. 
     Die Gegenstandweite zwischen Linse und Transmitter betrug in unserem Aufbau $g = \ObjectDistance$.
     Hier zu wurde der Abstand zwischen der Mitte der Linse und der effektiven Position des Senders nach~\cite{pasco} gemessen.
     
-    Nun wird der Empfänger auf der anderen Seite positioniert.
-    Für verschiedene Abstände zur Linse wir die Intensität gemessen.
+    Nun wird der Empfänger auf der anderen Seite der Wachslinse positioniert.
+    Für verschiedene Abstände zur Linse wird die Intensität gemessen.
     Es muss auch hier die effektive Position des Empfängers nach~\cite{pasco} berücksichtigt werden.
     Der Intensitätsverlauf ist in Abbildung~\ref{fig:imageDistance} dargestellt.
     
@@ -243,7 +280,7 @@
     Diese messen wir mit dem Empfänger, aber ohne Horn-Antenne.
     Sie würde mit dem Signal interferieren.
     Wir variieren die Positions des Empfängers bis wir ein Minima gefunden haben.
-    Nun verschieben wir ihn langsam und zählen wie viele Knoten wir durchlaufen.
+    Nun verschieben wir ihn langsam und zählen, wie viele Knoten wir durchlaufen.
     Nach dem wir $\NodeCountStandingWave$ Knoten durchlaufen sind, suchen wir erneut das entsprechende Minima, und 
     bestimmen nun den Abstand zwischen der Ausgangsposition und der jetzigen. 
     Hieraus kann die Wellenlänge berechnet werden:
@@ -258,11 +295,22 @@
     \subsection{Michelson-Interferometer}
 
     \begin{figure}[htbp]
-        \includegraphics[width=0.9\linewidth]{Interferometer}
+        \includegraphics[width=0.9\linewidth]{Interferometer_German}
         \center
-        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
-        detector. This depends on the wavelength of the ligth, which enables you to measure it.
-        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{
+        Die Mikrowellen des Senders werden vom halb-durchlässigen Spiegel in zwei Strahlen geteilt.
+        Diese durchlaufen unterschiedlich lange Wegstrecken.
+        Es kommt zu einem Phasenversatz.
+        Wenn die Strahlen wieder vereint werden, entsteht abhängig von Gangunterschied konstruktive
+        bzw.\ destruktive Interferenz.
+        Wir verschieben nun einen Spiegel und zählen die Anzahl der Minima.
+        Nach $\NodeCountInterferometer$ Knoten messen wir den Versatz und berechnen hieraus die Wellenlänge
+        $\lambda = \InterferometerWaveLength$.
+        Bildquelle~\cite{imageMichelsonInterferometerWiki}
+        }
         \label{fig:Interferometer}
     \end{figure}
     
@@ -275,29 +323,28 @@
 %    path length.
 %    With our setup we have determined the wavelength as:
     
-    Die Eigenschaft, dass zwei kohärente Wellen interferieren, kann auch mit Hilfe eines Michelson-Interferometer
+    Die Eigenschaft, dass zwei kohärente Wellen interferieren, kann auch mit Hilfe eines Michelson-Interferometers
     nachgewiesen werden.
-    In dem Michelson-Interferometer wird der ausgesendete Lichtstrahl zu nächst von einem halb-durchlässigen
+    In einem Michelson-Interferometer wird der ausgesendete Lichtstrahl zunächst von einem halb-durchlässigen
     Spiegel in zwei senkrecht zueinander liegende Strahlen aufgespalten.
-    Wir nutzen eine Hartfaserplatte.
-    Diese ist semi-transparent für Mikrowellen.
+    Wir nutzen eine Hartfaserplatte, welche semi-transparent für Mikrowellen ist.
     Die beiden aufgespalteten Lichtstrahlen werden von jeweils einem Spiegel zurück reflektiert auf den
     halb-durchlässigen Spiegel.
     Dieser führt die Strahlen wieder zusammen.
     Die beiden Strahlen interferieren dann mit einander.
-    Sie interferieren entweder konstruktiv wenn der Gangunterschied der beiden Weglängen ein vielfaches der Wellenlänge ist:
+    Sie interferieren konstruktiv wenn der Gangunterschied ein vielfaches der Wellenlänge ist:
     \begin{align*}
-        \delta s = n \lambda & n \in \mathds{N}
+        \Delta s &= n \lambda & n &\in \mathds{N}
     \end{align*}
     oder destruktiv falls gilt:
     \begin{align*}
-        \delta s = (n + \frac{1}{2}) \lambda & n \in \mathds{N}
+        \Delta s &= (n + \frac{1}{2}) \lambda & n &\in \mathds{N}
     \end{align*}
     
     Dieses Phänomen kann auch dazu genutzt werden, um die Wellenlänge zu bestimmen.
     Wir verwenden hierzu den oben beschriebenen Aufbau, wie er auch in Abbildung~\ref{fig:Interferometer}
     dargestellt ist.
-    Auch hier variieren wir die Position des ersten Spiegels, bis wir ein Minima finden.
+    Wir variieren die Position des ersten Spiegels, bis wir ein Minima finden.
     Wir verschieben ihn nun nach außen und zählen wie viele Knoten der Empfänger detektiert.
     Nach dem wir $\NodeCountInterferometer$ Knoten durchlaufen sind, bestimmen wir wieder den
     Wegunterschied.
@@ -308,12 +355,28 @@
     \end{align*}
     
     Der Fehler bestimmt sich auch hier aus den Positionsfehlern der Minima, welcher
-    auf $\sigma_s = \PosErrorInterferometer$ geschätzt wird.s
+    auf $\sigma_s = \PosErrorInterferometer$ geschätzt wird.
+    
+    Die gemessenen Ergebnisse stimmen mit der Herstellerangabe innerhalb des Fehlers überein.
+    Die Präzision der beiden Methoden kann erhöht werden indem man mehr Knoten durchläuft.
+    Wobei man hier durch die Dämpfung des Signals begrenzt ist.
+    Ab einem gewissen Abstand ist dieses zu schwach für eine sinnvolle Bestimmung der Knoten.
     
     \section{Polarisation}
 
-    \figPolarisation{Transmitted intensity through a polarisation filter.
-    Though the shape of the curve fits, there is a strong deviation from the theory by Malus ~\eqref{eq:cos4}}
+%    \figPolarisation{Transmitted intensity through a polarisation filter.
+%    Though the shape of the curve fits, there is a strong deviation from the theory by Malus ~\eqref{eq:cos4}}
+    
+    \figPolarisation{
+    Zwischen Transmitter und Empfänger bringen wir ein Metalgitter, welches als Linearpolarisator fungiert.
+    Wir drehen das Gitter und messen abhängig vom Winkel das Signal.
+    Die Intensität hinter dem Polfilter folgt dem Gesetz von Malus.
+    Da der Empfänger auch als Linearpolarisator fungiert ist der theoretische Intensitätsverlauf
+    proportional zu $I \propto \cos^4(\phi) $.
+    In unserem Daten sehen wir eine starke Abweichung vom theoretischen Verlauf.
+    Dies liegt daran, dass die gemessene Spannung nicht proportional zur Intensität ist.
+    Wir können also das Gesetz von Malus nur qualitativ bestätigen.
+    }
     
 %    The Gunn diode with the horn antenna in our setup emits vertical polarized light.
 %    Also the receiver detects in default configuration only vertical polarized light.
@@ -336,8 +399,8 @@
     Die Gunn-Diode emittiert und der Empfänger detektiert ausschließlich linear polarisiertes Licht.
     Dies kann überprüft werden in dem man Transmitter und Empfänger zunächst in Normallage bringt.
     Man detektiert ein Signal.
-    Dreht man nun den Empfänger um $90^\circ$ dann misst man kein Signal.
-    Dies liegt daran, der Transmitter emittiert v-polarisiertes Licht aber der Empfänger detektiert in
+    Dreht man nun den Empfänger um $90^\circ$, dann misst man kein Signal.
+    Dies ist damit zu erklären, dass der Transmitter nur v-polarisiertes Licht emittiert aber der Empfänger detektiert in
     dieser Ausrichtung nur h-polarisiertes Licht.
     Bringt man nun einen linearen Polfilter im $45^\circ$-Winkel zwischen Sender und Empfänger, dann wird
     wieder ein Signal detektiert.
@@ -378,26 +441,47 @@
     
     Die Daten sind in Abbildung~\ref{fig:Polarisation} eingetragen zusammen mit dem theoretisch zu erwarteten
     Verlauf nach Malus, wobei dieser auf das Maximum des Signals normiert ist.
-    Wie in der Abbildung zu erkennen gibt es eine starke Abweichung zwischen theoretischen und tatsächlichen
+    Wie in der Abbildung zu erkennen ist, gibt es eine starke Abweichung zwischen theoretischen und tatsächlichen
     Verlauf.
     Dies liegt daran, dass das Signal des Empfängers nicht proportional zur Intensität ist.
     D.h.\ wir können den Zusammenhang nicht quantitativ bestätigen.
     Dennoch lässt sich in der Kurve zumindest die erwartete Form des theoretischen Verlaufs erkennen.
     Dies lässt die Richtigkeit des Gesetzes von Malus vermuten.
     
-    \section{Frustrierte Totalreflexion und Tunnel-Effekt}
+    \section{Frustrierte Totalreflexion und Tunneleffekt}
     
     \begin{figure}[htbp]
         \includegraphics[width=0.9\linewidth]{setup-total-reflection}
         \centering
-        \caption{Experimental setup for showing total reflection and tunnel effect.
-        In the gap between the the double prism a evanescent wave is formed.
-        The itensity declines exponentaly according to equation ~\eqref{eq:ExpTransDecline}}
+%        \caption{Experimental setup for showing total reflection and tunnel effect.
+%        In the gap between the the double prism a evanescent wave is formed.
+%        The itensity declines exponentaly according to equation ~\eqref{eq:ExpTransDecline}}
+        \caption{
+        Experimenteller Aufbau zum Nachweis der frustrierten Totalreflexion und des Tunnel-Effekts.
+        Laut geometrischer Optik wird der einfallende Lichtstrahl an der Grenzfläche des ersten Prismas
+        total reflektiert.
+        Tatsälich bildet sich hinter der Grenzfläche eine evaneszente Welle aus.
+        Deren Intensität fällt exponentiell mit dem Abstand ab.
+        Wenn man nun das zweite Prisma nahe genug an das erste Prisma heranschiebt, dann wird die evaneszente
+        Welle transmittiert.
+        Dies ist analog zum quantenmachanischen Tunneleffekt, wo ein Teilchen durch eine Potentialbarriere
+        hindurch tunneln kann.
+        Bildquelle~\cite{instr}.
+        }
         \label{fig:SetupTotalReflection}
     \end{figure}
+    
 
-    \figTotalReflection{We measure the transmitted and reflected signal at a double prism.
-    The transmitted signal declines exponentially. This can be explained by the tunnel effect.}
+%    \figTotalReflection{We measure the transmitted and reflected signal at a double prism.
+%    The transmitted signal declines exponentially. This can be explained by the tunnel effect.}
+    \figTotalReflection{
+    Wir messen das am Doppelprisma transmittierte 
+    und reflektierte Signal (vgl.\ Abbildung~\ref{fig:SetupTotalReflection}).
+    Die reflektierte Intensität fällt exponentiell ab, während die transmittierte
+    auf Grund von Energieerhaltung ansteigt.
+    Zwar wurde in die Daten eine Exponentialfunktion angepasst.
+    Dies trägt aber keine verlässliche Aussage, da das gemessene Signal nicht proportional zur Intensität ist.
+    }
     
 %    An important property of light which we were able to show, is total reflection and evanescent waves.
 %    For the experiment we emitted microwaves on a paraffin wax prism. 
@@ -405,10 +489,11 @@
 %    angle. 
 %    After the paraffin-air boundary an evanescent wave is formed.
 %    Its intensity declines exponentiall
-    Ein weiteres wichtiges Phänomen, welches nur mit der Welleneigenschaft erklärt werden kann, ist das
-    der frustrierten Totalreflexion.
-    Laut geometrischer Optik gilt: trifft eine Lichtstrahl auf einen Übergang vom optisch dichteren zum optisch dünneren Medium 
-    $n_1 > n_2$ unter einem genügend großem Winkel $\Theta$ dann wird der Lichtstrahl total reflektiert.
+    Ein weiteres wichtiges Phänomen, welches nur mit der Welleneigenschaft des Lichts erklärt werden kann,
+    ist das der frustrierten Totalreflexion.
+    Laut geometrischer Optik gilt: Wenn eine Lichtstrahl auf einen Übergang vom optisch dichteren
+    zum optisch dünneren Medium $n_1 > n_2$ unter einem genügend großem Winkel $\Theta$ trifft,
+    dann wird der Lichtstrahl total reflektiert.
     Der Auftreffwinkel muss größer als der Grenzwinkel sein $\Theta \geq \Theta_g$.
     Für diesen gilt:
     \begin{align*}
@@ -427,7 +512,7 @@
 %    the angle of reflection and the refractive index.
 %    Because of energy conservation, the reflected intensity is:
     Wobei $x$ der senkrechte Abstand zur Oberfläche ist und $s$ ein Maß für die Eindringtiefe.
-    Diese hängt von der Wellenlänge ab, den Auftreffwinkel $\Theta$ und den Brechungsindex $n_1$ ab:
+    Diese hängt von der Wellenlänge, den Auftreffwinkel $\Theta$ und den Brechungsindex $n_1$ ab:
     \begin{align}
         s = \frac{\lambda}{2 \pi \sqrt {n_1^2 \sin^2(\Theta) - 1}}
     \end{align}
@@ -436,14 +521,17 @@
     Wachslinse zu Parallelstrahlen bündeln.
     Diese werden auf ein Paraffinprisma gesendet, sodass die Strahlen an der $45^{\circ}$ Seite
     total reflektiert werden.
-    Die reflektierten Strahlen werden dann vom Empfänger in Stellung B detektiert, wie in der
-    Abbildung~\ref{fig:SetupTotalReflection} gezeigt.
+    Die reflektierten Strahlen werden dann vom Empfänger in Stellung B detektiert, wie in
+    Abbildung~\ref{fig:SetupTotalReflection} gezeigt ist.
     
-    Bringt man nun ein zweites Prisma im Abstand $x$ hinter das erste Prisma, dann kann ein Teil der Welle
-    `durch tunneln'.
+    Bringt man nun ein zweites Prisma im Abstand $x$ hinter das erste Prisma, dann wird ein Teil der Welle
+    transmittiert.
+    Sie `tunnelt' durch den Luftspalt.
+    Dies ist analog zur Quantenmechanik, wo ein Teilchen durch eine Potentialbarriere tunnelt.
     Die transmittierte Welle wird vom Detektor in Stellung A aufgezeichnet.
-    Die Intensität der transmittierten Welle fällt exponentiell zum Abstand nach Gleichung~\eqref{eq:ExpTransDecline}.
-    Die Intensität der reflektierten Welle muss dann wegen Energieerhaltung dem folgenden Verlauf folgen:
+    Die Intensität der transmittierten Welle fällt exponentiell ab nach Gleichung~\eqref{eq:ExpTransDecline}.
+    Die Intensität der reflektierten Welle muss auf Grund von Energieerhaltung 
+    folgenden Verlauf entsprechen:
     
     \begin{align*}
         I_{ref} = I_0 (1 - e^{\frac{-2x}{s}})
@@ -457,22 +545,82 @@
 %    fit as you can see in~\ref{fig:TotalReflection}
     
     Wir haben für verschiedene Abstände $x$ das reflektierte und transmittierte Signal gemessen.
-    Die Daten sind in Abbildung~\ref{fig:TotalReflection}.
+    Die Daten sind in Abbildung~\ref{fig:TotalReflection} aufgetragen.
     Ferner haben wir eine Exponentialfunktion an die Daten angepasst.
     Die Daten scheinen gut einem exponentiellen Verlauf zu folgen.
     Der Fit hat ein angepasstes R-Quadrat von:
     \begin{align*}
         \bar{R}^2 = \TransmittedExpModelAdjustedRSquared
     \end{align*}
-    Das die Spannung so gut einem exponentiellen Verlauf folgt ist von vorne herein nicht gegeben, da die
+    Dass die Spannung so gut einem exponentiellen Verlauf folgt, ist von vorne herein nicht gegeben, da die
     Spannung nicht proportional zur Intensität ist.
-    Es lässt aber vermuten, dass eventuell ein polynomieller Zusammenhang besteht:
+    Hieraus lässt sich aber vermuten, dass eventuell ein polynomieller Zusammenhang zwischen
+    Signal und Intensität besteht:
     \begin{align*}
         U \propto I^{\alpha}
     \end{align*}
     
     
     \section{Bragg-Reflexion}
+
+    %    \begin{figure}[htbp] % TODO Pasco Picture
+%        \centering
+%        \begin{subfigure}{0.49\linewidth}
+%            \centering
+%            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_100}
+%        \end{subfigure}
+%        \begin{subfigure}{0.49\linewidth}
+%            \centering
+%            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_110}
+%        \end{subfigure}
+%        \caption{Bragg-planes for a cubic crystal model with indices $(h,\,k,\,l)$.
+%        Images from ~\cite{miller}}
+%        \label{fig:BraggPlanesIndices}
+%    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width = \linewidth]{Miller_Planes_Pasco_Screenshot}
+        \caption{
+            Dargestellt ist ein Kristall, wobei parallele Ebenen mit den entsprechenden 
+            Miller-Indizes $(h,\,k,\,l)$ eingezeichnet sind.
+            An jeder Ebene werden die unter dem Winkel $\Theta$ einfallenden Lichtstrahlen
+            reflektiert.
+            Die reflektierten Strahlen interferieren mit einander.
+            Nur falls die Bragg-Bedingung (Gl.\ ~\eqref{eq:BraggAngle}) erfüllt ist, kommt es
+            zu konstruktiver Interferenz.
+            Bildquelle~\cite{pascoTeachersGuide}.
+        }
+        \label{fig:BraggPlanesIndices}
+    \end{figure}
+
+    \newcommand{\OfficialCristalConstant}{
+        3.8 \, \mathrm{cm}
+    }
+
+%    \figBraggReflectionOneZeroZero{Bragg diffraction on the 100-plane of a cubic lattice model.
+%    A peak was detected at the first bragg-maxima}
+%    \figBraggReflectionOneOneZero{Bragg diffraction on the 110-plane of a cubic lattice model.
+%    Here the bragg-peak occurs at a greater angle compared to the 100-palne}
+    \figBraggReflectionOneZeroZero{
+        Dargestellt ist die gemessene Bragg-Reflexion an der 100-Ebene des Kristallmodells.
+        Für das Experiment wurde der Kristall um den Winkel $\Theta$ und der Empfänger
+        um den Winkel $2\Theta$ gedreht.
+        Es ist ein Peak bei $\Theta = \BraggDifAngleOneZeroZero$ zu erkennen.
+        Dieser entspricht dem ersten Beugungsmaxima.
+        Hieraus kann nach Gleichung~\eqref{eq:BraggAngle} die Gitterkonstante bestimmt werden;
+        $d_{100} = \CristalconstantOneZeroZero$.
+    }
+
+    \figBraggReflectionOneOneZero{
+        Dargestellt ist die gemessene Bragg-Reflexion an der 110-Ebene des Kristallmodells.
+        Aus dem ersten Beugungsmaxima bei $\Theta = \BraggDifAngleOneOneZero$ kann die Gitterkonstante bestimmt werden:
+        $d_{110} = \CristalconstantOneOneZero $.
+        Das Ergebnis passt nicht zur tatsächlichen Gitterkonstante von
+        $d = \OfficialCristalConstant$~\cite{pascoTeachersGuide}.
+        Dies liegt an der geringen Zahl an Ebenen, welche in dem Kristallmodell verbaut sind.
+        So ist das reflektierte Signal schwach und breit, was eine genaue Messung erschwert.
+    }
+    
 %    If you have monochromatic waves with a wavelength around the atomic scale (x-ray, neutrons or electrons) you can
 %    determine the lattice constant $d$ of a cubic crystal via bragg diffraction. 
 %    In Bragg's model the crystal is a set of discrete planes, where waves are being reflected.
@@ -483,55 +631,38 @@
     
     Eine wichtige Anwendungen der oben demonstrierten Reflexions- und Interferenzeigenschaften des Lichts ist das
     der Bragg-Reflexion.
-    Hiermit lassen sich die Gitterkonstanten von Kristallstrukturen bestimmen, sofern man Wellen mit der
-    entsprechenden Wellen länge zur Verfügung hat.
-    Für die Untersuchung von Atomgittern benötigt man Wellenlänge auf der {\AA}ngström-skala (Röntgenstrahlung,
+    Hiermit lassen sich Gitterkonstanten von Kristallstrukturen bestimmen, sofern man Wellen mit der
+    entsprechenden Wellenlänge zur Verfügung hat.
+    Für die Untersuchung von Atomgittern benötigt man Wellenlänge auf der {\AA}ngström-Skala (Röntgenstrahlung,
     Neutronen, Elektronen).
     
-    Zur Demonstration der Bragg-Reflexion nutzen wir ein makroskopisches Kristallmodel.
-    Das Model ist ein Styropor-Würfel indem 5x5x4 $10\,\mathrm{mm}$ große Metalkugeln eingebettet sind.
+    Zur Demonstration der Bragg-Reflexion nutzen wir ein makroskopisches Kristallmodell.
+    Das Model ist ein Styropor-Würfel indem 5x5x4 $10\,\mathrm{mm}$ große Metallkugeln eingebettet sind.
     Wir können die Gitterkonstanten von verschiedene Ebenen bestimmen.
     Die Ebenen werden mit den Miller-Indizes $(h,\,k,\,l)$ durch nummeriert, wie
     in Abbildung~\ref{fig:BraggPlanesIndices} dargestellt.
     
-    \begin{figure}[htbp] % TODO Pasco Picture
-        \centering
-        \begin{subfigure}{0.49\linewidth}
-            \centering
-            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_100}
-        \end{subfigure}
-        \begin{subfigure}{0.49\linewidth}
-            \centering
-            \includegraphics[width = \linewidth]{Miller_Indizes_Ebenen_110}
-        \end{subfigure}
-        \caption{Bragg-planes for a cubic crystal model with indices $(h,\,k,\,l)$.
-        Images from ~\cite{miller}}
-        \label{fig:BraggPlanesIndices}
-    \end{figure}
 
-    \figBraggReflectionOneZeroZero{Bragg diffraction on the 100-plane of a cubic lattice model.
-    A peak was detected at the first bragg-maxima}
-    \figBraggReflectionOneOneZero{Bragg diffraction on the 110-plane of a cubic lattice model.
-    Here the bragg-peak occurs at a greater angle compared to the 100-palne}
-
-    Damit die Bragg-Bedinung erfüllt ist muss zunächst der Winkel der einlaufenden Welle $\Theta$ gleich der 
-    reflektierten Welle sein.
-    In unserem Experiment realisieren wir dies, indem wir das Kristallmodel auf einen Drehtisch montieren.
+    Damit die Bragg-Bedingung erfüllt ist muss zunächst der Winkel der einlaufenden Welle $\Theta$ gleich
+    dem der reflektierten Welle sein.
+    In unserem Experiment realisieren wir dies, indem wir das Kristallmodell auf einen Drehtisch montieren.
     Dieser wird dann um den Winkel $\Theta$ gedreht.
     Der Empfänger wird auf einen weiteren Dreharm montiert.
     Dieser wird um den Winkel $2 \Theta$ gedreht.
-    Der Abstand zwischen Kristall und empfänger ist ca.\ $70 \, \mathrm{cm}$.
+    Der Abstand zwischen Kristall und Empfänger ist ca.\ $70 \, \mathrm{cm}$.
     
     Ferner damit die Bragg-Reflexion gut funktioniert, benötigen wir Parallelstrahlen.
-    Wir nutzen hierzu die Wachslinse indem wir den Transmitter auf den Brennpunkt der Linse stellen.
+    Wir nutzen hierzu die Wachslinse.
+    Der Transmitter wird auf den Brennpunkt der Linse positioniert,
+    sodass Parallelstrahlen entstehen.
     
 %    For the angle $\Theta$, for which a peak occurs, the following relation applies:
     Die einlaufenden Lichtstrahlen werden an den verschiedenen Ebenen reflektiert.
-    Es kommt zu konstruktiver Interferenz zwischen den reflektierten Lichtstrahlen, falls die Bragg-Bedingung erfüllt
+    Es kommt zu konstruktiven Interferenz zwischen den reflektierten Lichtstrahlen, falls die Bragg-Bedingung erfüllt
     ist:
     \begin{align}
         \label{eq:BraggAngle}
-        \frac{d}{\sqrt{h^2+k^2+l^2}} = n \frac{\lambda}{2 \sin(\Theta)} & n \in \mathds{N}
+        \frac{d}{\sqrt{h^2+k^2+l^2}} &= n \frac{\lambda}{2 \sin(\Theta)} & n \in& \mathds{N}
     \end{align}
     
     Hier ist $d$ die Gitterkonstante, $\lambda$ die Wellenlänge des Lichts und $n$ ist das n-te Beugungsmaxima.
@@ -551,8 +682,8 @@
     Die Messreihen sind in Abbildung~\ref{fig:BraggReflectionOneZeroZero} und Abbildung~\ref{fig:BraggReflectionOneOneZero}
     dargestellt.
     Aus den Abbildungen wurde die Lage der Maxima abgeschätzt.
-    Der Fehler wurde auf Grund der graphischen Methode wurde der Fehler groß angesetzt $\sigma_{\Theta} = \BraggDiffractionErrorAngle$.
-    Mit Gleichung~\ref{eq:BraggAngle} kann hieraus die Gitterkonstante $d$ berechnet werden:
+    Der Fehler wurde auf Grund der graphischen Methode groß angesetzt $\sigma_{\Theta} = \BraggDiffractionErrorAngle$.
+    Mit Gleichung~\eqref{eq:BraggAngle} kann hieraus die Gitterkonstante $d$ berechnet werden:
     
     \begin{align*}
         d_{100} = \CristalconstantOneZeroZero \\
@@ -560,9 +691,9 @@
     \end{align*}
     
     Die Werte stimmen innerhalb ihrer Fehler überein.
-    Laut Anleitung ist die tatsächliche Gitterkonstante des Kristallmodels:
+    Laut Anleitung~\cite{pascoTeachersGuide} ist die tatsächliche Gitterkonstante des Kristallmodells:
     \begin{align*}
-        d = 3.8 \, \mathrm{cm}
+        d = \OfficialCristalConstant
     \end{align*}
     Die Werte stimmen nicht überein.
     Die Ungenauigkeit der Methode kann damit erklärt werden, dass das vom Kristall reflektierte Signal
@@ -572,44 +703,94 @@
     Die Schärfe des Bragg-Peaks steigt mit der Anzahl der Ebenen.
     Trotzdem konnte das Prinzip der Bragg-Reflexion demonstriert werden.
     
-    \section{Waveguide}
+    \section{Untersuchung eines Wellenleiters}
     
-    Lastly we examined a simple waveguide for microwaves.
-    We used a basic metal tube.
-    The waves are being reflected in its interior and thus guided by the tube.
-    We placed the emitter at one end of the tube and the receiver at the other.
-    A signal is being detected.
-    If you plug one end, no signal is being detected.
-    This proves, the waves are guided inside of the tube and not on its surface.
-    Also the tube preserves the polarisation of the emitted light.
-    This was shown by simply rotating the receiver, since it only detects v-polarized light.
+%    Lastly we examined a simple waveguide for microwaves.
+%    We used a basic metal tube.
+%    The waves are being reflected in its interior and thus guided by the tube.
+%    We placed the emitter at one end of the tube and the receiver at the other.
+%    A signal is being detected.
+%    If you plug one end, no signal is being detected.
+%    This proves, the waves are guided inside of the tube and not on its surface.
+%    Also the tube preserves the polarisation of the emitted light.
+%    This was shown by simply rotating the receiver, since it only detects v-polarized light.
+    
+    Zu letzt untersuchten wir einen Metallschlauch als Wellenleiter.
+    Die Mikrowellen werden an der Innenseite des Schlauches reflektiert.
+    Dadurch ist der Schlauch in der Lage das Signal zu leiten.
+    Um diese Eigenschaft zu überprüfen stellen wir den Sender an das einen Ende des Schlauches
+    und dem Empfänger an das Andere.
+    Wir detektieren ein Signal.
+    Wenn man nun das eine Ende des Schlauches verschließt, detektiert man kein Signal.
+    Dies weißt darauf hin, dass die Wellen im Schlauch-Inneren geleitet werden und nicht auf der Oberfläche.
+    Ferner erhält der Schlauch die Polarisation der Mikrowellen.
+    Dies lässt sich zeigen, indem man den Empfänger dreht.
+    Bei $90^{\circ}$-Stellung wird kein Signal empfangen.
 
-    \section{Summary}
+    \section{Zusammenfassung}
     
-    At first we tested our experimental setup.
-    The Gunn diode has a gaussian angle-intensity distribution with a variance $fwdh = \AngleDispersionGaussFWHM$.
-    To focus the microwaves we used a wax lens with a focal length $f = \FocalLength$.
-    Then we used two approaches to measure the wavelength. 
-    Via stationary waves we get a wavelength $\lambda = \StandingWavesWaveLength$.
-    The michelson interferometer produces a similar result $\lambda = \InterferometerWaveLength $.
-    We could show the polarization of the emitted light and at least qualitatively verify Malus' law. 
-    The effect of total reflection and tunnel effect was demonstrated by using a double prism.
-    The intensity of the evanescent waves declines exponentially.
-    We used a crystal model to show the method of bragg diffraction.
-    The lattice constant was determined to be $d_{100} = \CristalconstantOneZeroZero$.
-    At last we used a metal tube as waveguide.
-    We demonstrated qualitatively it preserves the polarisation of the guided light.
+%    At first we tested our experimental setup.
+%    The Gunn diode has a gaussian angle-intensity distribution with a variance $fwdh = \AngleDispersionGaussFWHM$.
+%    To focus the microwaves we used a wax lens with a focal length $f = \FocalLength$.
+%    Then we used two approaches to measure the wavelength. 
+%    Via stationary waves we get a wavelength $\lambda = \StandingWavesWaveLength$.
+%    The michelson interferometer produces a similar result $\lambda = \InterferometerWaveLength $.
+%    We could show the polarization of the emitted light and at least qualitatively verify Malus' law. 
+%    The effect of total reflection and tunnel effect was demonstrated by using a double prism.
+%    The intensity of the evanescent waves declines exponentially.
+%    We used a crystal model to show the method of bragg diffraction.
+%    The lattice constant was determined to be $d_{100} = \CristalconstantOneZeroZero$.
+%    At last we used a metal tube as waveguide.
+%    We demonstrated qualitatively it preserves the polarisation of the guided light.
+    
+    Das Ziel dieses Versuchs ist der qualitative Nachweis der Welleneigenschaften von Licht.
+    Wir nutzen hierzu Mikrowellen mit einer Wellenlänge von $\lambda = \OfficialWaveLength$.
+    Zunächst vermessen wir das Abstrahlverhalten der verwendeten Gunn-Diode. 
+    Durch Bestimmung der Winkeldispersion können wir grob die Streuweite abschätzen $fwhm = \AngleDispersionGaussFWHM$.
+    Weiter bestimmen wir die Brennweite der verwendeten Wachslinse, indem wir für verschiedene
+    Bildweiten $b$ das Signal messen und dann über einen Fit das Maximum abschätzen.
+    Die Brennweite unserer Linse ergibt sich zu $f = \FocalLength$.
+    
+    Die erste Welleneigenschaft die wir Nachweisen ist Interferenz.
+    Mit Hilfe eines Metallspiegels erzeugen wir eine stehende Welle.
+    Durch Abzählung der Knoten können damit die Wellenlänge des Transmitters bestimmen $\lambda = \StandingWavesWaveLength$.
+    Ferner zeigen wir über ein Michelson-Interferometer, dass auch durch einen halb-durchlässigen Spiegel getrennte Strahlen,
+    ihre Kohärenz beibehalten und mit einander interferieren.
+    Hiermit kann auch die Wellenlänge bestimmt werden $\lambda = \InterferometerWaveLength$.
+    
+    Das nächste Phänomen, dass wir nachweisen ist das der Polarisation.
+    Mit Hilfe eines Linearpolarisators können wir zumindest qualitativ das Gesetz von Malus
+    überprüfen.
+    Eine quantitative Aussagen ist nicht möglich, da die gemessene Ausgangsspannung des Empfängers 
+    nicht proportional zur Intensität der Mikrowellen ist.
+    
+    Mit Hilfe eines Doppelprismas kann das Ausbilden von evaneszenten Wellen bei Totalreflexion überprüft werden.
+    Durch einen Fit können wir den theoretisch zu erwarteten exponentiellen Abfall der evaneszenten Welle motivieren.
+    Auch hier ist eine quantitative Aussage nicht möglich, da die tatsächliche Intensität nicht bekannt ist.
+    
+    Die Reflexions- und Interferenzeigenschaften können für Bragg-Reflexion angewandt werden.
+    Wir verwenden ein Kristallmodell, welches aus 5x5x4 Metallkugeln, eingebettet in ein Styropor-Würfel, besteht.
+    Die Gitterkonstante konnte zu $d_{100} = \CristalconstantOneZeroZero$ bestimmt werden.
+    
+    Als Letztes wurde ein Metallschlauch als Wellenleiter untersucht.
+    Dieser leitet die Strahlen im Inneren und erhält die Polarisation.
+    
+    Mit diesem Paper konnten wir den Wellencharakter qualitativ Nachweisen.
+    Für quantitative Aussagen wäre es nötig die tatsächliche Intensität zu messen und die
+    Experimente besser abzuschirmen vor Störsignalen. 
+    
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
-        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 42, Versuche mit Mikrowellen - Kristallinterferenzen mit Mikrowellen, 2021
+        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C1, Versuch 42, Versuche mit Mikrowellen - Kristallinterferenzen mit Mikrowellen, 2021
         \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
         \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
         recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
         88, 035009 (2016))
         \bibitem{miller} \url{https://de.wikipedia.org/wiki/Datei:Miller_Indizes_Ebenen.png}, zuletzt aufgerufen am 14.09.2021
         \bibitem{pasco} Pasco Microwave Optics System (WA-9314C) Instruction Manual
+        \bibitem{pascoTeachersGuide} Pasco Complete Microwave Optics System (WA-9316A) Experiment Guide
         %\bibitem{missing} \url{https://en.wikipedia.org/wiki/Transverse_mode}, zuletzt aufgerufen am 8.10.2021
         \bibitem{imageMichelsonInterferometerWiki} \url{https://en.wikipedia.org/wiki/Michelson_interferometer#/media/File:Michelson_interferometer_with_labels.svg}, last visit 23.09.23
     \end{thebibliography}

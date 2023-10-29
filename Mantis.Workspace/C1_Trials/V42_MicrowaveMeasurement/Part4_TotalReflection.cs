@@ -86,11 +86,12 @@ public static class Part4_TotalReflection
         reflectedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {0.3,-1, -1},5);
         // reflectedExpModel.DoRegressionLevenbergMarquardt(new double[] {0.3, 1, 1}, false);
         reflectedExpModel.LogParameters("ReflectedExpModel");
-        
-        var plt = ScottPlotExtensions.CreateSciPlot("Width x in cm", "Voltage U in V");
 
-        plt.AddRegModel(transmittedExpModel, "Transmitted signal", "Fit: A + exp(Bx)", logY: true);
-        var(errorBar,scatterPlot,_)=plt.AddRegModel(reflectedExpModel, "Reflected signal", "Fit: A + B exp(Cx)", logY: true);
+        var plt = ScottPlotExtensions.CreateSciPlot("Spaltabstand x in cm","Spannung in V");//"Width x in cm", "Voltage U in V");
+
+        plt.AddRegModel(transmittedExpModel, "Transmittiertes Signal", "Fit: A + exp(Bx)", logY: true);//"Transmitted signal", "Fit: A + exp(Bx)", logY: true);
+        var (errorBar, scatterPlot, _) =
+            plt.AddRegModel(reflectedExpModel, "Reflektiertes Signal", "Fit: A + B exp(Cx)", logY: true);//"Reflected signal", "Fit: A + B exp(Cx)", logY: true);
         errorBar.Color = plt.Palette.GetColor(0);
         scatterPlot.Color = plt.Palette.GetColor(0);
         scatterPlot.MarkerShape = MarkerShape.openDiamond;

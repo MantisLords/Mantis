@@ -82,10 +82,10 @@ public static class Part2_FocalLengthWaxLensMain
         // 1/f = 1/b + 1/g
         var focalLength = 1 / (1 / imageDistance + 1 / objectDistance);
         focalLength.AddCommandAndLog("FocalLength","cm");
-        
-        var plt = ScottPlotExtensions.CreateSciPlot("Image distance b in cm", "voltage U in V");
 
-        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Measured signal", "Gauss-fit",errorBars:false);
+        var plt = ScottPlotExtensions.CreateSciPlot("Bildweite b in cm","Spannung in V");//"Image distance b in cm", "voltage U in V");
+
+        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Empfänger Signal", "Gauss-Anpassung",errorBars:false);
         scatterPlot.LineStyle = LineStyle.Solid;
         scatterPlot.LineWidth = 0.75;
         scatterPlot.LineColor = plt.Palette.GetColor(2);
