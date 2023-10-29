@@ -36,6 +36,17 @@ public class ShiftExpFunc : AutoDerivativeFunc,IFixedParameterCount
     public int ParameterCount => 3;
 }
 
+public class ReflectedModelFunc : AutoDerivativeFunc, IFixedParameterCount
+{
+    public double AB = 1;
+    public override double CalculateResult(Vector<double> p, double x)
+    {
+        return p[0] + p[1] * Math.Pow(1 - Math.Exp(AB / p[2] * x), p[2]);
+    }
+
+    public int ParameterCount => 3;
+}
+
 public static class Part4_TotalReflection
 {
     public static void Process()
@@ -53,17 +64,27 @@ public static class Part4_TotalReflection
 
         
         RegModel<ExpFunc> transmittedExpModel = dataList.Where(e => !e.VoltageTransmitted.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageTransmitted),
-            new ParaFunc<ExpFunc>(3));
+        new ParaFunc<ExpFunc>(3));
 
         transmittedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {1, -1},5);
+        // transmittedExpModel.DoRegressionLevenbergMarquardt(new double[]{0,1,-1},false);
         transmittedExpModel.LogParameters("TransmittedExpModel");
+        transmittedExpModel.AddGoodnessOfFitToPreambleAndLog("TransmittedExpModel");
         
         RegModel<ShiftExpFunc> reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
-            new ParaFunc<ShiftExpFunc>(3));
+        new ParaFunc<ShiftExpFunc>(3));
+        // RegModel<ReflectedModelFunc> reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
+        //     new ParaFunc<ReflectedModelFunc>(3)
+        //     {
+        //         Labels = new []{"U0","Ur","a"}
+        //     });
+        // reflectedExpModel.ParaFunction.FuncCore.AB = transmittedExpModel.ErParameters[1].Value;
+        
         
         Console.WriteLine($"Count Trans {transmittedExpModel.Data.Count} Reflect {reflectedExpModel.Data.Count}");
 
         reflectedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {0.3,-1, -1},5);
+        // reflectedExpModel.DoRegressionLevenbergMarquardt(new double[] {0.3, 1, 1}, false);
         reflectedExpModel.LogParameters("ReflectedExpModel");
         
         var plt = ScottPlotExtensions.CreateSciPlot("Width x in cm", "Voltage U in V");

@@ -33,6 +33,7 @@ public static class Part6_BraggReflection
         var reader = new SimpleTableProtocolReader("Part6_BraggReflection" + cristalDir);
 
         var errorAngle = reader.ExtractSingleValue<double>("error_angle");
+        errorAngle.AddCommand("BraggDiffractionErrorAngle","\\degree");
         var voltmeterRange = reader.ExtractSingleValue<double>("voltmeterRange");
         var maximumAngle = reader.ExtractSingleValue<ErDouble>("maximum");
         var voltageOffset = reader.ExtractSingleValue<double>("voltageOffset");

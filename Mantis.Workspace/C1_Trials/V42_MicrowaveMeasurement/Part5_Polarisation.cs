@@ -26,17 +26,17 @@ public record struct PolarisationData
 /// <summary>
 /// f(x) = A + B * Sin( x * PI/180)
 /// </summary>
-public class Sin4Func : AutoDerivativeFunc,IFixedParameterCount
+public class Sin4ExpFunc : AutoDerivativeFunc,IFixedParameterCount
 {
     
     public override double CalculateResult(Vector<double> p, double x)
     {
         double nx =  x * Constants.Degree;
         double y = Math.Cos(nx);
-        return p[0] + p[1] * y *y;
+        return p[0] + p[1] * Math.Pow(y,4*p[2]);
     }
 
-    public int ParameterCount => 2;
+    public int ParameterCount => 3;
 }
 
 public static class Part5_Polarisation
@@ -59,10 +59,11 @@ public static class Part5_Polarisation
             //data.Voltage.CalculateDeviceError(Devices.Aglient34405,DataTypes.VoltageDC,rangeVoltmeter);
         });
 
-        // RegModel<Sin4Func> model = dataList.CreateRegModel(e => (e.Angle, e.Voltage),
-        //     new ParaFunc<Sin4Func>(4)
+        // RegModel<Sin4ExpFunc> model = dataList.CreateRegModel(e => (e.Angle, e.Voltage),
+        //     new ParaFunc<Sin4ExpFunc>(4)
         //     {
-        //         Units = new []{"V","V","",""}
+        //         Labels = new[]{"U0","Ur","a"},
+        //         Units = new []{"V","V",""}
         //     });
         //
         // model.DoRegressionLevenbergMarquardt(new double[] {0, 1,0,1});
@@ -77,6 +78,8 @@ public static class Part5_Polarisation
         Func<double, double?> cos4 = x => max * Math.Pow(Math.Cos(x * Constants.Degree), 4);
         var funcPlt = plt.AddFunction(cos4);
         funcPlt.Label = "Theoretical\ncos^4(x)";
+
+        // plt.AddFunction(model.ParaFunction, label: "U0 + Ur * cos(phi)^(4a)");
         
         //plt.AddRegModel(model, "Output voltage of receiver", "Fit U = a + b cos^4(phi)",errorBars:false);
         plt.Legend(true, Alignment.UpperLeft);
