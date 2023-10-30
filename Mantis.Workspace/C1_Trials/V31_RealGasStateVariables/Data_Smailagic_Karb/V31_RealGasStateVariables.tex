@@ -58,7 +58,8 @@
        \\
        \\
         Measuerement made: 26. September 2023\\       %Datum ändern!
-        Submitted: 10. October 2023                %Datum ändern!
+        Submitted: 10. October 2023  \\
+        Second Submittion: 28. October 2023%Datum ändern!
         \\
     \end{abstract}
     }]
@@ -67,6 +68,10 @@
     A better understanding of their properties through a sufficient theoretical model as well as precise empirical data is of high importance.
     Since every model has its limitations, it is important to know where they are and where the model can be used safely.
     Lastly, creating models with many parameters, in order to show better agreement with data can be done, but oftentimes at the expense of simplicity.
+    In this paper we compare two commonly used models by recording pressure-volume values for a given temperature.
+    From the data we can then approximate the critical point -- the point after which the liquid and gas phase are indistinguishable.
+    From the critical point, we can derive the parameters of the Van der Waals model as well as calculate some other properties of the gas such as the evaporation energy.
+    These experimental findings can then be compared to theoretical predictions.
     To compare the two commonly used models, and explore their limitations, Sulfur hexafluoride (SF_6\)) was used.
     SF_6\) is a colorless, odorless, non-flammable and otherwise completely inert gas. 
     The molecule has an octahedral geometry consisting of six fluorine atoms attached to a central sulfur atom.
@@ -96,7 +101,10 @@
             \includegraphics[scale=0.18]{Data/Generated/fig_plot}
             \caption[]{Datapoints of the recorded isotherms of $\amountOfSubstance mol$ of SF_6\) at Temperature values ranging from 30.2$\degree C$ to 48.2$\degree C$ obtained by varying the volume and noting the corresponding pressure. The end points of the visible straight lines at the regions of constant pressure were
             used to determine the coexistence region which is shaded in blue here. The critical point is the extremum of the coexistence region. Its value is at $P=\criticalPressure$ and $V=\criticalVolume$ and an estimated
-            T=$(46.3\pm0.3)\degree C$}
+            T=$(47.0\pm1.5)\degree C$.
+            The fitted function is of the form $p = a \cdot log(bV) + c\cdot e^{-dV}$ with a,b,c,d as free parameters.
+            The values of the free parameters are in this case:$a = \paramA \text{bar} $, $b = \paramB \text{cm}^{-3} $, $c = \paramC \text{bar}$, $d = \paramD \text{cm}^{-3}$}
+            
             \label{binodal}
         \end{center}
     \end{figure}
@@ -114,21 +122,24 @@
     The recorded data can be seen in Fig.\ref{binodal} and Fig.\ref{ZoomedIn}.
     
     The coexistence regions in which the isotherms are horizontal are highlighted and a line - the Maxwell line - was fitted between the beginning and end point of the region.
-    The end points were then used to interpolate a curve through them, which marks roughly the coexistence region as a whole.
-    This also allowed extrapolation of the critical point of the gas.
+    The end points were then used to fit a curve through them, which marks roughly the coexistence region as a whole.
+    The function which was fitted to the data is of the form $p = a \cdot log(bV) + c\cdot e^{-dV}$ with a,b,c,d as free parameters.
+    The values of the free parameters are in this case: $a = \paramA \text{bar} $, $b = \paramB \text{cm}^{-3} $, $c = \paramC \text{bar}$, $d = \paramD \text{cm}^{-3}$.
+    The functional dependence has no physical basis and was simply used because it fitted the data good with the least amount of free parameters.
+    We thought fitting a function as opposed to a spline interpolation is more suitable for determining the critical point, since it takes all the 
+    data-points into account, nonetheless the fit is no more than a "guide to the eyes".
     The curve marking the region of coexistence is called the binodal.
-    The exact steps that were taken to fit the Maxwell lines are detailed in the appendix \ref{sec:apendix}. % Make clear it referece to Maxwell Lines
+    The exact steps that were taken to fit the Maxwell lines are detailed in the appendix \ref{sec:apendix}. 
     The extremum of the binodal marks the critical point of the gas. 
     For SF_6\) it was calculated to be at
     \begin{align}
-        P_{crit} &= \criticalPressure 
+        P_{crit} &= \criticalPressure \,\text{bar}
         \endline
-        V_{crit} &= \criticalVolume 
+        V_{crit} &= \criticalVolume \,\text{cm}^3
         \end{align}
-    The estimated temperature at the critical point is $T_{crit} = (46.3 \pm 0.3)\degree C $ since the maximum appears to be exactly between the 46.1\degree\) and the 46.6\degree\) isotherms.
-    This value is eyeballed since this method does not allow a conclusive method of determining the temperature.
-    The errors of the critical values for volume and pressure are estimated as well.
-    Since the interpolation error is assumed to be small, the errors are mostly the reading errors of the volume and the pressure.
+    The errors are estimated, since the errors of the fit are relatively small, but we have no reason to believe the functional dependence to be right.
+    The estimated temperature at the critical point is $T_{crit} = (47.0 \pm 1.5)\degree C $ since the maximum appears to be almost on the 47.2\degree\) isotherm.
+    This error of the value is approximated since this method does not allow a conclusive method of determining the temperature.
     For smaller volumes outside the coexistence region the gas exhibits a very rapid pressure increase, this is due to the fact that all the gas has turned into liquid which is incompressible.
     \subsection{Steam pressure curve}\label{subsec:steamPressureCurve}
     \begin{figure}
@@ -157,9 +168,9 @@
     \end{align}
     The evaporation energy is given in units of energy per mole since the evaporation energy of one molecule is not handy. 
     From the intersection point of the fit with the critical pressure, the critical temperature can be calculated $T_{crit}=\criticalTemp\degree C $.
-    The value coincides with the literature value $T_{crit} = 45.54\degree C$ [2].
-    This is largely due to the large error which comes from the fitting method.
+    The value does not coincide with the literature value $T_{crit} = 45.54\degree C$ [2].
     This value also coincides with the value estimated form the P-V diagram and is going to be used in all following calculations since the other value is a mere estimate.
+    Possible explanations for the deviation form the literature value are given in \autoref{subsec:gasSpecParams}.
     
     \subsection{Gas specific parameters of the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
     The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{sec:apendix}).
@@ -198,7 +209,7 @@
     \section[]{Conclusion}\label{sec:conclusion}
     With this experiment, we were able to compare the ideal gas model and the Van der Waals model with experimental data.
     We succeeded in determining the gas specific parameters of the Van der Walls model, by examining the critical point of the gas.
-    The critical point was found using the coexistence regions of the liqiud and gas phase for different temperatures. 
+    The critical point was found using the coexistence regions of the liquid and gas phase for different temperatures. 
     Since the coexistence region gets narrower for higher temperatures until completely vanishing at exactly the critical point, we recorded isotherms for different temperatures
     and approximated where the coexistence region lies in the P-V diagram.
     The extremum of the approximated region marks the critical point.
@@ -207,19 +218,13 @@
     These were used to compare the two models to experimental data.
     The Van der Waals model proved legitimate by showing greater agreement experimental data over a larger range of volumes.
     Nevertheless, the model still failed at predicting what happens at the phase transition.
-    Even the Maxwell-criterium, which is supposed to offer a theoretical approximation of the isotherm and show improvement over the Van der Waals prediction,
-    predicted a significantly higher pressure than the measured one.
     From the pressures at the coexistence region and the temperature of the according isotherm, temperature-pressure pairs could be formed to determine the functional dependence.
     The expected $P \propto e^{\frac{1}{T}} $ dependence could not be verified definitively.
-    Reason being, that we could only use 5 data-points for the fit which is not enough.
+    Reason being, that we could only use 6 data-points for the fit which is not enough.
     Under the assumption that the theoretical dependence is true we calculated the evaporation energy of the used gas $E_{\text{Evap}} =\evaporationEnergyPerMole $.
     Furthermore, the critical temperature could be calculated (as opposed to guessed, like in Sec \ref{sec:Measurement}) to be $T_{crit}=\criticalTemp \degree$.
-    The graphical comparison of the two models and the experimental data showed the advantages of the Van der Waals model over the ideal gas model since it did a much better job predicting
-    the pressure.
     However, both models failed at predicting the coexistence region at the phase transition from gas to liquid.
-    Perhaps, an expansion on the Van der Waals model, which could model both the liquid and gas phase, would be needed in order to predict the phase transition.
-    Nonetheless, the Van der Waals model showed its legitimacy, since it showed greater agreement with expariment over a larger volume region, while introducing comparatively small
-    corrections to the Ideal gas model.
+    
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
         \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C1, Versuch 31, Zustandsgrößen realer Gase, 2021
         \bibitem{crc} D. R. Lide: \grqq CRC Handbook of Chemistry
