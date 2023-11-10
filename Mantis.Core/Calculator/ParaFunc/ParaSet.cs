@@ -39,6 +39,18 @@ public class ParaSet
         ErParameters = erParameters;
     }
 
+    public void SetParameters(ErDouble[] parameters)
+    {
+        var parameterVector = Vector<double>.Build.DenseOfEnumerable(parameters.Select(e => e.Value));
+
+        var covariance = Matrix<double>.Build.Diagonal(parameters.Length, parameters.Length, (int i) =>
+        {
+            var e = parameters[i].Error;
+            return e * e;
+        });
+        SetParametersAndErrorsWithApprox(parameterVector,covariance);
+    }
+
     public void SetParametersAndErrorsWithApprox(Vector<double> parameters, Matrix<double> covariance)
     {
         Parameters = parameters;

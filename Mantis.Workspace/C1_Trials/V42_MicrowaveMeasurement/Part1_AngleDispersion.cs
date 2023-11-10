@@ -130,6 +130,7 @@ public static class Part1_AngleDispersion
         // You need to specify the legend - labels
         plot.AddRegModel(model, "Signal des Empfängers", "Gauss-Anpassung", errorBars: false); //"Reciever output", "Gauss Fit",errorBars:false);
         
+        
         double xn = model.ErParameters[2].Value - fwhm.Value / 2;
         double xp = model.ErParameters[2].Value + fwhm.Value / 2;
         double y = model.ParaFunction.EvaluateAtDouble(xp);
@@ -145,6 +146,16 @@ public static class Part1_AngleDispersion
         // Last Save the plot and also add a reference to the TexPreamble file. So you can conveniently use it in your
         // Tex-file with the \figAngleDispersion command
         plot.SaveAndAddCommand("fig:AngleDispersion");
+
+        string mathematicaList = "{";
+        foreach (var data in dataList)
+        {
+            mathematicaList += $"{{{data.Angle.Value},{data.VoltageDiode.Value}}},\n";
+        }
+
+        mathematicaList += "}";
+        Console.WriteLine(mathematicaList);
+        
 
     }
 

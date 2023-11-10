@@ -152,12 +152,12 @@
 
 %    \figAngleDispersion{Angle dispersion of the Gunn diode used in our setup.
 %    We fit a gauss curve to get an approximation of the variance.
-%        $fwhm = \AngleDispersionGaussFWHM$}
+%        $\mathrm{FWHM} = \AngleDispersionGaussFWHM$}
     \figAngleDispersion{
         Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
         Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität gemessen.
         Wir passen eine generische Gausskurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
-        $fwhm = \AngleDispersionGaussFWHM$ . 
+        $\mathrm{FWHM} = \AngleDispersionGaussFWHM$ . 
     }
     
 
@@ -180,7 +180,7 @@
     Das Full-width-half-maximum der verwendeten Diode ist
     
     \begin{align*}
-        fwhm = \AngleDispersionGaussFWHM
+        \mathrm{FWHM} = \AngleDispersionGaussFWHM
     \end{align*}
     
     Der angegebene Fehler wurde über die Parameterfehlern des Fits bestimmt.
@@ -219,11 +219,14 @@
     Wir verwendeten eine Wachslinse zur Fokussierung der emittierten Mikrowellen. 
     Um die Brennweite zu bestimmen, wird die Linse ca.\ $80\, \mathrm{cm}$ entfernt von der emittierenden Diode platziert. 
     Die Gegenstandweite zwischen Linse und Transmitter betrug in unserem Aufbau $g = \ObjectDistance$.
-    Hier zu wurde der Abstand zwischen der Mitte der Linse und der effektiven Position des Senders nach~\cite{pasco} gemessen.
+    Hier zu wurde der Abstand zwischen der Mitte der Linse und der effektiven Position des Senders gemessen.
+    So liegt der effektive Ursprung der Mikrowellen innerhalb der Horn-Antenne, ca.\ $5\,\mathrm{cm}$ von dem
+    Ende der Antenne entfernt (vgl.\ \cite{pasco}).
     
     Nun wird der Empfänger auf der anderen Seite der Wachslinse positioniert.
     Für verschiedene Abstände zur Linse wird die Intensität gemessen.
-    Es muss auch hier die effektive Position des Empfängers nach~\cite{pasco} berücksichtigt werden.
+    Es muss auch hier die effektive Position des Empfängers berücksichtigt werden, welche ebenfalls in der
+    Antenne, ca.\ $5\,\mathrm{cm}$ vor deren Ende, liegt.
     Der Intensitätsverlauf ist in Abbildung~\ref{fig:imageDistance} dargestellt.
     
     Da die Wellenlänge der Mikrowellen im cm-Bereich liegt, liegt auch der Durchmesser 
@@ -275,7 +278,7 @@
     Diese hat ortsfeste Minima bzw. \ Maxima der Intensität.
     
     In unserem Experiment erzeugen wir die stehende Welle, indem wir in einem Abstand von $1\, \mathrm{m}$ entfernt
-    vom Transmitter einen Metalspiegel positionieren.
+    vom Transmitter einen Metallspiegel positionieren.
     Zwischen Transmitter und Spiegel entsteht dann eine stehende Welle.
     Diese messen wir mit dem Empfänger, aber ohne Horn-Antenne.
     Sie würde mit dem Signal interferieren.
@@ -746,7 +749,7 @@
     Das Ziel dieses Versuchs ist der qualitative Nachweis der Welleneigenschaften von Licht.
     Wir nutzen hierzu Mikrowellen mit einer Wellenlänge von $\lambda = \OfficialWaveLength$.
     Zunächst vermessen wir das Abstrahlverhalten der verwendeten Gunn-Diode. 
-    Durch Bestimmung der Winkeldispersion können wir grob die Streuweite abschätzen $fwhm = \AngleDispersionGaussFWHM$.
+    Durch Bestimmung der Winkeldispersion können wir grob die Streuweite abschätzen $\mathrm{FWHM} = \AngleDispersionGaussFWHM$.
     Weiter bestimmen wir die Brennweite der verwendeten Wachslinse, indem wir für verschiedene
     Bildweiten $b$ das Signal messen und dann über einen Fit das Maximum abschätzen.
     Die Brennweite unserer Linse ergibt sich zu $f = \FocalLength$.
