@@ -147,13 +147,18 @@ public static class Part1_AngleDispersion
         // Tex-file with the \figAngleDispersion command
         plot.SaveAndAddCommand("fig:AngleDispersion");
 
-        string mathematicaList = "{";
+        string mathematicaList = "";
         foreach (var data in dataList)
         {
-            mathematicaList += $"{{{data.Angle.Value},{data.VoltageDiode.Value}}},\n";
+            mathematicaList += $"{data.Angle.Value}\t{data.VoltageDiode.Value}\n";
         }
 
-        mathematicaList += "}";
+        mathematicaList += "\n\n";
+        for (double phi = -90; phi < 90; phi+=1)
+        {
+            mathematicaList += $"{phi}\t{model.ParaFunction.EvaluateAtDouble(phi)}\n";
+        }
+        
         Console.WriteLine(mathematicaList);
         
 

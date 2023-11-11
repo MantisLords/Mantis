@@ -90,9 +90,10 @@
         
         \\
         
-        Messung: 21. September 2023\\       %Datum ändern!
-        Erstabgabe: 28. September 2023 \\               %Datum ändern!
-        Zweitabgabe: 29 Oktober 2023
+        Messung: 21.\ September 2023\\       %Datum ändern!
+        Erstabgabe: 28.\ September 2023 \\               %Datum ändern!
+        Zweitabgabe: 29.\ Oktober 2023\\
+        Drittabgabe: 11.\ November 2023
         \\
         \\
     \end{abstract}
@@ -153,13 +154,27 @@
 %    \figAngleDispersion{Angle dispersion of the Gunn diode used in our setup.
 %    We fit a gauss curve to get an approximation of the variance.
 %        $\mathrm{FWHM} = \AngleDispersionGaussFWHM$}
-    \figAngleDispersion{
-        Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
+%    \figAngleDispersion{
+%        Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
+%        Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität gemessen.
+%        Wir passen eine generische Gausskurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
+%        $\mathrm{FWHM} = \AngleDispersionGaussFWHM$ . 
+%    }
+
+    \begin{figure}[htbp]
+        \includegraphics[width=\linewidth]{V42_AngleDispersion_Polarplot}
+        \center
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{
+            Die Winkeldispersion der in unserem Aufbau verwendeten Gunn-Diode.
         Der Empfänger wurde um denn Emitter geschwängt, und abhängig vom Winkel die Intensität gemessen.
         Wir passen eine generische Gausskurve and die Daten an, um eine grobe Abschätzung der Streubreite zu erhalten:
         $\mathrm{FWHM} = \AngleDispersionGaussFWHM$ . 
-    }
-    
+        }
+        \label{fig:AngleDispersion}
+    \end{figure}
 
 %    A Gunn diode was used to create the microwaves in our experiments. 
 %    It has a horn antenna for focusing the light.
