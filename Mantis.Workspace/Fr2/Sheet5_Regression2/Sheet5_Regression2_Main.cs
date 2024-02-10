@@ -65,7 +65,7 @@ public static class Sheet5_Regression2_Main
         g2.AddCommandAndLog("GFactor", "m / s^2");
         
 
-        var plt = ScottPlotExtensions.CreateSciPlot(
+        var plt = new DynPlot(
             "Time t in s",
             "Distance x in cm");
 

@@ -1,24 +1,14 @@
-﻿using System.Reflection.Metadata;
-using Mantis.Core.Calculator;
+﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
-using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using Mantis.Workspace.C1_Trials.Utility;
+using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 using MathNet.Numerics;
 using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V42_Microwaves_Measurement;
 
-[QuickTable("","tab:Bragg")]
-public record struct BraggData
-{
-    [QuickTableField("angle", "°")] public ErDouble Angle = 0;
-    [QuickTableField("voltage", "V",lastDigitError:1)] public ErDouble Voltage = 0;
-    
-    public BraggData(){}
-}
 
 public static class Part6_BraggReflection
 {
@@ -33,7 +23,7 @@ public static class Part6_BraggReflection
         var reader = new SimpleTableProtocolReader("Part6_BraggReflection" + cristalDir);
 
         var errorAngle = reader.ExtractSingleValue<double>("error_angle");
-        var voltmeterRange = reader.ExtractSingleValue<double>("voltmeterRange");
+        
         var maximumAngle = reader.ExtractSingleValue<ErDouble>("maximum");
         maximumAngle.AddCommand("BraggDifAngle"+cristalDirTex,"\\degree");
         maximumAngle.Error.AddCommand("BraggDiffractionErrorAngle","\\degree");
@@ -43,10 +33,10 @@ public static class Part6_BraggReflection
         var d = dhkl * Math.Sqrt(h * h + k * k + l * l);
         d.AddCommandAndLog("Cristalconstant"+cristalDirTex,"cm");
 
-        List<BraggData> dataList = reader.ExtractTable<BraggData>("tab:BraggReflection");
+        List<AngleVoltageData> dataList = reader.ExtractTable<AngleVoltageData>("tab:BraggReflection");
 
         var MinVoltage = dataList.Select(e => e.Voltage.Value).Min();
-        dataList.ForEachRef((ref BraggData data) =>
+        dataList.ForEachRef((ref AngleVoltageData data) =>
         {
             data.Angle.Error = errorAngle;
             //data.Voltage.CalculateDeviceError(Devices.Aglient34405,DataTypes.VoltageDC,voltmeterRange);
@@ -55,18 +45,16 @@ public static class Part6_BraggReflection
 
         var dataSet = dataList.CreateDataSet(e => (e.Angle, e.Voltage));
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Winkel in °", "Spannung in V");//"Angle in °", "Voltage in V");
+        var plt = new DynPlot("Winkel in °", "Spannung in V");//"Angle in °", "Voltage in V");
 
-        var (_, scatterPlot) = plt.AddErrorBars(dataSet, label:$"Bragg-Reflexion für\ndie {cristalDir}-Ebene");//label:"Bragg diffraction "+cristalDir);
-        scatterPlot.LineStyle = LineStyle.Solid;
+        var errorBar = plt.AddDynErrorBar(dataSet, label:$"Bragg-Reflexion für die {cristalDir}-Ebene");//label:"Bragg diffraction "+cristalDir);
+        errorBar.PointConnectedLineStyle.IsVisible = true;
 
-        var vLine = plt.AddVerticalLine(maximumAngle.Value,style:LineStyle.Dash);
-        vLine.PositionLabel = true;
-        vLine.PositionLabelOppositeAxis = true;
-        vLine.PositionLabelBackground = vLine.Color;
-
-        plt.Legend(true, Alignment.UpperRight);
-
+        plt.AddVerticalLine(maximumAngle.Value);
+        
+        
+        plt.Legend.Location = k == 1 ? Alignment.UpperCenter : Alignment.UpperRight;
+        
         plt.SaveAndAddCommand("fig:BraggReflection" + cristalDirTex);
 
 

@@ -4,22 +4,19 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using Mantis.Workspace.BasicTests;
-using Mantis.Workspace.C1_Trials.Utility;
 using MathNet.Numerics;
 using ScottPlot;
-using ScottPlot.Renderable;
 
 namespace Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
-[QuickTable("","tab:angleDispersion")]
-public record struct AngleDispersionData
+[QuickTable("","")]
+public record struct AngleVoltageData
 {
     [QuickTableField("angle", "\\degree")] public ErDouble Angle = 0;
 
-    [QuickTableField("diodeVoltage", "V",lastDigitError:1)] public ErDouble VoltageDiode = 0;
+    [QuickTableField("diodeVoltage", "V",lastDigitError:1)] public ErDouble Voltage = 0;
     
-    public AngleDispersionData(){}
+    public AngleVoltageData(){}
 }
 
 public static class Part1_AngleDispersion
@@ -52,13 +49,13 @@ public static class Part1_AngleDispersion
         // This struct type then has fields with the [QuickTableField(columnName,...)]-attribute
         // The importer will compare the the columnNames of the csv-file with the columnNames of the QuickTableField-attribute
         // If they match it will assign the value from the csv-file to the QuickTableField 
-        List<AngleDispersionData> dataList = csvReader.ExtractTable<AngleDispersionData>("tab:angleDispersion");
+        List<AngleVoltageData> dataList = csvReader.ExtractTable<AngleVoltageData>("tab:angleDispersion");
         
         // Step 2: Doing some calculations
         // Here we want to initialize the errors of the 'AngleDispersionData'
         // So we perform the method 'CalculateErrors(...)' for each element in the list
         // We need to use the method 'ForEachRef' since AngleDispersionData is a struct
-        dataList.ForEachRef(((ref AngleDispersionData e) => CalculateErrors(ref e,voltmeterRange,errorAngle)));
+        dataList.ForEachRef(((ref AngleVoltageData e) => CalculateErrors(ref e,voltmeterRange,errorAngle)));
         // The following code would be analogous
         // for (int i = 0; i < dataList.Count; i++)
         // {
@@ -69,8 +66,8 @@ public static class Part1_AngleDispersion
 
         ErDouble voltageOffset = csvReader.ExtractSingleValue<double>("voltageOffset");
         
-        dataList.ForEachRef((ref AngleDispersionData data) => 
-            data.VoltageDiode -= voltageOffset);
+        dataList.ForEachRef((ref AngleVoltageData data) => 
+            data.Voltage -= voltageOffset);
         
         // Step 3: Regression
         // First we need to create a RegModel
@@ -93,7 +90,7 @@ public static class Part1_AngleDispersion
         //
         // Lastly for convenience I already specify the Units of the free-parameters. Since they will be added
         // when we log the parameters
-        RegModel<GaussFunc> model = dataList.CreateRegModel(e => (e.Angle, e.VoltageDiode),
+        RegModel<GaussFunc> model = dataList.CreateRegModel(e => (e.Angle, VoltageDiode: e.Voltage),
             new ParaFunc<GaussFunc>(4)
             {
                 Units = new[] {"V", "V", "\\degree", "\\degree"}
@@ -123,25 +120,24 @@ public static class Part1_AngleDispersion
         
         // The first creates a pre-configured Plot with all the style settings I like
         // You can change those settings via the 'plot' object
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Winkel in °","Spannung in V");//"Angle in °", "Voltage in V");
+        DynPlot plot = new DynPlot("Winkel in °","Spannung in V");//"Angle in °", "Voltage in V");
         
         // Next I add the RegModel to the Plot
         // It will automatically draw the DataPoints and the Function Curve
         // You need to specify the legend - labels
-        plot.AddRegModel(model, "Signal des Empfängers", "Gauss-Anpassung", errorBars: false); //"Reciever output", "Gauss Fit",errorBars:false);
+        plot.AddRegModel(model, "Signal des Empfängers", "Gauss-Anpassung"); //"Reciever output", "Gauss Fit",errorBars:false);
         
         
         double xn = model.ErParameters[2].Value - fwhm.Value / 2;
         double xp = model.ErParameters[2].Value + fwhm.Value / 2;
         double y = model.ParaFunction.EvaluateAtDouble(xp);
-        var bracket = plot.AddBracket(xn, y, xp, y, "fwhm");
-        bracket.Color = plot.Palette.GetColor(2);
+        //var bracket = plot.Add.Bracket(xn, y, xp, y, "fwhm");
+        //bracket.Color = plot.Palette.GetColor(2);
         
         
         // Change the Legend alignment
-        plot.Legend(true, Alignment.UpperRight);
+        plot.Legend.Location = Alignment.UpperRight;
         
-        plot.AxisAutoY(0.2,0);
         
         // Last Save the plot and also add a reference to the TexPreamble file. So you can conveniently use it in your
         // Tex-file with the \figAngleDispersion command
@@ -150,21 +146,11 @@ public static class Part1_AngleDispersion
         string mathematicaList = "";
         foreach (var data in dataList)
         {
-            mathematicaList += $"{data.Angle.Value}\t{data.VoltageDiode.Value}\n";
+            mathematicaList += $"{data.Angle.Value}\t{data.Voltage.Value}\n";
         }
-
-        mathematicaList += "\n\n";
-        for (double phi = -90; phi < 90; phi+=1)
-        {
-            mathematicaList += $"{phi}\t{model.ParaFunction.EvaluateAtDouble(phi)}\n";
-        }
-        
-        Console.WriteLine(mathematicaList);
-        
-
     }
 
-    private static void CalculateErrors(ref AngleDispersionData data, double voltmeterRange, double errorAngle)
+    private static void CalculateErrors(ref AngleVoltageData data, double voltmeterRange, double errorAngle)
     {
         data.Angle.Error = errorAngle;
         

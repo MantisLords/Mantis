@@ -49,7 +49,7 @@ public static class Sheet3_Correlation_Main
         model.AddParametersToPreambleAndLog("Regression");
 
         
-        var plt = ScottPlotExtensions.CreateSciPlot("Temperature in °C", "Humidity in g/m^3");
+        var plt = new DynPlot("Temperature in °C", "Humidity in g/m^3");
         plt.AddRegModel(model, labelData: "Measured and averaged wather data", labelFunction: "Best fit");
         plt.SaveAndAddCommand("fig:EnvironmentRegression","Environment data of one year by a franconian weather station Thomas Karb 11.5.23");
         

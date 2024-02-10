@@ -56,12 +56,12 @@ public static class Sheet4_Regression1_Main
         modelPoisson.AddParametersToPreambleAndLog("Poisson");
         CalcHalfTimeAndAddCommand(modelPoisson,"Poisson");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Time in s", "log( deltaN )");
-        plt.AddErrorBars(modelNoErrors.Data, label: "Measured decay");
+        var plt = new DynPlot("Time in s", "log( deltaN )");
+        plt.AddDynErrorBar(modelNoErrors.Data, label: "Measured decay");
 
-        plt.AddFunction(modelNoErrors.ParaFunction, label: "Regression while ignoring errors");
-        plt.AddFunction(modelGauss.ParaFunction, label: "Regression with gaussian distribution");
-        plt.AddFunction(modelPoisson.ParaFunction, label: "Regression with poissonian distribution");
+        plt.AddDynFunction(modelNoErrors.ParaFunction, label: "Regression while ignoring errors");
+        plt.AddDynFunction(modelGauss.ParaFunction, label: "Regression with gaussian distribution");
+        plt.AddDynFunction(modelPoisson.ParaFunction, label: "Regression with poissonian distribution");
         
         plt.SaveAndAddCommand("fig:BaDecay","Decay of Ba-137");
         

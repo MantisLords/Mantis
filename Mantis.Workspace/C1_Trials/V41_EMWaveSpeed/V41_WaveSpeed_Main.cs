@@ -1,19 +1,8 @@
-﻿using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Xml;
-using Mantis.Core.Calculator;
+﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using Mantis.Workspace.BasicTests;
-using Mantis.Workspace.C1_Trials.Utility;
-using Microsoft.VisualBasic;
-using ScottPlot;
-using ScottPlot.Drawing.Colormaps;
 
 namespace Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 
@@ -59,59 +48,59 @@ public static class V41_WaveSpeed_Main
     {
         Console.WriteLine("Ronny");
         
-       var standingWaveReader = new SimpleTableProtocolReader("Data\\Measurements");
-       List<StandingWaveData> standingWaveList = standingWaveReader.ExtractTable<StandingWaveData>();
-       var peakDifference = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifference");
-       var peakDifferenceRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifferenceRetardation");
-       var lengthRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("lengthRetardation");
-       var tempGroupedListList = standingWaveList.GroupBy(e => (e.nodeCount,e.isEndFixed)).ToList();
-       lengthRetardation.AddCommand("lengthRetardation","m");
+        var standingWaveReader = new SimpleTableProtocolReader("Data\\Measurements");
+        List<StandingWaveData> standingWaveList = standingWaveReader.ExtractTable<StandingWaveData>();
+        var peakDifference = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifference");
+        var peakDifferenceRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("peakDifferenceRetardation");
+        var lengthRetardation = standingWaveReader.ExtractSingleValue<ErDouble>("lengthRetardation");
+        var tempGroupedListList = standingWaveList.GroupBy(e => (e.nodeCount,e.isEndFixed)).ToList();
+        lengthRetardation.AddCommand("lengthRetardation","m");
 
-       var calculatedMeanList =
-           tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
+        var calculatedMeanList =
+            tempGroupedListList.Select(listWithSameNodeCount => CalculateDataMean(listWithSameNodeCount)).ToList();
        
-       try
-       {
-           var nodeVoltageError = standingWaveReader.ExtractSingleValue<double>("nodeVoltageError");
-           calculatedMeanList.ForEachRef((ref StandingWaveData data) =>
-           {
-               data.nodeVoltage.Error = nodeVoltageError * 0.001;
-               //data.incommingVoltage.Error = nodeVoltageError;
-           });
-       }
-       catch (Exception e)
-       {
+        try
+        {
+            var nodeVoltageError = standingWaveReader.ExtractSingleValue<double>("nodeVoltageError");
+            calculatedMeanList.ForEachRef((ref StandingWaveData data) =>
+            {
+                data.nodeVoltage.Error = nodeVoltageError * 0.001;
+                //data.incommingVoltage.Error = nodeVoltageError;
+            });
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
-       }
+        }
        
-       ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
-       Console.WriteLine(v);
-       v.AddCommand("velocityRuntime","m/s");
-       Console.WriteLine("EpsilonR runtime"+CalculateEpsR(v));
-       CalculateEpsR(v).AddCommand("epsilonRRuntime","");
-       ErDouble vRet = CalculateVelocityRuntime(peakDifferenceRetardation, lengthRetardation);
-       vRet.AddCommand("vRetRuntime","m/s");
-       Console.WriteLine("Velocity retardation"+vRet);
+        ErDouble v = CalculateVelocityRuntime(peakDifference, 50);
+        Console.WriteLine(v);
+        v.AddCommand("velocityRuntime","m/s");
+        Console.WriteLine("EpsilonR runtime"+CalculateEpsR(v));
+        CalculateEpsR(v).AddCommand("epsilonRRuntime","");
+        ErDouble vRet = CalculateVelocityRuntime(peakDifferenceRetardation, lengthRetardation);
+        vRet.AddCommand("vRetRuntime","m/s");
+        Console.WriteLine("Velocity retardation"+vRet);
 
 
-       List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
+        List<CalculatedData> dataForTables =  CalculateValuesForTables(calculatedMeanList);
        
        
-       dataForTables[0].frequency.AddCommand("frequencyFirst");
-       dataForTables[0].vStanding.AddCommand("vStandingFirst");
-       dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
-       dataForTables[0].damping.AddCommand("dampingFirst");
-       dataForTables[1].frequency.AddCommand("frequencySecond");
-       dataForTables[1].vStanding.AddCommand("vStandingSecond");
-       dataForTables[1].EpsilonR.AddCommand("epsilonRSecond");
-       dataForTables[1].damping.AddCommand("dampingSecond");
-       dataForTables[2].frequency.AddCommand("frequencyThird");
-       dataForTables[2].vStanding.AddCommand("vStandingThird");
-       dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
-       dataForTables[2].damping.AddCommand("dampingThird");
-       Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
-       Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
-       Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
+        dataForTables[0].frequency.AddCommand("frequencyFirst");
+        dataForTables[0].vStanding.AddCommand("vStandingFirst");
+        dataForTables[0].EpsilonR.AddCommand("epsilonRFirst","");
+        dataForTables[0].damping.AddCommand("dampingFirst");
+        dataForTables[1].frequency.AddCommand("frequencySecond");
+        dataForTables[1].vStanding.AddCommand("vStandingSecond");
+        dataForTables[1].EpsilonR.AddCommand("epsilonRSecond");
+        dataForTables[1].damping.AddCommand("dampingSecond");
+        dataForTables[2].frequency.AddCommand("frequencyThird");
+        dataForTables[2].vStanding.AddCommand("vStandingThird");
+        dataForTables[2].EpsilonR.AddCommand("epsilonRThird");
+        dataForTables[2].damping.AddCommand("dampingThird");
+        Console.WriteLine(dataForTables[0].frequency + " " + dataForTables[0].vStanding + " " + dataForTables[0].EpsilonR + " " + dataForTables[0].damping);
+        Console.WriteLine(dataForTables[1].frequency + " " + dataForTables[1].vStanding + " " + dataForTables[1].EpsilonR + " " + dataForTables[1].damping);
+        Console.WriteLine(dataForTables[2].frequency + " " + dataForTables[2].vStanding + " " + dataForTables[2].EpsilonR + " " + dataForTables[2].damping);
 
     }
 

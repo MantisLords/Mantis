@@ -4,9 +4,6 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using Mantis.Workspace.C1_Trials.Utility;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex;
 using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
@@ -55,8 +52,8 @@ public static class Part2_FocalLengthWaxLensMain
         var voltageOffset = csvReader.ExtractSingleValue<double>("voltageOffset");
         
         data.ForEachRef((ref FocalLengthWaxLensData element) =>
-                CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,distanceHornEndEffectiveReceiverPos,distanceReceiverPosHornEnd,1,voltageOffset)
-            );
+            CalculateErrorAndImageDistance(ref element,lensPos,errorReceiverPos,distanceHornEndEffectiveReceiverPos,distanceReceiverPosHornEnd,1,voltageOffset)
+        );
         
         data.Sort(((a, b) => a.ReceiverPos.CompareTo(b.ReceiverPos.Value)));
 
@@ -83,21 +80,16 @@ public static class Part2_FocalLengthWaxLensMain
         var focalLength = 1 / (1 / imageDistance + 1 / objectDistance);
         focalLength.AddCommandAndLog("FocalLength","cm");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Bildweite b in cm","Spannung in V");//"Image distance b in cm", "voltage U in V");
+        var plt = new DynPlot("Bildweite b in cm","Spannung in V");//"Image distance b in cm", "voltage U in V");
 
-        var (errorBar,scatterPlot,funcPlot) = plt.AddRegModel(model, "Empfänger Signal", "Gauss-Anpassung",errorBars:false);
-        scatterPlot.LineStyle = LineStyle.Solid;
-        scatterPlot.LineWidth = 0.75;
-        scatterPlot.LineColor = plt.Palette.GetColor(2);
-        funcPlot.LineColor = plt.Palette.GetColor(1);
-        
-        var vLine = plt.AddVerticalLine(imageDistance.Value,style:LineStyle.Dash);
-        vLine.Color = plt.Palette.GetColor(0);
-        vLine.PositionLabel = true;
-        vLine.PositionLabelOppositeAxis = true;
-        vLine.PositionLabelBackground = vLine.Color;
+        var (dynErrorBar,funcPlot) = plt.AddRegModel(model, "Empfänger Signal", "Gauss-Anpassung");
+        dynErrorBar.PointConnectedLineStyle.IsVisible = true;
+        dynErrorBar.PointConnectedLineStyle.Color = plt.Add.GetNextColor();
 
-        plt.Legend(true, Alignment.UpperLeft);
+
+        plt.AddVerticalLine(imageDistance.Value);
+
+        plt.Legend.Location = Alignment.UpperLeft;
         
         plt.SaveAndAddCommand("fig:imageDistance");
 

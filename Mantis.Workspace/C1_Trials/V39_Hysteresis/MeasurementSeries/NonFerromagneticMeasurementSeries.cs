@@ -1,6 +1,5 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.ScottPlotUtility;
-using Mantis.Core.TexIntegration;
 using MathNet.Numerics;
 using ScottPlot;
 
@@ -37,8 +36,8 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 
         if (DrawBestFit)
         {
-            plt.AddFunction(LinearFit.ParaFunction,
-                label: "Fit zu Bestimmung\nder Permeabilität"); //"Best fit for calculating\nmagnetic permeability");
+            
+            plt.AddDynFunction(LinearFit.ParaFunction, label: "Fit zu Bestimmung\nder Permeabilität"); //"Best fit for calculating\nmagnetic permeability");
         }
         
         return plt;

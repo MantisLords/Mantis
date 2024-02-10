@@ -1,16 +1,9 @@
-﻿using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Drawing;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using Mantis.Core.Calculator;
+﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
-using Mantis.Core.Utility;
 using ScottPlot;
-using ScottPlot.Plottable;
 
 namespace Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 
@@ -68,9 +61,8 @@ public static class Part1_IsothermsAndCriticalPoints
             0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02
         };
 
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume", "pressure");
-        plot.AddScatter(dataListTemp1.Select(e => e.volume.Value).ToArray(),
-            dataListTemp1.Select(e => e.pressure.Value).ToArray());
+        DynPlot plot = new DynPlot("volume", "pressure");
+        plot.AddDynErrorBar(dataListTemp1.Select(e => (e.volume, e.pressure)));
         // plot.AddErrorBars(dataListTemp2.Select(e => e.volume.Value).ToArray(),
         //     dataListTemp2.Select(e => e.pressure.Value).ToArray());
         // plot.AddErrorBars(dataListTemp3.Select(e => e.volume.Value).ToArray(),
@@ -117,15 +109,14 @@ public static class Part1_IsothermsAndCriticalPoints
         CreateTemperaturePressureData(dataForFit, csvReader4,temperaturePressureForLogPlot,6);
         CreateTemperaturePressureData(dataForFit, csvReader5,temperaturePressureForLogPlot,8);
         
-        ScottPlot.Plot temperaturePlot = ScottPlotExtensions.CreateSciPlot("temperature", "pressure");
-        temperaturePlot.AddScatter(temperaturePressureForLogPlot.Select(e => e.temperature.Value).ToArray(),
-            temperaturePressureForLogPlot.Select(e => e.pressure.Value).ToArray());
+        DynPlot temperaturePlot = new DynPlot("temperature", "pressure");
+        temperaturePlot.AddDynErrorBar(temperaturePressureForLogPlot.Select(e => (e.temperature, e.pressure)));
         temperaturePlot.SaveAndAddCommand("fig:temperaturePlot","caption");
         
-        ScottPlot.Plot temperatureLogPlot = ScottPlotExtensions.CreateSciPlot("temperature", "pressure");
-        temperatureLogPlot.AddScatter(
-            temperaturePressureForLogPlot.Select(e => Math.Log(e.pressure.Value,Math.E)).ToArray(),
-            temperaturePressureForLogPlot.Select(e => 1 / (e.temperature.Value)).ToArray());
+        DynPlot temperatureLogPlot = new DynPlot("temperature", "pressure");
+        temperaturePlot.DynAxes.LogX();
+        temperatureLogPlot.AddDynErrorBar(
+            temperaturePressureForLogPlot.Select(e => (e.pressure, 1 / e.temperature)));
 
         temperatureLogPlot.SaveAndAddCommand("fig:tempLogPlot","caption");
 
@@ -148,7 +139,7 @@ public static class Part1_IsothermsAndCriticalPoints
         return returnList;
     }
 
-    public static void CalculateMaxwellLine(List<VolumePressureData> data, ScottPlot.Plot plot,double sensitivity,double variance,List<VolumePressureData> dataForFit)
+    public static void CalculateMaxwellLine(List<VolumePressureData> data, Plot plot,double sensitivity,double variance,List<VolumePressureData> dataForFit)
     {
         List<VolumePressureData> returnList = new List<VolumePressureData>();
         double sum = 0;
@@ -169,8 +160,13 @@ public static class Part1_IsothermsAndCriticalPoints
             Console.WriteLine(sum/count);
         }
         List<VolumePressureData> maxwellLine1 = CreateMaxwellLine(sum / count, returnList,variance,dataForFit);
-        plot.AddScatter(maxwellLine1.Select(e => e.volume.Value).ToArray(),
-            maxwellLine1.Select(e => e.pressure.Value).ToArray(), Color.Black, 2F,5F,MarkerShape.cross);
+        var errorBar = plot.AddDynErrorBar(maxwellLine1.Select(e => (e.volume, e.volume)), true);
+        errorBar.Color = Colors.Black;
+        errorBar.IsErrorBarVisible = false;
+        errorBar.MarkerStyle.Shape = MarkerShape.Cross;
+        errorBar.PointConnectedLineStyle.IsVisible = true;
+        errorBar.PointConnectedLineStyle.Width = 2f;
+        errorBar.MarkerStyle.Size = 5f;
 
     }
 

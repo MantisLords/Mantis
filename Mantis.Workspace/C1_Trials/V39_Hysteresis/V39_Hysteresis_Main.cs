@@ -3,7 +3,7 @@ using Mantis.Core.FileImporting;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using ScottPlot;
-using ScottPlot.Plottable;
+using ScottPlot.Plottables;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
@@ -60,7 +60,7 @@ public static class V39_Hysteresis_Main
             
             series.SaveAndLogCalculatedData();
             
-            var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520);
+            var plt = new DynPlot("H in A/m", "B in T");
             series.PlotData(plt);
             
             if(series.SeriesInfo.Usage == "ExDemagnetization") PlotExDemagnetization(plt,series);
@@ -124,7 +124,7 @@ public static class V39_Hysteresis_Main
             if (HysteresisMeasurementSeries.TryInstantiateSeries(woodPascoSeries.Key, woodPascoSeries.Value, ringCores,
                     seriesInfos, errorVoltage, out HysteresisMeasurementSeries series, removeDrift: false))
             {
-                var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520);
+                var plt = new DynPlot("H in A/m", "B in T");
                 series.PlotData(plt);
             
                 plt.SaveAndAddCommand("fig:NoDriftRemovalWood");
@@ -141,59 +141,60 @@ public static class V39_Hysteresis_Main
 
     private static void PlotExDemagnetization(Plot plt, HysteresisMeasurementSeries series)
     {
-        var black = plt.Palette.GetColor(0);
-        var red = plt.Palette.GetColor(1);
-        var blue = plt.Palette.GetColor(2);
+        var black = plt.Add.Palette.GetColor(0);
+        var red = plt.Add.Palette.GetColor(1);
+        var blue = plt.Add.Palette.GetColor(2);
         
-        var inletPlot = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520,relHeight:1);
+        var inletPlot = new DynPlot("H in A/m", "B in T");
 
-        inletPlot.AddHorizontalLine(0, black,0.5f);
-        inletPlot.AddVerticalLine(0, black,0.5f);
+        inletPlot.Add.HorizontalLine(0, 0.5f,black);
+        inletPlot.Add.VerticalLine(0, 0.5f,black);
         
         series.PlotData(inletPlot);
-        if (inletPlot.GetPlottables()[2] is ScatterPlot scatter)
-        {
-            scatter.MarkerSize = 3;
-            scatter.Color = black;
-        }
-        inletPlot.SetAxisLimits(-200,200,-0.15,0.05);
+        // if (inletPlot.PlottableList[2] is Scatter scatter)
+        // {
+        //     scatter.MarkerSize = 3;
+        //     scatter.Color = black;
+        // }
+        inletPlot.DynAxes.SetLimits(-200,200,-0.15,0.05);
         
         inletPlot.AddArrow(-100,-0.05, -50, -0.025, color: red,lineWidth:3);
         inletPlot.AddArrow(100, -0.025, 50, -0.05, color: blue,lineWidth:3);
 
-        var bitmap = inletPlot.GetBitmap();
+        inletPlot.ScaleFactor = 0.6f;
+        plt.AddDynInlet(inletPlot, new PixelRect(300,480,310,150));
 
-        plt.AddImage(bitmap, 1000, 0.5,scale:0.35);
-        plt.Grid(false);
-        plt.Legend(true, Alignment.UpperLeft);
+        plt.Legend.Location = Alignment.UpperLeft;
         
+        plt.ShowGrid();
 
-        var arrow = plt.AddArrow(-1500, -0.7, -1000, 0.3, color: red,lineWidth:3);
+        plt.AddArrow(-1500, -0.7, -1000, 0.3, color: red,lineWidth:3);
         plt.AddArrow(1500, 0.7, 1000, -0.3, color: blue,lineWidth:3);
     }
     
     private static void PlotExIrreversibility(Plot plt, HysteresisMeasurementSeries series)
     {
-        var red = plt.Palette.GetColor(1);
-        var blue = plt.Palette.GetColor(2);
+        var red = plt.Add.Palette.GetColor(1);
+        var blue = plt.Add.Palette.GetColor(2);
         
-        var inletPlot = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T",pixelWidth:520,relHeight:1);
+        var inletPlot = new DynPlot("H in A/m", "B in T");
         series.PlotData(inletPlot);
-        if (inletPlot.GetPlottables()[0] is ScatterPlot scatter)
+        if (inletPlot.GetPlottables().First() is Scatter scatter)
         {
             scatter.MarkerSize = 3;
         }
-        inletPlot.SetAxisLimits(800,2200,0.9,1.2);
+        inletPlot.DynAxes.SetLimits(800,2200,0.9,1.2);
         
         inletPlot.AddArrow(1530, 1.05, 1800, 1.1, color: red,lineWidth:3);
         inletPlot.AddArrow(1620, 1, 1300, 0.95, color: blue,lineWidth:3);
 
-        var bitmap = inletPlot.GetBitmap();
-
-        plt.AddImage(bitmap, 1000, 0.5,scale:0.35);
-        plt.Grid(false);
-        plt.Legend(true, Alignment.UpperLeft);
+        inletPlot.ScaleFactor = 0.6f;
         
+        plt.AddDynInlet(inletPlot, new PixelRect(300,480,310,150));
+        
+        //plt.HideGrid();
+        plt.Legend.Location = Alignment.UpperLeft;
+
     }
 
     private static CycleCharacteristicProperties WeightedMean(this IEnumerable<CycleCharacteristicProperties> data)

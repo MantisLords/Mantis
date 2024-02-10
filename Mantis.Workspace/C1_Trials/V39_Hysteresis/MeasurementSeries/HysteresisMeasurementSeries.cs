@@ -1,13 +1,8 @@
 ﻿using Mantis.Core.Calculator;
-using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
-using Mantis.Core.TexIntegration;
 using Mantis.Workspace.C1_Trials.Utility;
 using MathNet.Numerics;
-using MathNet.Numerics.Interpolation;
-using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
-using ScottPlot.Plottable;
+using ScottPlot.Plottables;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
@@ -126,23 +121,27 @@ public class HysteresisMeasurementSeries
 
     public virtual Plot PlotData(Plot plt)
     {
-            //var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
+        //var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
             
-            AddHBData(plt, DataList, RingCore.Name);
+        AddHBData(plt, DataList, RingCore.Name);
             
-            return plt;
-            //plt.SaveFigHere(Name, scale: 8);
+        return plt;
+        //plt.SaveFigHere(Name, scale: 8);
     }
     
     public virtual void SaveAndLogCalculatedData(){}
 
-    private ScatterPlot AddHBData(Plot plt,HysteresisData[] data,string legend)
+    private Scatter AddHBData(Plot plt,HysteresisData[] data,string legend)
     {
         if (data.Length == 0) return null;
         var xs = data.Select(e => CheckDouble(e.H)).ToArray();
         var ys = data.Select(e => CheckDouble(e.B)).ToArray();
-        
-        return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
+
+        var scatter = plt.Add.Scatter(xs, ys);
+        scatter.LineStyle.IsVisible = false;
+        scatter.MarkerSize = 1;
+        scatter.Label = legend;
+        return scatter;
     }
     
     protected static double CheckDouble(double v)

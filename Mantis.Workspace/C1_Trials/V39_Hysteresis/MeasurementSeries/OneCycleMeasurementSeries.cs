@@ -1,11 +1,8 @@
-﻿using System.Reflection.Metadata;
-using Mantis.Core.Calculator;
-using Mantis.Core.ScottPlotUtility;
-using Mantis.Core.TexIntegration;
+﻿using Mantis.Core.Calculator;
 using MathNet.Numerics;
 using MathNet.Numerics.Interpolation;
 using ScottPlot;
-using ScottPlot.Plottable;
+using ScottPlot.Plottables;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
@@ -232,9 +229,9 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     public override Plot PlotData(Plot plt)
     {
         base.PlotData(plt);
-        
-        plt.Legend(true, Alignment.UpperLeft);
 
+
+        plt.Legend.Location = Alignment.UpperLeft;
         //AddHBDataP(plt, HBPositiveList, "pos");
         //AddHBDataP(plt, HBNegativeList, "neg");
         
@@ -248,13 +245,17 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         return plt;
     }
 
-    private ScatterPlot AddHBDataP(Plot plt,HBData[] data,string legend)
+    private Scatter AddHBDataP(Plot plt,HBData[] data,string legend)
     {
         if (data.Length == 0) return null;
         var xs = data.Select(e => CheckDouble(e.H)).ToArray();
         var ys = data.Select(e => CheckDouble(e.B)).ToArray();
         
-        return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
+        var scatter = plt.Add.Scatter(xs, ys);
+        scatter.LineStyle.IsVisible = false;
+        scatter.MarkerSize = 1;
+        scatter.Label = legend;
+        return scatter;
     }
     
 
@@ -271,13 +272,17 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         Console.WriteLine($"{Label}\t{CharacProperties}");
     }
 
-    private ScatterPlot AddHBData(Plot plt,HBData[] data,string legend)
+    private Scatter AddHBData(Plot plt,HBData[] data,string legend)
     {
         if (data.Length == 0) return null;
         var xs = data.Select(e => CheckDouble(e.H)).ToArray();
         var ys = data.Select(e => CheckDouble(e.B)).ToArray();
         
-        return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
+        var scatter = plt.Add.Scatter(xs, ys);
+        scatter.LineStyle.IsVisible = false;
+        scatter.MarkerSize = 1;
+        scatter.Label = legend;
+        return scatter;
     }
 
     private (List<HBData>,List<HBData>) FindPositiveAndNegativeData()

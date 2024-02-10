@@ -49,7 +49,7 @@ public class V40_PolarisationMain
         
         //model.AddGoodnessOfFitToPreambleAndLog("");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Angle in °", "Current in muA");
+        var plt = new DynPlot("Angle in °", "Current in muA");
 
         plt.AddRegModel(model);
         

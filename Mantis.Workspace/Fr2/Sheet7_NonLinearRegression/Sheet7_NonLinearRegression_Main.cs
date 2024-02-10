@@ -4,13 +4,9 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
+using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
-using MathNet.Numerics.Optimization;
-using Microsoft.VisualBasic;
 using ScottPlot;
-using Constants = MathNet.Numerics.Constants;
-using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 
 namespace Mantis.Workspace.Fr2.Sheet7_NonLinearRegression;
 
@@ -48,7 +44,7 @@ public static class Sheet7_NonLinearRegression_Main
             data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc<ExpFunc>(
                     new []{ErDouble.Exp(logModel.ErParameters[0]),logModel.ErParameters[1]}));
         linearizedModel.AddParametersToPreambleAndLog("LinearizedModel");
-        linearizedModel.AddGoodnessOfFitToPreambleAndLog("LinearizedModel");
+        linearizedModel.GetGoodnessOfFitLog().AddCommandAndLog("LinearizedModel");
 
         RegModel<ExpFunc> nonLinearModel =
             data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc<ExpFunc>(2));
@@ -60,14 +56,14 @@ public static class Sheet7_NonLinearRegression_Main
         halfTime.AddCommandAndLog("HalfTime","s");
         
         nonLinearModel.AddParametersToPreambleAndLog("NonlinearModel");
-        nonLinearModel.AddGoodnessOfFitToPreambleAndLog("NonlinearModel");
+        nonLinearModel.GetGoodnessOfFitLog().AddCommandAndLog("NonlinearModel");
 
-        var plt = ScottPlotExtensions.CreateSciPlot(
+        var plt = new DynPlot(
             "Time in s",
             "Decay Count");
-        plt.Legend(true, Alignment.UpperRight);
+        plt.Legend.Location = Alignment.UpperRight;
         plt.AddRegModel(nonLinearModel,"Measured Decay with poisson uncertainty","Levenberg Marquardt");
-        plt.AddFunction(linearizedModel.ParaFunction, label: "Linearized Model");
+        plt.AddDynFunction(linearizedModel.ParaFunction, label: "Linearized Model");
         plt.SaveAndAddCommand("fig:NonLinearRegression","Fit of exponential function via Levenberg Marquardt");
 
         TexPreamble.GeneratePreamble();

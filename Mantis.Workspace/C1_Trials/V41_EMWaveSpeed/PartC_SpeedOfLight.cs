@@ -1,12 +1,8 @@
-﻿using System.Globalization;
-using System.Transactions;
-using Mantis.Core.Calculator;
+﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V41_EMWaveSpeed;
 
@@ -37,8 +33,6 @@ public static class PartC_SpeedOfLight
 
         var speedOfLight = model.ErParameters[1].Mul10E(6);
         speedOfLight.AddCommandAndLog("SpeedOfLight");
-
-        Plot plot = ScottPlotExtensions.CreateSciPlot("distance", "time");
         
     }
     

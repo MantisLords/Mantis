@@ -83,7 +83,7 @@ public class CM1_Ex2_DebyeModel_Main
             });
 
         lowTModel.DoRegressionLevenbergMarquardt(new double[] {290}, false);
-        lowTModel.LogParameters("LowTModel");
+        lowTModel.AddParametersToPreambleAndLog("LowTModel",LogLevel.OnlyLog);
 
         Plot(lowTModel,"HeatCapacityLowT");
 
@@ -100,7 +100,7 @@ public class CM1_Ex2_DebyeModel_Main
         debyeModel.ParaFunction.ParaSet.SetParameters(lowTModel.ErParameters);
         
         debyeModel.DoRegressionLevenbergMarquardt(new double[] {290}, false);
-        debyeModel.LogParameters("DebyeModel");
+        debyeModel.AddParametersToPreambleAndLog("DebyeModel",LogLevel.OnlyLog);
 
         var thetaD = lowTModel.ErParameters[0].Value;
 
@@ -116,16 +116,16 @@ public class CM1_Ex2_DebyeModel_Main
 
     private static void Plot<T>(RegModel<T> model, string name) where T : FuncCore,new()
     {
-        var plot = ScottPlotExtensions.CreateSciPlot("T in K", "Cv in J/K");
+        var plot = new DynPlot("T in K", "Cv in J/K");
         
-        var (_,scatter) = plot.AddErrorBars(model.Data, errorBars: false);
-        
-        scatter.MarkerShape = MarkerShape.filledSquare;
-        scatter.MarkerSize = 1;
+        var errorBar = plot.AddDynErrorBar(model.Data);
 
-        plot.AddFunction(model.ParaFunction);
-        
-        plot.SaveFigHere(name,scale:4);
+        errorBar.MarkerStyle.Shape = MarkerShape.FilledSquare;
+        errorBar.MarkerStyle.Size = 1;
+
+        plot.AddDynFunction(model.ParaFunction);
+
+        plot.SaveFigHere(name, 500, 400, ImageFormat.Svg);
     }
     
     
