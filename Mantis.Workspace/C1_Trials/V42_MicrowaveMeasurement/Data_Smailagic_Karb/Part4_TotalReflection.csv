@@ -1,11 +1,11 @@
 ﻿Measurement of the reflected and transmitted radiation through a double prism,,
 
-* voltmeterRange,10,V
-* error_width,0.1,cm
+val:voltmeterRange,10,V
+val:error_width,0.1,cm
 
-* voltageOffset,-0.10,V
+val:voltageOffset,-0.10,V
 
-# tab:totalReflection
+tab:totalReflection
 width in cm,voltageReflected,voltageTransmitted
 15.6,,0.40
 15.5,,0.34

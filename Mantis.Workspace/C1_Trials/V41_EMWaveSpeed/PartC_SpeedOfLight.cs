@@ -23,8 +23,8 @@ public static class PartC_SpeedOfLight
         var lightSpeedReader = new SimpleTableProtocolReader("Data\\Measurements");
         List<lightSpeedData> lightSpeedList = lightSpeedReader.ExtractTable<lightSpeedData>();
         lightSpeedList.ForEachRef((ref lightSpeedData e)=>CalculateErrors(ref e,0.5,0.005));//abstandsFehler ist konstant, Zeitfehler war größer für längere Zeiten deshalb 5%
-        RegModel<LineFunc> model = lightSpeedList.CreateRegModel(e => (e.time, e.distance),
-            new ParaFunc<LineFunc>(2)
+        RegModel model = lightSpeedList.CreateRegModel(e => (e.time, e.distance),
+            new ParaFunc(2,new LineFunc())
             {
                 Units = new[] { "m/s", "s" }
             });

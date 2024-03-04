@@ -1,4 +1,4 @@
-﻿# tab:VoltageDC
+﻿tab:VoltageDC
 range in V,errorValue in %,errorRange in %
 0.1,0.025,0.008
 1,0.025,0.006
@@ -6,7 +6,7 @@ range in V,errorValue in %,errorRange in %
 100,0.025,0.005
 1000,0.025,0.005
 
-# tab:Resistance,,
+tab:Resistance,,
 range in Ohm,errorValue in %,errorRange in %
 100,0.05,0.008
 1000,0.05,0.005
@@ -16,7 +16,7 @@ range in Ohm,errorValue in %,errorRange in %
 10000000,0.25,0.005
 10000000,2,0.005
 ,,
-# tab:CurrentDC,,
+tab:CurrentDC,,
 range in A,errorValue in %,errorRange in %
 0.01,0.05,0.015
 0.1,0.05,0.005

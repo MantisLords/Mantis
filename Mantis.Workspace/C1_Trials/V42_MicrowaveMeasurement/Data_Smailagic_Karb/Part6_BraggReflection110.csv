@@ -1,13 +1,13 @@
 ﻿
-* error_angle,1,°,
-* voltmeterRange,1,V,
+val:error_angle,1,°,
+val:voltmeterRange,1,V,
 
-* maximum,33.0,1,°
+val:maximum,33.0,1,°
 
-* voltageOffset,-0.093,V
+val:voltageOffset,-0.093,V
 
-# tab:BraggReflection,,,
-angle in °,voltage in V,,
+tab:BraggReflection,,,
+angle in °,diodeVoltage in V,,
 0,0.64
 2,0.54
 4,-0.13

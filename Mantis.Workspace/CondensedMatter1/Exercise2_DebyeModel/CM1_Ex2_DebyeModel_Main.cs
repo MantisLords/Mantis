@@ -74,9 +74,9 @@ public class CM1_Ex2_DebyeModel_Main
         var heatCapacityListLowT = reader.ExtractTable<HeatCapacityData>("tab:HeatCapacitySilverLowT");
         heatCapacityListLowT.ForEachRef((ref HeatCapacityData data) => data.HeatCapacity = data.MassSpecificHeatCapacity * atomicMass * 0.001);
 
-        RegModel<LowTT3Func> lowTModel = heatCapacityListLowT.CreateRegModel(
+        RegModel lowTModel = heatCapacityListLowT.CreateRegModel(
             e => (new ErDouble(e.Temperature), new ErDouble(e.HeatCapacity)),
-            new ParaFunc<LowTT3Func>(1)
+            new ParaFunc(1,new LowTT3Func())
             {
                 Labels = new string[]{"ThetaD"},
                 Units = new string[]{"K"}
@@ -90,9 +90,9 @@ public class CM1_Ex2_DebyeModel_Main
         var heatCapacityList = reader.ExtractTable<HeatCapacityData>("tab:HeatCapacitySilverFullRange");
         heatCapacityList.ForEachRef((ref HeatCapacityData data) => data.HeatCapacity = data.MassSpecificHeatCapacity * atomicMass * 0.001);
         
-        RegModel<DebyeModelFunc> debyeModel = heatCapacityList.CreateRegModel(
+        RegModel debyeModel = heatCapacityList.CreateRegModel(
             e => (new ErDouble(e.Temperature), new ErDouble(e.HeatCapacity)),
-            new ParaFunc<DebyeModelFunc>(1)
+            new ParaFunc(1,new DebyeModelFunc())
             {
                 Labels = new string[]{"ThetaD"},
                 Units = new string[]{"K"}
@@ -114,7 +114,7 @@ public class CM1_Ex2_DebyeModel_Main
         
     }
 
-    private static void Plot<T>(RegModel<T> model, string name) where T : FuncCore,new()
+    private static void Plot(RegModel model, string name) 
     {
         var plot = new DynPlot("T in K", "Cv in J/K");
         

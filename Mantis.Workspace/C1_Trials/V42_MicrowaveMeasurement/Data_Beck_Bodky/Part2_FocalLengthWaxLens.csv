@@ -1,21 +1,21 @@
-﻿* emitterPosHornEnd, 23,0.5, cm
-* emitterPosHornStart, 10,0.5, cm
-* distanceHornEndEffectiveEmitterPos, 5,0 ,cm
+﻿val:emitterPosHornEnd, 23,0.5, cm
+val:emitterPosHornStart, 10,0.5, cm
+val:distanceHornEndEffectiveEmitterPos, 5,0 ,cm
 
-* emitterPosDiode, 8,1,cm
-* lensPosLeft, 90,0.5,cm
-* lensPosRight, 95, 0.5,cm
+val:emitterPosDiode, 8,1,cm
+val:lensPosLeft, 90,0.5,cm
+val:lensPosRight, 95, 0.5,cm
 
-* distanceHornEndEffectiveReceiverPos, 5,0,cm
-* distanceReceiverPosHornEnd, 20,1,cm
-* error_receiverPos, 0.5,cm
+val:distanceHornEndEffectiveReceiverPos, 5,0,cm
+val:distanceReceiverPosHornEnd, 20,1,cm
+val:error_receiverPos, 0.5,cm
 
 
 
 Measurement of the position of the left end of the receiver
 Emitter is 9+-2 cm left. Hornend is 20+-1 left
 
-# tab:focalLengthMeasurement
+tab:focalLengthMeasurement
 receiverPos in cm,voltage in V,""
 200,0.347,""
 198,0.5775,""

@@ -37,8 +37,8 @@ public static class Sheet3_Correlation_Main
         double correlationCoefficient = data.CorrelationBetween(e => (e.Temperature,e.Humidity));
         correlationCoefficient.AddCommandAndLog("TemperatureHumidityCorrelation");
 
-        RegModel<LineFunc> model = data.CreateRegModel(e => (e.Temperature, e.Humidity),
-            new ParaFunc<LineFunc>(2)
+        RegModel model = data.CreateRegModel(e => (e.Temperature, e.Humidity),
+            new ParaFunc(2,new LineFunc())
             {
                 Labels = new[] { "Offset", "Slope" },
                 Units = new[] { "g / m^3", "g / m^3 / ^{\\circ} C" }

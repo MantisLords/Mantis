@@ -1,13 +1,13 @@
-﻿* errorVoltage,0.001,V
+﻿val:errorVoltage,0.001,V
 
-# tab:ringCores,,,,,
+tab:ringCores,,,,,
 type,name,isFerromagnetic,da in mm,db in mm,n1,n2,height in mm,fillfactor,density in g/m^3,error_density
 "Fe-Ni H2","PERMENORM 5000 H2",true,260,220,605,80,30,0.9,8.25,0.01
 "Fe-Ni Z","PERMENORM® 5000 Z",true,260,220,610,56,30,0.9,8.25,0.01
 "Steel","ST 37K",true,260,220,1010,53,30,1,7.80,0.01
 "Wood","Holzkern",false,260,220,1010,250,30,1,,
 ,,,,,,,,,,
-# tab:measurementSeriesInfos
+tab:measurementSeriesInfos
 measurementSeries,usage,ringCore,seriesResistance in Ohm,fluxRange in VM,isHFieldFlipped,isBFieldFlipped,isCurveOneCycle,coercivityEvalMax in B,isRemanenceEvalHAxis,remanenceEvalMin,remanenceEvalMax,saturationEvalMin in H,
 "Messreihe_Kern1_5_100_R",,"Fe-Ni H2",66.7,0.1,false,false,true,0.5,,0.6,0.8,70
 "Messreihe_Kern1_6_100_R","ExSaturation","Fe-Ni H2",66.7,0.1,false,false,true,0.5,,0.6,0.8,70

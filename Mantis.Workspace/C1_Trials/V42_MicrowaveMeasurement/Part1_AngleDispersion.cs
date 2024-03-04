@@ -90,8 +90,8 @@ public static class Part1_AngleDispersion
         //
         // Lastly for convenience I already specify the Units of the free-parameters. Since they will be added
         // when we log the parameters
-        RegModel<GaussFunc> model = dataList.CreateRegModel(e => (e.Angle, VoltageDiode: e.Voltage),
-            new ParaFunc<GaussFunc>(4)
+        RegModel model = dataList.CreateRegModel(e => (e.Angle, VoltageDiode: e.Voltage),
+            new ParaFunc(4,new GaussFunc())
             {
                 Units = new[] {"V", "V", "\\degree", "\\degree"}
             });
@@ -104,6 +104,8 @@ public static class Part1_AngleDispersion
         // Now the free parameters were calculated in the regression and saved to the RegModel
         // We can now log them and also add them to the TexPreamble so we can use them in the LaTex-file
         model.AddParametersToPreambleAndLog("AngleDispersionGaussFit");
+        
+        
         
         // In this trail-part we want to calculate the FWHM. For a normal distribution the FWHM
         // is calculated by fwhm = constants * variance

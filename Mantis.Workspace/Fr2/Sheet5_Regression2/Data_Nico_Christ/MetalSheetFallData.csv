@@ -1,5 +1,5 @@
-﻿* Hole Distance in cm,2.0,0
-# tab:MetalSheetFallData,
+﻿val:Hole Distance in cm,2.0,0
+tab:MetalSheetFallData,
 Hole Count,Time t in s
 1,0
 2,0.065432

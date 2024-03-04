@@ -58,8 +58,8 @@ public static class Part2_FocalLengthWaxLensMain
         data.Sort(((a, b) => a.ReceiverPos.CompareTo(b.ReceiverPos.Value)));
 
 
-        RegModel<GaussFunc> model = data.CreateRegModel(e => (e.ImageDistance, e.Voltage),
-            new ParaFunc<GaussFunc>(6)
+        RegModel model = data.CreateRegModel(e => (e.ImageDistance, e.Voltage),
+            new ParaFunc(6,new GaussFunc())
             {
                 Units = new[] {"V","V", "cm", "cm" }
             });

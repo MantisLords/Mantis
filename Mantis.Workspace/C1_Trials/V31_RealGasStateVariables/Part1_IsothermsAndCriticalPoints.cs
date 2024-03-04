@@ -89,8 +89,8 @@ public static class Part1_IsothermsAndCriticalPoints
         
         //CalculateMaxwellLine(dataListTemp6,plot,0.2,0.3,dataForFit);
         //fitting a polynomial to the data
-        RegModel<PolynomialFunc> model = dataForFit.CreateRegModel(e => (e.volume, e.pressure),
-            new ParaFunc<PolynomialFunc>(9)
+        RegModel model = dataForFit.CreateRegModel(e => (e.volume, e.pressure),
+            new ParaFunc(9,new PolynomialFunc())
             {
                 Units = new[] { "", "", "", "","","","","","" }
             }
@@ -160,7 +160,7 @@ public static class Part1_IsothermsAndCriticalPoints
             Console.WriteLine(sum/count);
         }
         List<VolumePressureData> maxwellLine1 = CreateMaxwellLine(sum / count, returnList,variance,dataForFit);
-        var errorBar = plot.AddDynErrorBar(maxwellLine1.Select(e => (e.volume, e.volume)), true);
+        var errorBar = plot.AddDynErrorBar(maxwellLine1.Select(e => (e.volume, e.volume)));
         errorBar.Color = Colors.Black;
         errorBar.IsErrorBarVisible = false;
         errorBar.MarkerStyle.Shape = MarkerShape.Cross;

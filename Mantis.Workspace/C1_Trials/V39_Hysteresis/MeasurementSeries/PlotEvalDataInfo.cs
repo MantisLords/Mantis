@@ -5,7 +5,7 @@ using ScottPlot.Palettes;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
-public record PlotRegInfo(RegModel<LineFunc> Model, double PointH, double PointB);
+public record PlotRegInfo(RegModel Model, double PointH, double PointB);
 
 public record PlotEvalDataInfo(PlotRegInfo InfoPositive, PlotRegInfo InfoNegative, string LabelRegression,
     string LabelPoint)

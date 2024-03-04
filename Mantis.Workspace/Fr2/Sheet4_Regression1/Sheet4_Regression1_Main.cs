@@ -37,7 +37,7 @@ public static class Sheet4_Regression1_Main
         data.CreateTexTable().SaveLabeled();
 
         var modelNoErrors = data.CreateRegModel(e => (e.Time, e.LogDecayCount),
-            new ParaFunc<LineFunc>(2)
+            new ParaFunc(2,new LineFunc())
             {
                 Units = new string[] { "", "s^{-1}" }
             });
@@ -52,7 +52,7 @@ public static class Sheet4_Regression1_Main
         CalcHalfTimeAndAddCommand(modelGauss,"Gauss");
 
         var modelPoisson = modelNoErrors.Fork();
-        modelPoisson.DoLinearRegressionPoissonDistributed();
+        //modelPoisson.DoLinearRegressionPoissonDistributed();
         modelPoisson.AddParametersToPreambleAndLog("Poisson");
         CalcHalfTimeAndAddCommand(modelPoisson,"Poisson");
 
@@ -82,7 +82,7 @@ public static class Sheet4_Regression1_Main
         Console.WriteLine($"Regression with {postfix}: a = {alpha.ToString()} b = {beta.ToString()} Ts = {halfTime.ToString()}");
     }
 
-    private static void CalcHalfTimeAndAddCommand(RegModel<LineFunc> logModel,string preFix)
+    private static void CalcHalfTimeAndAddCommand(RegModel logModel,string preFix)
     {
         ErDouble halfTime = -Constants.Ln2 / logModel.ErParameters[1];
         halfTime.AddCommandAndLog(preFix + "HalfTime","s");

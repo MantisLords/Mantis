@@ -50,15 +50,15 @@ public static class Part4_TotalReflection
         dataList.ForEachRef(((ref TotalReflectionData data) => CalculateErrors(ref data,errorWidth,voltageOffset,maxWidth)));
 
         
-        RegModel<ExpFunc> transmittedExpModel = dataList.Where(e => !e.VoltageTransmitted.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageTransmitted),
-            new ParaFunc<ExpFunc>(3));
+        RegModel transmittedExpModel = dataList.Where(e => !e.VoltageTransmitted.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageTransmitted),
+            new ParaFunc(3,new ExpFunc()));
 
         transmittedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {1, -1},5);
         transmittedExpModel.AddParametersToPreambleAndLog("TransmittedExpModel",LogLevel.OnlyLog);
         transmittedExpModel.GetGoodnessOfFitLog().AddCommandAndLog("TransmittedExpModel",LogLevel.OnlyLog);
         
-        RegModel<ShiftExpFunc> reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
-            new ParaFunc<ShiftExpFunc>(3));
+        RegModel reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
+            new ParaFunc(3,new ShiftExpFunc()));
   
         
         

@@ -35,19 +35,19 @@ public static class Sheet7_NonLinearRegression_Main
         data.CreateTexTable().SaveLabeled();
         
 
-        RegModel<LineFunc> logModel =
-            data.CreateRegModel(e => (e.Time, e.LogDecayCount), new ParaFunc<LineFunc>(2));
+        RegModel logModel =
+            data.CreateRegModel(e => (e.Time, e.LogDecayCount), new ParaFunc(2,new LineFunc()));
         
         logModel.DoLinearRegression();
         
-        RegModel<ExpFunc> linearizedModel =
-            data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc<ExpFunc>(
-                    new []{ErDouble.Exp(logModel.ErParameters[0]),logModel.ErParameters[1]}));
+        RegModel linearizedModel =
+            data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc(
+                    new []{ErDouble.Exp(logModel.ErParameters[0]),logModel.ErParameters[1]},new ExpFunc()));
         linearizedModel.AddParametersToPreambleAndLog("LinearizedModel");
         linearizedModel.GetGoodnessOfFitLog().AddCommandAndLog("LinearizedModel");
 
-        RegModel<ExpFunc> nonLinearModel =
-            data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc<ExpFunc>(2));
+        RegModel nonLinearModel =
+            data.CreateRegModel(e => (e.Time, e.DecayCount), new ParaFunc(2,new ExpFunc()));
 
         Vector<double> initialGuess = linearizedModel.ParaFunction.ParaSet.Parameters;
         nonLinearModel.DoRegressionLevenbergMarquardt(initialGuess);

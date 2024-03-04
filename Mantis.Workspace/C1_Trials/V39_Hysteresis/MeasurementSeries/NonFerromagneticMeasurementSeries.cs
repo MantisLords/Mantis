@@ -8,7 +8,7 @@ namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 {
     public ErDouble? MagneticPermeability = null;
-    private RegModel<LineFunc>? LinearFit = null;
+    private RegModel? LinearFit = null;
 
     public bool DrawBestFit = true;
     
@@ -19,7 +19,7 @@ public class NonFerromagneticMeasurementSeries : HysteresisMeasurementSeries
 
     public void CalculateMagneticPermeability()
     {
-        LinearFit = DataList.CreateRegModel(e => (e.H, e.B), new ParaFunc<LineFunc>(2));
+        LinearFit = DataList.CreateRegModel(e => (e.H, e.B), new ParaFunc(2,new LineFunc()));
         LinearFit.DoLinearRegression(false);
         var slope = LinearFit.ErParameters[1];
         MagneticPermeability = slope / Constants.MagneticPermeability;

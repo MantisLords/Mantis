@@ -34,7 +34,7 @@ public static class Part5_Polarisation
         string phi = "\u03d5";
         var plt = new DynPlot($"Winkel {phi} in °","Spannung U in V");
 
-        plt.AddDynErrorBar(dataList.Select(e => (e.Angle, e.Voltage)),false, "Signal des Empfängers");//label: "Output voltage\nof receiver",errorBars:true);
+        plt.AddDynErrorBar(dataList.Select(e => ((IErDoubleBase)e.Angle, (IErDoubleBase)e.Voltage)),false, "Signal des Empfängers");//label: "Output voltage\nof receiver",errorBars:true);
         var max = dataList.Max(e => e.Voltage.Value);
         Func<double, double> cos4 = x => max * Math.Pow(Math.Cos(x * Constants.Degree), 4);
         plt.AddDynFunction(cos4,$"Theoretischer Verlauf: cos^4({phi})");

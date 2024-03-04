@@ -77,7 +77,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     {
 
         if (TryFitModel(points, -SeriesInfo.CoercivityEvalMax, SeriesInfo.CoercivityEvalMax, 1,false,
-                out RegModel<LineFunc> model))
+                out RegModel model))
         {
             ErDouble coercivity = -model.ErParameters[0] / model.ErParameters[1];
             PlotRegInfo info = new PlotRegInfo(model, coercivity.Value, 0);
@@ -100,7 +100,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
     private (ErDouble,PlotRegInfo) CalculateRemanence(HBData[] points, int sign)
     {
         if (TryFitModel(points, SeriesInfo.RemanenceEvalMin , SeriesInfo.RemanenceEvalMax ,sign, SeriesInfo.IsRemanenceEvalHaxis,
-                out RegModel<LineFunc> model))
+                out RegModel model))
         {
             ErDouble remanence = model.ErParameters[0];
             PlotRegInfo info = new PlotRegInfo(model,0,  remanence.Value);
@@ -135,7 +135,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
             throw new ArgumentException("You have to set saturation limits");
         
         if (TryFitModel(points, SeriesInfo.SaturationEvalMin , double.PositiveInfinity,sign , true,
-                out RegModel<LineFunc> model))
+                out RegModel model))
         {
             ErDouble saturation = model.ErParameters[0];
             PlotRegInfo info = new PlotRegInfo(model,0, saturation.Value);
@@ -145,7 +145,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
             throw new ArgumentException("You have to set coercivity limits");
     }
 
-    private bool TryFitModel(HBData[] points, double min, double max,int sign, bool isHAxis,out RegModel<LineFunc> model)
+    private bool TryFitModel(HBData[] points, double min, double max,int sign, bool isHAxis,out RegModel model)
     {
         if (min == 0 && max == 0)
         {
@@ -155,7 +155,7 @@ public class OneCycleMeasurementSeries : HysteresisMeasurementSeries
         
         List<HBData> regressionPoints = SelectDataInRange(points, min, max,sign, isHAxis);
 
-        model = regressionPoints.CreateRegModel(e => (e.H, e.B), new ParaFunc<LineFunc>(2));
+        model = regressionPoints.CreateRegModel(e => (e.H, e.B), new ParaFunc(2,new LineFunc()));
         model.DoLinearRegression(false);
         return true;
     }
