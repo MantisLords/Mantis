@@ -1,12 +1,8 @@
-﻿using System.Globalization;
-using System.Transactions;
 using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V41_EMWaveSpeed;
 
@@ -27,8 +23,8 @@ public static class PartC_SpeedOfLight
         var lightSpeedReader = new SimpleTableProtocolReader("Data\\Measurements");
         List<lightSpeedData> lightSpeedList = lightSpeedReader.ExtractTable<lightSpeedData>();
         lightSpeedList.ForEachRef((ref lightSpeedData e)=>CalculateErrors(ref e,0.5,0.005));//abstandsFehler ist konstant, Zeitfehler war größer für längere Zeiten deshalb 5%
-        RegModel<LineFunc> model = lightSpeedList.CreateRegModel(e => (e.time, e.distance),
-            new ParaFunc<LineFunc>(2)
+        RegModel model = lightSpeedList.CreateRegModel(e => (e.time, e.distance),
+            new ParaFunc(2,new LineFunc())
             {
                 Units = new[] { "m/s", "s" }
             });

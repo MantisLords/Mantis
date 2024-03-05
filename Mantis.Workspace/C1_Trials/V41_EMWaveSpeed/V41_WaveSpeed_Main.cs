@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
@@ -7,7 +7,6 @@ using System.Xml;
 using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using Mantis.Workspace.BasicTests;
@@ -26,7 +25,7 @@ public record struct OsziPulseData
 }//OsziData anscheinend schon da
 
 [QuickTable("","tab:standingWaveData")]
-public struct StandingWaveData
+public record struct StandingWaveData
 {
     
     [QuickTableField("frequency","Hz")]
@@ -165,6 +164,8 @@ public static class V41_WaveSpeed_Main
             isEndFixed = listWithSameNodeCount.Key.Item2,
             nodeCount = listWithSameNodeCount.Key.Item1
         };
+        
+        Console.WriteLine($"New Wave data {newData.ToString()}");
         return newData;
     }
 

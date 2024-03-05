@@ -33,7 +33,9 @@ public static class Part3_WaveLengths
         
         // standingWaves
         var standingWavesRootCount = reader.ExtractSingleValue<int>("standingWavesRootCount");
+        standingWavesRootCount.AddCommand("NodeCountStandingWave");
         var standingWavesPos1 = reader.ExtractSingleValue<ErDouble>("standingWavesPos1");
+        standingWavesPos1.Error.AddCommand("PosErrorStandingWave","cm");
         var standingWavesPos2 = reader.ExtractSingleValue<ErDouble>("standingWavesPos2");
 
         var standingWavesWaveLength = (standingWavesPos2 - standingWavesPos1) * 2 / standingWavesRootCount;
@@ -42,7 +44,9 @@ public static class Part3_WaveLengths
         // interferometer
 
         var interMaximaCount = reader.ExtractSingleValue<int>("interMaximaCount");
+        interMaximaCount.AddCommand("NodeCountInterferometer");
         var interPos1 = reader.ExtractSingleValue<ErDouble>("interPos1");
+        interPos1.Error.AddCommand("PosErrorInterferometer","cm");
         var interPos2 = reader.ExtractSingleValue<ErDouble>("interPos2");
 
         var interWaveLength = (interPos2 - interPos1) * 4 / interMaximaCount;

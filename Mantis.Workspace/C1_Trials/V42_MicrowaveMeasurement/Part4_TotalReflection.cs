@@ -4,7 +4,6 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
-using Mantis.Workspace.C1_Trials.Utility;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
@@ -42,62 +41,52 @@ public static class Part4_TotalReflection
     {
         var reader = new SimpleTableProtocolReader("Part4_TotalReflection.csv");
 
-        var voltmeterRange = reader.ExtractSingleValue<double>("voltmeterRange");
         var errorWidth = reader.ExtractSingleValue<double>("error_width");
         var voltageOffset = reader.ExtractSingleValue<double>("voltageOffset");
 
         List<TotalReflectionData> dataList = reader.ExtractTable<TotalReflectionData>("tab:totalReflection");
 
         double maxWidth = dataList.Max(e => e.Width.Value);
-        dataList.ForEachRef(((ref TotalReflectionData data) => CalculateErrors(ref data,errorWidth,voltmeterRange,voltageOffset,maxWidth)));
+        dataList.ForEachRef(((ref TotalReflectionData data) => CalculateErrors(ref data,errorWidth,voltageOffset,maxWidth)));
 
         
-        RegModel<ExpFunc> transmittedExpModel = dataList.Where(e => !e.VoltageTransmitted.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageTransmitted),
-            new ParaFunc<ExpFunc>(3));
+        RegModel transmittedExpModel = dataList.Where(e => !e.VoltageTransmitted.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageTransmitted),
+            new ParaFunc(3,new ExpFunc()));
 
         transmittedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {1, -1},5);
-        transmittedExpModel.LogParameters("TransmittedExpModel");
+        transmittedExpModel.AddParametersToPreambleAndLog("TransmittedExpModel",LogLevel.OnlyLog);
+        transmittedExpModel.GetGoodnessOfFitLog().AddCommandAndLog("TransmittedExpModel",LogLevel.OnlyLog);
         
-        RegModel<ShiftExpFunc> reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
-            new ParaFunc<ShiftExpFunc>(3));
+        RegModel reflectedExpModel = dataList.Where(e => !e.VoltageReflected.Value.AlmostEqual(-voltageOffset)).CreateRegModel(e => (e.Width, e.VoltageReflected),
+            new ParaFunc(3,new ShiftExpFunc()));
+  
+        
         
         Console.WriteLine($"Count Trans {transmittedExpModel.Data.Count} Reflect {reflectedExpModel.Data.Count}");
 
         reflectedExpModel.DoRegressionLevenbergMarquardtWithXErrors(new double[] {0.3,-1, -1},5);
-        reflectedExpModel.LogParameters("ReflectedExpModel");
-        
-        var plt = ScottPlotExtensions.CreateSciPlot("Width x in cm", "Voltage U in V");
+        reflectedExpModel.AddParametersToPreambleAndLog("ReflectedExpModel",LogLevel.OnlyCommand);
 
-        plt.AddRegModel(transmittedExpModel, "Transmitted signal", "Fit: A + exp(Bx)", logY: true);
-        var(errorBar,scatterPlot,_)=plt.AddRegModel(reflectedExpModel, "Reflected signal", "Fit: A + B exp(Cx)", logY: true);
-        errorBar.Color = plt.Palette.GetColor(0);
-        scatterPlot.Color = plt.Palette.GetColor(0);
-        scatterPlot.MarkerShape = MarkerShape.openDiamond;
-        
-        plt.YAxis.SetLabelsToLog();
+        var plt = new DynPlot("Spaltabstand x in cm","Spannung in V");//"Width x in cm", "Voltage U in V");
+        plt.DynAxes.LogY();
 
-        plt.Legend(true, Alignment.LowerRight);
-        plt.Grid(true);
+        plt.AddRegModel(transmittedExpModel, "Transmittiertes Signal", "Fit: A + exp(Bx)");//"Transmitted signal", "Fit: A + exp(Bx)", logY: true);
+        var (errorBar, _) =
+            plt.AddRegModel(reflectedExpModel, "Reflektiertes Signal", "Fit: A + B exp(Cx)");//"Reflected signal", "Fit: A + B exp(Cx)", logY: true);
+        errorBar.MarkerStyle.Shape = MarkerShape.OpenDiamond;
+
+        plt.Legend.Location = Alignment.LowerRight;
         
         plt.SaveAndAddCommand("fig:TotalReflection");
 
-
-
-
     }
 
-    private static void CalculateErrors(ref TotalReflectionData element, double errorWidth, double voltmeterRange,double voltageOffset,double maxWidth)
+    private static void CalculateErrors(ref TotalReflectionData element, double errorWidth,double voltageOffset,double maxWidth)
     {
         element.Width = maxWidth - element.Width;
         
         element.Width.Error = errorWidth;
-        // element.VoltageReflected.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC,
-        //     voltmeterRange);
-
         element.VoltageReflected -= voltageOffset;
-        
-        // element.VoltageTransmitted.CalculateDeviceError(Devices.Aglient34405, DataTypes.VoltageDC, voltmeterRange);
-
         element.VoltageTransmitted -= voltageOffset;
     }
 }

@@ -50,7 +50,7 @@ public static class Sheet5_Regression2_Main
         // This function will create a regression model with a 'PolynomialFunc'tion
         // The date is read in via the selector. First is x, second is y. Here x: e.Time, y: e.Distance
         var model = data.CreateRegModel(e => (e.Time, e.Distance),
-            new ParaFunc<PolynomialFunc>(3)
+            new ParaFunc(3,new PolynomialFunc())
             {
                 // These are the units of the regression parameters
                 // For a ponomial here f(x) = A + B x + C x^2 these are the units
@@ -65,7 +65,7 @@ public static class Sheet5_Regression2_Main
         g2.AddCommandAndLog("GFactor", "m / s^2");
         
 
-        var plt = ScottPlotExtensions.CreateSciPlot(
+        var plt = new DynPlot(
             "Time t in s",
             "Distance x in cm");
 

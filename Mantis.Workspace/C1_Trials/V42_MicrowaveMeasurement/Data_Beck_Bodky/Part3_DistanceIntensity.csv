@@ -1,9 +1,9 @@
 ﻿Part 3
 Distance dependency of Intensity 
-* voltmeterRange,10,V
-* distanceError,0.005,m   
+val:voltmeterRange,10,V
+val:distanceError,0.005,m   
 
-# tab:distanceIntensity
+tab:distanceIntensity
 distance,diodeVoltage
 0,0
 5,1

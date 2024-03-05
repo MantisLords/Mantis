@@ -5,8 +5,8 @@ A,B
 6,6.6
 
 "This , is , a string in quotes"
-* SimpleValue,8.3
-* SimpleErDouble,9.3,0.5
+val:SimpleValue,8.3
+val:SimpleErDouble,9.3,0.5
 
 # DummyTable2
 A,B,

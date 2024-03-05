@@ -1,5 +1,5 @@
-﻿* temperature,48.2
-# tab:ChamberData
+val:temperature,50
+tab:ChamberData
 volume,pressure
 2.2	,23.5
 2,25.5

@@ -40,7 +40,7 @@ public class V40_PolarisationMain
         
         //dataList.ForEachRef((ref MalusData data) => data.Angle -= 0);
 
-        var model = dataList.CreateRegModel(e => (e.Angle, e.Current), new ParaFunc<CosFunc>(2));
+        var model = dataList.CreateRegModel(e => (e.Angle, e.Current), new ParaFunc(2,new CosFunc()));
 
 
         model.DoRegressionLevenbergMarquardt(new double[] {0, 1}, false);
@@ -49,7 +49,7 @@ public class V40_PolarisationMain
         
         //model.AddGoodnessOfFitToPreambleAndLog("");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Angle in °", "Current in muA");
+        var plt = new DynPlot("Angle in °", "Current in muA");
 
         plt.AddRegModel(model);
         

@@ -1,28 +1,27 @@
-﻿* errorVoltage,0.001,V
+﻿val:errorVoltage,0.001,V
 
-# tab:ringCores,,,,,
+tab:ringCores,,,,,
 type,name,isFerromagnetic,da in mm,db in mm,n1,n2,height in mm,fillfactor,density in g/m^3,error_density
 "Fe-Ni H2","PERMENORM 5000 H2",true,260,220,605,80,30,0.9,8.25,0.01
 "Fe-Ni Z","PERMENORM® 5000 Z",true,260,220,610,56,30,0.9,8.25,0.01
 "Steel","ST 37K",true,260,220,1010,53,30,1,7.80,0.01
-"Wood","Wood",false,260,220,1010,250,30,1,,
+"Wood","Holzkern",false,260,220,1010,250,30,1,,
+,,,,,,,,,,
+tab:measurementSeriesInfos
+measurementSeries,usage,ringCore,seriesResistance in Ohm,fluxRange in VM,isHFieldFlipped,isBFieldFlipped,isCurveOneCycle,coercivityEvalMax in B,isRemanenceEvalHAxis,remanenceEvalMin,remanenceEvalMax,saturationEvalMin in H,
+"Messreihe_Kern1_5_100_R",,"Fe-Ni H2",66.7,0.1,false,false,true,0.5,,0.6,0.8,70
+"Messreihe_Kern1_6_100_R","ExSaturation","Fe-Ni H2",66.7,0.1,false,false,true,0.5,,0.6,0.8,70
+"Messreihe_Kern1_7_100_R_80",,"Fe-Ni H2",66.7,0.1,false,true,true,0.5,,0.6,0.8,70
+"Messreihe_Kern4_17_2_R",,"Wood",66.7,0.002,false,true,false
+"Messreihe_Kern4_18_2_R",,"Wood",66.7,0.002,false,true,false
+"Messreihe_Kern3_9_100","ExCoercivityRemanence","Steel",0.2,0.1,false,true,true,0.4,,0.4,0.6,
+"Messreihe_Kern3_10_100",,"Steel",0.2,0.1,false,true,true,0.4,,0.4,0.6,
+"Messreihe_Kern3_11_100",,"Steel",0.2,0.1,false,true,true,0.4,,0.4,0.6,
+"Messreihe_Kern3_13_100_schleife","ExIrreversibility","Steel",0.2,0.1,false,true,false
+"Messreihe_Kern3_14_100_spirale_Muell",,"Steel",0.2,0.1,false,true,false
+"Messreihe_Kern3_15_100_spirale","ExDemagnetization","Steel",0.2,0.1,false,true,false
+"Messreihe_Kern2_8_100_R","Ex","Fe-Ni Z",66.7,0.1,false,false,true,1.2,true,-10,17,25
 
-# tab:measurementSeriesInfos
-measurementSeries,ringCore,seriesResistance in Ohm,fluxRange in VM,isCurveOneCycle,coercivityEvalMax in B,isRemanenceEvalHAxis,remanenceEvalMin,remanenceEvalMax,saturationEvalMin in H
-"Messreihe #1","Fe-Ni H2",66.7,0.1,true,0.2,,0.6,0.8,
-"Messreihe #2","Fe-Ni H2",0.2,0.1,false
-"Messreihe #3","Fe-Ni H2",0.2,0.1,true,0.75,,0.5,1,1200
-"Messreihe #4","Wood",66.7,0.1,false
-"Messreihe #5","Wood",66.7,0.002,false
-"Messreihe #6","Wood",66.7,0.002,false
-"Messreihe #7","Steel",0.2,0.1,true,0.25,,0.4,0.6,
-"Messreihe #8","Steel",0.2,0.1,false
-"Messreihe #9","Steel",0.2,0.1,false
-"Messreihe #10","Steel",0.2,0.1,false
-"Messreihe #11","Steel",0.2,0.1,false
-"Messreihe #12","Fe-Ni Z",66.7,0.1,false
-"Messreihe #13","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
-"Messreihe #14","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
-"Messreihe #15","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
-"Messreihe #16","Fe-Ni Z",66.7,0.1,true,1.2,true,-10,10,25
+
+"Messreihe #3","Ex","Fe-Ni H2",0.2,0.1,true,0.75,,0.5,1,1200
 

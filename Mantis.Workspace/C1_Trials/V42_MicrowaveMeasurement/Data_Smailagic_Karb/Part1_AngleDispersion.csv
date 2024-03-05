@@ -1,11 +1,11 @@
 ﻿Part 1
 Angle dispersion of the radiation
 
-* voltageOffset, -0.030,V
-* error_angle, 0.5,°
-* voltmeterRange,10,V
+val:voltageOffset, -0.030,V
+val:error_angle, 0.5,°
+val:voltmeterRange,10,V
 
-# tab:angleDispersion
+tab:angleDispersion
 angle,diodeVoltage
 -54,-0.030
 -52,-0.030

@@ -37,7 +37,7 @@ public static class Sheet4_Regression1_Main
         data.CreateTexTable().SaveLabeled();
 
         var modelNoErrors = data.CreateRegModel(e => (e.Time, e.LogDecayCount),
-            new ParaFunc<LineFunc>(2)
+            new ParaFunc(2,new LineFunc())
             {
                 Units = new string[] { "", "s^{-1}" }
             });
@@ -52,16 +52,16 @@ public static class Sheet4_Regression1_Main
         CalcHalfTimeAndAddCommand(modelGauss,"Gauss");
 
         var modelPoisson = modelNoErrors.Fork();
-        modelPoisson.DoLinearRegressionPoissonDistributed();
+        //modelPoisson.DoLinearRegressionPoissonDistributed();
         modelPoisson.AddParametersToPreambleAndLog("Poisson");
         CalcHalfTimeAndAddCommand(modelPoisson,"Poisson");
 
-        var plt = ScottPlotExtensions.CreateSciPlot("Time in s", "log( deltaN )");
-        plt.AddErrorBars(modelNoErrors.Data, label: "Measured decay");
+        var plt = new DynPlot("Time in s", "log( deltaN )");
+        plt.AddDynErrorBar(modelNoErrors.Data, label: "Measured decay");
 
-        plt.AddFunction(modelNoErrors.ParaFunction, label: "Regression while ignoring errors");
-        plt.AddFunction(modelGauss.ParaFunction, label: "Regression with gaussian distribution");
-        plt.AddFunction(modelPoisson.ParaFunction, label: "Regression with poissonian distribution");
+        plt.AddDynFunction(modelNoErrors.ParaFunction, label: "Regression while ignoring errors");
+        plt.AddDynFunction(modelGauss.ParaFunction, label: "Regression with gaussian distribution");
+        plt.AddDynFunction(modelPoisson.ParaFunction, label: "Regression with poissonian distribution");
         
         plt.SaveAndAddCommand("fig:BaDecay","Decay of Ba-137");
         
@@ -82,7 +82,7 @@ public static class Sheet4_Regression1_Main
         Console.WriteLine($"Regression with {postfix}: a = {alpha.ToString()} b = {beta.ToString()} Ts = {halfTime.ToString()}");
     }
 
-    private static void CalcHalfTimeAndAddCommand(RegModel<LineFunc> logModel,string preFix)
+    private static void CalcHalfTimeAndAddCommand(RegModel logModel,string preFix)
     {
         ErDouble halfTime = -Constants.Ln2 / logModel.ErParameters[1];
         halfTime.AddCommandAndLog(preFix + "HalfTime","s");

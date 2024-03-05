@@ -1,13 +1,8 @@
 ﻿using Mantis.Core.Calculator;
-using Mantis.Core.QuickTable;
-using Mantis.Core.ScottPlotUtility;
-using Mantis.Core.TexIntegration;
 using Mantis.Workspace.C1_Trials.Utility;
 using MathNet.Numerics;
-using MathNet.Numerics.Interpolation;
-using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
-using ScottPlot.Plottable;
+using ScottPlot.Plottables;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
@@ -35,12 +30,14 @@ public class HysteresisMeasurementSeries
     public readonly double FluxRange; // VM
     public bool IsDriftRemoved { get; private set; } = false;
     public bool IsDataCentered { get; private set; } = false;
+    
+    public readonly string Label;
 
 
     protected HysteresisMeasurementSeries(string name,List<PascoData> rawData,MeasurementSeriesInfo seriesInfo,RingCore ringCore,double errorVoltage,bool removeDrift = true,bool centerData = true)
     {
         Name = name;
-        DataList = CreateDataList(rawData);
+        DataList = CreateDataList(rawData,seriesInfo.IsHFieldFlipped,seriesInfo.IsBFieldFlipped);
 
         SeriesInfo = seriesInfo;
         RingCore = ringCore;
@@ -55,34 +52,46 @@ public class HysteresisMeasurementSeries
         CalculateHAndB();
         ErrorB = errorVoltage * CalculateBFactor();
 
+        if (SeriesInfo.Usage != "")
+            Label = SeriesInfo.Usage + RingCore.Type;
+        else
+            Label = SeriesInfo.MeasurementSeriesName + RingCore.Type;
+
     }
 
-    public static HysteresisMeasurementSeries InstantiateSeries(string name,List<PascoData> rawData,
-        List<RingCore> ringCores, List<MeasurementSeriesInfo> seriesInfos,double errorVoltage, bool removeDrift = true,
+    public static bool TryInstantiateSeries(string name,List<PascoData> rawData,
+        List<RingCore> ringCores, List<MeasurementSeriesInfo> seriesInfos,double errorVoltage,out HysteresisMeasurementSeries measurementSeries, bool removeDrift = true,
         bool centerData = true)
     {
-        var seriesInfo = GetSeriesInfo(seriesInfos, name);
-        var ringCore = GetRingCore(ringCores, seriesInfo);
-
-        if (!ringCore.IsFerromagnetic)
-            return new NonFerromagneticMeasurementSeries(name, rawData, seriesInfo, ringCore, errorVoltage, removeDrift,
-                centerData);
         
-        if (seriesInfo.IsCurveOneCycle)
-            return new OneCycleMeasurementSeries(name, rawData, seriesInfo, ringCore,errorVoltage, removeDrift, centerData);
+        if(TryGetSeriesInfo(seriesInfos, name,out MeasurementSeriesInfo seriesInfo)){
+            var ringCore = GetRingCore(ringCores, seriesInfo);
 
-        return new HysteresisMeasurementSeries(name, rawData, seriesInfo, ringCore,errorVoltage, removeDrift, centerData);
+            if (!ringCore.IsFerromagnetic && removeDrift && centerData)
+                measurementSeries = new NonFerromagneticMeasurementSeries(name, rawData, seriesInfo, ringCore, errorVoltage, removeDrift, centerData);
+            else if (seriesInfo.IsCurveOneCycle && removeDrift && centerData)
+                measurementSeries = new OneCycleMeasurementSeries(name, rawData, seriesInfo, ringCore, errorVoltage, removeDrift, centerData);
+            else
+                measurementSeries = new HysteresisMeasurementSeries(name, rawData, seriesInfo, ringCore, errorVoltage, removeDrift, centerData);
+            
+            return true;
+        }
+
+        measurementSeries = null;
+        return false;
     }
     
-    private HysteresisData[] CreateDataList(List<PascoData> pascoData)
+    private HysteresisData[] CreateDataList(List<PascoData> pascoData,bool isHFieldFlipped,bool isBFieldFlipped)
     {
+        double signH = isHFieldFlipped ? -1:1;
+        double signB = isBFieldFlipped ? -1:1;
         HysteresisData[] hysteresisData = new HysteresisData[pascoData.Count];
         if (pascoData.Count == 0)
             return hysteresisData;
         
         for (int i = 0; i < hysteresisData.Length; i++)
         {
-            var data = new HysteresisData(pascoData[i].Time,pascoData[i].VoltageA,pascoData[i].VoltageB,0,0);
+            var data = new HysteresisData(pascoData[i].Time,signH * pascoData[i].VoltageA,signB* pascoData[i].VoltageB,0,0);
 
             hysteresisData[i] = data;
         }
@@ -110,24 +119,35 @@ public class HysteresisMeasurementSeries
 
     
 
-    public Plot PlotData(Plot plt)
+    public virtual Plot PlotData(Plot plt)
     {
-        
-            //var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
+        //var plt = ScottPlotExtensions.CreateSciPlot("H in A/m", "B in T");
             
-            AddHBData(plt, DataList, "");
+        AddHBData(plt, DataList, RingCore.Name);
             
-            return plt;
-            //plt.SaveFigHere(Name, scale: 8);
+        return plt;
+        //plt.SaveFigHere(Name, scale: 8);
     }
+    
+    public virtual void SaveAndLogCalculatedData(){}
 
-    private ScatterPlot AddHBData(Plot plt,HysteresisData[] data,string legend)
+    private Scatter AddHBData(Plot plt,HysteresisData[] data,string legend)
     {
         if (data.Length == 0) return null;
-        var xs = data.Select(e => e.H).ToArray();
-        var ys = data.Select(e => e.B).ToArray();
-        
-        return plt.AddScatter(xs, ys, markerSize: 1, lineStyle: LineStyle.None,label:legend);
+        var xs = data.Select(e => CheckDouble(e.H)).ToArray();
+        var ys = data.Select(e => CheckDouble(e.B)).ToArray();
+
+        var scatter = plt.Add.Scatter(xs, ys);
+        scatter.LineStyle.IsVisible = false;
+        scatter.MarkerSize = 1;
+        scatter.Label = legend;
+        return scatter;
+    }
+    
+    protected static double CheckDouble(double v)
+    {
+
+        return double.IsFinite(v) && !double.IsNaN(v) ? v : 0;
     }
     
     private void RemoveDrift()
@@ -137,9 +157,8 @@ public class HysteresisMeasurementSeries
 
         if (DataList.Length == 0)
             return;
-        
-        var firstData = DataList[0];
-        var lastData = DataList[DataList.Length - 1];
+
+        var (firstData, lastData) = GetStartEndPointForDrift(0.01);
         
         double voltageDif = lastData.VoltageB - firstData.VoltageB;
         double timeDif = lastData.Time - firstData.Time;
@@ -152,6 +171,47 @@ public class HysteresisMeasurementSeries
             data.VoltageB -= data.Time * drift;
             DataList[i] = data;
         }
+    }
+
+    private (HysteresisData, HysteresisData) GetStartEndPointForDrift(double voltageRange)
+    {
+        var firstData = DataList[0];
+
+        double voltageARange = 1;
+
+        var candidatesForLastPoint = (from d in DataList
+            where Math.Abs(firstData.VoltageA - d.VoltageA) <= voltageARange
+            select d).ToArray();
+
+        double maxTimeDiff = 0;
+        int timeJumpIndex = 0;
+        for (int i = 1; i < candidatesForLastPoint.Length; i++)
+        {
+            if (maxTimeDiff < candidatesForLastPoint[i].Time - candidatesForLastPoint[i - 1].Time)
+            {
+                maxTimeDiff = candidatesForLastPoint[i].Time - candidatesForLastPoint[i - 1].Time;
+                timeJumpIndex = i;
+            }
+        }
+
+        double smallestDistance = double.PositiveInfinity;
+        int smallesDistanceIndex = timeJumpIndex;
+        for (int i = timeJumpIndex; i < candidatesForLastPoint.Length; i++)
+        {
+            var diff = Math.Abs(candidatesForLastPoint[i].VoltageA - firstData.VoltageA);
+            if (smallestDistance > diff)
+            {
+                smallestDistance = diff;
+                smallesDistanceIndex = i;
+            }
+        }
+
+        var endData = candidatesForLastPoint[smallesDistanceIndex];
+        
+        //Console.WriteLine($"{Label} \t Start {firstData} EndData {endData} MaxTimeDif {maxTimeDiff}" +
+        //                  $"\n\t LastCandidate {candidatesForLastPoint[^1]} Last {DataList[^1]}");
+        
+        return (firstData, endData);
     }
 
     private void CenterData()
@@ -177,17 +237,21 @@ public class HysteresisMeasurementSeries
             DataList[i] = data;
         }
     }
-    private static MeasurementSeriesInfo GetSeriesInfo(List<MeasurementSeriesInfo> list,string name)
+    private static bool TryGetSeriesInfo(List<MeasurementSeriesInfo> list,string name,out MeasurementSeriesInfo info)
     {
         foreach (var seriesInfo in list)
         {
             if (seriesInfo.MeasurementSeriesName == name)
             {
-                return seriesInfo;
+                info = seriesInfo;
+                return true;
             }
         }
-
-        throw new ArgumentException($"There was no MeasurmentSeriesInfo found by the name '{name}'");
+        
+        Console.WriteLine($"There was no MeasurmentSeriesInfo found by the name '{name}'");
+        //throw new ArgumentException($"There was no MeasurmentSeriesInfo found by the name '{name}'");
+        info = default;
+        return false;
     }
 
     private static RingCore GetRingCore(List<RingCore> cores,MeasurementSeriesInfo seriesInfo)

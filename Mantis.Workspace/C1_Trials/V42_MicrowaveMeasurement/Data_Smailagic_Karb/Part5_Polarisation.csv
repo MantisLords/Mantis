@@ -1,11 +1,11 @@
 ﻿,,
-* error_angle,0.5,°
-* rangeVoltmeter,1,V
+val:error_angle,0.5,°
+val:rangeVoltmeter,1,V
 
-* voltageOffset,-0.030,V
+val:voltageOffset,-0.030,V
 ,,
-# tab:Polarisation,,
-angle in °,voltage in V,
+tab:Polarisation,,
+angle in °,diodeVoltage in V,
 0,-0.030
 10,-0.030
 20,-0.031

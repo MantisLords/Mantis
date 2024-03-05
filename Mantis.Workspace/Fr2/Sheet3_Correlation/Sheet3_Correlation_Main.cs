@@ -37,8 +37,8 @@ public static class Sheet3_Correlation_Main
         double correlationCoefficient = data.CorrelationBetween(e => (e.Temperature,e.Humidity));
         correlationCoefficient.AddCommandAndLog("TemperatureHumidityCorrelation");
 
-        RegModel<LineFunc> model = data.CreateRegModel(e => (e.Temperature, e.Humidity),
-            new ParaFunc<LineFunc>(2)
+        RegModel model = data.CreateRegModel(e => (e.Temperature, e.Humidity),
+            new ParaFunc(2,new LineFunc())
             {
                 Labels = new[] { "Offset", "Slope" },
                 Units = new[] { "g / m^3", "g / m^3 / ^{\\circ} C" }
@@ -49,7 +49,7 @@ public static class Sheet3_Correlation_Main
         model.AddParametersToPreambleAndLog("Regression");
 
         
-        var plt = ScottPlotExtensions.CreateSciPlot("Temperature in °C", "Humidity in g/m^3");
+        var plt = new DynPlot("Temperature in °C", "Humidity in g/m^3");
         plt.AddRegModel(model, labelData: "Measured and averaged wather data", labelFunction: "Best fit");
         plt.SaveAndAddCommand("fig:EnvironmentRegression","Environment data of one year by a franconian weather station Thomas Karb 11.5.23");
         

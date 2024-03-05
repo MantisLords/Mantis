@@ -1,11 +1,5 @@
 ﻿using Mantis.Core.Calculator;
-using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
-using Mantis.Core.TexIntegration;
-using Mantis.Core.Utility;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra;
-using ScottPlot.Plottable;
 
 namespace Mantis.Workspace.Fr2.Sheet6_Regression3;
 

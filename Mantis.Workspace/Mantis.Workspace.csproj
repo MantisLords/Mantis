@@ -6,31 +6,181 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Mantis.Core\Mantis.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-      <PackageReference Include="ScottPlot" Version="4.1.67" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\" />
-      <Folder Include="Fr2\Sheet4_Regression1\Data_Melissa_Balles\Generated\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_AngleDispersion.png" />
-      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_imageDistance.png" />
-      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_Polarisation.png" />
-      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\fig_TotalReflection.png" />
-    </ItemGroup>
+  
 
     <ItemGroup>
       <None Remove="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\Sheet4_Salahudin" />
       <None Remove="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\Auxiliary\texput.log" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="C1_Trials\Utility\Errors_Aglient34405.csv" />
+      <Content Include="C1_Trials\Utility\Errors_VC170.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp1.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp2.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp3.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp4.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp5.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp6.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp7.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp8.csv" />
+      <Content Include="C1_Trials\V31_RealGasStateVariables\Data_Smailagic_Karb\Data\ChamberDataTemp9.csv" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\C39_Pasco_RawData.csv" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\ExperimentalSetup.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExCoercivityRemanenceSteel.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExDemagnetizationSteel.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExFe-Ni_H2.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExIrreversibilitySteel.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExParamagnetWood.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_ExSaturationFe-Ni_Z.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#11Steel.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#12Fe-Ni_Z.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#14Fe-Ni_Z.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#15Fe-Ni_Z.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#16Fe-Ni_Z.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#1Fe-Ni_H2.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#2Fe-Ni_H2.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#4Wood.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#5Wood.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\fig_Messreihe_#9Steel.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\V39_Hysteresis.aux" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\V39_Hysteresis.log" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\V39_Hysteresis.out" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\V39_Hysteresis.pdf" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\Generated\V39_Hysteresis.synctex.gz" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\MeasurementSeriesInfo.csv" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Beck_Bodky\V39_Hysteresis.tex" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\ExperimentalSetup.png" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Hysteresis_German.aux" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Hysteresis_German.log" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Hysteresis_German.out" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Hysteresis_German.pdf" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Hysteresis_German.synctex.gz" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Karb_Smailagic_2.pdf" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\Generated\V39_Smailagic_Karb.pdf" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\MeasurementSeriesInfo.csv" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\RawData_Karb_Smailagic.csv" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\V39_Hysteresis_English.tex" />
+      <Content Include="C1_Trials\V39_Hysteresis\Data_Smailagic_Karb\V39_Hysteresis_German.tex" />
+      <Content Include="C1_Trials\V40_Polarisation\Data_Christ_Graf\Generated\fig_MalusFit.png" />
+      <Content Include="C1_Trials\V40_Polarisation\Data_Christ_Graf\MalusData.csv" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\Data\F0005CH1.CSV" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\Data\Measurements.csv" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.aux" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.log" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.out" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.pdf" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.synctex.gz" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Christ_Graf\V41_WaveSpeed.tex" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\Data\F0005CH1.CSV" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\Data\Measurements.csv" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.aux" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.log" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.out" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.pdf" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.synctex.gz" />
+      <Content Include="C1_Trials\V41_EMWaveSpeed\Data_Smailagic_Karb\V41_WaveSpeed.tex" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_AngleDispersion.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_BraggReflectionOneOneZero.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_BraggReflectionOneZeroZero.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_imageDistance.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_Polarisation.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\fig_TotalReflection.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\V42_Microwaves.aux" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\V42_Microwaves.log" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\V42_Microwaves.out" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\V42_Microwaves.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Generated\V42_Microwaves.synctex.gz" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part1_AngleDispersion.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part2_FocalLengthWaxLens.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part3_DistanceIntensity.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part3_WaveLengths.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part4_TotalReflection.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part5_Polarisation.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part6_BraggReflection100.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Beck_Bodky\Part6_BraggReflection110.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\Preamble.tex" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Karb_Smailagic_1.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Karb_Smailagic_2.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Karb_Smailagic_3.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves.aux" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves.log" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves.out" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves.synctex.gz" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves_German.aux" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves_German.log" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves_German.out" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves_German.pdf" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Generated\V42_Microwaves_German.synctex.gz" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Interferometer.jpeg" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Interferometer_German.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Miller_Indizes_Ebenen_100.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Miller_Indizes_Ebenen_110.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Miller_Planes_Pasco_Screenshot.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part1_AngleDispersion.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part2_FocalLengthWaxLens.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part3_WaveLengths.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part4_TotalReflection.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part5_Polarisation.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part6_BraggReflection100.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\Part6_BraggReflection110.csv" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\setup-total-reflection.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\V42_AngleDispersion_Polarplot.png" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\V42_Microwaves_English.tex" />
+      <Content Include="C1_Trials\V42_MicrowaveMeasurement\Data_Smailagic_Karb\V42_Microwaves_German.tex" />
+      <Content Include="CondensedMatter1\Exercise2_DebyeModel\Generated\HeatCapacityFullRange.png" />
+      <Content Include="CondensedMatter1\Exercise2_DebyeModel\Generated\HeatCapacityLowT.png" />
+      <Content Include="CondensedMatter1\Exercise2_DebyeModel\HeatCapacitySilver.csv" />
+      <Content Include="Fr2\Sheet3_Correlation\Data_Thomas_Karb\EnvironmentData.csv" />
+      <Content Include="Fr2\Sheet3_Correlation\Data_Thomas_Karb\Generated\fig_EnvironmentRegression.tex" />
+      <Content Include="Fr2\Sheet3_Correlation\Data_Thomas_Karb\Generated\Preamble.tex" />
+      <Content Include="Fr2\Sheet3_Correlation\Data_Thomas_Karb\Generated\tab_EnvironmentData.tex" />
+      <Content Include="Fr2\Sheet3_Correlation\Data_Thomas_Karb\Sheet3_Correlation_Thomas_Karb.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Melissa_Balles\BaDecayData.csv" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\BaDecayData.csv" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\fig_BaDecay.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\Preamble.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\tab_BaDecayData.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Sheet4_Salahudin.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Thomas_Karb\BaDecayData.csv" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Thomas_Karb\Generated\fig_BaDecay.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Thomas_Karb\Generated\Preamble.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Thomas_Karb\Generated\tab_BaDecayData.tex" />
+      <Content Include="Fr2\Sheet4_Regression1\Data_Thomas_Karb\Sheet4_Regression1_Thomas_Karb.tex" />
+      <Content Include="Fr2\Sheet5_Regression2\Data_Nico_Christ\MetalSheetFallData.csv" />
+      <Content Include="Fr2\Sheet5_Regression2\Data_Salahudin_Smailagic\MetalSheetFallData.csv" />
+      <Content Include="Fr2\Sheet5_Regression2\Data_Salahudin_Smailagic\Sheet5_Salahudin.tex" />
+      <Content Include="Fr2\Sheet5_Regression2\Data_Thomas_Karb\MetalSheetFallData.csv" />
+      <Content Include="Fr2\Sheet5_Regression2\Data_Thomas_Karb\Sheet5_Regression2_Thomas_Karb.tex" />
+      <Content Include="Fr2\Sheet6_Regression3\Data_Jonas\HScatteringData.csv" />
+      <Content Include="Fr2\Sheet6_Regression3\Data_Salahudin\HScatteringData.csv" />
+      <Content Include="Fr2\Sheet6_Regression3\Data_Salahudin\Sheet6_Regression_Salahudin_Smailagic.tex" />
+      <Content Include="Fr2\Sheet6_Regression3\Data_Thomas_Karb\HScatteringData.csv" />
+      <Content Include="Fr2\Sheet6_Regression3\Data_Thomas_Karb\Sheet6_Regression3_Thomas_Karb.tex" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\fig_NonLinearRegression.png" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Preamble.tex" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Sheet7_NonLinearRegression_Thomas_Karb.aux" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Sheet7_NonLinearRegression_Thomas_Karb.log" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Sheet7_NonLinearRegression_Thomas_Karb.out" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Sheet7_NonLinearRegression_Thomas_Karb.pdf" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Sheet7_NonLinearRegression_Thomas_Karb.synctex.gz" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\tab_RadioDecayData.tex" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\RadioDecayData.csv" />
+      <Content Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Sheet7_NonLinearRegression_Thomas_Karb.tex" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Generated\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Mantis.Core" Version="0.0.10" />
     </ItemGroup>
 
 </Project>
