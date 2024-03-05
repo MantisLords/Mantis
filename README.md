@@ -19,7 +19,7 @@ then complied via the TeXiFy-Plugin.
 To work with the library you need the Mantis.Core package. You need to restore your nuget package.
 You get a prompt which asks you to authenticate. The credentials are:
 - UserName: MantisLords
-- Password: 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
+- Password: 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
 
 
 Examples coming soon
