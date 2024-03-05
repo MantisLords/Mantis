@@ -8,12 +8,23 @@ Then you need to clone the repository.
 To work with the TeX-files you need the TeXiFy-Idea plugin for Rider.
 Please follow the installation instructions https://github.com/Hannah-Sten/TeXiFy-IDEA/wiki/Installation#windows-instructions 
 to get started.
-(There are also equivalent plugins for vs code but you need to get them started your self)
+(There are also equivalent plugins for vs code, but you need to get them started your self)
 
 This library works by you inserting your data in csv-files in the Mantis.Workspace solution.
-Then you will import that data into your code where you can modify and process it. Afterwards
+Then you will import that data into your code where you can modify and process it. Afterward
 you can generate TeX-Files where you can output your data as tables and plots. Those generated
 TeX-Files then can be referenced from your Main-TeX-File. Which in turn can be edited and
 then complied via the TeXiFy-Plugin.
+
+To work with the library you need the Mantis.Core package. You need to install it with nuget.
+For this you need to add a nuget source with the following properties:
+
+- Name: GitHub MantisLords
+- URL: https://nuget.pkg.github.com/MantisLords/index.json
+- User: MantisLords
+- Password: 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
+
+Now you can install the package Mantis.Core
+
 
 Examples coming soon
