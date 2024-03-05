@@ -16,15 +16,10 @@ you can generate TeX-Files where you can output your data as tables and plots. T
 TeX-Files then can be referenced from your Main-TeX-File. Which in turn can be edited and
 then complied via the TeXiFy-Plugin.
 
-To work with the library you need the Mantis.Core package. You need to install it with nuget.
-For this you need to add a nuget source with the following properties:
-
-- Name: GitHub MantisLords
-- URL: https://nuget.pkg.github.com/MantisLords/index.json
-- User: MantisLords
-- Password: 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
-
-Now you can install the package Mantis.Core
+To work with the library you need the Mantis.Core package. You need to restore your nuget package.
+You get a prompt which asks you to authenticate. The credentials are:
+- UserName: MantisLords
+- Password: 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
 
 
 Examples coming soon
