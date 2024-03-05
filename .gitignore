@@ -320,3 +320,5 @@ Generated/
 *.png
 
 *.svg
+
+nuget.config

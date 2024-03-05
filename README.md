@@ -16,10 +16,12 @@ you can generate TeX-Files where you can output your data as tables and plots. T
 TeX-Files then can be referenced from your Main-TeX-File. Which in turn can be edited and
 then complied via the TeXiFy-Plugin.
 
-To work with the library you need the Mantis.Core package. You need to restore your nuget package.
-You get a prompt which asks you to authenticate. The credentials are:
-- UserName: MantisLords
-- Password: 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
+To work with the library you need the Mantis.Core package. To install it you need the correct github access token.
+You have to ask the owner to send you the correct nuget.config file. After inserting the nuget.config file in your 
+project you will receive a prompt asking for your credentials:
+- Username: MantisLords
+- Password: (You have to copy the password in the nuget.config file. It is the token starting with "ghp_...")
 
+Now you can restore your packages.
 
 Examples coming soon
