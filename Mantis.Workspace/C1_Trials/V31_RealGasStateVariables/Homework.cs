@@ -21,19 +21,19 @@ public class Homework
         double a = 3.658 * Math.Pow(10, 6);//mol
         double b = 42.75;
 
-        var function1 = new Func<double, double?>(V => R * T / V);
-        var function2 = new Func<double, double?>(V => R*T/(V-b)-a/Math.Pow(V,2));
-        var constantFunction = new Func<double, double?>(v => 59.334);
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("volume V", "pressure p");
-        plot.SetAxisLimits(45,600,20,100);
-        var plot1 = plot.AddFunction(function1,Color.Black);
+        var function1 = new Func<double, double>(V => R * T / V);
+        var function2 = new Func<double, double>(V => R*T/(V-b)-a/Math.Pow(V,2));
+        var constantFunction = new Func<double, double>(v => 59.334);
+        DynPlot plot = new DynPlot("volume V", "pressure p");
+        plot.DynAxes.SetLimits(45,600,20,100);
+        var plot1 = plot.AddDynFunction(function1,color:Colors.Black);
         plot1.Label = "Ideal gas";
-        var plot2 = plot.AddFunction(function2,Color.Red);
+        var plot2 = plot.AddDynFunction(function2,color:Colors.Red);
         plot2.Label = "Van der Waals gas";
-        var plot3 = plot.AddFunction(constantFunction, Color.Blue);
+        var plot3 = plot.AddDynFunction(constantFunction,color: Colors.Blue);
         plot3.Label = "Maxwell line";
-        var legend = plot.Legend(true,Alignment.UpperRight);
-        legend.FontSize = 9;
+        plot.Legend.Location = Alignment.UpperRight;
+        plot.Legend.Font.Size = 9;
         plot.SaveAndAddCommand("HomeworkPlotFirst","caption");
         
     }

@@ -1,20 +1,10 @@
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Xml;
 using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
-using Mantis.Core.Utility;
-using Mantis.Workspace.BasicTests;
-using Mantis.Workspace.C1_Trials.Utility;
-using MathNet.Numerics;
-using Microsoft.VisualBasic;
 using ScottPlot;
-using ScottPlot.Drawing.Colormaps;
 
 namespace Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 
@@ -117,11 +107,20 @@ public static class V41_WaveSpeed_Main
     double[] ySecondForDamping = new[] { dataForTables[1].damping.Value };
     double[] xErrorSecond = new[] { dataForTables[1].frequency.Error };
     double[] yErrorSecond = new[] { dataForTables[1].damping.Error };
-    ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("Frequency [Hz]","damping[dB/m]");
-    plot.AddErrorBars(dataForTables.Select(e=>(e.frequency,e.damping)));
-    plot.AddScatterPoints(xSecondForDamping, ySecondForDamping, Color.Black, markerSize: 7F, MarkerShape.filledSquare,
-        "Standing waves with open far end");
-    plot.AddScatterPoints(xFordamping, yFordamping, Color.Red,9F,MarkerShape.filledTriangleDown,"Standing waves with short circuit at far end" );
+    DynPlot plot = new DynPlot("Frequency [Hz]","damping[dB/m]");
+    plot.AddDynErrorBar(dataForTables.Select(e=>(e.frequency,e.damping)));
+    
+    var sc1 = plot.Add.Scatter(xSecondForDamping, ySecondForDamping,color: Colors.Black);
+    sc1.LineStyle.IsVisible = false;
+    sc1.MarkerSize = 7F;
+    sc1.MarkerStyle.Shape = MarkerShape.FilledSquare;
+    sc1.Label = "Standing waves with open far end";
+    
+    var sc2 = plot.Add.Scatter(xFordamping, yFordamping,color:Colors.Red );
+    sc2.LineStyle.IsVisible = false;
+    sc2.MarkerSize = 9F;
+    sc2.MarkerStyle.Shape = MarkerShape.FilledTriangleDown;
+    sc2.Label = "Standing waves with short circuit at far end";
     plot.SaveAndAddCommand("dampingPlot");
     }
 
@@ -201,7 +200,7 @@ public static class V41_WaveSpeed_Main
     public static ErDouble CalculateDamping(ErDouble U0,ErDouble deltaU)
     {
         ErDouble U2l = U0 - deltaU ;
-        return Math.Pow(10,3)* ErDouble.Log((U0 / U2l), 10) * 20.0 / 100.0;
+        return Math.Pow(10,3)* ErDouble.Log((U0 / U2l)) / Math.Log(10) * 20.0 / 100.0;
     }
 
     public static ErDouble CalculateVelocityStanding(ErDouble f, bool openEnd, int nodeCount)

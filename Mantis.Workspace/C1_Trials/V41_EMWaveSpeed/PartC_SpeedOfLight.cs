@@ -1,6 +1,7 @@
 using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 
@@ -34,7 +35,7 @@ public static class PartC_SpeedOfLight
         var speedOfLight = model.ErParameters[1].Mul10E(6);
         speedOfLight.AddCommandAndLog("SpeedOfLight");
 
-        ScottPlot.Plot plot = ScottPlotExtensions.CreateSciPlot("time [ns]","distance [mm]");
+        DynPlot plot = new DynPlot("time [ns]","distance [mm]");
         plot.AddRegModel(model, "Measured distance-time pairs","Line fitted per gaussian-regression");
         plot.SaveAndAddCommand("regressionPLot");
 
