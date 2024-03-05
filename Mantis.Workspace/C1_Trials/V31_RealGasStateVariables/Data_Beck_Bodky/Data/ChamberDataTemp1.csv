@@ -1,34 +1,37 @@
-val:temperature,30.3
-tab:ChamberData
+﻿* temperature,30.3
+# tab:ChamberData
 volume,pressure
-2.2,20.5
-2.1,21.0
-2.0,21.75
-1.9,23.0
-1.8,23.5
-1.7,23.75
-1.65,24.0
-1.6,24.25
-1.55,24.25
-1.5,24.25
-1.4,24.25
-1.3,24.25
-1.2,24.25
-1.1,24.25
-1.0,24.5
-0.9,24.5
-0.8,24.5
-0.7,24.5
-0.6,24.5
-0.5,24.5
-0.45,24.25
-0.4,24.5
-0.375,24.75
-0.375,24.75
-0.35,33.75
+2.2	,	20.6	
+2.1	,	21.4	
+2	,	22	
+1.9	,	22.6	
+1.8	,	23.2
+1.75,	23.5
+1.7	,	24	
+1.65,		24.4	
+1.6	,	24.5
+1.55,		24.5
+1.5	,	24.5
+1.45,		24.5	
+1.4	,	24.5
+1.3	,	24.6	
+1.2	,	24.6	
+1.1	,	24.6	
+1	,	24.6
+0.9	,	24.7
+0.8	,	24.75	
+0.75,		24.75	
+0.7	,	24.8
+0.65,		24.8
+0.6	,	24.9
+0.55,		24.6	
+0.5	,	25
+0.45,		24.9
+0.4		,	24.9
+0.375	,		44.1
 
 
-tab:ChamberDataTemp2
+# tab:ChamberDataTemp2
 volume,pressure
 2.1		,	22.1
 2		,	22.9
@@ -55,7 +58,7 @@ volume,pressure
 0.4		,	36.7
 0.39	,		44.5
 
-tab:ChamberDataTemp3
+# tab:ChamberDataTemp3
 volume,pressure
 2.1	,23.1
 2,24
@@ -82,7 +85,7 @@ volume,pressure
 0.45,32.1
 0.41,44.2
 
-tab:ChamberDataTemp4
+# tab:ChamberDataTemp4
 volume,pressure
 2.1		,	23.7
 2		,	24.6
@@ -114,7 +117,7 @@ volume,pressure
 0.425	,		42
 0.42	,		45
 
-tab:ChamberDataTemp5
+# tab:ChamberDataTemp5
 volume,pressure
 2.1		,	24.2
 2		,	25.1
@@ -153,7 +156,7 @@ volume,pressure
 0.44	,		43
 0.43	,		45
 
-tab:ChamberDataTemp6
+# tab:ChamberDataTemp6
 volume,pressure
 2.1		,	24.5
 2		,	25.5
@@ -193,7 +196,7 @@ volume,pressure
 0.45	,		43
 0.445	,		45
 
-tab:ChamberDataTemp7
+# tab:ChamberDataTemp7
 volume,pressure
 2.1		,	24.6
 2		,	25.7
@@ -230,7 +233,7 @@ volume,pressure
 0.45	,		45
 
 
-tab:ChamberDataTemp8
+# tab:ChamberDataTemp8
 volume,pressure
 1.9		,	27
 1.8		,	27.9
@@ -263,7 +266,7 @@ volume,pressure
 0.475	,		42.2
 0.45	,		45.1
 
-tab:ChamberDataTemp9
+# tab:ChamberDataTemp9
 volume,pressure
 1.9		,	27.2
 1.8		,	28.2
