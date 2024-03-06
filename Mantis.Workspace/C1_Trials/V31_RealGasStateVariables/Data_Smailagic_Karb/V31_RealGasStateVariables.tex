@@ -22,7 +22,7 @@
 \captionsetup{font=footnotesize}
 
 
-\include{Data/Generated/Preamble}
+\include{Generated/Preamble}
 
 \pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
 \typearea{16}                  %stellt Seitenspiegel ein
@@ -83,7 +83,7 @@
         pV=\nu RT
     \end{align}
     with p being the pressure, V the volume, $\nu$ the amount of substance, R the universal gas constant and T being the temperature of the gas.
-    
+
     Van der Waal expands this theory by adding two more parameters.
     One accounting for the finite volume of each molecule and the second one accounting for a gas specific attractive intermolecular interaction.
     \begin{align}
@@ -96,21 +96,24 @@
     After that point, the liquid and gaseus phase are indistinguishable.
     \section{Recording of isotherms and determining the critical point}
     \label{sec:Measurement}
+
+    \includesvg{Generated/fig_plot}
+
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.18]{Data/Generated/fig_plot}
+            \includegraphics[width = 0.9 \linewidth]{Generated/fig_plot}
             \caption[]{Datapoints of the recorded isotherms of $\amountOfSubstance mol$ of SF_6\) at Temperature values ranging from 30.2$\degree C$ to 48.2$\degree C$ obtained by varying the volume and noting the corresponding pressure. The end points of the visible straight lines at the regions of constant pressure were
             used to determine the coexistence region which is shaded in blue here. The critical point is the extremum of the coexistence region. Its value is at $P=\criticalPressure$ and $V=\criticalVolume$ and an estimated
             T=$(47.0\pm1.5)\degree C$.
             The fitted function is of the form $p = a \cdot log(bV) + c\cdot e^{-dV}$ with a,b,c,d as free parameters.
             The values of the free parameters are in this case:$a = \paramA \text{bar} $, $b = \paramB \text{cm}^{-3} $, $c = \paramC \text{bar}$, $d = \paramD \text{cm}^{-3}$}
-            
+
             \label{binodal}
         \end{center}
     \end{figure}
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.18]{Data/Generated/plotZoom}
+            \includegraphics[width = 0.9\linewidth]{Generated/plotZoom}
             \caption[]{An enlarged view of the the critical point of SF_6\) determied from the recorded isotherms whose temperature values range from 43.1$\degree C$ to 48.2$\degree C$}
             \label{ZoomedIn}
         \end{center}
@@ -120,7 +123,7 @@
     The volume was varied from bigger to smaller and the according reading on the pressure reader was written down.
     It was essential to wait for the thermodynamic equilibrium to set after every manipulation of the parameters, before collecting any data.
     The recorded data can be seen in Fig.\ref{binodal} and Fig.\ref{ZoomedIn}.
-    
+
     The coexistence regions in which the isotherms are horizontal are highlighted and a line - the Maxwell line - was fitted between the beginning and end point of the region.
     The end points were then used to fit a curve through them, which marks roughly the coexistence region as a whole.
     The function which was fitted to the data is of the form $p = a \cdot log(bV) + c\cdot e^{-dV}$ with a,b,c,d as free parameters.
@@ -144,7 +147,7 @@
     \subsection{Steam pressure curve}\label{subsec:steamPressureCurve}
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.18]{Data/Generated/fig_tempLogPlot}
+            \includegraphics[width = 0.9\linewidth]{Generated/fig_tempLogPlot}
             \caption[]{Examination of the functional dependence of P(T). The data points are obtained from the regions of constant pressure pairing the constant pressure value with the temperature of the isotherm.
             The assumed exponential dependence $P \propto e^{\frac{1}{T}} $ does seem given on the first look, but the value of $\chi_{\text{Red}}=\residual$ suggest a clear case of overfitting since we have
             too few data points. More data would be needed for more certainty. Form the intersection of the exponential curve and the critical pressure the critical temperature is $T_{\text{Crit}}=\criticalTemp\degree C$}
@@ -171,7 +174,7 @@
     The value does not coincide with the literature value $T_{crit} = 45.54\degree C$ [2].
     This value also coincides with the value estimated form the P-V diagram and is going to be used in all following calculations since the other value is a mere estimate.
     Possible explanations for the deviation form the literature value are given in \autoref{subsec:gasSpecParams}.
-    
+
     \subsection{Gas specific parameters of the Van der Waals model for SF_6\)}\label{subsec:gasSpecParams}
     The parameters a and b in the VdW-model can be calculated using the obtained values from the critical point of the gas (See Appendix. \ref{sec:apendix}).
     Their values are calculated to be $a = \parameterA \frac{Pa m^6}{mol^2}$ and $b =\parameterB \frac{m^3}{mol}$.
@@ -187,7 +190,7 @@
     To compare the two models mentioned in this paper, we plotted them in Fig.  \ref{fig:comparingTheories}.
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.2]{Data/Generated/comparationPlot}
+            \includegraphics[width = 0.9\linewidth]{Generated/comparationPlot}
             \caption[]{Comparing experimental data of $\amountOfSubstance mol$ of SF_6\) at $30.3\degree C$ with the Van der Waals model and the ideal gas model at the same temperature, using the parameters $a=\parameterA \frac{Pa\cdot m^6}{mol^2}$ and $b=\parameterB \frac{m^3}{mol}$ which
             were calculated form previous measurements}
             \label{fig:comparingTheories}
@@ -200,12 +203,12 @@
     This goes to show that while adding an intermolecular interaction greatly improves agreement with experiment, the model still does not cover every situation a gas can be in.
     Perhaps a theory modelling both liquid and gas phase would be able to predict what happens at the phase transition region.
     In theory the Van der Waals model could describe a liquid, but for that, both the parameter governing the intermolecular attraction as well as the parameter correcting for the finite size of the molecules would need to be modified.
-    
+
     While the Maxwell-criterium detailed in Sec.\ref{sec:apendix} helps approximate the behaviour of the gas in the coexistence region, the experimentally measured pressures are significantly lower than the predicted maxwell line.
     For technical purposes it is important to know the limits of the theories or the areas in which they show accurate predictions.
     The Van der Waals model does have its legitimacy, since it greatly improves agreement with experiment by comparably minor additions to the ideal gas model.
-    
-    
+
+
     \section[]{Conclusion}\label{sec:conclusion}
     With this experiment, we were able to compare the ideal gas model and the Van der Waals model with experimental data.
     We succeeded in determining the gas specific parameters of the Van der Walls model, by examining the critical point of the gas.
@@ -224,7 +227,7 @@
     Under the assumption that the theoretical dependence is true we calculated the evaporation energy of the used gas $E_{\text{Evap}} =\evaporationEnergyPerMole $.
     Furthermore, the critical temperature could be calculated (as opposed to guessed, like in Sec \ref{sec:Measurement}) to be $T_{crit}=\criticalTemp \degree$.
     However, both models failed at predicting the coexistence region at the phase transition from gas to liquid.
-    
+
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
         \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C1, Versuch 31, Zustandsgrößen realer Gase, 2021
         \bibitem{crc} D. R. Lide: \grqq CRC Handbook of Chemistry
@@ -288,12 +291,12 @@ Put into Eq. (7) allows to calculate $T_{crit}$ and similarly $P_{crit}$
     This was visualized in Fig. \ref{fig:homeworkPlotOne} in which the VdW curve with the maxwell line can be seen as well as the ideal gas curve for reference.
     \begin{figure}
         \begin{center}
-            \includegraphics[scale=0.2]{Data/Generated/HomeworkPlotFirst}
+            \includegraphics[width = 0.9\linewidth]{Generated/HomeworkPlotFirst}
             \caption[]{Theoretical isoterms of CO_2\) for the ideal gas and for a Van der Waals gas with following given parameters:
             T = $288.7K$, $\nu=1 mol$, $a=3.658\cdot 10^6 \frac{bar cm^6}{mol^2}$, $b=42.75 \frac{cm^3}{mol}$, $P_{Maxwell}=59.334 bar$. The Van der Waals curve was used to
             determine the maxwell line which is supposed to predict the pressure at the coexistence region of gas and liquid phase.}
             \label{fig:homeworkPlotOne}
         \end{center}
     \end{figure}
-    
+
 \end{document}
