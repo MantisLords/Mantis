@@ -11,6 +11,7 @@
     <ItemGroup>
       <None Remove="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\Sheet4_Salahudin" />
       <None Remove="Fr2\Sheet4_Regression1\Data_Salahudin_Smailagic\Generated\Auxiliary\texput.log" />
+      <None Remove="C1_Trials\V49_Frank_Hertz\Data_Smailagic_Karb\V49 Frank Hertz Data.cap" />
     </ItemGroup>
 
     <ItemGroup>
@@ -176,6 +177,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="C1_Trials\V49_Frank_Hertz\Data_Smailagic_Karb\" />
       <Folder Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Generated\" />
     </ItemGroup>
 

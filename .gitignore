@@ -322,3 +322,5 @@ Generated/
 *.svg
 
 nuget.config
+
+*.cap
