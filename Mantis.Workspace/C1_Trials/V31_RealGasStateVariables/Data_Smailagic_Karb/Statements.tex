@@ -1,0 +1,71 @@
+﻿%! Author = User
+%! Date = 23.10.2023
+
+% Preamble
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{amstex}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{hhline}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{caption}
+\usepackage{biblatex}
+\usepackage{anyfontsize}
+% Document
+\begin{document}
+    \vspace*{\stretch{1.0}}
+    \begin{center}
+        \Large\textbf{Statement}\\
+        \large\text{S. Smailagić and T. H. Karb}\\
+        \normal\today
+    \end{center}
+    \vspace*{\stretch{2.0}}
+
+    We have submitted the paper and hereby make statements to the Peer-Review committee.
+    The preliminary peer-review was received on the $19^{\text{th}}$ of October.
+
+    \begin{enumerate}
+        \item 
+        a) The Error bars to the end points of the Maxwell lines were added and can be seen in the plots.
+        
+        b) The interpolation procedure was changed from a spline to a functional fit.
+        The fitted function was chosen because it only used 4 parameters to fit the data.
+        Nonetheless, the functional dependence is completely arbitrary and based on no physical background.
+        The only reason the functional fit is better than the spline is reproducibility.
+        
+        c) Our estimation that the interpolation error is negligible compared to the reading error is wrong.
+        We are now more aware of the errors which arise from the fitting method.
+        For this reason, the errors of the critical point were estimated.
+
+        \item The error bars for the extrapolated point were added. And the point for the $46.6\degree$ isotherm was added.
+        We still think that from the reduced $\chi$ we can not say with certainty that the data follows the functional dependence, because we had similar results when linearising the data and fitting a line throuh them.
+        This is due to the fact that the errors of the datapoints dont transform right under the linearisation, introducing other uncertainties.
+        The error for the critical temperature was simply calculated wrong.
+        We initially calculated it using the parameters from our regression, that is wrong because it ignores the whole covariance matrix for the error.
+        If we evaluate the function at the given pressure right, the error is calculated using the proper covariance matrix.
+        
+        \item Critique taken into account.
+    \end{enumerate}
+        \textbf{Comments regarding the structure of the paper}
+    \begin{enumerate}
+        \item Critique taken into account.
+        \item Critique taken into account.
+        \item Critique taken into account.
+        \item Critique taken into account.
+    \end{enumerate}
+    
+
+
+    
+
+\end{document}

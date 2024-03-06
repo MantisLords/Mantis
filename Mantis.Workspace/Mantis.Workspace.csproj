@@ -176,6 +176,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="C1_Trials\V33_Radiation\Generated" />
       <Folder Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Generated\" />
     </ItemGroup>
 
