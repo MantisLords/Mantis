@@ -28,7 +28,7 @@ public class QuattroFit : AutoDerivativeFunc, IFixedParameterCount
 
     public QuattroFit()
     {
-        var reader = new SimpleTableProtocolReader("Data/LeslieCubeData");
+        var reader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData");
         temperatureZero = reader.ExtractSingleValue<double>("temperature0");
     }
 
@@ -44,7 +44,7 @@ public class V33_Leslie_Cube
     public static void Process()
     {
 
-        var csvReader = new SimpleTableProtocolReader("Data/LeslieCubeData.csv");
+        var csvReader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData.csv");
         List<TempRadiationData> dataList = csvReader.ExtractTable<TempRadiationData>("tab:LeslieCubeData");
         ErDouble t0 = csvReader.ExtractSingleValue<ErDouble>("temperature0");
         
@@ -52,11 +52,12 @@ public class V33_Leslie_Cube
             data.temperature.Value += 273.15));
         
         
-        
+        // Here we generate the first two plots
         GenerateFirstPlot(dataList);
         GenerateT4Plot(dataList);
-        //Now the fit
-        PleaseFitTheData(dataList);
+        // Now we fit the Exponent in order to verify the Stefan Bolzmann radiation Law
+        PleaseFitTheQuattroFit(dataList);
+        
 
     }
     public static void GenerateFirstPlot(List<TempRadiationData> dataList)
@@ -70,7 +71,7 @@ public class V33_Leslie_Cube
     }
     public static void GenerateT4Plot(List<TempRadiationData> dataList)
     {
-        var csvReader = new SimpleTableProtocolReader("Data/LeslieCubeData.csv");
+        var csvReader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData.csv");
         ErDouble t0 = csvReader.ExtractSingleValue<ErDouble>("temperature0"); 
         DynPlot plot = new DynPlot("temp", "Radiation");
         Console.WriteLine("T0 read from csv file: "+t0);
@@ -80,8 +81,7 @@ public class V33_Leslie_Cube
         plot.AddDynErrorBar(dataList.Select(e => (e.temperature.Pow(4)-t0.Pow(4), e.black)));
         plot.SaveAndAddCommand("T4Plot");
     }
-
-    public static void PleaseFitTheData(List<TempRadiationData> dataList)
+    public static void PleaseFitTheQuattroFit(List<TempRadiationData> dataList)
     {
         RegModel QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.polished),
             new ParaFunc(2,new QuattroFit())
