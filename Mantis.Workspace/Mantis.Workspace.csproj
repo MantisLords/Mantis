@@ -177,7 +177,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="C1_Trials\V49_Frank_Hertz\Data_Smailagic_Karb\" />
+      <Folder Include="C1_Trials\V49_Frank_Hertz\Data_Smailagic_Karb\Generated\" />
       <Folder Include="Fr2\Sheet7_NonLinearRegression\Data_Thomas_Karb\Generated\Generated\" />
     </ItemGroup>
 

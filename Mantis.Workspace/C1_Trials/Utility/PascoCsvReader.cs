@@ -3,11 +3,11 @@ using Mantis.Core.FileImporting;
 
 namespace Mantis.Workspace.C1_Trials.V39_Hysteresis;
 
-public record struct PascoData(double Time, double VoltageA, double CurrentA, double VoltageB, double CurrentB);
+public record struct PascoData(double Time, double ValueA, double ValueB);
 
 public class PascoCsvReader : RowWiseCsvReaderBase
 {
-    public int DataColumnCount = 3;
+    public readonly int DataColumnCount = 3;
 
     public Dictionary<string, List<PascoData>> MeasurementSeries = new Dictionary<string, List<PascoData>>();
 
@@ -53,14 +53,13 @@ public class PascoCsvReader : RowWiseCsvReaderBase
             for (int i = 0; i < SeriesCount; i++)
             {
                 int columnIndex = i * DataColumnCount;
-                if (!string.IsNullOrEmpty(row[columnIndex]))
+                if (!string.IsNullOrEmpty(row[columnIndex]) && !string.IsNullOrEmpty(row[columnIndex + 1]) && !string.IsNullOrEmpty(row[columnIndex + 2]))
                 {
                     var element = new PascoData(
                         double.Parse(row[columnIndex + 0], CultureInfo),
                         double.Parse(row[columnIndex + 1], CultureInfo),
-                        0,//double.Parse(row[columnIndex + 3], CultureInfo),
-                        double.Parse(row[columnIndex + 2], CultureInfo),
-                        0//double.Parse(row[columnIndex + 5], CultureInfo)
+                        //double.Parse(row[columnIndex + 3], CultureInfo),
+                        double.Parse(row[columnIndex + 2], CultureInfo)//double.Parse(row[columnIndex + 5], CultureInfo)
                     );
                     _measurementSeries[i].Add(element);
                 }

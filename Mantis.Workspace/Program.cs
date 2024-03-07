@@ -7,6 +7,7 @@ using Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 using Mantis.Workspace.C1_Trials.V39_Hysteresis;
 using Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
+using Mantis.Workspace.C1_Trials.V49_Frank_Hertz;
 
 
 Console.WriteLine("Hello, World!");
@@ -26,5 +27,8 @@ Console.WriteLine("Hello, World!");
 // FileManager.GlobalWorkspace = "CondensedMatter1/Exercise2_DebyeModel";
 // CM1_Ex2_DebyeModel_Main.Process();
 
-FileManager.GlobalWorkspace = "C1_Trials/V31_RealGasStateVariables/Data_Smailagic_Karb";
-V31_Main.Process();
+// FileManager.GlobalWorkspace = "C1_Trials/V31_RealGasStateVariables/Data_Smailagic_Karb";
+// V31_Main.Process();
+
+FileManager.GlobalWorkspace = "C1_Trials/V49_Frank_Hertz/Data_Smailagic_Karb";
+V49_Frank_Hertz_Main.Process();

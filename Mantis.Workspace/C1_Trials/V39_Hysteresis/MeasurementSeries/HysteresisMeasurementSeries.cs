@@ -91,7 +91,7 @@ public class HysteresisMeasurementSeries
         
         for (int i = 0; i < hysteresisData.Length; i++)
         {
-            var data = new HysteresisData(pascoData[i].Time,signH * pascoData[i].VoltageA,signB* pascoData[i].VoltageB,0,0);
+            var data = new HysteresisData(pascoData[i].Time,signH * pascoData[i].ValueA,signB* pascoData[i].ValueB,0,0);
 
             hysteresisData[i] = data;
         }
