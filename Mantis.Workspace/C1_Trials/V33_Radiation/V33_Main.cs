@@ -8,6 +8,9 @@ public class V33_Main
     {
         V33_Leslie_Cube.Process();
         V33_Transistivity.Process();
+        V33_BlackBodyRadiation.Process();
+        V33_AngleDependence.Process();
+        
         TexPreamble.GeneratePreamble();
         
     }
