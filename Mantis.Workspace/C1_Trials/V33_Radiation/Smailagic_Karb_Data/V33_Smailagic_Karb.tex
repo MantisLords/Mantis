@@ -1,0 +1,61 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{hhline}
+\usepackage{caption}
+\usepackage{biblatex}
+\captionsetup{font=footnotesize}
+
+
+\include{Generated/Preamble}
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Tutor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Simulating a perfect black body - verifying the Stefan Bolzmann Law}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+        This abstract is soooo abstract.
+        
+        \\
+        \\
+        Measuerement made: 8th March 2024 \\       %Datum ändern!
+        Submitted: 15th March 2024  \\
+        
+        \\
+    \end{abstract}
+    }]
+    \section{Introduction}\label{sec:introdction}
+    
+\end{document}

@@ -23,7 +23,7 @@ public class V33_AngleDependence
 {
     public static void Process()
     {
-        var csvReader = new SimpleTableProtocolReader("Example_Data/AngleData");
+        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/AngleData");
         List<AngleVoltageData> dataList = csvReader.ExtractTable<AngleVoltageData>("tab:AngleData");
         
         DynPlot plot = new DynPlot();

@@ -38,12 +38,28 @@ public class QuattroFit : AutoDerivativeFunc, IFixedParameterCount
 
     public int ParameterCount => 2;
 }
+public class QuattroFitPlusConstant : AutoDerivativeFunc, IFixedParameterCount
+{
+    private readonly double temperatureZero;
+
+    public QuattroFitPlusConstant(double temperatureZero)
+    {
+        this.temperatureZero = temperatureZero;
+    }
+
+    public override double CalculateResult(Vector<double> p, double x)
+    {
+        return p[0] * (Math.Pow(x, p[1]) - Math.Pow(temperatureZero, p[1])) + p[2];
+    }
+
+    public int ParameterCount => 3;
+}
 public class V33_Leslie_Cube
 {
     public static void Process()
     {
 
-        var csvReader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData.csv");
+        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/LeslieCubeData.csv");
         List<TempRadiationData> dataList = csvReader.ExtractTable<TempRadiationData>("tab:LeslieCubeData");
         ErDouble t0 = csvReader.ExtractSingleValue<ErDouble>("temperature0");
         
@@ -82,20 +98,10 @@ public class V33_Leslie_Cube
     }
     public static void PleaseFitTheQuattroFit(List<TempRadiationData> dataList)
     {
-        var reader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData");
+        var reader = new SimpleTableProtocolReader("Smailagic_Karb_Data/LeslieCubeData");
         double temperatureZero = reader.ExtractSingleValue<double>("temperature0");
-        RegModel QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.polished),
-            new ParaFunc(2,new QuattroFit(temperatureZero))
-            {
-                Units = new []{"",""}
-            }
-        );
-        QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 1,1 }, false);
-        QuattroFunc.ErParameters[1].AddCommand("ExponentPolished");
-        Console.WriteLine(QuattroFunc.ErParameters[1]);
         
-        
-        QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.white),
+        RegModel QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.white),
             new ParaFunc(2,new QuattroFit(temperatureZero))
             {
                 Units = new []{"",""}
@@ -123,6 +129,16 @@ public class V33_Leslie_Cube
         );
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentBlack");
+        Console.WriteLine(QuattroFunc.ErParameters[1]);
+        
+        RegModel QuattroFuncPlusConst = dataList.CreateRegModel(e=>(e.temperature, e.polished),
+            new ParaFunc(2,new QuattroFitPlusConstant(temperatureZero))
+            {
+                Units = new []{"","",""}
+            }
+        );
+        QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 1,1 ,1}, false);
+        QuattroFunc.ErParameters[1].AddCommand("ExponentPolished");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
     }
 }

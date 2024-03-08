@@ -15,7 +15,7 @@ public class V33_Transistivity
 
     public static void CalculateTransistivities()
     {
-        var csvReader = new SimpleTableProtocolReader("Example_Data/TransistivityData");
+        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/TransistivityData");
         List<ErDouble> dataList = new List<ErDouble>();
         dataList.Add(csvReader.ExtractSingleValue<ErDouble>("NoFilter"));
         dataList.Add(csvReader.ExtractSingleValue<ErDouble>("Nickel"));
@@ -38,8 +38,8 @@ public class V33_Transistivity
     public static void CalculateWavelenghts()
     {
         double b =  2.89777 * Math.Pow(10,-3);
-        double RoomTemp = 21 + 273.15;
-        double CubeTemp = 75 + 273.15;
+        double RoomTemp = 20 + 273.15;
+        double CubeTemp = 80 + 273.15;
         (b/CubeTemp).AddCommand("CubeWavelength");
         (b/RoomTemp).AddCommand("RoomWavelenght");
     }
