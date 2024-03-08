@@ -1,8 +1,8 @@
 ﻿# Frank Hertz curve
 tab:frankHertzInfos
-name,columnName,U3 in V,U1 in V,U2Multiplier,U2MaximumsMin,U2ManualMaximums,ErrorMaximums,Transitions
-Hg,Hg 4 1.68 1.51,1.68,1.51,10,9,,0.5,1-2-a 2-3-a 3-4-a 4-5-a 
+Name,ColumnName,U3 in V,U1 in V,U2Multiplier,U2MaximumsMin,U2ManualMaximums,ErrorMaximums,Transitions
 Ne,Ne 1 9.62 0.78,9.62,0.78,10,25,61.5 19.5,0.5,1-2-a 2-3 2-4-a 4-5 5-6-b
+Hg,Hg 4 1.68 1.51,1.68,1.51,10,9,,0.5,1-2-a 2-3-a 3-4-a 4-5-a 
 
 
 val:measurementIndices,65,70

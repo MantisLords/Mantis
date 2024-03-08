@@ -8,21 +8,11 @@ using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V49_Frank_Hertz;
 
-[QuickTable("","")]
-public record struct FrankHertzInfo
-{
-    [QuickTableField("name")] public string Name;
-    [QuickTableField("columnName")] public string ColumnName;
-    [QuickTableField("U3")] public double U3;
-    [QuickTableField("U1")] public double U1;
-    [QuickTableField("U2Multiplier")] public double U2Multiplier;
-    [QuickTableField("U2MaximumsMin")] public double U2MaximumsMin;
-    [QuickTableField("U2ManualMaximums")] public string U2ManualMaximums;
-    [QuickTableField("ErrorMaximums")] public double ErrorMaximums;
-    [QuickTableField("Transitions")] public string Transitions;
-    
-    public FrankHertzInfo(){}
-}
+[QuickTable]
+[UseConstructorForParsing]
+public record struct FrankHertzInfo(string Name, string ColumnName, double U3, double U1, double U2Multiplier,
+    double U2MaximumsMin, string U2ManualMaximums,
+    double ErrorMaximums, string Transitions);
 
 public static class FrankHertzCurve
 {
@@ -53,7 +43,7 @@ public static class FrankHertzCurve
 
         var maximums = FindMaximums(10, rawData,info);
 
-        var maximumsPlot = dynPlot.Add.Scatter(maximums.Select(e => new Coordinates(e.Item1.Value, e.Item1.Value)).ToList());
+        var maximumsPlot = dynPlot.Add.Scatter(maximums.Select(e => new Coordinates(e.Item1.Value, e.Item2.Value)).ToList());
         maximumsPlot.LineStyle.IsVisible = false;
         maximumsPlot.MarkerStyle.Shape = MarkerShape.OpenCircle;
         maximumsPlot.MarkerSize = 3;

@@ -15,7 +15,7 @@ public class RichardsonFunc : AutoDerivativeFunc, IFixedParameterCount
     public override double CalculateResult(Vector<double> p, double x)
     {
         double t = VoltageToTemp(x);
-        return p[0] * t * t * Math.Exp(-p[1] / Kb / t);
+        return p[0] * t * t * Math.Exp(-p[1] / Kb / t) ;
     }
 
     public static double VoltageToTemp(double u)
@@ -38,20 +38,30 @@ public static class SaturationCurve
         List<VoltageData> saturationData = reader.ExtractTable<VoltageData>("tab:saturationCurve",V49_Utility.VoltageDataLastDigitErrorParser);
 
         RegModel richardsonModel = saturationData.CreateRegModel(e => (e.Voltage, e.Current),
-            new ParaFunc(3, new RichardsonFunc())
+            new ParaFunc(4, new RichardsonFunc())
             {
-                Labels = new[] {"A", "Wa"},
-                Units = new[] {"", "eV"}
+                Labels = new[] {"A", "Wa",""},
+                Units = new[] {"", "eV",""}
             });
 
         richardsonModel.DoRegressionLevenbergMarquardt(new double[] {1, 1},false);
         richardsonModel.AddParametersToPreambleAndLog("richardsonModel");
 
 
-        DynPlot plot = new DynPlot("heating voltage in v", "anode current in mA");
+        DynPlot plot = new DynPlot("Heating voltage in v", "Anode current in mA");
 
-        plot.AddRegModel(richardsonModel, $"Anode Voltage Ua = {anodeVoltage} V", 
+        plot.AddRegModel(richardsonModel, $"Saturation curve for acceleration Ua = {anodeVoltage} V", 
             $"Fit of the richardson model Wa = {richardsonModel.ErParameters[1]} eV");
+
+        var idealFunc = richardsonModel.ParaFunction.Fork();
+        var original = idealFunc.ErParameters;
+        original[1] = 4.55;
+
+        idealFunc.ParaSet.SetParameters(original);
+        
+        Console.WriteLine(idealFunc.ParaSet);
+
+        plot.AddDynFunction(idealFunc, "Ideal curve");
 
         plot.Legend.Location = Alignment.UpperLeft;
         plot.SaveAndAddCommand("richardsonPlot");

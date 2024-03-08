@@ -36,6 +36,9 @@ public static class CharacteristicCurves
             if(!string.IsNullOrWhiteSpace(index))
                 ProcessCharacteristicCurve(index,reader,characteristicPlot,schottkyPlot);
         }
+
+        characteristicPlot.Legend.Location = Alignment.UpperLeft;
+        schottkyPlot.Legend.Location = Alignment.UpperLeft;
         
         characteristicPlot.SaveAndAddCommand("characteristicCurvePlot");
         schottkyPlot.SaveAndAddCommand("schottkyPlot");
@@ -54,10 +57,11 @@ public static class CharacteristicCurves
                 V49_Utility.VoltageDataLastDigitErrorParser);
 
         var dynErrorBar = characteristicPlot.AddDynErrorBar(characteristicData.Select(e => (e.Voltage, e.Current)),
-            $"Uh = {heatingVoltage} V");
+            $"Characteristic curve for Uh = {heatingVoltage.Value} V");
         dynErrorBar.PointConnectedLineStyle.IsVisible = true;
         dynErrorBar.MarkerStyle.Size = 3;
         dynErrorBar.MarkerStyle.Shape = index == "65" ? MarkerShape.OpenTriangleUp : MarkerShape.OpenSquare;
+        
         
         // Calculate schottky langmuir law
         // first get region and then extract the correct data
@@ -75,11 +79,19 @@ public static class CharacteristicCurves
         schottkyModel.DoRegressionLevenbergMarquardt(new[] {1.0, 0.0, 3.0 / 2.0},false);
         schottkyModel.AddParametersToPreambleAndLog("schottky"+index);
         
-        var (schottkyBar,_) = schottkyPlot.AddRegModel(schottkyModel, $"Uh = {heatingVoltage}", "Fit: Ia = a (Ua - Uk) ^ b");
-        schottkyBar.MarkerStyle.Size = 3;
+        var (schottkyBar,_) = schottkyPlot.AddRegModel(schottkyModel, $"Characteristic curve for Uh = {heatingVoltage.Value} V", "Fit of Schottky-law: Ia = a (Ua - Uk) ^ b");
+        schottkyBar.MarkerStyle.Size = 2;
         schottkyBar.MarkerStyle.Shape = index == "65" ? MarkerShape.OpenTriangleUp : MarkerShape.OpenSquare;
 
         schottkyBar.Color = schottkyPlot.Add.Palette.Colors[0];
+        
+        if (index == "70")
+        {
+            var l = characteristicPlot.AddVerticalLine(schottkyMin,color:Colors.Black,linePattern:LinePattern.Solid,autoLabel:false);
+            var l2 = characteristicPlot.AddVerticalLine(schottkyMax,color:Colors.Black,linePattern:LinePattern.Solid,autoLabel:false);
+            l.LineWidth = 0.5f;
+            l2.LineWidth = 0.5f;
+        }
     }
 
     private static (double, double) ExtractSchottkyRange(SimpleTableProtocolReader reader, string index)
