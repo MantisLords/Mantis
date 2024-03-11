@@ -15,7 +15,7 @@ public class V33_Transistivity
 
     public static void CalculateTransistivities()
     {
-        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/TransistivityData");
+        var csvReader = new SimpleTableProtocolReader("TransistivityData");
         List<ErDouble> dataList = new List<ErDouble>();
         dataList.Add(csvReader.ExtractSingleValue<ErDouble>("NoFilter"));
         dataList.Add(csvReader.ExtractSingleValue<ErDouble>("Nickel"));

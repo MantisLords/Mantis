@@ -27,5 +27,5 @@ Console.WriteLine("Hello, World!");
 // FileManager.GlobalWorkspace = "CondensedMatter1/Exercise2_DebyeModel";
 // CM1_Ex2_DebyeModel_Main.Process();
 
-FileManager.GlobalWorkspace = "C1_Trials/V33_Radiation";
+FileManager.GlobalWorkspace = "C1_Trials/V33_Radiation/Smailagic_Karb_Data";
 V33_Main.Process();

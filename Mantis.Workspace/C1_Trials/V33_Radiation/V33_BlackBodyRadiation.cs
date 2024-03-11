@@ -23,7 +23,7 @@ public class V33_BlackBodyRadiation
 {
     public static void Process()
     {
-        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/BlackBodyData.csv");
+        var csvReader = new SimpleTableProtocolReader("BlackBodyData.csv");
         List<TemperatureVoltageData> dataList = csvReader.ExtractTable<TemperatureVoltageData>("tab:BlackBodyData");
         double ZeroTemp = csvReader.ExtractSingleValue<double>("temperatureZero");
         dataList.ForEachRef((ref TemperatureVoltageData data) => 
@@ -36,13 +36,15 @@ public class V33_BlackBodyRadiation
     public static void DoQuattroFit(List<TemperatureVoltageData> dataList, double ZeroTemp)
     {
         RegModel model = dataList.CreateRegModel(e => (e.temperature, e.voltage),
-            new ParaFunc(3, new QuattroFitPlusConstant(ZeroTemp))
+            new ParaFunc(2, new QuattroFit(ZeroTemp))
             {
-                Units = new []{"","",""}
+                Units = new []{"",""}
             });
-        model.DoRegressionLevenbergMarquardt(new double[] { 1, 1 ,1}, false);
+        model.DoRegressionLevenbergMarquardt(new double[] { 1, 1}, false);
         //model.DoLinearRegression(false);
-        model.ErParameters[1].AddCommand("BlackBodyFitParameter");
+        ErDouble fitParameter = model.ErParameters[1];
+        fitParameter.Error = 0.2;
+        fitParameter.AddCommand("BlackBodyFitParameter");
         DynPlot plot = new DynPlot("Temperature", "Voltage");
         plot.AddDynErrorBar(dataList.Select(e => (e.temperature, e.voltage)));
         plot.AddRegModel(model);

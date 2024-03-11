@@ -5,6 +5,7 @@ using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics.LinearAlgebra;
+using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V33_Radiation;
 [QuickTable("", "LeslieData")]
@@ -59,7 +60,7 @@ public class V33_Leslie_Cube
     public static void Process()
     {
 
-        var csvReader = new SimpleTableProtocolReader("Smailagic_Karb_Data/LeslieCubeData.csv");
+        var csvReader = new SimpleTableProtocolReader("LeslieCubeData.csv");
         List<TempRadiationData> dataList = csvReader.ExtractTable<TempRadiationData>("tab:LeslieCubeData");
         ErDouble t0 = csvReader.ExtractSingleValue<ErDouble>("temperature0");
         
@@ -68,25 +69,26 @@ public class V33_Leslie_Cube
         
         
         // Here we generate the first two plots
-        GenerateFirstPlot(dataList);
+        DynPlot plot = new DynPlot("Temperature [K]", "Voltage [mV]");
+        GenerateFirstPlot(dataList,plot);
         GenerateT4Plot(dataList);
         // Now we fit the Exponent in order to verify the Stefan Bolzmann radiation Law
-        PleaseFitTheQuattroFit(dataList);
+        PleaseFitTheQuattroFit(dataList,plot);
         
 
     }
-    public static void GenerateFirstPlot(List<TempRadiationData> dataList)
+    public static void GenerateFirstPlot(List<TempRadiationData> dataList,DynPlot plot)
     {
-            DynPlot plot = new DynPlot("temp", "Radiation");
+            
             plot.AddDynErrorBar(dataList.Select(e => (e.temperature, e.polished)));
             plot.AddDynErrorBar(dataList.Select(e => (e.temperature, e.white)));
             plot.AddDynErrorBar(dataList.Select(e => (e.temperature, e.matt)));
             plot.AddDynErrorBar(dataList.Select(e => (e.temperature, e.black)));
-            plot.SaveAndAddCommand("StefanBolzmannPlot");
+            //plot.SaveAndAddCommand("StefanBolzmannPlot");
     }
     public static void GenerateT4Plot(List<TempRadiationData> dataList)
     {
-        var csvReader = new SimpleTableProtocolReader("Example_Data/LeslieCubeData.csv");
+        var csvReader = new SimpleTableProtocolReader("LeslieCubeData.csv");
         ErDouble t0 = csvReader.ExtractSingleValue<ErDouble>("temperature0"); 
         DynPlot plot = new DynPlot("temp", "Radiation");
         Console.WriteLine("T0 read from csv file: "+t0);
@@ -96,9 +98,9 @@ public class V33_Leslie_Cube
         plot.AddDynErrorBar(dataList.Select(e => (e.temperature.Pow(4)-t0.Pow(4), e.black)));
         plot.SaveAndAddCommand("T4Plot");
     }
-    public static void PleaseFitTheQuattroFit(List<TempRadiationData> dataList)
+    public static void PleaseFitTheQuattroFit(List<TempRadiationData> dataList,DynPlot plot)
     {
-        var reader = new SimpleTableProtocolReader("Smailagic_Karb_Data/LeslieCubeData");
+        var reader = new SimpleTableProtocolReader("LeslieCubeData");
         double temperatureZero = reader.ExtractSingleValue<double>("temperature0");
         
         RegModel QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.white),
@@ -110,7 +112,7 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentWhite");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        
+        plot.AddRegModel(QuattroFunc);
         QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.matt),
             new ParaFunc(2,new QuattroFit(temperatureZero))
             {
@@ -120,7 +122,8 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentMatt");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        
+        plot.AddRegModel(QuattroFunc);
+
         QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.black),
             new ParaFunc(2,new QuattroFit(temperatureZero))
             {
@@ -130,15 +133,18 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentBlack");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        
-        RegModel QuattroFuncPlusConst = dataList.CreateRegModel(e=>(e.temperature, e.polished),
-            new ParaFunc(2,new QuattroFitPlusConstant(temperatureZero))
+        plot.AddRegModel(QuattroFunc);
+
+        QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.polished),
+            new ParaFunc(3,new QuattroFitPlusConstant(temperatureZero))
             {
                 Units = new []{"","",""}
             }
         );
-        QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 1,1 ,1}, false);
+        QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 1,1,1}, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentPolished");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
+        plot.AddRegModel(QuattroFunc);
+        plot.SaveAndAddCommand("StefanBolzmannPlot");
     }
 }

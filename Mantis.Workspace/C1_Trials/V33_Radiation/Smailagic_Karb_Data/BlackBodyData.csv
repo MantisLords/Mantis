@@ -1,4 +1,4 @@
-﻿val:temperatureZero,293.15
+﻿val:temperatureZero,293.5
 tab:BlackBodyData
 temperature,voltage,CleanVoltage
 22,0.005

@@ -19,6 +19,7 @@
 \usepackage{hhline}
 \usepackage{caption}
 \usepackage{biblatex}
+
 \captionsetup{font=footnotesize}
 
 
@@ -37,7 +38,7 @@
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Tutor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
+            Tutor: Dr. Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Simulating a perfect black body - verifying the Stefan Bolzmann Law}  %Titel der Versuchs
@@ -45,8 +46,10 @@
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
-    \begin{abstract}                                                %Beginn des Abstracts
+    \begin{abstract}%Beginn des Abstracts
+        
         This abstract is soooo abstract.
+        
         
         \\
         \\
@@ -57,5 +60,143 @@
     \end{abstract}
     }]
     \section{Introduction}\label{sec:introdction}
+    The thermal properties of bodies have been of huge interest since the 19th century.
+    A better understanding of these properties, as well as experimental means to measure them accurately have been developing well into the 20th century.
+    In this paper we present a possible experimental setup which tries to simulate a black body with a hollow box which is being held at constant temperature.
+    With this setup, we tried verify the $T^4$ dependence of the radiation according to \textit{Stefan-Boltzmann Law}.
+    We are also able to use the setup to look at the angle dependence of the black-body radiation, which according to \textit{Lambert} should follow a cosine function.
+    Since the surface of a radiating body influences its radiative properties, we used a setup which allowed for comparison of different surfaces under controlled conditions.
+    For the experiment, we used a \textit{Leslie} cube with four different surfaces on 4 of its sides.
+    The cube was mounted on a rotating rig so that the various sides could easily be adjusted.
+    
+    
+    
+    
+    \section{Examination of Different Surfaces}\label{sec:ExaminationOfDifferentSurfaces}
+    In order to examine the radiative properties of various surfaces, the experimental setup shown in \autoref{} was used.
+    A black, a white, a nickel plated polished and a matte surface were available for selection. 
+    The cube was kept at a controlled temperature by a thermostat from \textit{Lauda E100}.
+    This temperature was increased from $ 289\,$K to $363\,$K.
+    The emitted thermal radiation was measured with a thermophile.
+    Due to the construction of the thermopile, which makes use of the Seebeck effect, a constant set-of temperature must be accounted for in the measurement.
+    Since this set-of is not exactly the ambient temperature, but the temperature at which the voltage reading is $0$, we linearize the first few measured voltage values 
+    and find the intersection with the x-Axis.
+    This is done for all the different surfaces and the mean value was taken as the set-of temperature.
+    \begin{equation}\label{SetofTemp}
+        T_0 = 292.5 \pm 0.4
+    \end{equation}
+    With this set-of temperature accounted for, we were able to try to verify the $T^4$ proportionality of the radiation.
+    As can be seen in \autoref{fig:FirstPlot} we fit the function from \autoref{FitFunction} into the recorded data.
+    \begin{equation}\label{FitFunction}
+        U = a\cdot (T^b - T_0^b)
+    \end{equation}
+    
+    \begin{figure}
+               \begin{center}
+               \includegraphics[width=\linewidth]{Generated/StefanBolzmannPlot}
+               \caption{}
+               \label{fig:FirstPlot}
+               \end{center}
+    \end{figure}
+    The fitted parameters in the exponent can be seen in \autoref{tab:FittedExponent}
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Surface  &  Fitted exponent 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   Polished nickel   &   \ExponentPolished  	 \\
+            \rule[-5pt]{0pt}{23pt}   Matte nickel   & \ExponentMatt     	 \\
+            \rule[-5pt]{0pt}{23pt}   Black  &   \ExponentBlack  	 \\
+            \rule[-5pt]{0pt}{23pt}   White   &   \ExponentWhite  	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{These are the values of the exponent $b$ obtained by fitting $U = a\cdot(T^b - T_0^b) $ into the data from \autoref{fig:FirstPlot}.
+        The constant set-of temperature $T_0$ due to the internal constuction of the used thermopile was accounted for.
+        The voltage was measured using a \textit{Agilent 3305 A} multimeter.}  %siehe Graphik: Beschriftung
+        \label{tab:FittedExponent}                             %siehe Graphik: zum Zitieren
+    \end{table}
+    \autoref{fig:FirstPlot} shows the voltage as a function of temperature for the four available surfaces.
+    As can immediately be seen from the figure, the white and the black surfaces exhibit almost identical behaviour.
+    This is due to the fact, that although the surfaces have different absorption in the visible spectrum, they behave like the same colour in the examined infrared range.
+    The matte surface also showed similarly high emission, this is due to the larger surface area.
+    The polished surface naturally has a much higher reflectivity and should emit much less.
+    Apart from that, the measurement for the reflective surface was tricky because the reflection of the experimenter influenced the measurement.
+    For that reason, the error of that measurement is much larger.
+    Nonetheless, all the fitted parameters are well within the theoretical value of $4$.
+    The matte and white surface do seem to agree the best, while the polished surface deviates more.
+    It also needs to be mentioned that this the heat radiation from the environment has a significant influence on the measurement, introducing a systematical error in our evaluation.
+    Since the measurement also takes some time, it is possible that the reference temperature of the thermopile changes as the ambient temperature rises.
+    This is also a possible error which we did not account for.
+    
+    
+    
+    
+    \section{Simulating a Black Body}\label{BlackBodyRadiation}
+    In order to simulate a black body as well as possible, we set up a hollow chamber with a small opening.
+    The opening is covered with a water cooled aperture to make the measurement even cleaner.
+    The temperature of the chamber was continuously heated and the voltage reading corresponding to the radiation through the opening was recorded on an \textit{Agilent 34405A}.
+    The same fitting method as in \autoref{sec:ExaminationOfDifferentSurfaces} was used to fit the data.
+    From the measurement in \autoref{fig:BlackBodyPlot} the following exponent was determined:
+    \begin{equation}
+        b = \BlackBodyFitParameter
+    \end{equation}
+    The error of this value was estimated, since just using the fitting error does not take into account the uncertainties in measurement that we encountered.
+    The device which we used to heat up the chamber was rather inert and we had a hard time recording the displayed temperature and the voltage reading at the same time.
+    We estimated the error of the temperature reading as $\pm 1\,$K (last digit).
+    Although the cooling aperture was used in the experiment, it might not have been enough to shield the measurement from all environmental radiation.
+    Due to these effects we estimated the error to be $5\%$\).
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/Aufbau2}
+            \caption{}
+            \label{fig:Aufbau2}
+        \end{center}
+    \end{figure}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/BlackBodyPlot}
+            \caption{}
+            \label{fig:BlackBodyPlot}
+        \end{center}
+    \end{figure}
+    Taking these error influences into account, the determined exponent does not quite have the theoretically predicted value of $b = 4 $.
+    Nonetheless, given that the value deviates from the theoretical value only slightly within the error bars we conclude that the chamber setup with the cooled aperture
+    is a good model for a black body radiator.
+    In order for the measurement to be in better agreement with the theoretical value, one would need to control the environmental influences better. 
+    
+    
+    
+    
+    \section{Infrared transmission of different materials}\label{sec:Transmission}
+    In this experiment, we look at the transmission properties of different materials in the infrared range.
+    Again, the setup from \autoref{} was used, but now with the black surface of the leslie cube and different filters between the cube and the thermopile.
+    The transmission value for each material was determined as the amount of radiation measured behind the filter relative to the radiation value with no filter.
+    The calculated values are depicted in \autoref{tab:TransistivityValues}.
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Filter  &  Transmission coefficient 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   No Filter  &   \TransistivityValue 	 \\
+            \rule[-5pt]{0pt}{23pt}   Nickel   & \TransistivityValueOne    	 \\
+            \rule[-5pt]{0pt}{23pt}   Window glass  &   \TransistivityValueTwo 	 \\
+            \rule[-5pt]{0pt}{23pt}   Silicon  &   \TransistivityValueThree  	 \\
+            \rule[-5pt]{0pt}{23pt}   NaCl  &   \TransistivityValueFour 	 \\
+            \rule[-5pt]{0pt}{23pt}   Infrared  &   \TransistivityValueFive  	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{The calculated transmission coefficients for different materials using the setup from \autoref{}.
+        The black surface of the leslie cube was used at a temperature of $353\,$K. The ambient temperature was measured to be $293\,$K .
+        The voltage was measured using a \textit{Agilent 3305 A} multimeter.}  %siehe Graphik: Beschriftung
+        \label{tab:TransistivityValues}                             %siehe Graphik: zum Zitieren
+    \end{table}
     
 \end{document}
