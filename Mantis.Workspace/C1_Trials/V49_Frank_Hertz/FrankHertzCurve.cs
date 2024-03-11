@@ -12,7 +12,7 @@ namespace Mantis.Workspace.C1_Trials.V49_Frank_Hertz;
 [UseConstructorForParsing]
 public record struct FrankHertzInfo(string Name, string ColumnName, double U3, double U1, double U2Multiplier,
     double U2MaximumsMin, string U2ManualMaximums,
-    double ErrorMaximums, string Transitions);
+    double ErrorMaximums, string Transitions,ErDouble AnodeTemperature);
 
 public static class FrankHertzCurve
 {
@@ -68,7 +68,9 @@ public static class FrankHertzCurve
 
 
         dynPlot.Legend.Location = Alignment.UpperLeft;
-        dynPlot.SaveAndAddCommand("FrankHertzPlot"+info.Name);
+        dynPlot.SaveAndAddCommand("fig:FrankHertz"+info.Name);
+        
+        info.AnodeTemperature.AddCommandAndLog("AnodeTemperature"+info.Name,"^\\circ C");
         
     }
 
@@ -97,6 +99,13 @@ public static class FrankHertzCurve
                     $"The maxima count is {maximums.Length}. Transition {transString} is not valid");
                 
             ErDouble transition = maximums[end].Item1 - maximums[start].Item1;
+            
+            if (args.Length >= 4)
+            {
+                int times = int.Parse(args[3]);
+                transition /= times;
+            }
+            
             transition.AddCommandAndLog($"Transition {info.Name} {transString}");
 
             if (args.Length >= 3)
@@ -107,12 +116,13 @@ public static class FrankHertzCurve
                 
                 categoryTransitions[category].Add(transition);
             }
+            
         }
 
         foreach (var (category,transitions) in categoryTransitions)
         {
             var mean = transitions.WeightedMean();
-            mean.AddCommandAndLog($"Transition {info.Name} Mean {category}","ev");
+            mean.AddCommandAndLog($"Transition {info.Name} Mean {category}");
         }
     }
 

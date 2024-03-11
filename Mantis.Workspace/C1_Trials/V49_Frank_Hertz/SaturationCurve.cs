@@ -64,7 +64,7 @@ public static class SaturationCurve
         plot.AddDynFunction(idealFunc, "Ideal curve");
 
         plot.Legend.Location = Alignment.UpperLeft;
-        plot.SaveAndAddCommand("richardsonPlot");
+        plot.SaveAndAddCommand("fig:richardson");
 
 
 

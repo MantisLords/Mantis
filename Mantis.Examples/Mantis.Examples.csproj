@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Mantis.Core" Version="0.0.13" />
+      <PackageReference Include="Mantis.Core" Version="0.0.14" />
     </ItemGroup>
     
 

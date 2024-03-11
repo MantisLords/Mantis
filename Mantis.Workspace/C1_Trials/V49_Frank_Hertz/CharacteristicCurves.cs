@@ -40,8 +40,8 @@ public static class CharacteristicCurves
         characteristicPlot.Legend.Location = Alignment.UpperLeft;
         schottkyPlot.Legend.Location = Alignment.UpperLeft;
         
-        characteristicPlot.SaveAndAddCommand("characteristicCurvePlot");
-        schottkyPlot.SaveAndAddCommand("schottkyPlot");
+        characteristicPlot.SaveAndAddCommand("fig:characteristicCurve");
+        schottkyPlot.SaveAndAddCommand("fig:schottky");
     }
 
     private static void ProcessCharacteristicCurve(string index, SimpleTableProtocolReader reader,
@@ -50,7 +50,7 @@ public static class CharacteristicCurves
         // Extract heating voltage and log it
         ErDouble heatingVoltage =
             reader.ExtractSingleValue<ErDouble>("val:heatingVoltage" + index, V49_Utility.ParseWithErrorOnLastDigit);
-        heatingVoltage.AddCommandAndLog("heatingVoltage"+index);
+        heatingVoltage.AddCommandAndLog("heatingVoltage"+index,"V");
 
         // Extract characteristic Data to plot it
         List<VoltageData> characteristicData = reader.ExtractTable<VoltageData>("tab:characteristicCurve" + index, 

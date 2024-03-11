@@ -1,14 +1,14 @@
 ﻿# Frank Hertz curve
 tab:frankHertzInfos
-Name,ColumnName,U3 in V,U1 in V,U2Multiplier,U2MaximumsMin,U2ManualMaximums,ErrorMaximums,Transitions
-Ne,Ne 1 9.62 0.78,9.62,0.78,10,25,61.5 19.5,0.5,1-2-a 2-3 2-4-a 4-5 5-6-b
-Hg,Hg 4 1.68 1.51,1.68,1.51,10,9,,0.5,1-2-a 2-3-a 3-4-a 4-5-a 
+Name,ColumnName,U3 in V,U1 in V,U2Multiplier,U2MaximumsMin,U2ManualMaximums,ErrorMaximums,Transitions,AnodeTemperature
+Ne,Ne 1 9.62 0.78,9.62,0.78,10,25,61.5 19.5,0.5,1-2-a 2-3-b-3 2-4-a 4-5-b-2 5-6-b,20+-0.1
+Hg,Hg 4 1.68 1.51,1.68,1.51,10,9,,0.5,1-2-a 2-3-a 3-4-a 4-5-a,171+-0.1 
 
 
 val:measurementIndices,65,70
 
 val:heatingVoltage65,6.53,V
-val:schottkyRange65 min max,0,70,V
+val:schottkyRange65 min max,0.0,70.0,V
 
 tab:characteristicCurve65
 voltage anode in V,current anode in mA

@@ -29,12 +29,24 @@
     \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
 
 
+\newcommand{\wolframWa}{4.55\, \mathrm{eV}}
+\newcommand{\volt}{\, \mathrm{V}}
+\newcommand{\eV}{\, \mathrm{eV}}
+\newcommand{\sixfiveV}{6.5 \volt}
+\newcommand{\sevenV}{7 \volt}
+\newcommand{\maxvoltage}{500 \volt}
+\newcommand{\minvoltage}{2 \volt}
+\newcommand{\neLevelA}{2\mathrm{p}^{5}3\mathrm{p}^{3}\mathrm{P}_0}
+\newcommand{\HgLevelA}{6^3\mathrm{P}_1}
+\newcommand{\TheoreticalTransitionHga}{4.89}
+\newcommand{\TheoreticalTransitionNea}{18.9}
+\newcommand{\TheoreticalTransitionNeb}{2.33}
 
 \begin{document}
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
     \titlehead{                                                  %Kopfzeile
         \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
-            Tutor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
+            Supervisor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
     \title{Frank Hertz}  %Titel der Versuchs
@@ -44,8 +56,27 @@
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
         
-        this is to abstract
+        We want to study vacuum diodes, electron vaporisation and the Franck-Hertz-effect with a simple experimental setup.
+        With a variable heating and accelerating voltage we are able to record the characteristic curve of a vacuum diode
+        and observe the Langmuir-Schottky power law. 
+        For heating voltages $\sixfiveV$ and $\sevenV$ we measure the exponents $\schottkySixFivePower$ and $\schottkySevenPower$ 
+        respectivly.
+        The deviation from the theoretical value $\frac{3}{2}$ of our setup are discussed.
+        By varing the heating voltage we are able to see the Richarson law in the saturation region.
+        It describes the carrier density in function of the heating temperature.
+        We can estimate the work function $W_a = \richardsonModelWa$ of the cathode material.
+        The strong deviation from the acctual work function $W_a = \wolframWa$~\cite{wolfram} of the wolfram cathode
+        suggest, that we do not reach the actual saturation region with our maximum acceleration voltage $U_a = \maxvoltage$.
+        
+        In the second part we study the Franck-Hertz-effect with a similar setup.
+        We use tetrodes filled with neon and mercury gas.
+        From the graph we can estimate the excitation energy from the neon ground state to the $\neLevelA$ level
+        as $\TransitionNeMeana$ and for mercury we get for the transition to the $\HgLevelA$ level $\TransitionHgMeana$.
+        These energies are compared to the observed emitted light and with the theoretical transition energies.
+        
         \\
+        \\
+        
         Measuerement made: 21. September 2023\\       %Datum ändern!
         Submitted: 28. September 2023                %Datum ändern!
         \\
@@ -53,13 +84,295 @@
     \end{abstract}
     }] 
     \section{Introduction}
+    \section{Characteristic of a vacuum diode}
 
-
+    \begin{figure}[htbp]
+        \includegraphics[width=\linewidth]{VacuumDiodeSketch}
+        \center
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{
+        Schematic setup of a vacuum diode.
+        At the cathode electrons are evaporated by the heating voltage $U_h$.
+        The emitted electrons are then accelerated towards the anode.
+        An electric current can be detected.
+        }
+        \label{fig:vacuumDiodeSketch}
+    \end{figure}
+    
+    \figcharacteristicCurve{
+    Characteristic curve of a vacuum diode for the heating voltages $U_h = \heatingVoltageSixFive$ and 
+    $\heatingVoltageSeven$ respectively.
+    We use the full range of our voltage source from $0 \volt$ upto $\maxvoltage$.
+    By reversing the polarity we can measure the current for negative accelerating voltages.
+    As to be expected no current flows.
+    The diode functions as a rectifier.
+    Furthermore, we observe that for high accelerating voltages we reach a saturation point, while for
+    low voltages we stay in the Schottky-Langmuir region.
+    It is marked by the vertical lines.
+    }
+    
+    In a vacuum diode free electrons are created via thermionic emission.
+    As depicted in ~\autoref{fig:vacuumDiodeSketch} the heating voltage $U_h$ is applied at the cathode.
+    By increasing the temperature, the electrons gather more and more energy, eventually enabling them, to overcome the work
+    function of the wolfram cathode and leaving the wire.
+    If you then apply an accelerating voltage $U_a$, the emitted electrons move towards the anode.
+    We can measure a current $I_a$.
+    
+    In our setup we use for the heating voltage a source with the range $0 - 7 \volt$ and stability of $0.01 \volt$.
+    For the acceleration voltage our source can generate voltages between $\minvoltage$ up to $\maxvoltage$ with an accuracy of
+    ca. $1 \volt$.
+    The voltages and the anode current $I_a$ are measured with the `Agilent Multimeter 34405A'.
+    
+    To exemplify the process, we record the characteristic curve of the vacuum diode in 
+    ~\autoref{fig:characteristicCurve} for the heating voltages 
+    $U_h = \heatingVoltageSixFive$ and $\heatingVoltageSeven$.
+    We utilize the full range of our voltage source for the acceleration voltage.
+    For high voltages we reach a saturation region where the current is limited by the available charge carriers,
+    dictated by the Richardson-law.
+    For low voltages the current follows the Schotty-Langmuir power law.
+    If we reverse the polarisation we observe that no current is flowing.
+    The diode functions as a rectifier.
+    This is to be expected, since in the diode the charge carriers are electrons.
+    They are only available at the cathode, so when reversing the polarity, no electrons can move from the anode towards
+    the cathode.
+    
+    \subsection{Schottky-Langmuir region}
+    
+    \figschottky{
+        The section of the data where the Schottky-Langmuir law holds.
+        We estimate the region by looking where the graph as a positive curvature.
+        We fit the power law~\eqref{eq:Schottky} into the data and get a exponent of
+        $\schottkySixFivePower$ and $\schottkySevenPower$ for the heating voltages $\sixfiveV$ and $\sevenV$.
+        It deviates from the theoretical value of $\frac{3}{2}$.
+    }
+    
+    For low accelerating voltages we observe a power law for the anode current.
+    It can be described by the Schottky-Langmuir law.
+    It takes into account, that the thermionic emitted electrons gather around the cathode.
+    This space charges partially shields the accelerating potential.
+    The space-charge-limited-current (SCLC) can be described by:
+    
+    \begin{equation}
+        \label{eq:theoreticalSchottky}
+        j = \frac{4}{9} \epsilon_0 \sqrt {\frac{2e}{m}} \frac{U^\frac{3}{2}}{d^2}
+    \end{equation}
+    
+    The Schottky-Langmuir-law only holds for a limited range.
+    Since the function is strictly convex, we extract those data points where we can roughly observe a 
+    positive curvature.
+    These data points are depicted in ~\autoref{fig:schottky}.
+    To verify the Schottky-Langmuir-law we fit the following function:
+    \begin{equation}
+        \label{eq:Schottky}
+        I = a (U_a - U_k)^{b}
+    \end{equation}
+    
+    Here $U_a$ is the accelerating voltage and $a$, $b$ are free parameters.
+    The free parameter $U_k$ represents the contact voltage.
+    It is the minimum voltage required for current to flow.
+    
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{c | c c}
+            $U_h$ & $\sixfiveV$ & $\sevenV$ \\
+            \hline 
+            Exponent $b$ & $\schottkySixFivePower$ & $\schottkySevenPower$ \\
+            $U_k$ & $\schottkySixFiveUk$ & $\schottkySevenUk$
+        \end{tabular}
+        \caption{These are the result for the fit of the Schottky-Langmuir equation~\eqref{eq:Schottky}.
+        The data points inside the estimated SCLC-region are used.
+        Compare ~\autoref{fig:schottky}.
+        The errors only represent the statistical scattering of the data points around the fit.
+        It does not account for error introduced through the estimation of the SCLC-region.}
+        \label{tab:schottkyFit}
+    \end{table}
+    
+    For the heating voltage $\sevenV$ the fitted exponent coincides with the theoretical value $\frac{3}{2}$, while
+    for $\sixfiveV$ it deviates.
+    An explanation for this, could be, that the assumption of a perfect vacuum is not valid.
+    Instead, scattering events occur between the electrons and the remaining gas molecules.
+    So the diode behaves like a normal resistor.
+    This would suggest a blending between Ohm's law (linear) and the Schottky-Langmuir law, resulting in a lower
+    exponent than the theoretical value of $\frac{3}{2}$.
+    The effect would also be more prominent for lower heating voltages, since fewer electrons are available relative to
+    the gas molecule.
+    
+    We can determine the contact voltage $U_k$ only via the fit, since our voltage source has a minimum output voltage of $\minvoltage$.
+    This leads to large error bars for $U_k$, since we have to take data points up to $70 \volt$ into account,
+    so we are able to extrapolate the contact voltage.
     
     
+    \subsection{Saturation region - Richardson law}
+    
+    \figrichardson{
+    We plot the saturation current depending on the heating voltage, with a acceleration voltage
+        $U_a = \saturationAnodeVoltage$.
+    Since at the saturation point all available charge carriers are sucked towards the anode,
+    the current is proportional to that desinty.
+    It can be described via the Richardson equation ~\eqref{eq:theoreticalRichardson}.
+    We can calculate the temperature by the empirical approximation ~\eqref{eq:richardsonTemperature}.
+    By combining those equations, we can fit the data.
+    We get a work function of the anode material $W_a = \richardsonModelWa$.
+    The value is higher than the literature value $W_a = \wolframWa$~\cite{wolfram}.
+    It suggest, we did not reach the actual saturation point with the maximum accelerating voltage of our
+    voltage source.
+    }
+    
+    If you increase the acceleration voltage, at some point all available charge carriers are sucked towards the anode.
+    When saturation region is reached, the current does not increase significantly anymore.
+    
+    The amount of emitted electrons at the cathode can be described with the Richardson equation.
+    It is derived by assuming an ideal fermi gas, where the electrons have to overcome the work function
+    $W_a$ of the cathode material:
+    \begin{equation}
+        \label{eq:theoreticalRichardson}
+        j = C T^2 e^{- \frac{Wa}{k_B T}}
+    \end{equation}
+    Here $T$ is the cathode temperature, $C$ the Richardson constant 
+    and $k_B = 1.38 \cdot 10^{-23} \frac{\mathrm{J}}{\mathrm{K}} $~\cite{boltzmanSource}.
+    
+    We used the following formula to calculate the cathode temperature depending on the heating voltage $U_h$:
+    \begin{equation}
+        \label{eq:richardsonTemperature}
+        T = 1616 K + 97 \frac{\mathrm{K}}{\mathrm{V}} U_h
+    \end{equation}
+    This empirical approximation of the cathode temperature was made by the creators of our setup.
+    See ~\cite{instr} for reference.
+    
+    To measure the saturation behaviour, we apply an acceleration 
+    voltage of $U_a = \saturationAnodeVoltage$.
+    We then vary the heating voltage from $5 \volt$ upto $7 \volt$ and measure the anode current.
+    The data is depicted in ~\autoref{fig:richardson}.
+    By combining the Richardson law ~\eqref{eq:theoreticalRichardson} and 
+    cathode-temperature equation ~\eqref{eq:richardsonTemperature} we get a relation,
+    which we can fit into the data.
+    
+    We get a work function of $W_a = \richardsonModelWa$.
+    This value does not coincide with the literature value $W_a = \wolframWa$~\cite{wolfram} of our wolfram cathode.
+    It may be explained by assuming that the maximum acceleration voltage generated by our voltage source is
+    insufficient to reach the saturation point for high heating voltages.
+    It means we underestimate the current for high heating voltages, so we overestimate the work function $W_a$.
+    The fact that we do not reach saturation can also be seen in ~\autoref{fig:characteristicCurve} for $U_a = \sevenV$.
+    Furthermore, the empirical approximation of the cathode temperature might be a source of the deviation.
+    
+    It shows that our setup is able to qualitatively but not quantitatively verify the Richardson law.
+    A more accurate setup is required.
+    
+    \section{The Franck-Hertz effect}
+
+    \begin{figure}[htbp]
+        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \center
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{Schematic setup of the tetrode, which is filled by either mercury or neon gas.
+        The electrons are evapurated at the cathode with the heating voltage $U_h$ and sucked towards
+        the grid $G_1$ by the sucking voltage $U_1$.
+        They are then accelerated by $U_2$.
+        In this region the electrons scatter inelastically at the gas atoms. 
+        But only if the kinetic energy of the electrons if high enough to excite the atoms.
+        The counter voltage $U_3$ acts as a filter, so only electrons with enough kinetic energy reach
+        the anode.
+        The anode current $I$ is then measured.
+        Image source~\cite{frankHertzSource}.
+        }
+        \label{fig:franckHertzSketch}
+    \end{figure}
+    
+    In the second part we want to study an experimental setup similar to the previous part,
+    with which we can demonstrate the Frank-Hertz effect.
+    
+    We use a tetrode filled with either mercury or neon gas.
+    Compare ~\autoref{fig:franckHertzSketch}.
+    The design and function of the tetrode is similar to that of the vacuum diode.
+    It consists also of a cathode, where the electrons are vaporized.
+    The electrons reaching the anode are measured as current $I$.
+    In the tetrode two metal grids are inserted for tighter control of the electrons' kinetic energy.
+    The vaporized electrons are sucked towards the first grid by the sucking voltage $U_1$.
+    They are then accelerated by the potential $U_2$ between the first and second grid.
+    This potential is equal to the total kinetic energy of the electrons.
+    Between the second grid and the anode, the counter voltage $U_3$ is applied.
+    It acts as a filter, so only electrons with sufficient kinetic energy reach the anode.
+    
+    The voltage source, we use, generates voltages with a stability of $0.1\volt$.
+    We measure the accelerating voltage and anode current with the digital interface `PASCO Universal Interface 550'.
+    Furthermore, we measure the cathode temperature with an accuracy of $0.1 \, ^\circ \mathrm{C}$
+    
+    \subsection{Franck-Hertz effect with mercury}
+    
+    \figFrankHertzHg{
+    Characteristic curve of mercury obtained by the Franck-Hertz experiment.
+    We use a tetrode as depicted in ~\autoref{fig:franckHertzSketch}.
+    The mercury is vaporized by an oven, which heats the tetrode to $T = \AnodeTemperatureHg$.
+    We see periodic declines of the anode current.
+    The energy differences between the maxima are summarized in ~\autoref{tab:transitionHg}.
+    The declines are caused by the electrons, which scatter at the mercury atoms and excite them from
+    the ground state to the $\HgLevelA$ state.
+    }
+
+    \begin{table}[httb]
+        \centering
+        \begin{tabular}{c c}
+            \hline \hline 
+            Maxima & Energy difference $\Delta E \ \mathrm{in} \eV$ \\
+            \hline
+            $1 \rightarrow 2$ & $\TransitionHgOneTwoa$ \\
+            $2 \rightarrow 3$ & $\TransitionHgTwoThreea$ \\
+            $3 \rightarrow 4$ & $\TransitionHgThreeFoura$\\
+            $4 \rightarrow 5$ & $\TransitionHgFourFivea$\\
+            \hline
+            Average & $\TransitionHgMeana$\\
+            Theoretical & $\TheoreticalTransitionHga$ \\
+            \hline 
+            \hline
+        \end{tabular}
+        \caption{Energy differences between the maxima of the Franck-Hertz-tube filled with mercury gas.
+        The maxima are estimated from ~\autoref{fig:FrankHertzHg}.
+        The errors derive from manually reading the maxima from the graphic.
+        The average coincides with the literature value of the $\HgLevelA$ transiton.
+        Compare ~\autoref{fig:energyLevelsHg}.}
+        \label{tab:transitionHg}
+    \end{table}
+    
+    To produce the mercury gas we have to heat the tetrode.
+    We use an oven, which covers the tetrode and vaporizes the mercury.
+    The anode temperature is $T = \AnodeTemperatureHg$.
+    
+    We continuously vary the acceleration voltage $U_2$ from $0\volt$ to $30\volt$.
+    It is limited by the anode current, which 
+    may not exceed $I = 10 \, \mathrm{nA}$, since it would break the tetrode.
+    The measured data is shown in ~\autoref{fig:FrankHertzHg}.
+    
+    We observe that the current increases with increasing $U_2$.
+    But at certain intervals it drops.
+    This is caused by the electrons, which scatter inelastically at the mercury atoms.
+    When they scatter, they lose kinetic energy and can not pass the counter voltage $U_3$.
+    The current drops.
+    
+    From ~\autoref{fig:FrankHertzHg} we estimate the maxima.
+    The energy differences are displayed in ~\autoref{tab:transitionHg}.
+    The mean is $\Delta E = \TransitionHgMeana \eV$.
+    It coincides with the energy difference between the ground state and $\HgLevelA$ level
+    of mercury.
+    The theoretical value is $\TheoreticalTransitionHga \eV$.
+    Compare the Grotrian diagram ~\autoref{fig:energyLevelsHg}.
+    
+    We do not observe any light emitted by the mercury atoms, since the energy $\Delta E$ corresponds to light in the
+    ultraviolet spectrum.
+    
+    
+    
+    
+
+
+
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
-        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 42, Versuche mit Mikrowellen - Kristallinterferenzen mit Mikrowellen, 2021
+        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 49, Kennlinien von Vakuumdioden
+        und Franck-Hertz-Versuch, 2021
         \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
         \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
         recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
@@ -68,6 +381,33 @@
         \bibitem{pasco} Pasco Microwave Optics System (WA-9314C) Instruction Manual
         %\bibitem{missing} \url{https://en.wikipedia.org/wiki/Transverse_mode}, zuletzt aufgerufen am 8.10.2021
         \bibitem{imageMichelsonInterferometerWiki} \url{https://en.wikipedia.org/wiki/Michelson_interferometer#/media/File:Michelson_interferometer_with_labels.svg}, last visit 23.09.23
+        
+        \bibitem{wolfram}  Hütte, Das Ingenieurwissen 34. Auflage, Tabelle16-6, Springer Vieweg 2012
+        \bibitem{boltzmanSource}  \url{https://physics.nist.gov/cgi-bin/cuu/Value?k}, last visited 11.03.2024
+        \bibitem{frankHertzSource} \url{https://images.saymedia-content.com/.image/t_share/MTc0NDM3MzE2ODA5NDY3MjQw/the-frank-hertz-experiment.png}, last visited 11.03.2024
     \end{thebibliography}
     
+    \section{Appendix}
+
+    \begin{figure}[htbp]
+        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \center
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{}
+        \label{fig:energyLevelsHg}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \center
+%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
+%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
+%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
+        \caption{}
+        \label{fig:energyLevelsNe}
+    \end{figure}
+
+
 \end{document}
