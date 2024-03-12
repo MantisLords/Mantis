@@ -36,10 +36,14 @@
 \newcommand{\sevenV}{7 \volt}
 \newcommand{\maxvoltage}{500 \volt}
 \newcommand{\minvoltage}{2 \volt}
-\newcommand{\neLevelA}{2\mathrm{p}^{5}3\mathrm{p}^{3}\mathrm{P}_0}
+\newcommand{\neLevelA}{2\mathrm{p}^{5} \, 3\mathrm{p} \, ^{3}\mathrm{P}_0}
+\newcommand{\neLevelAA}{2\mathrm{p}^{5} \, 3\mathrm{p} \, ^{3}\mathrm{S}_1}
+\newcommand{\neLevelGround}{2\mathrm{p}^{6} \, ^{1}\mathrm{S}_1}
+
 \newcommand{\HgLevelA}{6^3\mathrm{P}_1}
 \newcommand{\TheoreticalTransitionHga}{4.89}
-\newcommand{\TheoreticalTransitionNea}{18.3 \ \mathrm{or} \ 18.9}
+\newcommand{\TheoreticalTransitionNea}{18.9}
+\newcommand{\TheoreticalTransitionNeaa}{18.3}
 \newcommand{\TheoreticalTransitionNeb}{1.51 \ \dots \ 2.33}
 
 \begin{document}
@@ -49,30 +53,32 @@
             Supervisor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Frank Hertz}  %Titel der Versuchs
+    \title{Experimental setup to record characteristic curves of vacuum diodes;
+    study the thermionic emission of electrons; exemination of the Franck-Hertz effect
+    with tetrodes filled with mercury and neon}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
-        
-        We want to study vacuum diodes, electron vaporisation and the Franck-Hertz-effect with a simple experimental setup.
-        With a variable heating and accelerating voltage we are able to record the characteristic curve of a vacuum diode
+
+        We want to study vacuum diodes, electron evaporation and the Franck-Hertz effect with a simple experimental setup.
+        With a variable heating and accelerating voltage we can record the characteristic curve of a vacuum diode
         and observe the Langmuir-Schottky power law. 
         For heating voltages $\sixfiveV$ and $\sevenV$ we measure the exponents $\schottkySixFivePower$ and $\schottkySevenPower$ 
         respectivly.
-        The deviation from the theoretical value $\frac{3}{2}$ of our setup are discussed.
+        The deviation from the theoretical value $\frac{3}{2}$ of our setup is discussed.
         By varing the heating voltage we are able to see the Richarson law in the saturation region.
         It describes the carrier density in function of the heating temperature.
         We can estimate the work function $W_a = \richardsonModelWa$ of the cathode material.
-        The strong deviation from the acctual work function $W_a = \wolframWa$~\cite{wolfram} of the wolfram cathode
+        The large deviation from the acctual work function $W_a = \wolframWa$~\cite{wolfram} of the wolfram cathode
         suggest, that we do not reach the actual saturation region with our maximum acceleration voltage $U_a = \maxvoltage$.
         
         In the second part we study the Franck-Hertz-effect with a similar setup.
         We use tetrodes filled with neon and mercury gas.
-        From the graph we can estimate the excitation energy from the neon ground state to the $\neLevelA$ level
-        as $\TransitionNeMeana$ and for mercury we get for the transition to the $\HgLevelA$ level $\TransitionHgMeana$.
-        These energies are compared to the observed emitted light and with the theoretical transition energies.
+        From the graph we can estimate the excitation energy from the neon ground state to the $\neLevelA$-level
+        as $\TransitionNeMeana$ and for mercury we get for the transition to the $\HgLevelA$-level $\TransitionHgMeana$.
+        These energies are compared with the observed emitted light and with the theoretical transition energies.
         
         \\
         \\
@@ -84,6 +90,43 @@
     \end{abstract}
     }] 
     \section{Introduction}
+    
+%    Diodes are electronic components where current can flow only in one direction.
+%    They function as a rectifier.
+%    In a vacuum diode free electrons are generated at the cathode via thermionic emission and accelerated
+%    towards the anode via an acceleration voltage.
+%    We study the electric behaviour of a vacuum diode.
+%    We can draw conclusions about the underlining physics, such as thermionic emission.
+%    We can see the shielding of electric fields via space charges as described by the
+%    Schottky-Langmuir law.
+%    
+%    An expansion of vacuum diodes are tetrodes filled with atomic gas.
+%    With these we can demonstrate the Franck-Hertz effect.
+%    It is caused by electrons scattering at the gas atoms and exciting them.
+%    Discrete peaks are observed in the characteristic curve of the Franck-Hertz tube.
+%    
+%    In our paper we use a simple setup.
+%    We try to demonstrate the physical effects and get qualitative results.
+%    For reliable quantitative results a more advanced setup is required.
+
+    Diodes are electronic components that allow current to flow in only one direction, functioning as a rectifier.
+    In a vacuum diode, free electrons are generated at the cathode through thermionic emission and are accelerated
+    towards the anode via an acceleration voltage.
+    This paper aims to study the electric behaviour of a vacuum diode.
+    Conclusions can be drawn about the underlying physics, such as thermionic emission.
+    The shielding of electric fields via space charges, as described by the Schottky-Langmuir
+    law, can be observed.
+
+    Vacuum diodes can be expanded to tetrodes filled with atomic gas, which can
+    be used to demonstrate the Franck-Hertz effect.
+    Electrons cause excitation of gas atoms through scattering,
+    resulting in discrete peaks in the characteristic curve of the Franck-Hertz tube.
+
+    Our paper aims to demonstrate the physical effects and
+    obtain qualitative results using a simple setup.
+    For reliable quantitative results, a more advanced setup is required.
+    
+    
     \section{Characteristic of a vacuum diode}
 
     \begin{figure}[htbp]
@@ -175,11 +218,13 @@
     
     \begin{table}[h!]
         \centering
-        \begin{tabular}{c | c c}
+        \begin{tabular}{c c c}
+            \hline \hline 
             $U_h$ & $\sixfiveV$ & $\sevenV$ \\
             \hline 
             Exponent $b$ & $\schottkySixFivePower$ & $\schottkySevenPower$ \\
-            $U_k$ & $\schottkySixFiveUk$ & $\schottkySevenUk$
+            $U_k$ & $\schottkySixFiveUk$ & $\schottkySevenUk$ \\
+            \hline \hline
         \end{tabular}
         \caption{These are the result for the fit of the Schottky-Langmuir equation~\eqref{eq:Schottky}.
         The data points inside the estimated SCLC-region are used.
@@ -273,7 +318,7 @@
         the grid $G_1$ by the sucking voltage $U_1$.
         They are then accelerated by $U_2$.
         In this region the electrons scatter inelastically at the gas atoms. 
-        But only if the kinetic energy of the electrons if high enough to excite the atoms.
+        But only if the kinetic energy of the electrons is high enough to excite the atoms.
         The counter voltage $U_3$ acts as a filter, so only electrons with enough kinetic energy reach
         the anode.
         The anode current $I$ is then measured.
@@ -282,16 +327,16 @@
         \label{fig:franckHertzSketch}
     \end{figure}
     
-    In the second part we want to study an experimental setup similar to the previous part,
+    In the second part we use a, to the previous part expanded, experimental setup,
     with which we can demonstrate the Frank-Hertz effect.
     
     We use a tetrode filled with either mercury or neon gas.
     Compare ~\autoref{fig:franckHertzSketch}.
     The design and function of the tetrode is similar to that of the vacuum diode.
-    It consists also of a cathode, where the electrons are vaporized.
+    It consists also of a cathode, where the electrons are evaporated.
     The electrons reaching the anode are measured as current $I$.
     In the tetrode two metal grids are inserted for tighter control of the electrons' kinetic energy.
-    The vaporized electrons are sucked towards the first grid by the sucking voltage $U_1$.
+    The evaporated electrons are sucked towards the first grid by the sucking voltage $U_1$.
     They are then accelerated by the potential $U_2$ between the first and second grid.
     This potential is equal to the total kinetic energy of the electrons.
     Between the second grid and the anode, the counter voltage $U_3$ is applied.
@@ -299,7 +344,7 @@
     
     The voltage source, we use, generates voltages with a stability of $0.1\volt$.
     We measure the accelerating voltage and anode current with the digital interface `PASCO Universal Interface 550'.
-    Furthermore, we measure the cathode temperature with an accuracy of $0.1 \, ^\circ \mathrm{C}$
+    Furthermore, we measure the cathode temperature with an accuracy of $1 \, ^\circ \mathrm{C}$
     
     \subsection{Franck-Hertz effect with mercury}
     
@@ -310,7 +355,7 @@
     We see periodic declines of the anode current.
     The energy differences between the maxima are summarized in ~\autoref{tab:transitionHg}.
     The declines are caused by the electrons, which scatter at the mercury atoms and excite them from
-    the ground state to the $\HgLevelA$ state.
+    the ground state to the $\HgLevelA$-state.
     }
 
     \begin{table}[httb]
@@ -330,30 +375,29 @@
             \hline
         \end{tabular}
         \caption{Energy differences between the maxima of the Franck-Hertz-tube filled with mercury gas.
-        The maxima are estimated from ~\autoref{fig:FrankHertzHg}.
-        The errors derive from manually reading the maxima from the graphic.
-        The average coincides with the literature value of the $\HgLevelA$ transiton.
+        We manually read the peaks from ~\autoref{fig:FrankHertzHg}.
+        This leads to the large estimated error.
+        The average transition energy coincides with the literature value of the $\HgLevelA$ transiton.
         Compare ~\autoref{fig:energyLevelsHg}.}
         \label{tab:transitionHg}
     \end{table}
     
     To produce the mercury gas we have to heat the tetrode.
     We use an oven, which covers the tetrode and vaporizes the mercury.
-    The anode temperature is $T = \AnodeTemperatureHg$.
+    The tetrode temperature is $T = \AnodeTemperatureHg$.
     
     We continuously vary the acceleration voltage $U_2$ from $0\volt$ to $30\volt$.
     It is limited by the anode current, which 
     may not exceed $I = 10 \, \mathrm{nA}$, since it would break the tetrode.
-    We record characteristic curves for different pairs of sucking and counter voltage, to
+    We record the characteristic curves for different pairs of sucking and counter voltages, to
     find a curve with sharp maxima inside the confines of our measurement range.
     The best measured data is shown in ~\autoref{fig:FrankHertzHg}.
     The sucking voltage is $U_1 = \SuckingVoltageHg$ and the counter voltage is $U_3 = \CounterVoltageHg$.
     
     We observe that the current increases with increasing $U_2$.
-    But at certain intervals it drops.
+    At certain intervals it drops.
     This is caused by the electrons, which scatter inelastically at the mercury atoms.
     When they scatter, they lose kinetic energy and can not pass the counter voltage $U_3$.
-    The current drops.
     
     From ~\autoref{fig:FrankHertzHg} we estimate the maxima.
     The energy differences are displayed in ~\autoref{tab:transitionHg}.
@@ -374,7 +418,7 @@
     We use a setup as depicted in ~\autoref{fig:franckHertzSketch}.
     The tetrode has room temperature $T = \AnodeTemperatureNe$.
     Similar to mercury we see periodic declines in the anode current.
-    But in addition to the main maxima, we observe the occurence of weaker secondary maxima.
+    But in addition to the primary maxima, we observe the occurence of weaker secondary maxima.
     These are caused by additional transitions inside the neon atoms.
     The energy difference are summarized in ~\autoref{tab:transitionNe}
     }
@@ -387,21 +431,21 @@
             \hline
             $1 \rightarrow 2$ & $\TransitionNeOneTwoa$ \\
             $2 \rightarrow 3$ & $3 \cdot \TransitionNeTwoThreebThree$ \\
-            $2 \rightarrow 4$ & $\TransitionNeTwoFoura$\\
-            $4 \rightarrow 5$ & $2 \cdot \TransitionNeFourFivebTwo$\\
-            $5 \rightarrow 6$ & $\TransitionNeFiveSixb$\\
+            $2 \rightarrow 4$ & $\TransitionNeTwoFoura$ \\
+            $4 \rightarrow 5$ & $2 \cdot \TransitionNeFourFivebTwo$ \\
+            $5 \rightarrow 6$ & $\TransitionNeFiveSixb$ \\
             \hline
             Average Main & $\TransitionNeMeana$\\
-            Theoretical & $\TheoreticalTransitionNea$ \\
-            Average Secondary $\TransitionNeMeanb$\\
-            Theoretical Range~\cite{neonSpectrum} & $\TheoreticalTransitionNeb$
+            Theoretical & $\TheoreticalTransitionNea$ or $\TheoreticalTransitionNeaa$ \\
+            Average Secondary & $\TransitionNeMeanb$ \\
+            Theoretical Range~\cite{neonSpectrum} & $\TheoreticalTransitionNeb$ \\
             \hline
             \hline
         \end{tabular}
         \caption{Energy differences between the maxima of the Franck-Hertz-tube filled with neon gas.
         The maxima are estimated from ~\autoref{fig:FrankHertzNe}.
         The errors derive from manually reading the maxima from the graphic.
-        Besides transition between main maxima, secondary maxima occur.
+        Besides transition between primary maxima, secondary maxima occur.
         Those are caused by the intermediate 3s-orbitals of neon.
         After beeing excited to a 3p-orbital, the neon atoms falls back to a 3s-orbital, before 
         transitoning back to the ground state (2p-orbital).
@@ -413,23 +457,88 @@
     \end{table}
 
     We repeat the experiment now with a tetrode filled with neon gas.
-    The tetrode as room temperature $T = \AnodeTemperatureNe$.
+    The tetrode has room temperature $T = \AnodeTemperatureNe$.
     In the range from $0\volt$ to $70\volt$ we vary $U_2$ and record the anode current.
     Furthermore, we search for the best combination of $U_1$ and $U_3$ to get the sharpest curve possible.
     The best curve is shown in ~\autoref{fig:FrankHertzNe} with $U_1 = \SuckingVoltageNe$ and $U_3 = \CounterVoltageNe$.
     
     From the graphic we identify the maxima.
     The transitions are summarized in ~\autoref{tab:transitionNe}.
-    We observe, besides occurrence of main maxima, the appearance of secondary maxima.
+    We observe, besides the occurrence of primary maxima, the appearance of secondary maxima.
+    
     When the electrons collide, they excite the neon from the ground state, which is a 2p-orbital, towards a 3p-orbital.
     The excited atom then falls back to an intermediate 3s-orbital, emitting orange light.
     The atom in the 3s-orbital can either fall back to the ground state, or be excited again towards the
     3p-orbital, if an electron is colliding with it.
     This results in the occurence of secondary maxima.
-    Since not every secondary maximum is visible in the curve, some transitions are multiples of $\Delta E$
+    Since not every secondary maximum is visible in the curve, some energy differences
+    between maxima are multiples of the transition energy $\Delta E_{sec}$
     between the 3p-orbitals and 3s-orbitals.
-    See the ~\autoref{fig:energyLevelsNe} for comparison.
     
+    The average distance between the primary maxima is $\Delta E_{prim} = \TransitionNeMeana \eV$.
+    This fits with the transition from the ground state $\neLevelGround$ to the $\neLevelAA$ or $\neLevelA$ orbital.
+    Those transitions correspond to the energy differences $\TheoreticalTransitionNeaa \eV$ and $\TheoreticalTransitionNea \eV$
+    respectively.
+    See ~\autoref{fig:energyLevelsNe} for comparison.
+    For the secondary maxima the average transition energy is $\Delta E_{sec} = \TransitionNeMeanb \eV$.
+    The transition energies for transitions from the 3p-orbitals to the 3s-orbitals are in the range
+    $\Delta E_{sec} = \TheoreticalTransitionNeb \eV$.
+    The average fits in this range.
+    
+    If the atom transitions from the 3p- to the 3s-orbital, light in the visible range is emitted.
+    This light can be observed as orange planes inside the Franck-Hertz tube.
+    If you continuously increase the accelerating voltage, at $U_2 = (23 \pm 1) \volt$ the first plane appears.
+    When you further increase $U_2$ this plane wanders from the second grid $G2$ towards the first grid $G1$.
+    At $U_2 = (44 \pm 1)\volt$ a second plane and at $U_2 = (62 \pm 1)\volt$ a third plane appears.
+    
+    \section{Summary}
+    
+    We study a vacuum diode and the Franck-Hertz-effect with a basic experimental setup.
+    In the first part we analyze the electric characteristic of a vacuum diode.
+    As an example we pick the heating voltages $U_h = \heatingVoltageSixFive$ and $U_h = \heatingVoltageSeven$
+    and record the anode current as a function of the acceleration voltage as shown in ~\autoref{fig:characteristicCurve}.
+    The rectifier behaviour is observed.
+    For low accelerating voltages we can fit the Schottky-Langmuir law ~\eqref{eq:Schottky} in the data.
+    The determined exponent $b = \schottkySevenPower$ deviates from the theoretical exponent $b = \frac{3}{2}$.
+    A possible explanation could be that the diode has no perfect vacuum, but remaining gas filling.
+    This leads to linear resistance (Ohm's law).
+    The contact voltage could only be determined via the fit $U_k = \schottkySevenUk$.
+    We could not directly measure it since the minimum voltage of our voltage source was $\minvoltage$.
+    For high acceleration voltages a saturation region is reached, where all available charge carriers 
+    contribute to the current flow.
+    The amount of free electrons available through thermionic emission can be described
+    via the Richardson equation~\eqref{eq:theoreticalRichardson}.
+    We apply the maximum acceleration voltage $U_a = \saturationAnodeVoltage$ and measure the current
+    as a function of the heating voltage (see ~\autoref{fig:richardson}).
+    We use the empirical law ~\eqref{eq:richardsonTemperature} to estimate the temperature of our wolfram cathode.
+    We can now fit the Richardson equation inside the data and obtain the work function of the cathode material
+    $W_a = \richardsonModelWa$.
+    The deviation from the wolfram literature value $W_a = \wolframWa$~\cite{wolfram} is caused by the fact, that
+    we do not actual reach the saturation point for high heating voltages.
+    A higher acceleration voltage would be required.
+    
+    In the second part we study the Franck-Hertz-effect with a similar setup.
+    We use tetrodes filled with mercury and neon gas.
+    The advantage of using a tetrode is that through the addition of a sucking voltage $U_1$ and counter voltage
+    $U_3$, we achieve tighter control over the electrons' kinetic energy.
+    We heat the tetrode $T = \AnodeTemperatureHg$ to vaporize the mercury.
+    We measure the anode current as a function of the acceleration voltage $U_2$, see ~\autoref{fig:FrankHertzHg}.
+    We observe periodic recesses in the current, which stem from the electrons scattering 
+    at the mercury atoms and exciting them.
+    The mean distance between peaks is $\Delta E = \TransitionHgMeana \eV$, which corresponds to the 
+    transition from the ground state to the $\HgLevelA$-orbital (~\autoref{tab:transitionHg}).
+    The theoretical energy gap of this transition is $\Delta E = \TheoreticalTransitionHga$
+    (compare ~\autoref{fig:energyLevelsHg}).
+    We repeat this experiment for neon.
+    Here we see besides the primary peaks, secondary maxima (\autoref{fig:FrankHertzNe}).
+    These are caused by the intermediate $3s \rightarrow 3p$-transitions, while the primary peaks originate
+    from $2p \rightarrow 3p$-transitions.
+    The mean energy difference for the primary peaks is $\Delta E_{prim} = \TransitionNeMeana \eV$ and for the
+    secondary maxima is $\Delta E_{sec} = \TransitionNeMeanb \eV$.
+    These correspond to the literature values 
+    $\Delta E_{prim} = \TheoreticalTransitionNeaa \ \mathrm{or} \ \TheoreticalTransitionNea \eV$
+    and $\Delta E_{sec} = \TheoreticalTransitionNeb \eV$ (Compare ~\autoref{fig:energyLevelsHg}).
+    We observe the orange light emitted by the $3p \rightarrow 3s$-transitions.
 
 
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
@@ -441,7 +550,7 @@
         \bibitem{wolfram}  Hütte, Das Ingenieurwissen 34. Auflage, Tabelle16-6, Springer Vieweg 2012
         \bibitem{boltzmanSource}  \url{https://physics.nist.gov/cgi-bin/cuu/Value?k}, last visited 11.03.2024
         \bibitem{frankHertzSource} \url{https://images.saymedia-content.com/.image/t_share/MTc0NDM3MzE2ODA5NDY3MjQw/the-frank-hertz-experiment.png} , last visited 11.03.2024
-        \bibitme{neonSpectrum} \url{https://www.physics.nist.gov/PhysRefData/Handbook/Tables/neontable3_a.htm} , last visited 12.03.2024
+        \bibitem{neonSpectrum} \url{https://www.physics.nist.gov/PhysRefData/Handbook/Tables/neontable3_a.htm} , last visited 12.03.2024
     \end{thebibliography}
     
     \section{Appendix}
@@ -449,20 +558,16 @@
     \begin{figure}[htbp]
         \includegraphics[width=\linewidth]{Graphics/HgEnergyLevels}
         \center
-%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
-%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
-%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
-        \caption{}
+        \caption{Selected energy levels of mercury with allowed transitions and their respective energies.
+        Source: ~\cite{instr}.}
         \label{fig:energyLevelsHg}
     \end{figure}
 
     \begin{figure}[htbp]
         \includegraphics[width=\linewidth]{Graphics/NeonEnergyLevels}
         \center
-%        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
-%        detector. This depends on the wavelength of the ligth, which enables you to measure it.
-%        Graphic from~\cite{imageMichelsonInterferometerWiki}}
-        \caption{}
+        \caption{Selected energy levels of neon with allowed transitions and their respective energies.
+        Source: ~\cite{instr}.}
         \label{fig:energyLevelsNe}
     \end{figure}
 
