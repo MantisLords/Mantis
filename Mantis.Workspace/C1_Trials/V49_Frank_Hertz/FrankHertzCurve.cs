@@ -71,6 +71,8 @@ public static class FrankHertzCurve
         dynPlot.SaveAndAddCommand("fig:FrankHertz"+info.Name);
         
         info.AnodeTemperature.AddCommandAndLog("AnodeTemperature"+info.Name,"^\\circ C");
+        info.U1.AddCommandAndLog("SuckingVoltage"+info.Name,"V");
+        info.U3.AddCommandAndLog("CounterVoltage"+info.Name,"V");
         
     }
 

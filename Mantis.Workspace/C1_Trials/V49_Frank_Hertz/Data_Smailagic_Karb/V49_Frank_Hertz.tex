@@ -39,8 +39,8 @@
 \newcommand{\neLevelA}{2\mathrm{p}^{5}3\mathrm{p}^{3}\mathrm{P}_0}
 \newcommand{\HgLevelA}{6^3\mathrm{P}_1}
 \newcommand{\TheoreticalTransitionHga}{4.89}
-\newcommand{\TheoreticalTransitionNea}{18.9}
-\newcommand{\TheoreticalTransitionNeb}{2.33}
+\newcommand{\TheoreticalTransitionNea}{18.3 \ \mathrm{or} \ 18.9}
+\newcommand{\TheoreticalTransitionNeb}{1.51 \ \dots \ 2.33}
 
 \begin{document}
     \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
@@ -87,7 +87,7 @@
     \section{Characteristic of a vacuum diode}
 
     \begin{figure}[htbp]
-        \includegraphics[width=\linewidth]{VacuumDiodeSketch}
+        \includegraphics[width=\linewidth]{Graphics/VacuumDiodeSketch}
         \center
 %        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
 %        detector. This depends on the wavelength of the ligth, which enables you to measure it.
@@ -263,7 +263,7 @@
     \section{The Franck-Hertz effect}
 
     \begin{figure}[htbp]
-        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \includegraphics[width=\linewidth]{Graphics/FranckHertzSketch}
         \center
 %        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
 %        detector. This depends on the wavelength of the ligth, which enables you to measure it.
@@ -344,7 +344,10 @@
     We continuously vary the acceleration voltage $U_2$ from $0\volt$ to $30\volt$.
     It is limited by the anode current, which 
     may not exceed $I = 10 \, \mathrm{nA}$, since it would break the tetrode.
-    The measured data is shown in ~\autoref{fig:FrankHertzHg}.
+    We record characteristic curves for different pairs of sucking and counter voltage, to
+    find a curve with sharp maxima inside the confines of our measurement range.
+    The best measured data is shown in ~\autoref{fig:FrankHertzHg}.
+    The sucking voltage is $U_1 = \SuckingVoltageHg$ and the counter voltage is $U_3 = \CounterVoltageHg$.
     
     We observe that the current increases with increasing $U_2$.
     But at certain intervals it drops.
@@ -364,9 +367,69 @@
     ultraviolet spectrum.
     
     
+    \subsection{Franck-Hertz effect with neon}
     
-    
+    \figFrankHertzNe{
+    Characteristic curve of neon optained by the Franck-Hertz experiment.
+    We use a setup as depicted in ~\autoref{fig:franckHertzSketch}.
+    The tetrode has room temperature $T = \AnodeTemperatureNe$.
+    Similar to mercury we see periodic declines in the anode current.
+    But in addition to the main maxima, we observe the occurence of weaker secondary maxima.
+    These are caused by additional transitions inside the neon atoms.
+    The energy difference are summarized in ~\autoref{tab:transitionNe}
+    }
 
+    \begin{table}[httb]
+        \centering
+        \begin{tabular}{c c}
+            \hline \hline
+            Maxima & Energy difference $\Delta E \ \mathrm{in} \eV$ \\
+            \hline
+            $1 \rightarrow 2$ & $\TransitionNeOneTwoa$ \\
+            $2 \rightarrow 3$ & $3 \cdot \TransitionNeTwoThreebThree$ \\
+            $2 \rightarrow 4$ & $\TransitionNeTwoFoura$\\
+            $4 \rightarrow 5$ & $2 \cdot \TransitionNeFourFivebTwo$\\
+            $5 \rightarrow 6$ & $\TransitionNeFiveSixb$\\
+            \hline
+            Average Main & $\TransitionNeMeana$\\
+            Theoretical & $\TheoreticalTransitionNea$ \\
+            Average Secondary $\TransitionNeMeanb$\\
+            Theoretical Range~\cite{neonSpectrum} & $\TheoreticalTransitionNeb$
+            \hline
+            \hline
+        \end{tabular}
+        \caption{Energy differences between the maxima of the Franck-Hertz-tube filled with neon gas.
+        The maxima are estimated from ~\autoref{fig:FrankHertzNe}.
+        The errors derive from manually reading the maxima from the graphic.
+        Besides transition between main maxima, secondary maxima occur.
+        Those are caused by the intermediate 3s-orbitals of neon.
+        After beeing excited to a 3p-orbital, the neon atoms falls back to a 3s-orbital, before 
+        transitoning back to the ground state (2p-orbital).
+        But instead of returning to the ground state, the atom can also be excited again towards a 3p-orbital.
+        This results in secondary maxima.
+        Compare ~\autoref{fig:energyLevelsNe}.
+        }
+        \label{tab:transitionNe}
+    \end{table}
+
+    We repeat the experiment now with a tetrode filled with neon gas.
+    The tetrode as room temperature $T = \AnodeTemperatureNe$.
+    In the range from $0\volt$ to $70\volt$ we vary $U_2$ and record the anode current.
+    Furthermore, we search for the best combination of $U_1$ and $U_3$ to get the sharpest curve possible.
+    The best curve is shown in ~\autoref{fig:FrankHertzNe} with $U_1 = \SuckingVoltageNe$ and $U_3 = \CounterVoltageNe$.
+    
+    From the graphic we identify the maxima.
+    The transitions are summarized in ~\autoref{tab:transitionNe}.
+    We observe, besides occurrence of main maxima, the appearance of secondary maxima.
+    When the electrons collide, they excite the neon from the ground state, which is a 2p-orbital, towards a 3p-orbital.
+    The excited atom then falls back to an intermediate 3s-orbital, emitting orange light.
+    The atom in the 3s-orbital can either fall back to the ground state, or be excited again towards the
+    3p-orbital, if an electron is colliding with it.
+    This results in the occurence of secondary maxima.
+    Since not every secondary maximum is visible in the curve, some transitions are multiples of $\Delta E$
+    between the 3p-orbitals and 3s-orbitals.
+    See the ~\autoref{fig:energyLevelsNe} for comparison.
+    
 
 
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
@@ -374,23 +437,17 @@
         \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 49, Kennlinien von Vakuumdioden
         und Franck-Hertz-Versuch, 2021
         \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
-        \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
-        recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
-        88, 035009 (2016))
-        \bibitem{miller} \url{https://de.wikipedia.org/wiki/Datei:Miller_Indizes_Ebenen.png}, zuletzt aufgerufen am 14.09.2021
-        \bibitem{pasco} Pasco Microwave Optics System (WA-9314C) Instruction Manual
-        %\bibitem{missing} \url{https://en.wikipedia.org/wiki/Transverse_mode}, zuletzt aufgerufen am 8.10.2021
-        \bibitem{imageMichelsonInterferometerWiki} \url{https://en.wikipedia.org/wiki/Michelson_interferometer#/media/File:Michelson_interferometer_with_labels.svg}, last visit 23.09.23
-        
+
         \bibitem{wolfram}  Hütte, Das Ingenieurwissen 34. Auflage, Tabelle16-6, Springer Vieweg 2012
         \bibitem{boltzmanSource}  \url{https://physics.nist.gov/cgi-bin/cuu/Value?k}, last visited 11.03.2024
-        \bibitem{frankHertzSource} \url{https://images.saymedia-content.com/.image/t_share/MTc0NDM3MzE2ODA5NDY3MjQw/the-frank-hertz-experiment.png}, last visited 11.03.2024
+        \bibitem{frankHertzSource} \url{https://images.saymedia-content.com/.image/t_share/MTc0NDM3MzE2ODA5NDY3MjQw/the-frank-hertz-experiment.png} , last visited 11.03.2024
+        \bibitme{neonSpectrum} \url{https://www.physics.nist.gov/PhysRefData/Handbook/Tables/neontable3_a.htm} , last visited 12.03.2024
     \end{thebibliography}
     
     \section{Appendix}
 
     \begin{figure}[htbp]
-        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \includegraphics[width=\linewidth]{Graphics/HgEnergyLevels}
         \center
 %        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
 %        detector. This depends on the wavelength of the ligth, which enables you to measure it.
@@ -400,7 +457,7 @@
     \end{figure}
 
     \begin{figure}[htbp]
-        \includegraphics[width=\linewidth]{FranckHertzSketch}
+        \includegraphics[width=\linewidth]{Graphics/NeonEnergyLevels}
         \center
 %        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
 %        detector. This depends on the wavelength of the ligth, which enables you to measure it.
