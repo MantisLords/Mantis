@@ -73,7 +73,7 @@
     
     
     \section{Examination of Different Surfaces}\label{sec:ExaminationOfDifferentSurfaces}
-    In order to examine the radiative properties of various surfaces, the experimental setup shown in \autoref{} was used.
+    In order to examine the radiative properties of various surfaces, the experimental setup shown in \autoref{fig:Aufbau1} was used.
     A black, a white, a nickel plated polished and a matte surface were available for selection. 
     The cube was kept at a controlled temperature by a thermostat from \textit{Lauda E100}.
     This temperature was increased from $ 289\,$K to $363\,$K.
@@ -82,6 +82,16 @@
     Since this set-of is not exactly the ambient temperature, but the temperature at which the voltage reading is $0$, we linearize the first few measured voltage values 
     and find the intersection with the x-Axis.
     This is done for all the different surfaces and the mean value was taken as the set-of temperature.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/Aufbau1}
+            \caption{The experimental setup: The thermostat keeps the cube at a constant temperature while the Leslie 
+            cube can be rotated in order to measure the radiation of different surfaces.
+            The radiation is picked up by a thermopile and the voltage signal is read on the \textit{Agilent 34405 A} multimeter.
+            The filter rig can be used to put filters in the peth of the radiation.}
+            \label{fig:Aufbau1}
+        \end{center}
+    \end{figure}
     \begin{equation}\label{SetofTemp}
         T_0 = 292.5 \pm 0.4
     \end{equation}
@@ -94,7 +104,10 @@
     \begin{figure}
                \begin{center}
                \includegraphics[width=\linewidth]{Generated/StefanBolzmannPlot}
-               \caption{}
+               \caption{Measurement of the radiative properties of 4 different surfaces.
+               For this measurement the setup from \autoref{fig:Aufbau1} was used. The temperature was manually increased from $ 289\,$K to $363\,$K. using a thermometer of the type \textit{Lauda E100}.
+               The voltage was measured with a \textit{Agilen 34405 A} multimeter.
+               An exponential fit throug the data was used to determine whether the data follows the \textit{Stefan Boltzmann law} of radiation.}
                \label{fig:FirstPlot}
                \end{center}
     \end{figure}
@@ -116,7 +129,7 @@
         \normalsize
         \caption[]{These are the values of the exponent $b$ obtained by fitting $U = a\cdot(T^b - T_0^b) $ into the data from \autoref{fig:FirstPlot}.
         The constant set-of temperature $T_0$ due to the internal constuction of the used thermopile was accounted for.
-        The voltage was measured using a \textit{Agilent 3305 A} multimeter.}  %siehe Graphik: Beschriftung
+        The voltage was measured using a \textit{Agilent 34405 A} multimeter.}  %siehe Graphik: Beschriftung
         \label{tab:FittedExponent}                             %siehe Graphik: zum Zitieren
     \end{table}
     \autoref{fig:FirstPlot} shows the voltage as a function of temperature for the four available surfaces.
@@ -135,7 +148,7 @@
     
     
     
-    \section{Simulating a Black Body}\label{BlackBodyRadiation}
+    \section{Simulating a Black Body}\label{sec:BlackBodyRadiation}
     In order to simulate a black body as well as possible, we set up a hollow chamber with a small opening.
     The opening is covered with a water cooled aperture to make the measurement even cleaner.
     The temperature of the chamber was continuously heated and the voltage reading corresponding to the radiation through the opening was recorded on an \textit{Agilent 34405A}.
@@ -152,7 +165,9 @@
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/Aufbau2}
-            \caption{}
+            \caption{Experimental setup for for simulating a perfect black body radiatior. The hollow chamber was gradually heated 
+            and the voltage reading on the thermopile was read on a \textit{Agilent 34405 A} multimeter. The adjustable angle was set to 0 degrees.
+            Running water was filled in the cooling aperture in order to make the measurement more accurate.}
             \label{fig:Aufbau2}
         \end{center}
     \end{figure}
@@ -173,7 +188,7 @@
     
     \section{Infrared transmission of different materials}\label{sec:Transmission}
     In this experiment, we look at the transmission properties of different materials in the infrared range.
-    Again, the setup from \autoref{} was used, but now with the black surface of the leslie cube and different filters between the cube and the thermopile.
+    Again, the setup from \autoref{fig:Aufbau1} was used, but now with the black surface of the leslie cube and different filters between the cube and the thermopile.
     The transmission value for each material was determined as the amount of radiation measured behind the filter relative to the radiation value with no filter.
     The calculated values are depicted in \autoref{tab:TransistivityValues}.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
@@ -193,10 +208,63 @@
             \hline
         \end{tabular*}
         \normalsize
-        \caption[]{The calculated transmission coefficients for different materials using the setup from \autoref{}.
+        \caption[]{The calculated transmission coefficients for different materials using the setup from \autoref{fig:Aufbau1}.
         The black surface of the leslie cube was used at a temperature of $353\,$K. The ambient temperature was measured to be $293\,$K .
-        The voltage was measured using a \textit{Agilent 3305 A} multimeter.}  %siehe Graphik: Beschriftung
+        The voltage was measured using a \textit{Agilent 34405 A} multimeter.}  %siehe Graphik: Beschriftung
         \label{tab:TransistivityValues}                             %siehe Graphik: zum Zitieren
     \end{table}
+    The results from \autoref{tab:TransistivityValues} show that the absorption or
+    transmission of electromagnetic radiation, especially
+    infrared radiation, depends on the structure and properties of the material. 
+    Infrared radiation is energetically in the same range as the vibration of molecular
+    bonds, i.e. absorption leads to an excitation of the bonds. 
+    Electromagnetic waves excite the energy bands of the materials which causes absorbtion of part of the energy.
+    This is why amorphous materials like window glass, have a very low transmission.
+    On the other hand, molecules which exhibit a dipole moment would not absorb as much radiation.
     
+    The wavelength $\lambda_{Peak}$ of the radiation sent out from the cube can be calculcatd with \textit{Wiens} displacement law.
+    \begin{equation}
+        \lambda_{Peak} = \frac{b}{T}
+    \end{equation}
+    with b $\approx 2.897771955\cdot 10^{-3}\,\frac{\text{m}}{\text{K}}$.
+    This yields the wavelengths at which Planck´s radiation law has its peak for room temperature and for the temperature of the Leslie Cube.
+    \begin{equation}
+        \lambda_{Room} = \RoomWavelenght
+    \end{equation}
+    \begin{equation}
+        \lambda_{Cube} = \CubeWavelength
+    \end{equation}
+    
+    These wavelengths are both well in the infrared range of the spectrum.
+    
+    \section{Lambert Law}\label{sec:lambertLaw}
+    The angular dependence of the radiation of a black body is described by the Lambert law.
+    \begin{equation}
+        J = J_0 \cdot cos(\phi)
+    \end{equation}
+    This is a consequence of the fact that the area from which the heat is radiated depends on the angle from which it is observed.
+    To simulate a black body, we use the setup from \autoref{fig:Aufbau2}.
+    The chamber was set to $630 \pm 5\,$K while the intensity of the radiation was measured as a function of the angle $\phi$.
+    The temperature error is an estimate, since the reading was not very precise.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/AnglePlot}
+            \caption{}
+            \label{fig:AnglePlot}
+        \end{center}
+    \end{figure}
+    The measured data is depicted in \autoref{fig:AnglePlot}.
+    When compared to the theoretical predicted cosine, the measured data does roughly follow a cosine, however the slope is much greater.
+    This is due to the fact, that non perfect black-bodies radiate primarily in the direction of the opening
+
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/LinearizedAnglePlot}
+            \caption{}
+            \label{fig:LinearizedAnglePlot}
+        \end{center}
+    \end{figure}
+    If we compare the radiation intensity with the cosine of the angle we can fit a line through the data.
+    If we look at \autoref{fig:LinearizedAnglePlot} we can see that \textit{Lamberts law} looks to be fulfilled for larger angles,
+    while the first data-point does not align with the rest.
 \end{document}

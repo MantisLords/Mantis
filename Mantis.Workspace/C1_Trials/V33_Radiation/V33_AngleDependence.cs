@@ -16,8 +16,14 @@ public record struct AngleVoltageData
     [QuickTableField("cosAngle", "")] public ErDouble cosAngle;
     [QuickTableField("voltage", "")] public ErDouble voltage;
     
-    public AngleVoltageData()
-    {}
+    [UseConstructorForParsing]
+    public AngleVoltageData(string angle, ErDouble cosAngle, string voltage)
+    {
+        this.angle = ErDouble.ParseWithErrorLastDigit(angle,null,0.5);
+        this.voltage = ErDouble.ParseWithErrorLastDigit(voltage,null,0.3);
+        this.cosAngle = cosAngle;
+
+    }
 }
 public class V33_AngleDependence
 {
@@ -42,7 +48,7 @@ public class V33_AngleDependence
             Units = new []{"",""}
         }
         );
-        model.DoLinearRegression(false);
+        model.DoLinearRegression(true);
         plotTwo.AddRegModel(model);
         plotTwo.SaveAndAddCommand("LinearizedAnglePlot");
 

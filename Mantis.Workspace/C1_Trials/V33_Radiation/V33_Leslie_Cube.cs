@@ -50,7 +50,7 @@ public class QuattroFitPlusConstant : AutoDerivativeFunc, IFixedParameterCount
 
     public override double CalculateResult(Vector<double> p, double x)
     {
-        return p[0] * (Math.Pow(x, p[1]) - Math.Pow(temperatureZero, p[1])) + p[2];
+        return p[0] * (Math.Pow(x, p[1]) - Math.Pow(temperatureZero+ p[2], p[1])) ;
     }
 
     public int ParameterCount => 3;
