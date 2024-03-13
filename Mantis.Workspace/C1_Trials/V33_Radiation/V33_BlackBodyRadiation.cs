@@ -51,7 +51,7 @@ public class V33_BlackBodyRadiation
         //model.DoLinearRegression(false);
         model.AddParametersToPreambleAndLog("Quatro",LogLevel.OnlyLog);
         ErDouble fitParameter = model.ErParameters[1];
-        fitParameter.Error = 0.2;
+        fitParameter.Error = 0.20;
         fitParameter.AddCommand("BlackBodyFitParameter");
         DynPlot plot = new DynPlot("Temperature", "Voltage");
         plot.AddDynErrorBar(dataList.Select(e => (temperature: e.Temperature, voltage: e.Voltage)));

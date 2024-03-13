@@ -29,8 +29,8 @@ public class V33_Transistivity
         for (int i = 0; i < 9; i++)
         {
             ErDouble wert = dataList[i];
-            wert.Error = dataList[i].Value * 0.025 + 0.8 * Math.Pow(10, -3);
-            ((wert-dataList[8]) / dataList[0]).AddCommand("TransistivityValue"+i);
+            wert.Error = dataList[i].Value * 0.025 + 0.8 * Math.Pow(10, -3);//Error of Agilent
+            (((wert-dataList[8]) / dataList[0])*100).AddCommand("TransistivityValue"+i);
             dataList[i] = wert;
         }
     }
@@ -38,8 +38,8 @@ public class V33_Transistivity
     public static void CalculateWavelenghts()
     {
         double b =  2.89777 * Math.Pow(10,-3);
-        double RoomTemp = 20 + 273.15;
-        double CubeTemp = 80 + 273.15;
+        ErDouble RoomTemp = new ErDouble(20+273.15,0.5);
+        ErDouble CubeTemp = new ErDouble(80 + 273.15,0.5);
         (b/CubeTemp).AddCommand("CubeWavelength");
         (b/RoomTemp).AddCommand("RoomWavelenght");
     }

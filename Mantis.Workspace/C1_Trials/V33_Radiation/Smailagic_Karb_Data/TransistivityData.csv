@@ -1,10 +1,10 @@
 ﻿val:NoFilter,2.333
 val:Nickel,0
-val:Window,0.035
+val:Window,0.057
 val:SiliconeFront,1.110
 val:NaCl,1.797
-val:InfraredGlass,0.897
+val:InfraredGlass,0.035
 val:SiliconeBack,1.110
-val:SiliconeMid,0.9745
+val:SiliconeMid,0.895
 val:ZeroPoint,0
 val:Temperature,80

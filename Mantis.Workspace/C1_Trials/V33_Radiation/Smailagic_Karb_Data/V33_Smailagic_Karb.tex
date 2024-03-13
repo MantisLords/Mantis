@@ -48,12 +48,18 @@
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}%Beginn des Abstracts
         
-        This abstract is soooo abstract.
+        We examine the validity of the \textit{Stefan Boltzmann law} with a setup which simulates a black body using a hollow chamber with dark walls.
+        The determined exponent is $\BlackBodyFitParameter$ which coincides with the theoretically expected value of $4$.
+        The setup does however have some drawbacks as one does not have full control over all the relevant parameters, such as the room temperature.
+        The same setup was used to look at the angle dependence of the radiation, allowing to compare the measured data to the theoretically predicted \textit{Lambert law}.
+        The setup also allows for comparison of the radiative and trasmissive properties of different materials in the infrared range.
+        The fitted exponents for the four different materials are: Polisched nickel $\ExponentPolished$, matte nickel $\ExponentMatt$,
+        white surface $\ExponentWhite$, black surface $\ExponentBlack$.
         
         
         \\
-        \\
-        Measuerement made: 8th March 2024 \\       %Datum ändern!
+        
+        Measuerement made: 8th March 2024 \\ 
         Submitted: 15th March 2024  \\
         
         \\
@@ -161,7 +167,7 @@
     The device which we used to heat up the chamber was rather inert and we had a hard time recording the displayed temperature and the voltage reading at the same time.
     We estimated the error of the temperature reading as $\pm 1\,$K (last digit).
     Although the cooling aperture was used in the experiment, it might not have been enough to shield the measurement from all environmental radiation.
-    Due to these effects we estimated the error to be $5\%$\).
+    Due to these effects we estimated the error to $5\%$\).
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/Aufbau2}
@@ -174,7 +180,10 @@
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/BlackBodyPlot}
-            \caption{}
+            \caption{Measurement of the temperature dependence of the radiation from a hollow chamber with an opening.
+            The setup from \autoref{fig:Aufbau2} was used, while the temperature was gradually increased and the voltage reading of the thermopile
+            was measured with a \textit{Agilent 34405 A}.
+            An exponential fit was used to determine the temperature dependence of the radiation which should follow a $T^4$ law.}
             \label{fig:BlackBodyPlot}
         \end{center}
     \end{figure}
@@ -200,10 +209,10 @@
             \hline
             \rule[-5pt]{0pt}{23pt}   No Filter  &   \TransistivityValue 	 \\
             \rule[-5pt]{0pt}{23pt}   Nickel   & \TransistivityValueOne    	 \\
-            \rule[-5pt]{0pt}{23pt}   Window glass  &   \TransistivityValueTwo 	 \\
+            \rule[-5pt]{0pt}{23pt}   Window glass  &   \TransistivityValueTwo	 \\
             \rule[-5pt]{0pt}{23pt}   Silicon  &   \TransistivityValueThree  	 \\
             \rule[-5pt]{0pt}{23pt}   NaCl  &   \TransistivityValueFour 	 \\
-            \rule[-5pt]{0pt}{23pt}   Infrared  &   \TransistivityValueFive  	 \\
+            \rule[-5pt]{0pt}{23pt}   Infrared  &   \TransistivityValueFive	 \\
             \hline
             \hline
         \end{tabular*}
@@ -249,7 +258,10 @@
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/AnglePlot}
-            \caption{}
+            \caption{The measurement of the angular dependence of the radiation of a heated chamber, comparad to the theoretically predicted \textit{Lambert´s law}.
+            The chamber was set to a temperature of $630\, \pm \,5\,$K and the setup from \autoref{fig:Aufbau2} was used.
+            The angle $\phi$ was varied from $0^\circ$ to $50^\circ $.
+            The discrepancy between the theoretical curve and the measured values is due to the fact, that the chamber is not a perfect black body and it radiates more intensively in the in the direction fo the opening}
             \label{fig:AnglePlot}
         \end{center}
     \end{figure}
@@ -260,11 +272,21 @@
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/LinearizedAnglePlot}
-            \caption{}
+            \caption{Linear fit throug the data-points from the angle dependency measuremen,which is expected for a perfect black body.
+            The chamber was set to a temperature of $630\, \pm \,5\,$K and the setup from \autoref{fig:Aufbau2} was used.
+            The angle $\phi$ was varied from $0^\circ$ to $50^\circ $.
+            In the case of the used chamber the radiation values for small angles should deviate from this curve,
+            because the non-ideal black-body radiates more directly in front of the opening.}
             \label{fig:LinearizedAnglePlot}
         \end{center}
     \end{figure}
     If we compare the radiation intensity with the cosine of the angle we can fit a line through the data.
     If we look at \autoref{fig:LinearizedAnglePlot} we can see that \textit{Lamberts law} looks to be fulfilled for larger angles,
     while the first data-point does not align with the rest.
+    
+    
+    
+    
+    \section{Summary}
+    
 \end{document}

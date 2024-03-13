@@ -17,10 +17,12 @@ public record struct AngleVoltageData
     [QuickTableField("voltage", "")] public ErDouble voltage;
     
     [UseConstructorForParsing]
-    public AngleVoltageData(string angle, ErDouble cosAngle, string voltage)
+    public AngleVoltageData(ErDouble angle, ErDouble cosAngle, ErDouble voltage)
     {
-        this.angle = ErDouble.ParseWithErrorLastDigit(angle,null,0.5);
-        this.voltage = ErDouble.ParseWithErrorLastDigit(voltage,null,0.3);
+        this.angle = angle;
+        this.angle.Error = 0.5;
+        this.voltage = voltage;
+        this.voltage.Error = this.voltage.Value * 0.025;
         this.cosAngle = cosAngle;
 
     }
@@ -32,15 +34,15 @@ public class V33_AngleDependence
         var csvReader = new SimpleTableProtocolReader("AngleData");
         List<AngleVoltageData> dataList = csvReader.ExtractTable<AngleVoltageData>("tab:AngleData");
         
-        DynPlot plot = new DynPlot();
-        plot.AddDynErrorBar(dataList.Select(e => (e.angle, e.voltage)));
+        DynPlot plot = new DynPlot("Angle [deg]","Voltage [mV]");
+        plot.AddDynErrorBar(dataList.Select(e => (e.angle, e.voltage)),label:"Measured voltage proportional to the radiation");
         
         var theoreticalFunction = new Func<double, double>(x => dataList[0].voltage.Value * Math.Cos(x.ToRadians()));
-        plot.AddDynFunction(theoreticalFunction);
+        plot.AddDynFunction(theoreticalFunction,label:"Radiation curve of a perfect black body according Lambert");
         plot.SaveAndAddCommand("AnglePlot");
         
-        DynPlot plotTwo = new DynPlot();
-        plotTwo.AddDynErrorBar(dataList.Select(e => (e.cosAngle, e.voltage)));
+        DynPlot plotTwo = new DynPlot("Cosine of angle","Voltage [mV]");
+        plotTwo.AddDynErrorBar(dataList.Select(e => (e.cosAngle, e.voltage)),label:"Measured voltage proportional to the radiation");
         
         RegModel model = dataList.CreateRegModel(e => (e.cosAngle, e.voltage),
         new ParaFunc(2,new LineFunc())
@@ -49,7 +51,7 @@ public class V33_AngleDependence
         }
         );
         model.DoLinearRegression(true);
-        plotTwo.AddRegModel(model);
+        plotTwo.AddRegModel(model,labelFunction:"Fitted linear function through the data");
         plotTwo.SaveAndAddCommand("LinearizedAnglePlot");
 
 
