@@ -4,6 +4,7 @@ using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
 using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
+using ScottPlot;
 
 namespace Mantis.Workspace.C1_Trials.V33_Radiation;
 
@@ -53,9 +54,11 @@ public class V33_BlackBodyRadiation
         ErDouble fitParameter = model.ErParameters[1];
         fitParameter.Error = 0.20;
         fitParameter.AddCommand("BlackBodyFitParameter");
-        DynPlot plot = new DynPlot("Temperature", "Voltage");
+        DynPlot plot = new DynPlot("Temperature [K]", "Voltage [mV]");
         plot.AddDynErrorBar(dataList.Select(e => (temperature: e.Temperature, voltage: e.Voltage)));
-        plot.AddRegModel(model);
+        plot.AddRegModel(model,"Measured data-points of voltage corresponding to radiation","Fitted exponential function with exponent (3.86 +- 0.20)");
+        var legend = plot.Legend;
+        legend.Location = Alignment.UpperLeft;
         plot.SaveAndAddCommand("BlackBodyPlot");
     }
 }

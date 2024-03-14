@@ -6,6 +6,8 @@ using Mantis.Core.TexIntegration;
 using Mantis.Core.Utility;
 using MathNet.Numerics.LinearAlgebra;
 using ScottPlot;
+using ScottPlot.Legends;
+using SkiaSharp;
 
 namespace Mantis.Workspace.C1_Trials.V33_Radiation;
 [QuickTable("", "LeslieData")]
@@ -112,7 +114,7 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentWhite");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        plot.AddRegModel(QuattroFunc);
+        plot.AddRegModel(QuattroFunc,null,"White surface",Color.FromSKColor(SKColors.Yellow));
         QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.matt),
             new ParaFunc(2,new QuattroFit(temperatureZero))
             {
@@ -122,7 +124,7 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentMatt");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        plot.AddRegModel(QuattroFunc);
+        plot.AddRegModel(QuattroFunc,null,"Matte surface",Color.FromSKColor(SKColors.Green));
 
         QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.black),
             new ParaFunc(2,new QuattroFit(temperatureZero))
@@ -133,7 +135,7 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 4, 4 }, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentBlack");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        plot.AddRegModel(QuattroFunc);
+        plot.AddRegModel(QuattroFunc,null,"Black surface",Color.FromSKColor(SKColors.Blue));
 
         QuattroFunc = dataList.CreateRegModel(e=>(e.temperature, e.polished),
             new ParaFunc(3,new QuattroFitPlusConstant(temperatureZero))
@@ -144,7 +146,10 @@ public class V33_Leslie_Cube
         QuattroFunc.DoRegressionLevenbergMarquardt(new double[] { 1,1,1}, false);
         QuattroFunc.ErParameters[1].AddCommand("ExponentPolished");
         Console.WriteLine(QuattroFunc.ErParameters[1]);
-        plot.AddRegModel(QuattroFunc);
+        plot.AddRegModel(QuattroFunc,null,"Polished surface",Color.FromSKColor(SKColors.Red));
+        var legend = plot.Legend;
+        legend.Location = Alignment.UpperLeft;
+        
         plot.SaveAndAddCommand("StefanBolzmannPlot");
     }
 }
