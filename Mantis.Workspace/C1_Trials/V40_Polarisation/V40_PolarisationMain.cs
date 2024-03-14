@@ -9,50 +9,15 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace Mantis.Workspace.C1_Trials.V40_Polarisation;
 
-[QuickTable("","tab:malusData")]
-public record struct MalusData
-{
-    [QuickTableField("current", "muA")] public ErDouble Current = 0;
-    [QuickTableField("angle", "°")] public ErDouble Angle = 0;
 
-    public MalusData()
-    {
-        
-    }
-}
 
-public class CosFunc : AutoDerivativeFunc
+public static class V40_PolarisationMain
 {
-    public override double CalculateResult(Vector<double> ps, double x)
-    {
-        // f(x) = A + B cos^2( x )
-        return ps[1] * Math.Pow(Math.Cos((x + ps[0]) * Constants.Degree), 2);
-    }
-}
-
-public class V40_PolarisationMain
-{
+    public static SimpleTableProtocolReader Reader = new SimpleTableProtocolReader("PolarisationData.csv");
+    
     public static void Process()
     {
-        var reader = new SimpleTableProtocolReader("MalusData.csv");
-
-        var dataList = reader.ExtractTable<MalusData>();
-        
-        //dataList.ForEachRef((ref MalusData data) => data.Angle -= 0);
-
-        var model = dataList.CreateRegModel(e => (e.Angle, e.Current), new ParaFunc(2,new CosFunc()));
-
-
-        model.DoRegressionLevenbergMarquardt(new double[] {0, 1}, false);
-        
-        model.AddParametersToPreambleAndLog("");
-        
-        //model.AddGoodnessOfFitToPreambleAndLog("");
-
-        var plt = new DynPlot("Angle in °", "Current in muA");
-
-        plt.AddRegModel(model);
-        
-        plt.SaveAndAddCommand("fig:MalusFit","");
+        MalusLaw.Process();
+        SugarSolution.Process();
     }
 }

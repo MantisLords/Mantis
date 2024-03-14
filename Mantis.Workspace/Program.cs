@@ -5,6 +5,7 @@ using Mantis.Core.FileManagement;
 using Mantis.Workspace.BasicTests;
 using Mantis.Workspace.C1_Trials.V31_RealGasStateVariables;
 using Mantis.Workspace.C1_Trials.V39_Hysteresis;
+using Mantis.Workspace.C1_Trials.V40_Polarisation;
 using Mantis.Workspace.C1_Trials.V41_EMWaweSpeed;
 using Mantis.Workspace.C1_Trials.V42_MicrowaveMeasurement;
 
@@ -26,5 +27,8 @@ Console.WriteLine("Hello, World!");
 // FileManager.GlobalWorkspace = "CondensedMatter1/Exercise2_DebyeModel";
 // CM1_Ex2_DebyeModel_Main.Process();
 
-FileManager.GlobalWorkspace = "C1_Trials/V31_RealGasStateVariables/Data_Smailagic_Karb";
-V31_Main.Process();
+// FileManager.GlobalWorkspace = "C1_Trials/V31_RealGasStateVariables/Data_Smailagic_Karb";
+// V31_Main.Process();
+
+FileManager.GlobalWorkspace = "C1_Trials/V40_Polarisation/Data_Smailagic_Karb";
+V40_PolarisationMain.Process();

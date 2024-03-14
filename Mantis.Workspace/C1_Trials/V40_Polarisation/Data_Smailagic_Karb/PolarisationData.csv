@@ -1,0 +1,87 @@
+﻿# Malus law:
+
+tab:malusData
+angle in degree,current in muA
+90,421
+80,418
+70,384.9
+60,339.4
+50,274.5
+40,200.4
+30,131.9
+20,68.6
+10,24.2
+0,4.6
+
+# half shadow and shugar solution
+
+val:hsWavelength,580,nm
+val:firstPosAngle,170,169,168,169
+val:secondPosAngle,178,179,180,179
+
+
+val:glasTubeLength,300+-1,mm
+val:referenceConcentration,100+-1,mg/ml
+val:angleReference,125+-0.5,degree
+val:angleTest,137+-0.5,degree
+
+
+# Faradey effect
+
+# Magnetic field
+val:glasCylinderLength,30.95,mm
+
+val:currentForLocalField,1.505,A
+tab:localBField
+bField in mT,x in mm
+12.5,826
+27.2,828
+
+tab:maxBFieldData
+current in A,bField in mT
+
+
+val:fyWavelength1,525,nm
+tab:fyData1
+current in A,angle in degree
+0.004,1
+-0.502,0
+-0.814,0
+-1.097,-1
+-1.412,-2
+-1.705,-2
+-2.016,-3
+-2.312,-4
+-2.608,-4
+-2.894,-5
+
+val:fyWavelength2,440,nm
+tab:fyData2
+current in A,angle in degree
+0.003,1
+-0.506,0
+-0.797,0
+-1.091,-1
+-1.397,-2
+-1.686,-2
+-2.028,-3
+-2.312,-3
+-2.611,-4
+-2.897,-5
+
+val:fyWavelength3,580,nm
+tab:fyData3
+current in A,angle in degree
+0.003,0
+-0.545,0
+-0.796,-0.5
+-1.109,-1
+-1.408,-1
+-1.693,-2
+-2.001,-3
+-2.302,-3
+-2.593,-3
+-2.898,-4
+
+
+
