@@ -48,8 +48,8 @@
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}%Beginn des Abstracts
         
-        We examine the validity of the \textit{Stefan Boltzmann law} with a setup which simulates a black body using a hollow chamber with dark walls.
-        The determined exponent is $\BlackBodyFitParameter$ which coincides with the theoretically expected value of $4$.
+        We examine the validity of the \textit{Stefan Boltzmann law} i.e. a $T^4$ dependence of the radiation with a setup which simulates a black body using a hollow chamber with dark walls.
+        The determined exponent $T^b$ is $b=(\BlackBodyFitParameter)$ which coincides with the theoretically expected value of $4$.
         The setup does however have some drawbacks as one does not have full control over all the relevant parameters, such as the room temperature.
         The same setup was used to look at the angle dependence of the radiation, allowing to compare the measured data to the theoretically predicted \textit{Lambert law}.
         The setup also allows for comparison of the radiative properties of different materials in the infrared range.
@@ -70,7 +70,7 @@
     The thermal properties of bodies have been of huge interest since the 19th century.
     A better understanding of these properties, as well as experimental means to measure them accurately have been developing well into the 20th century.
     In this paper we present a possible experimental setup which tries to simulate a black body with a hollow box which is being held at constant temperature.
-    With this setup, we try verifying the $T^4$ dependence of the radiation according to \textit{Stefan-Boltzmann law}.
+    With this setup, we try verifying the $T^4$ dependence of the radiation according to the \textit{Stefan-Boltzmann law}.
     We are also able to use the setup to look at the angle dependence of the black-body radiation, which according to \textit{Lambert} should follow a cosine function.
     Since the surface of a radiating body influences its radiative properties, we used a setup which allowed for comparison of different surfaces under controlled conditions.
     For the experiment, we used a \textit{Leslie} cube with four different surfaces on 4 of its sides.
@@ -79,17 +79,17 @@
     
     
     
-    \section{Examination of Different Surfaces}\label{sec:ExaminationOfDifferentSurfaces}
+    \section{Examination of different surfaces}\label{sec:ExaminationOfDifferentSurfaces}
     In order to examine the radiative properties of various surfaces, the experimental setup shown in \autoref{fig:Aufbau1} was used.
     A cube with 4 different surfaces on its sides was heated with water and kept at a controlled temperature by a thermostat from \textit{Lauda E100}.
     Behind a heat shield, a thermopile was placed which converted the received radiation into a voltage.
     The voltage was read on a \textit{Agilent 34405 A} multimeter.
     A black, a white, a nickel plated polished and a matte surface were available for selection.
     The temperature of the cube was increased from $ 289\,$K to $363\,$K.
-    Due to the construction of the thermopile, which makes use of the Seebeck effect, a constant set-of temperature must be accounted for in the measurement.
-    Since this set-of is not exactly the ambient temperature, but the temperature at which the voltage reading is $0$, we linearize the first few measured voltage values 
+    Due to the construction of the thermopile, which makes use of the Seebeck effect, a constant set-off temperature must be accounted for in the measurement.
+    Since this set-off is not exactly the ambient temperature, but the temperature at which the voltage reading is $0$, we linearize the first few measured voltage values 
     and find the intersection with the x-Axis.
-    This is done for all the different surfaces and the mean value was taken as the set-of temperature.
+    This is done for all the different surfaces and the mean value was taken as the set-off temperature.
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/Aufbau1}
@@ -104,7 +104,7 @@
     \begin{equation}\label{SetofTemp}
         T_0 = 292.5 \pm 0.4 \,\text{K}
     \end{equation}
-    With this set-of temperature accounted for, we were able to try to verify the $T^4$ proportionality of the radiation.
+    With this set-off temperature accounted for, we were able to try to verify the $T^4$ proportionality of the radiation.
     As can be seen in \autoref{fig:FirstPlot} we fit the function from \autoref{FitFunction} into the recorded data.
     \begin{equation}\label{FitFunction}
         U = a\cdot (T^b - T_0^b)
@@ -116,11 +116,14 @@
                \caption{Measurement of the radiative properties of 4 different surfaces.
                For this measurement the setup from \autoref{fig:Aufbau1} was used. The temperature was manually increased from $ 289\,$K to $363\,$K using a thermometer of the type \textit{Lauda E100}.
                The voltage was measured with a \textit{Agilent 34405 A} multimeter.
-               An exponential fit through the data was used to determine whether the data follows the \textit{Stefan Boltzmann law} of radiation.}
+               An exponential fit through the data was used to determine whether the data follows the \textit{Stefan Boltzmann law} of radiation.
+               The parameters of the fit can be seen in \autoref{tab:FittedExponent}.
+               They all firmly coincide with the theoretical value of $4$, meaning that these particular surfaces at this particular
+               spectral range behave very similar to a ideal black-body.}
                \label{fig:FirstPlot}
                \end{center}
     \end{figure}
-    The fitted parameters in the exponent can be seen in \autoref{tab:FittedExponent}
+    The fitted parameters in the exponent can be seen in \autoref{tab:FittedExponent}.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
         \centering
         \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
@@ -137,8 +140,10 @@
         \end{tabular*}
         \normalsize
         \caption[]{These are the values of the exponent $b$ obtained by fitting $U = a\cdot(T^b - T_0^b) $ into the data from \autoref{fig:FirstPlot}.
-        The constant set-of temperature $T_0$ due to the internal constuction of the used thermopile was accounted for.
-        The voltage was measured using a \textit{Agilent 34405 A} multimeter.}  %siehe Graphik: Beschriftung
+        The constant set-off temperature $T_0$ due to the internal constuction of the used thermopile was accounted for.
+        The voltage was measured using a \textit{Agilent 34405 A} multimeter.
+        These values all firmly coincide with the theoretical value of $4$.
+        This means, that the 4 surfaces of the leslie cube behave like a black-body radiatior for this specific spectral range.}  %siehe Graphik: Beschriftung
         \label{tab:FittedExponent}                             %siehe Graphik: zum Zitieren
     \end{table}
     \autoref{fig:FirstPlot} shows the voltage as a function of temperature for the four available surfaces.
@@ -157,10 +162,21 @@
     
     
     
-    \section{Simulating a Black Body}\label{sec:BlackBodyRadiation}
+    \section{Simulating a black-body}\label{sec:BlackBodyRadiation}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width=\linewidth]{Generated/Aufbau2}
+            \caption{Experimental setup for for simulating a perfect black body radiatior. The hollow chamber was gradually heated
+            and the voltage reading on the thermopile was read on a \textit{Agilent 34405 A} multimeter. The adjustable angle was set to 0 degrees.
+            Water was used to cool the aperture in order to minimize unwanted radiation from the environment.
+            Figure source [2]}
+            \label{fig:Aufbau2}
+        \end{center}
+    \end{figure}
     In order to simulate a black body as well as possible, we set up a hollow chamber with a small opening.
     The opening is covered with a water cooled aperture to make the measurement even cleaner.
     The temperature of the chamber was continuously heated and the voltage reading corresponding to the radiation through the opening was recorded on an \textit{Agilent 34405A}.
+    \newline
     The same fitting method as in \autoref{sec:ExaminationOfDifferentSurfaces} was used to fit the data.
     From the measurement in \autoref{fig:BlackBodyPlot} the following exponent was determined:
     \begin{equation}
@@ -171,23 +187,16 @@
     We estimated the error of the temperature reading as $\pm 1\,$K (last digit).
     Although the cooling aperture was used in the experiment, it might not have been enough to shield the measurement from all environmental radiation.
     Due to these effects we estimated the error to $5\%$\).
-    \begin{figure}
-        \begin{center}
-            \includegraphics[width=\linewidth]{Generated/Aufbau2}
-            \caption{Experimental setup for for simulating a perfect black body radiatior. The hollow chamber was gradually heated 
-            and the voltage reading on the thermopile was read on a \textit{Agilent 34405 A} multimeter. The adjustable angle was set to 0 degrees.
-            Water was used to cool the aperture in order to minimize unwanted radiation from the environment.
-            Figure source [2]}
-            \label{fig:Aufbau2}
-        \end{center}
-    \end{figure}
+    
     \begin{figure}
         \begin{center}
             \includegraphics[width=\linewidth]{Generated/BlackBodyPlot}
             \caption{Measurement of the temperature dependence of the radiation from a hollow chamber with an opening.
             The setup from \autoref{fig:Aufbau2} was used, while the temperature was gradually increased and the voltage reading of the thermopile
             was measured with a \textit{Agilent 34405 A}.
-            An exponential fit was used to determine the temperature dependence of the radiation which should follow a $T^4$ power law.}
+            An exponential fit was used to determine the temperature dependence of the radiation which should follow a $T^4$ power law.
+            The determined exponent coincides with the theoretically predicted value of $b = 4 $ within the error, leaving us with the conclusion that
+            the setup is a good aproximation for an ideal black-body radiatior.}
             \label{fig:BlackBodyPlot}
         \end{center}
     \end{figure}
@@ -200,7 +209,8 @@
     
     \section{Infrared transmission of different materials}\label{sec:Transmission}
     In this experiment, we look at the transmission properties of different materials in the infrared range.
-    Again, the setup from \autoref{fig:Aufbau1} was used, but now with the black surface of the leslie cube and different filters between the cube and the thermopile.
+    Again, the setup from \autoref{fig:Aufbau1} was used, but now with the black surface of the leslie cube at a temperature of $353\,$K.
+    Different filters were put between the cube and the thermopile in order to examine their absorption behaviour.
     The transmission value for each material was determined as the amount of radiation measured behind the filter relative to the radiation value with no filter.
     The calculated values are depicted in \autoref{tab:TransistivityValues}.
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
@@ -250,7 +260,9 @@
     
     These wavelengths are both well in the infrared range of the spectrum.
     
-    \section{Lambert Law}\label{sec:lambertLaw}
+    
+    
+    \section{Lambert law}\label{sec:lambertLaw}
     The angular dependence of the radiation of a black body is described by the Lambert law.
     \begin{equation}\label{eq:Lambert}
         J = J_0 \cdot cos(\phi)
@@ -270,7 +282,8 @@
         \end{center}
     \end{figure}
     The measured data is depicted in \autoref{fig:AnglePlot}.
-    When compared to the theoretical predicted cosine, the measured data does roughly follow a cosine, however the slope is much greater.
+    When compared to the theoretical predicted cosine, the measured data does roughly follow a cosine.
+    However, the slope is much greater.
     This is probably due to the fact, that our chamber radiates primarily in the direction of the opening unlike a perfect black-body.
     In order to really see how well the data follows a cosine function, we plot the measured data over the cosine of the angle $\phi$.
     In this plot, which can be seen in \autoref{fig:LinearizedAnglePlot}, the data should follow a straight line.
@@ -295,6 +308,7 @@
     
     \section{Summary}
     We examine the validity of the \textit{Stefan Boltzmann law} with a setup which simulates a black body using a hollow chamber with dark walls.
+    The temperature dependence follows a $T^4$ power law.
     The determined exponent is $\BlackBodyFitParameter$ which coincides with the theoretically expected value of $4$.
     The error of the value arises from the used devices, since the heating elements were rather inert and it was quite hard to approximate the error of the temperature reading.
     The setup also has other drawbacks, as one does not have full control over all the relevant parameters, such as the room temperature, or the heat radiation of the environment
@@ -307,7 +321,7 @@
     white surface $\ExponentWhite$, black surface $\ExponentBlack$ which all firmly coincide with the theoretical value.
     Lastly, the method also allows for measurement of the transmission coefficients of different materials.
     This was used to compare absorption behaviour of different materials with the expected behavior modelled by band theory.
-    The values for window glass $\TransistivityValueTwo$ or crystalline silicon $\TransistivityValueThree$ show great agreement with theory.
+    The values for window glass $\TransistivityValueTwo \% $ or crystalline silicon $\TransistivityValueThree \%$ show great agreement with theory.
     
     
     
