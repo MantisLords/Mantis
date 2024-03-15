@@ -32,10 +32,30 @@ val:angleTest,137+-0.5,degree
 val:glasCylinderLength,30.95,mm
 
 val:currentForLocalField,1.505,A
+val:errorBField,0.3,mT
+
 tab:localBField
 bField in mT,x in mm
 12.5,826
 27.2,828
+43.2,830
+68.0,832
+86.1,834
+95.0,836
+97.1,838
+98.0,840
+97.3,842
+96.8,844
+94.2,846
+86.9,848
+71.7,850
+45.1,852
+27.7,854
+12.7,856
+5.7,858
+2.3,860
+0.7,862
+
 
 tab:maxBFieldData
 current in A,bField in mT

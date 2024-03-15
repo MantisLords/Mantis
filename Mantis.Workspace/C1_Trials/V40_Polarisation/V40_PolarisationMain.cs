@@ -17,7 +17,8 @@ public static class V40_PolarisationMain
     
     public static void Process()
     {
-        MalusLaw.Process();
-        SugarSolution.Process();
+        // MalusLaw.Process();
+        // SugarSolution.Process();
+        FaradayEffect.Process();
     }
 }
