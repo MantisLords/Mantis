@@ -1,0 +1,8 @@
+﻿Length in mm, time in microseconds
+val:PVCLength,35,0.5
+val:PVCTime,30.5,0.2
+val:PolyLength,121,0.5
+val:PolyTime,46.86
+val:WaterLength,80,2
+val:WaterTime,79
+val:WaterContainerLength,137,2
