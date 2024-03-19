@@ -1,0 +1,368 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{amstex}
+\usepackage{siunitx}
+\usepackage{hyperref}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{subcaption}
+
+\newcommand{\quaterWavePlate}{$\frac{\lambda}{4}$-plate }
+\newcommand{\quaterWavePlates}{$\frac{\lambda}{4}$-plates }
+\newcommand{\halfWavePlate}{$\frac{\lambda}{2}$-plate }
+\newcommand{\halfWavePlates}{$\frac{\lambda}{2}$-plates }
+
+\newcommand{\NSF}{N-SF6}
+
+\newcommand{\VOne}{[V]_{\fyWavelengthOne}}
+\newcommand{\VTwo}{[V]_{\fyWavelengthTwo}}
+\newcommand{\VThree}{[V]_{\fyWavelengthThree}}
+
+\newcommand{\unit}[#1]{\, \mathrm{#1}}
+\newcommand{\nm}{\unit{nm}}
+\newcommand{\wavelengthYellow}{580 \nm}
+\newcommand{\specRot}{[\alpha]_{\wavelengthYellow}}
+
+\include{Generated/Preamble}
+
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Supervisour: Martin Stehno & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{V40 Polarisation}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+        We present a method for studying the fundamental polarization properties of electromagnetic waves in
+        the visible spectrum.
+        First we want to introduce a setup, with which we can create and observe linear and
+        circular polarized light.
+        We use conventional polarizing filters to create linear polarized light.
+        By appling the Jones' formalism, we can derive Malus' law, which we
+        then show experimentally.
+        Furthermore, with \quaterWavePlates we produce circular polarized light.
+        We demonstrate its properties qualitatively.
+        
+        In the second part, we showcase two exemplary applications.
+        Since sugar molecules are chiral, they are optical active, meaning a
+        sugar solutions rotates linear polarized light.
+        We measure the specific optical rotation of sucrose $\specRot = \sugarSpecificOpticalRotation$
+        with a half-shade polarimeter and then apply it for determining the concentration of 
+        an unknown sucrose solution.
+        
+        Similar to optical activity of chiral molecules functions the Faraday effect.
+        Here we apply a magnetic field at a \NSF-glas tube and shine linear polarized light
+        through it.
+        We gauge the space-resolved magnetic field with a hall sensor and then measure the rotated 
+        polarization vector of the transmitted light with a linear polarizing filter.
+        We determine Verdet's constant for three wavelengths $\VOne = \verdetConstantOne$,
+        $\VTwo = \verdetConstantTwo$ and $\VThree = \verdetConstantThree$.
+        
+        \\
+        \\
+        Measuerement made: March 13th 2023\\       %Datum ändern!
+        Submitted: March 20th 2023                %Datum ändern!
+        \\
+        \\
+    \end{abstract}
+    }] 
+    \section{Methods to create and detect polarized light}
+    \subsection{Introduction}
+    In classical physics light is described as an electromagnetic wave.
+    The electric and magnetic fields oscillate perpendicular to each other and to the propagation direction.
+    The polarization refers to the direction of the electric field.
+    If the wave is linear polarized, the field oscillates in a fixed plane.
+    If the wave is circular polarized, the field vector rotates around the propagation direction.
+    
+    The polarization of light can be described with the Jones' formalism~\cite{gerth}.
+    Linear polarized light is denoted with a real vector, pointing in the polarization direction.
+    For example vertical and horizontal polarized light:
+    \begin{align*}
+        \vec{J}_H = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
+        \vec{J}_V = \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+    \end{align*}
+    
+    Furthermore, left and right circular polarized light are described with a complex vector:
+
+    \begin{align*}
+        \vec{J}_L = \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ -i \end{pmatrix} \quad
+        \vec{J}_R = \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ i \end{pmatrix}
+    \end{align*}
+    
+    Optical devices such as polarizing filters and \quaterWavePlates are described with matrices, which act
+    upon the polarization vector $\vec{J}$. 
+    
+    \subsection{Linear polarization -- Malus' law}
+    
+    \figMalusFit{
+    Linear v-polarized light is shone upone a polarizing filter, which is rotated around the angle $\Theta$.
+    The resulting intensity is measured by a photo diode. 
+        Its output current, which is proportional to the intensity, is depicted in the graphic.
+    The intensity follows Malus' law ~\eqref{eq:theoMaluslaw}.
+    We fit it in the dataset, with the default intensity $I_0$ and the offset angle $\Theta_0$ as
+    free parameters.
+    It is evident that Malus' law holds.
+    This method can be used to determine the polarization angle $\Theta_0$ of a linear
+    polarized light source as for example in ~\autoref{subsec:Faraday}
+    }
+    
+    A linear polarizing filter is denoted in Jones' formalism with the matrix:
+    \begin{align*}
+        P_{\Theta} = \begin{pmatrix} sin^2\Theta & - cos\Theta sin\Theta \\
+                        - cos\Theta sin\Theta & cos^2\Theta \end{pmatrix}
+    \end{align*}
+    Where $\Theta$ is the angle between the polarizing filter and the y-axis.
+    If we let v-polarized light shine on the polarizing filter, it will be partially be absorbed.
+    We can get the resulting intensity by calculate the magnitude of the Jones' vector:
+    \begin{align}
+        \label{eq:theoMaluslaw}
+        \vec{J} &= P_{\Theta} \vec{J}_V = \begin{pmatrix} -cos\Theta sin\Theta \\
+                                               cos^2\Theta\end{pmatrix} \\
+        I &\propto | \vec{J} |^2 = cos^2(\Theta) 
+    \end{align}
+    This is Malus' law.
+    We want to verify this law.
+    
+    In our setup we use an incandescent electric lamp, which emits unpolarized light in the full
+    visible range.
+    We polarize it by placing a linear polarizing filter in front of the lamp.
+    A second polarizing filter, the analysator, is mounted behind that.
+    It is rotated about the angle $\Theta$ relative to the first polarizing filter.
+    A photo diode detects the resulting intensity.
+    We measure its output current, which is proportional to the intensity.
+    
+    The data is shown in ~\autoref{fig:MalusFit}.
+    We fit the function:
+    \begin{align}
+        \label{eq:malusFit}
+        I = I_0 cos^2(\Theta + \Theta_0)
+    \end{align}
+     Where $I_0$ and $\Theta_0$ denote free parameters.
+    From the graphic it is evident, that the data follows Malus' law.
+    
+    An application of this law is to determine the polarization angle $\Theta_0$ of an unknown
+    linear polarized light source.
+    By rotating the analysator around the whole $360\degree$ range and measuring the
+    resulting intensity, the unknown angle $\Theta_0$ can be determined.
+    This method could be applied in the Faraday experiment of ~\autoref{subsec:Faraday}.
+    
+    Furthermore, another improvement would be to make $I_0$ not a free parameter, but to calculate it
+    via the photo diode's device specifications.
+    This would enable more quantitative statements.
+    Here we are satisfied with the simpler method,
+    since the qualitative results do suffice for the purposes of this paper.
+    
+    \subsection{Circular polarization}
+    
+    In a circular polarized, electromagnetic wave, the electric field vector rotates around the
+    propagation direction of the wave.
+    Circular polarized light can be created by shining diagonal polarized light upon a \quaterWavePlate.
+    A \quaterWavePlate consists of an optical anisotropic material, where the propagation speed for
+    v-polarized light, differs in comparison to h-polarized light.
+    This results in a phase shift between the x- and y-component of the electromagnetic wave.
+    If the \quaterWavePlate has the right thickness, so the shift between the x- and y-component
+    is exactly $\frac{\pi}{2}$, we can convert d-polarized light into circular polarized light.
+    
+    In Jones' formalism a \quaterWavePlate is represented by the matrix:
+    \begin{align*}
+        Q_{\frac{\lambda}{4}} = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix} 
+    \end{align*}
+    If d-polarized light is shone upon the \quaterWavePlate it is converted to right circular light:
+    \begin{align*}
+        \vec{J} &= Q_{\frac{\lambda}{4}} \cdot \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ 1 \end{pmatrix} =
+        \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ i \end{pmatrix}
+    \end{align*}
+    This only works if the light has the right wavelength $\lambda$, matching the 
+    \quaterWavePlate.
+    
+    To demonstrate this relationship, we mount an interference filter before our lamp
+    to get monochromatic light: $\lambda = \wavelengthYellow$.
+    After it, we mount a linear polarizing filter to produce d-polarized light.
+    Then the \quaterWavePlate is installed with a relative angle of $45 \degree$ to the polarizing filter.
+    The resulting circular light can then be observed with a second linear polarizing filter, the analysator.
+    For any orientation of the polarizing filter, the same amount of light passes through.
+    The \quaterWavePlates we used in our experiment, are optimized for Natrium-D-Lamps,
+    so for light of the wavelength $\lambda = 589 \nm$.
+    This means we do not actually get circular polarized light, but elliptical light.
+    We observe it, when rotating the analysator, the light passing through varies, depending on
+    the orientation of the analysator.
+    
+    By placing a second \quaterWavePlate behind the first one, we get a \halfWavePlate.
+    A \halfWavePlate can described with:
+    \begin{align*}
+        Q_{\frac{\lambda}{2}} = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+    \end{align*}
+    It has the effect, that it mirrors linear polarized light around the y-axis.
+    
+    We can demonstrate it by shing light with a polarization angle $\Theta$ and observing 
+    that the resulting light has the polarization $-\Theta$.
+    Again we have the problem that monochromatic light from the interference filter, has
+    not the correct wavelength for the \halfWavePlate.
+    This means we also get slightly elliptical polarized light.
+    
+    This experiment could be improved by using a laser instead of an interference filter,
+    since the interference filter has a bandwidth of wavelengths.
+    In contrast, a laser is monochromatic, with only a very small bandwidth.
+    
+    \subsection{Birefringence with a calcite crystal}
+
+    \begin{figure}[htbp]
+        \includegraphics[width=0.9\linewidth]{Positively_birefringent_material}
+        \centering
+        \caption{
+        The graphic shows the principle of birefringent materials.
+        We have a optical anisotropic material, where p-polarized light is refracted
+        differently than s-polarized light.
+        The s-polarized light is parallel to the optical axis (and is in the graphic called
+            `parallel polarized').
+        It is refrected under a greater angle and becomes the extraordinary ray,
+            while p-polarized light sees a smaller refractive index and results in
+        the ordinary ray. Image source~\cite{birefringenceGraphic}}
+        \label{fig:birefringent}
+    \end{figure}
+    
+    In optical anisotrop materials, the refractive index differs for light polarized
+    parallel or perpendicular to the optical axis.
+    This leads to the effect of birefringence, where the incoming light ray is split into 
+    two -- an ordinary and extraordinary ray.
+    The effect is shown in ~\autoref{fig:birefringent}.
+    In the graphic one may observe that s-polarized light is greater refracted,
+    resulting in the extraordinary ray,
+    while p-polarized light has a smaller refractive angle.
+    
+    In our experiment we mount a calcite crystal, which is fixed inside a fringe,
+    before our incandescent lamp. 
+    We observe two light ray on the detection screen.
+    The ordinary and extraordinary ray can be distinguished by rotating the cristal.
+    We observe that the extraordinary ray rotates around the ordinary, since it has a 
+    greater refractive angle.
+    If we mount a linear polarizing filter after the calcite crystal, we can see that both rays are
+    polarized, with a perpendicular polarization direction.
+    
+    For the experiment one has to pay attention that the incoming light ray is neither parallel nor
+    perpendicular to the optical axis of the calcite crystal. 
+    In both cases you would not see the split-up between the ordinary and extraordinary ray,
+    since then you would only have one refractive index for the ray.
+    
+    \section{Applications}
+    In the first part we showcased simple setups to create and detected polarized light.
+    In the second part we now want to present two possible applications of those setups,
+    for investigating advanced effects.
+    \subsection{Optical activity}
+    A chiral molecule does not posses an intrinsic mirror symmetry.
+    If you have a solution with a greater amount of one type than its mirrored counterpart,
+    the solution is optical active.
+    It means right circular light has a different refractive index than left circular light.
+    If you shine linear polarized light through an optical active solution, the
+    polarization vector gets tilted around a specific angle $\Delta \Theta$.
+    The angle $\Delta \Theta$ depends on the distance $l$ travelled through the solution,
+    the concentration of the molecule $c$, and the specific optical rotation $\alpha$:
+    \begin{align}
+        \label{eq:specificOpticalRotation}
+        \Delta \Theta = \alpha \, c \, l
+    \end{align}
+    The specific optical rotation $\alpha$ depends on the molecule and the wavelength of the light.
+    
+    In our experiment we want to determine the specific rotation of sucrose.
+    For this, we use our incandescent lamp and mount the $\wavelengthYellow$ interference monochromator
+    before it.
+    Then the light is polarized with a linear polarizing filter and shines through
+    a glas tube, containing the sugar solution.
+    The glas tube has the length $l = \sugarGlasTubeLength$.
+    The tilted angle $\Delta \Theta$ is then measured with a half-shade polarimeter.
+    
+    A half-shade polarimeter is a device consisting of two linear polarizing filters, which are mounted
+    with a relative angle $\Delta \varphi$ next to each other.
+    We first want to determine the relative angle $\Delta \varphi$ and the default angle $\Theta_0$ of
+    the light's polarization vector.
+    To do this, we remove the glas tube, containing the sugar solution, and measure the angle 
+    $\varphi_1$, where the first polarizing filter lets all light pass, and $\varphi_2$, where
+    the second filter lets all light pass.
+    From a measurement series containing five data-points, we can determine the relative angle
+    and the default angle:
+    \begin{align*}
+        \Delta \varphi & = \varphi_2 - \varphi_1 & = & \quad \halfShadowAngle \\
+        \Theta_0 & = \frac{\varphi_1 + \varphi_2}{2} & = & \quad \defaultAngle
+    \end{align*}
+    The errors are derived from the variance of the measurement series and then propagated with
+    the variance formula~\cite{errorPropagation} (also refered as gaussian error propagation).
+    This procedure is always applied unless stated otherwise.
+    
+    We now want to measure the specific optical rotation.
+    We insert the glas tube back into the apparatus.
+    It contains a sugar solution with a concentration $c = \referenceConcentration$.
+    We now measure the angle $\Theta$ of the rotated polarization vector.
+    We do this by rotating the two polarizing filters of the polarimeter, so both let the same amount of
+    light pass (they appear with the same brightness).
+    We can calculate the relative rotation $\Delta \Theta$ and with equation ~\eqref{eq:specificOpticalRotation}
+    we can determine the specific optical rotation:
+    \begin{align*}
+        \Delta Theta &= \Theta - \Theta_0 &= \referenceRotationAngle \\
+        \specRot &= \sugarSpecificOpticalRotation
+    \end{align*}
+    
+    The resulting value is consistent with the literature value:
+    \begin{align*}
+        [\alpha]_{589\nm} = 6.65 \unit{\frac{\degree \, cm^2}{g}} ~\cite{instr}
+    \end{align*}
+    The slight deviation can be contributed to the fact that for the literature value natrium-D-light
+    is used, while we use a monochromator with $\lambda = \wavelengthYellow$.
+    
+    With the measured specific optical rotation we can measure an unknown sucrose concentration.
+    We use a thinned-down solution from a different team.
+    We measure the rotation angle and with ~\eqref{eq:specificOpticalRotation} we can determine
+    the concentration:
+    \begin{align*}
+        \Delta \Theta &= \testRotationAngle \\
+        c &= \sugarTestConcentration
+     \end{align*}
+    Unexpectedly we see that the concentration is in fact greater than before.
+    The group, who gave use their solution, contributed it to the fact that there was some sugar left
+    inside the glas with which they have thinned downed their sugar solution. 
+    So actually increasing the concentration.
+    
+    \subsection{Faraday effect}
+    \label{subsec:Faraday}
+    
+    \figfyLocalBField{}
+    \figfyMeanBField{}
+    
+    
+    
+    
+    \section{Summary}
+    
+    %FF: Angabe der verwendeten Literatur mit Quellennachweis.
+    \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 40, Polarisation des Lichts, 2023
+        \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
+        \bibitem{birefringenceGraphic} \url{https://en.wikipedia.org/wiki/Birefringence#/media/File:Positively_birefringent_material.svg}, last visited 19.03.2023
+        \bibitem{errorPropagation} \url{https://nistdigitalarchives.contentdm.oclc.org/digital/collection/p16009coll6/id/99848}, last visited 19.03.2024
+    \end{thebibliography}
+    
+\end{document}

@@ -20,10 +20,13 @@ val:firstPosAngle,170,169,168,169
 val:secondPosAngle,178,179,180,179
 
 
-val:glasTubeLength,300+-1,mm
+val:glasTubeLength,258+-2,mm
 val:referenceConcentration,100+-1,mg/ml
-val:angleReference,125+-0.5,degree
-val:angleTest,137+-0.5,degree
+# val:defaultAngle,109+-0.5,degree
+# val:angleReference,125+-0.5,degree
+val:angleReference,190+-0.5,degree
+# val:angleTest,137+-0.5,degree
+val:angleTest,192+-0.5,degree
 
 
 # Faradey effect
@@ -56,13 +59,25 @@ bField in mT,x in mm
 2.3,860
 0.7,862
 
+val:maximumReadPos,840,mm
 
 tab:maxBFieldData
 current in A,bField in mT
+0.496,32.8 33.2
+0.803,52.5 52.7 53.1
+1.096,72.1 71.9 72.0
+1.489,97.0 97.6 97.6
+1.691,110.6 110.5 110.7
+2.012,130.1 131.2 130.7
+2.316,150.6 150.1 150.1
+2.593,166.8 161.1 166.8
+2.895,184.4 185.2 185.0 
 
+val:fyDataIndices,1,2,3
+val:fyErrorAngle,0.5,degree
 
-val:fyWavelength1,525,nm
-tab:fyData1
+val:fyWavelength2,525,nm
+tab:fyData2
 current in A,angle in degree
 0.004,1
 -0.502,0
@@ -75,8 +90,8 @@ current in A,angle in degree
 -2.608,-4
 -2.894,-5
 
-val:fyWavelength2,440,nm
-tab:fyData2
+val:fyWavelength1,440,nm
+tab:fyData1
 current in A,angle in degree
 0.003,1
 -0.506,0
@@ -102,6 +117,10 @@ current in A,angle in degree
 -2.302,-3
 -2.593,-3
 -2.898,-4
+
+tab:glasDispersionConstants
+B1,B2,B3,C1,C2,C3
+1.77931763,0.338149866,2.08734474,0.0133714182,0.0617533621,174.01759
 
 
 
