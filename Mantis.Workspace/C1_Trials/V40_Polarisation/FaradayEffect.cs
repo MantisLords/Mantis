@@ -23,7 +23,7 @@ public record struct LocalBFieldData
     [UseConstructorForParsing]
     public LocalBFieldData(double bField, string x)
     {
-        BField = new ErDouble(bField,FaradayEffect.ErrorBField);
+        BField = new ErDouble(bField,bField * FaradayEffect.ErrorBField);
         X = ErDouble.ParseWithErrorLastDigit(x,null,0.1);
         X -= INITIAL_X_SHIFT;
     }
@@ -42,6 +42,8 @@ public record struct BFieldCurrentData
         MaxBField = bField.Split(' ',StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
             .Select(double.Parse).ToArray()
             .WeightedMean();
+
+        MaxBField.Error = Math.Max(MaxBField.Error, FaradayEffect.ErrorBField * MaxBField.Value);
         
         Current = ErDouble.ParseWithErrorLastDigit(current,null,1);
     }
@@ -79,10 +81,10 @@ public class TwoCoilsBFieldFunc : AutoDerivativeFunc,IFixedParameterCount
     {
         var rsq = p[1] * p[1];
         
-        var c = FieldOfCoil(x, p[3] + 0.5* p[2], -p[4], rsq);
+        var c = FieldOfCoil(x, p[3] + 0.5* p[2], p[4], rsq);
         var c2 = FieldOfCoil(x, p[3] - 0.5 * p[2], p[4], rsq);
         
-        return  p[0]*_current * MathNet.Numerics.Constants.MagneticPermeability * (c - c2) * 0.5*Constants.Mega;
+        return  p[0]*_current * MathNet.Numerics.Constants.MagneticPermeability * (c + c2) * 0.5*Constants.Mega;
 
         // x -= p[4];
         // return p[0] + p[1] * (Math.Pow(p[2] + Math.Pow(x - p[3] * 0.5, 2), -1.5) +
@@ -96,9 +98,13 @@ public class TwoCoilsBFieldFunc : AutoDerivativeFunc,IFixedParameterCount
         // return Math.Pow(r + xa * xa, -1.5);
         var ax = x + a + 0.5 * d;
         var adx = x + a - 0.5 *d;
-        var s = -ax * Math.Sqrt(r + ax * ax) + adx / Math.Sqrt(r + adx * adx);
+        return -OneFactor(r, x + a + 0.5 * d) + OneFactor(r, x + a - 0.5 * d); 
+        var s = -ax / Math.Sqrt(r + ax * ax) + adx / Math.Sqrt(r + adx * adx);
         return s ;
     }
+
+    private double OneFactor(double r, double b)
+        => b / Math.Sqrt(r + b * b);
     
     public int ParameterCount => 5;
 }
@@ -113,6 +119,8 @@ public static class FaradayEffect
 
     private static ParaFunc _meanFieldCurrentFunc;
 
+    private static Func<double, double> _idealVerdetDispersionFunc;
+
     private static SimpleTableProtocolReader _reader;
 
     private static readonly MarkerShape[] _verdetMarkers = new MarkerShape[]
@@ -123,6 +131,7 @@ public static class FaradayEffect
         _reader = V40_PolarisationMain.Reader;
         ErrorBField = _reader.ExtractSingleValue<double>("val:errorBField");
         ErrorAngle = _reader.ExtractSingleValue<double>("val:fyErrorAngle");
+        ErrorAngle.AddCommandAndLog("fyErrorAngle","\\degree");
         
         CalculateMeanBField();
         CalculateBFieldCurrentDependence();
@@ -134,8 +143,12 @@ public static class FaradayEffect
     {
 
         DynPlot angleDependencePlot = new DynPlot("mean B-field in mT", "angle in °");
-        List<(ErDouble, ErDouble)> verdetPoints = new List<(ErDouble, ErDouble)>();
+        DynPlot verdetPlot = new DynPlot("wavelength in nm", "verdet's constant in rad/T/m");
         
+        CalculateIdealVerdetDispersion();
+        
+        List<(ErDouble, ErDouble)> verdetPoints = new List<(ErDouble, ErDouble)>();
+
         var indices = _reader.ExtractSingleValue("val:fyDataIndices").Where(s => !string.IsNullOrEmpty(s)).Select(int.Parse).ToArray();
         foreach (int i in indices)
         {
@@ -145,11 +158,12 @@ public static class FaradayEffect
         angleDependencePlot.Legend.Location = Alignment.UpperLeft;
         angleDependencePlot.SaveAndAddCommand("fig:fyAngleDependencePlot");
 
-        DynPlot verdetPlot = new DynPlot("wavelength in nm", "verdet's constant in rad/T/m");
 
         verdetPlot.AddDynErrorBar(verdetPoints, "Measured verdet's constants");
-        CalculateIdealVerdetDispersion(verdetPlot);
+        verdetPlot.AddDynFunction(_idealVerdetDispersionFunc, "Ideal Verdet Constants");
         
+        verdetPlot.DynAxes.SetLimitsY(16,60);
+        verdetPlot.Legend.Location = Alignment.UpperRight;
         verdetPlot.SaveAndAddCommand("fig:fyVerdetPlot");
 
     }
@@ -177,6 +191,8 @@ public static class FaradayEffect
         verdetConstant *= Constants.Degree;
         verdetConstant *= Constants.Mega;
         verdetConstant.AddCommandAndLog("verdetConstant"+index,"\\frac{rad}{T m}");
+        verdetConstant.AddCommandAndLog("verdetConstant"+index+"NoUnit","",LogLevel.OnlyCommand);
+        _idealVerdetDispersionFunc.Invoke(waveLength).AddCommandAndLog("idealVerdetConstant"+index+"NoUnit","");
 
         var (erBar,dynFunc) = angleDepPlot.AddRegModel(faradayModel, $"Angle rotation \u03BB = {waveLength} nm",
             $"Linear fit: V = {verdetConstant} rad/T/m");
@@ -190,7 +206,7 @@ public static class FaradayEffect
 
     private const double EMC = Constants.ElementaryCharge / Constants.ElectronMass / Constants.SpeedOfLight ; 
 
-    private static void CalculateIdealVerdetDispersion(DynPlot verdetPlot)
+    private static void CalculateIdealVerdetDispersion()
     {
         var dispersionConstants = _reader.ExtractTable<GlasDispersionConstantData>("tab:glasDispersionConstants");
         var glasConstant = dispersionConstants.First();
@@ -199,19 +215,15 @@ public static class FaradayEffect
         MathNet.Numerics.Differentiation.NumericalDerivative derivative = new NumericalDerivative();
         var nderiv = derivative.CreateDerivativeFunctionHandle(l => Dispersion(l, glasConstant), 1);
 
-        var idealVerdet = (double l) => - 0.5 * EMC * l * nderiv(l);
+        _idealVerdetDispersionFunc = (double l) => - 0.5 * EMC * l * nderiv(l);
         
         Console.WriteLine($"N for 589.3nm: n= {Dispersion(589.3 ,glasConstant)}" +
                           $"NDeriv dn = {nderiv(589.3)}" +
-                          $"IdealV V = {idealVerdet(589.3)}");
+                          $"IdealV V = {_idealVerdetDispersionFunc(589.3)}");
         Console.WriteLine($"N for 435.8nm: n= {Dispersion(435.8 ,glasConstant)}" +
                           $"NDeriv dn = {nderiv(435.8)}" +
-                          $"IdealV V = {idealVerdet(435.8)}");
-
-        var dynFunc = verdetPlot.AddDynFunction(idealVerdet, "Ideal Verdet Constants");
-        verdetPlot.DynAxes.AutoScaleX();
-        var limitsX = verdetPlot.DynAxes.GetLimits();
-        verdetPlot.DynAxes.SetLimitsY(idealVerdet(limitsX.Right)-20,idealVerdet(limitsX.Left));
+                          $"IdealV V = {_idealVerdetDispersionFunc(435.8)}");
+        
     }
 
     private static double Dispersion(double l, GlasDispersionConstantData c)
@@ -255,7 +267,8 @@ public static class FaradayEffect
     {
         List<LocalBFieldData> fieldData = _reader.ExtractTable<LocalBFieldData>("tab:localBField");
         var current = _reader.ExtractSingleValue<double>("val:currentForLocalField");
-        
+        current.AddCommandAndLog("CurrentForLocalBField","A");
+
         double xShift = - CenterFieldData(fieldData,current) + LocalBFieldData.INITIAL_X_SHIFT;
         
         RegModel model = fieldData.CreateRegModel(
@@ -325,7 +338,7 @@ public static class FaradayEffect
         RegModel model = fieldData.CreateRegModel(
             e => (e.X, e.BField), new ParaFunc(5, new TwoCoilsBFieldFunc(current)));
 
-        model.DoRegressionLevenbergMarquardt(new double[] { 100, 5, 10, fieldData[0].X.Value,10},false);
+        model.DoRegressionLevenbergMarquardt(new double[] { 100, 5, 10, 0,10},false);
         
         var center = model.ErParameters[3].Value;
         fieldData.ForEachRef((ref LocalBFieldData data) => data.X += center);

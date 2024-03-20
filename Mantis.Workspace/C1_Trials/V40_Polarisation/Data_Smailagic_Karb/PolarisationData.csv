@@ -32,10 +32,10 @@ val:angleTest,192+-0.5,degree
 # Faradey effect
 
 # Magnetic field
-val:glasCylinderLength,30.95,mm
+val:glasCylinderLength,30.950,mm
 
 val:currentForLocalField,1.505,A
-val:errorBField,0.3,mT
+val:errorBField,0.02
 
 tab:localBField
 bField in mT,x in mm
