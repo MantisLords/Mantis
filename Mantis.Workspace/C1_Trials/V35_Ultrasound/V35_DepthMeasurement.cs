@@ -21,17 +21,9 @@ public class V35_DepthMeasurement
         var csvReader = new SimpleTableProtocolReader("DepthMeasurements.csv");
         List<DepthData> dataList = csvReader.ExtractTable<DepthData>("tab:DepthData");
         
-        CalculateDepth(dataList,GetPolyVelocity());
+        CalculateDepth(dataList,V35_RuntimeMeasurement.PolyVelocity1MHz);
     }
-
-    public static ErDouble GetPolyVelocity()
-    {
-        var csvReader = new SimpleTableProtocolReader("RuntimeMeasurements1MHz.csv");
-        ErDouble length = csvReader.ExtractSingleValue<ErDouble>("PolyLength");
-        ErDouble time = csvReader.ExtractSingleValue<ErDouble>("PolyTime");
-        return V35_RuntimeMeasurement.CalculateVelocity(length/2, time);
-    }
-
+    
     public static void CalculateDepth(List<DepthData> runtimeList, ErDouble velocity)
     {
         Console.WriteLine("V: " + velocity);

@@ -106,6 +106,6 @@ public static class Sheet6_Regression3_Main
 
         double reduced = chiSquared / freedom;
         
-        return reduced ; 
+{        return reduced ; 
     }*/
 }

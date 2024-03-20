@@ -7,3 +7,9 @@ val:WaterLength,80,2
 val:WaterTime,79
 val:WaterContainerLength,137,2
 
+tab:WaterData
+length,time
+80,79
+60,106
+40,134
+20,161
