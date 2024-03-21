@@ -20,6 +20,7 @@
 \usepackage{caption}
 \usepackage{biblatex}
 
+
 \captionsetup{font=footnotesize}
 
 
@@ -41,7 +42,7 @@
             Tutor: Dr. Tobias Kiessling & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Non invasive material analysis with ultrasound}  %Titel der Versuchs
+    \title{Non invasive material analysis and ultrasound properties in different materials}  %Titel der Versuchs
     \author{Thomas Karb and Salahudin Smailagić}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
@@ -69,14 +70,14 @@
     
     
     
-    \section{Basic functions of the echoscope}\label{BasicFunctions}
+    \section{Basic functions of the echoscope}\label{sec:BasicFunctions}
     An echoscope is a ultrasonic measurement system which uses ultrasound probes, commonly made of a piezocrystal, connected to a computer or oscilloscope.
     The piezocrytal converts a voltage into mechanical vibration and vice versa.
     Therefore the probe can be used as an emitter and receiver of ultrasound.
     Naturally, there are two modes in which the echoscope can work.
     Either in reflection mode, where a single probe functions as an emitter and a receiver, or in transmission mode, with two different probes at either side of the examined material.
     
-    \subsection{Runtime measurement}\label{RuntimeMeasurement}
+    \subsection{Runtime measurement}\label{subsec:RuntimeMeasurement}
     To determine the propagation velocities of ultrasound in different materials, we use the echoscope in reflection mode and record the time difference between the 
     rising edges of the initial and the reflected pulse.
     Using that time difference and the measured length of the used materials, the velocity can be determined.
@@ -111,7 +112,70 @@
     For a more sophisticated statement, one would need to a broader frequency range.
     Comparing the determined velocities with literature values is unreasonable, since the exact composition of the used materials is not known.
     
+    \subsection{Spectral measurement techniques}\label{subsec:Cepstrum}
+    Having to determine where exactly the rising edge of a peak lies introduces some errors in the measurements.
+    Having a measurement technique which does not rely on determining where the rising edge of a peak is, would generally be more accurate.
+    One of these methods is the Spectrum function on the \textit{Echoskop GS200}, which implements a fast fourier transform (FFT) of the signal.
+    From the FFT, the periodic reflections of the signal can easily be determined.
+    \\
+    The second method - the Cepstrum which also makes use of the fourier transform to determine periodicities in the signal.
+    Both these methods are much more accurate than a simple runtime measurement, since they take more data-points into account.
+    In order to quantitatively compare these measurement techniques, we measured the width of a polyacryl block.
+    The results can be seen in \autoref{tab:SpectralMethods}.
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt} Method & Width [mm]  	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   Ruler & $10.00 \pm 0.03$    \\
+            \rule[-5pt]{0pt}{23pt}   Runtime & $10.16 \pm 0.25$  \\
+            \rule[-5pt]{0pt}{23pt}   Spectrum & $9.98 \pm 0.21$  \\
+            \rule[-5pt]{0pt}{23pt}   Cepstrum  & $9.97 \pm 0.32$ \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Comparison of different measurement techniques used to determine the width of a polyacryl cylinder.
+        The ultrasound probe was used at $2\,$MHz and the signal was recorded on a \textit{Echoskop GS200}.}  %siehe Graphik: Beschriftung
+        \label{tab:SpectralMethods}                             %siehe Graphik: zum Zitieren
+    \end{table}
     
+    \subsection{Speed of sound in water - two measurement techniques}\label{subsec:SpeedinWater}
+    Using the same setup as before, we can also determine the speed of sound in water with a runtime measurement.
+    For that, we use a water bath with a movable barrier placed inside just like in \autoref{fig:AufbauWasser}.
+    We set the barrier (referred to as test block in the paper) perpendicular to the ultrasound waves and measure the time it takes for the reflected pulse to come back.
+    This was done for multiple distances, by moving the barrier inside the water.
+    The recorded distance-time data-points were then used to fit a line function through them.
+    The incline of the fitted line corresponds to the velocity.
+    The determined value for the propagation speed of sound waves in water is:
+    \begin{equation}
+        v_s = \WaterVelocity
+    \end{equation}
+    This value does not coincide with the literature value of $1485\,\frac{m}{s}$ at room temperature [2] within the margin of error.
+    A possible explanation for this could be that chemicals dissolved in the tap water influence the sound propagation properties.
+    Furthermore, the water bath was not completely full, hence the ultrasound probe could not be submerged completely.
+    This may have lead to a part of the ultrasound waves forming surface waves which may have different dispersion properties.
+    \\
+    A much better measurement technique is the one using the \textit{Debye-Sears} effect, which works in the following way.
+    If we continuously send ultrasound waves in a closed water container and let them reflect of the other edge of the container, they will form standing waves inside the water.
+    The differences in density at the nodes and the maxima of the standing waves act as a periodic lattice which makes incoming light diffract.
+    For the n-th diffraction order displaces by a length of $x_n$ from the 0-th order and $d>>x_n$ we get:
+    \begin{equation}\label{eq:diffraction}
+        sin(\alpha_n) = n \frac{\lambda_L}{\Lambda_s}
+    \end{equation}
+    and for $sin(\alpha_n) = \frac{x_n}{d}$ we get the propagation velocity:
+    \begin{equation}\label{eq:Velocitydebye}
+        v_s = n \frac{d}{x_n} f_s \lambda_L
+    \end{equation}
+    Doing this measurement for different laser wavelengths and different ultrasound frequencies, one can determine the propagation velocity of ultrasound in water.
+    Three different lasers ($ \lambda_{Blue} = 405\,$nm ,$ \lambda_{Green} = 532\,$nm, $ \lambda_{Red} = 650\,$nm) were used for each of the four ultrasound frequencies ($f=3MHz$, $f=6MHz$, $f=9MHz$, $f=12MHz$).
+    The end result is obtained as the weighted mean of all measurements.
+    \begin{equation}\label{eq:VelocityDebyeValue}
+        v_{Debye-Sears} = \WatervelocityDebye
+    \end{equation}
+    This value coincides with the literature value, and will be used in all further calculations which include the speed of sound in water.
     
     \subsection{Sound propagation velocities in metals}\label{propagationInMetals}
     \begin{figure}
@@ -252,7 +316,7 @@
         \normalsize
         \caption[]{Full width half maximum values of ultrasound pulses at different frequencies.
         The measurement was done with the cursor difference in A-Scan mode on a \textit{Echoskop GS200}.
-        The used material was a polyacryl test block which can be seen in \autoref{}.
+        The used material was a polyacryl test block which can be seen in \autoref{fig:Block}.
         It is visible from the data, that a higher frequency results in a better resolution.}
         \label{tab:FWHM}
     \end{table}
@@ -262,8 +326,81 @@
     However, higher frequencies also get absorbed more (\autoref{sec:Absorbtion}) leading to a less accurate measurement.
     A balance between these two effects is a must for reliable results.
     
+    \section{Material analysis with ultrasound imaging}\label{sec:MaterialAnalysis}
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}ccc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Bore & $d_{Ruler}$ & $d_{Ultrasound} $	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}    1   &  $6.85 \pm 0.03 $	& \depthOne \\
+            \rule[-5pt]{0pt}{23pt}    2   &  $14.86 \pm 0.03 $	& \depthTwo \\
+            \rule[-5pt]{0pt}{23pt}    3   &  $22.75 \pm 0.03 $	& \depthThree \\
+            \rule[-5pt]{0pt}{23pt}    4   &  $30.81 \pm 0.03 $	& \depthFour\\
+            \rule[-5pt]{0pt}{23pt}    5   &  $38.80 \pm 0.03 $	& \depthFive \\
+            \rule[-5pt]{0pt}{23pt}    6   &  $46.45 \pm 0.03 $	& \depthSix \\
+            \rule[-5pt]{0pt}{23pt}    7   &  $53.79 \pm 0.03 $	& \depthSeven \\
+            \rule[-5pt]{0pt}{23pt}    8   &  $61.40 \pm 0.03 $	& \depthEight \\
+            \rule[-5pt]{0pt}{23pt}    9a   &  $17.40 \pm 0.03 $	& \depthNine \\
+            \rule[-5pt]{0pt}{23pt}    9b   &  $19.05 \pm 0.03 $	& ($19.366 \pm 0.080$)\\
+            \rule[-5pt]{0pt}{23pt}    10   &  $55.43 \pm 0.03 $	& \depthOneOne \\
+            \rule[-5pt]{0pt}{23pt}    $\Delta_9$   &  $1.65 \pm 0.04 $	& $1.678 \pm 0.015$ \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Depth measurement on a polyarcry testblock which can be seen in \autoref{fig:Block} at a ultrasound frequency of $2\,$MHz, compared to a measurement done with a ruler.
+        The used propagation speed for polyacryl is taken from \autoref{subsec:RuntimeMeasurement} as \polyVelocityRuntimeMeasurementsOneMHz. }
+        \label{tab:Depths}
+    \end{table}
+    Ultrasound allows us to gather information about the structure of a material without having to look inside or possibly destroy it.
+    To demonstrate this in action, we use a polyacryl test-block which can be seen in \autoref{fig:Block}.
+    The measurement is analogous to the runtime measurement from \autoref{subsec:RuntimeMeasurement}.
+    In order to balance the effects of absorption while at the same time maintaining some good resolution, we used the echoscope at a frequency of $2\,$MHz.
+    For reference, the determined depths of the bores were also measured with a ruler and the results are given in \autoref{tab:Depths}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = \linewidth]{Generated/Block}
+            \caption[]{Schematic representation of the polyacryl testblock which is used for the measurements.
+            The time it takes the wave to reflect on the boring was measured and converted into a depth.}
+            \label{fig:Block}
+        \end{center}
+    \end{figure}
+    
+    The ultrasound measurement coincides with the ruler measurement within $90 \% $, except for the first boring which deviates slightly more.
+    Of course, one would need to know exactly the properties of the material to make these measurements even more accurate.
+    In order to determine the depths, the propagation velocity in polyacryl determined in \autoref{subsec:RuntimeMeasurement} was used.
+    This may also be a source of error.
+    
     \section{References}
     [1] https://www.physik.uni-wuerzburg.de/studium/ bachelor/grundpraktikum/ modulbeschreibungen/ fortgeschrittenenmodul-c1/
     \newline
-    [2] https://www.nist.gov/ services-resources/ standards-and-measurements
+    [2] Meschede, Dieter, gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin 2015
+    
+    \section{Appendix}\label{sec:appendix}
+    Mechanical waves are theoretically described by a set of differential equations:
+    \begin{figure}
+        \begin{center}
+            \includegraphics[]{Generated/WaveEquations}
+            \caption[]{}
+            \label{eg:WaveEquations}
+        \end{center}
+    \end{figure}
+    The dispersion relations are determined by plugging plane waves in the equation.
+    In simple cubic crystal structures the Young modulus simplifies to three independent components.
+    The Equation above delivers a set of linear equations:
+    \begin{equation}
+        M{\vec{A}} = 0
+    \end{equation}
+    Since for non-trivial Solutions, the eigenvalues vanish - we can determine the dispersion relations from the eigenvalues.
+    \begin{equation}
+        v_s = \omega / k
+    \end{equation}
+    The angle dependency of these velocities can be seen in \autoref{} and \autoref{} respectively.
+    The components of the Young modulus are taken from the table given in [1].
+    The anisotropy determined from [2] is:
+    \begin{equation}
+        
+    \end{equt}
 \end{document}

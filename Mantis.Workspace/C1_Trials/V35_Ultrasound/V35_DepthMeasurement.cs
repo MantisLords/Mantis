@@ -1,6 +1,7 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.TexIntegration;
 
 namespace Mantis.Workspace.C1_Trials.V35_Ultrasound;
 
@@ -26,10 +27,12 @@ public class V35_DepthMeasurement
     
     public static void CalculateDepth(List<DepthData> runtimeList, ErDouble velocity)
     {
-        Console.WriteLine("V: " + velocity);
+        int i = 0;
+        //Console.WriteLine("V: " + velocity);
         foreach (var data in runtimeList)
         {
-            Console.WriteLine(data.Depth*Math.Pow(10,-6)*velocity/2);
+            i++;
+            (data.Depth*Math.Pow(10,-3)*velocity/2).AddCommandAndLog("depth"+i,"");//this value is in mm
         }
     }
 }
