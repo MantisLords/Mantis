@@ -1,0 +1,269 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{hhline}
+\usepackage{caption}
+\usepackage{biblatex}
+
+\captionsetup{font=footnotesize}
+
+
+\include{Generated/Preamble}
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Tutor: Dr. Tobias Kiessling & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Non invasive material analysis with ultrasound}  %Titel der Versuchs
+    \author{Thomas Karb and Salahudin Smailagić}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}%Beginn des Abstracts
+        
+        
+        \\
+
+        Measurement made: 14th March 2024 \\
+        Submitted: 21th March 2024  \\
+
+        \\
+    \end{abstract}
+    }]
+    
+    
+    
+    \section{Introduction}\label{sec:introdction}
+    Ultrasound are mechanical waves with a frequency beyond $f = 20\,$kHz.
+    Since the coupling between the atoms and molecules is highly dependent on the type of material, their propagation speed varies in different materials.
+    The speed of the waves can also depend on the orientation of the crystal structure of the material, since the underlying symmetry also plays a role in the wave dispersion properties.
+    On top of that, they can form longitudinal and transverse waves in the material, which generally have different dispersion properties.
+    The goal of this paper is to understand the properties of ultrasound waves in different materials, while trying to see where the limitations of this method lie.
+    
+    
+    
+    \section{Basic functions of the echoscope}\label{BasicFunctions}
+    An echoscope is a ultrasonic measurement system which uses ultrasound probes, commonly made of a piezocrystal, connected to a computer or oscilloscope.
+    The piezocrytal converts a voltage into mechanical vibration and vice versa.
+    Therefore the probe can be used as an emitter and receiver of ultrasound.
+    Naturally, there are two modes in which the echoscope can work.
+    Either in reflection mode, where a single probe functions as an emitter and a receiver, or in transmission mode, with two different probes at either side of the examined material.
+    
+    \subsection{Runtime measurement}\label{RuntimeMeasurement}
+    To determine the propagation velocities of ultrasound in different materials, we use the echoscope in reflection mode and record the time difference between the 
+    rising edges of the initial and the reflected pulse.
+    Using that time difference and the measured length of the used materials, the velocity can be determined.
+    \begin{equation}
+        v_s = \frac{2d}{t}
+    \end{equation}
+    This was done for example cylinders of different lengths made of polyacryl and PVC .
+    The frequency of the ultrasound was varied, in order to test the materials on the frequency dependence of the propagation velocity.
+
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}ccc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt} Medium & Frequency  &  v_s 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   Polyacryl & 1   &  \polyVelocityRuntimeMeasurementsOneMHz   	 \\
+            \rule[-5pt]{0pt}{23pt}   Polyacryl & 2   & \polyVelocityRuntimeMeasurementsTwoMHz    	 \\
+            \rule[-5pt]{0pt}{23pt}   PVC & 1  &   \PVCVelocityRuntimeMeasurementsOneMHz  	 \\
+            \rule[-5pt]{0pt}{23pt}   PVC  & 2 &   \PVCVelocityRuntimeMeasurementsTwoMHz 	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Propagation velocities of sound in different materials and different frequencies.
+        The \textit{Echoskop GS200} was used in reflection mode for the measurements. A comparison with literature values is unreasonable, since
+        the exact composition of the polyacryl as well as the PVC is not known.}  %siehe Graphik: Beschriftung
+        \label{tab:FittedExponent}                             %siehe Graphik: zum Zitieren
+    \end{table}
+    From the determined velocities we are not able to say with certainty, if the frequency dependence exists.
+    This is due to the fact, that the values coincide within the errors.
+    For a more sophisticated statement, one would need to a broader frequency range.
+    Comparing the determined velocities with literature values is unreasonable, since the exact composition of the used materials is not known.
+    
+    
+    
+    \subsection{Sound propagation velocities in metals}\label{propagationInMetals}
+    \begin{figure}
+        \begin{center}
+        \includegraphics[width = \linewidth]{Generated/AufbauWasser}
+            \caption[]{}
+            \label{fig:AufbauWasser}
+        \end{center}
+    \end{figure}    
+    Our way of doing the runtime measurement requires us being able to differentiate the two peaks of the signal.
+    Naturally, we would have a hard time analyzing very thin materials since the two peaks in the signal would overlap considerably.
+    On top of that, 
+    In order to measure the propagation velocity for these types of materials, we use a different setup.
+    This setup, which can be seen in \autoref{fig:AufbauWasser}, uses the physics of wave refraction.
+    For that, a block of copper or aluminum is placed in a water bath on a rotating rig.
+    The echoscope is set to transparency mode and the two probes are placed on the opposite ends of the bath.
+    By varying the angle of the blocks relative to the probes, we can determine the propagation velocity of the waves in the material.
+    By knowing the angle of the incoming and the refracted wave \textit{Snells} law can be used to determine the velocities.
+    \begin{equation}\label{eg:SnellLaw}
+        \frac{sin(\beta)}{sin(\alpha)} = \frac{v_s}{v_w}
+    \end{equation}
+    Where $v_w$ is the speed of sound in water and $v_s$ the speed of sound in the examined material.
+    This method also allows a much more sophisticated setup for examining the dispersion properties of different directions inside the material.
+    All metals have a specific periodic ordering of atoms.
+    Depending on the symmetries of this ordering, as well as the types of bonds between the atoms, the crystal exhibits different propagation velocities of mechanical waves.
+    By performing the measurement, we know that we expect three peaks - one for each mode.
+    The first peak, corresponding to the fastest velocity, is that of the longitudinal mode.
+    The second and third peak are the transverse modes.
+    We know from theory, that for $\beta = 90^\circ$ there is total reflection for both the transverse and the longitudinal modes.
+    So when the signal on the echoscope vanishes, we can approximate the refracted angle $\beta$ to be $90^\circ $, and use it to calculate $v_s$.
+    Similarly, we know that transmission for transverse waves becomes maximal at $\beta = 45^\circ $.
+    Using that, we can calculate another velocity value.
+    The measured intensities for copper and aluminum are depicted in \autoref{fig:CopperPlot} and \autoref{fig:AluminumPlot} respectively.
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = \linewidth]{Generated/LongTransPlotCopper}
+            \caption[]{CopperPlot}
+            \label{fig:CopperPlot}
+        \end{center}
+    \end{figure}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = \linewidth]{Generated/LongTransPlotAluminum}
+            \caption[]{AluminumPlot}
+            \label{fig:AluminumPlot}
+        \end{center}
+    \end{figure}
+    From the angle values depicted in the figures, the propagation velocities of the different modes could be determined.
+    It is important to mention, that we were not able to differentiate the second transverse peak from the first one.
+    This is due to the fact that the peaks on the echoscope overlapped significantly, making it impossible to tell one from another.
+    Nevertheless, the determined values seem to be around the same value as the theory would suggest \autoref{}.
+    Keeping in mind, that the theoretically calculated values stem from the approximation that the bonds between the atoms behave according to \textit{Hooks} law.
+    
+    \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cccc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt} Medium &Mode& $\beta^\circ$  &  $v_s$[$\frac{m}{s}$] 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}   Copper & longitudinal   &90&  \LongCopper   	 \\
+            \rule[-5pt]{0pt}{23pt}   Copper & transverse & 45 & \TransCopper  	 \\
+            \rule[-5pt]{0pt}{23pt}   Copper & transverse & 90 & \TransCopperOne  	 \\
+            \rule[-5pt]{0pt}{23pt}   Aluminum & longitudinal & 90 & \LongAlu 	 \\
+            \rule[-5pt]{0pt}{23pt}   Aluminum & transverse & 45 & \TransAlu 	 \\
+            \rule[-5pt]{0pt}{23pt}   Aluminum & transverse & 90 & \TransAluOne 	 \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Sound velocities for different modes determined using \textit{Snells} law and the setup from \autoref{fig:AufbauWasser}.
+        The signal was recorded on the \textit{Echoskop GS200} with a ultrasound frequency of $2\,$MHz.}  %siehe Graphik: Beschriftung
+        \label{tab:LongTransVelocities}                             %siehe Graphik: zum Zitieren
+    \end{table}
+    
+    
+    
+    \section{Absorption of ultrasound}\label{sec:Absorbtion}
+    When traveling through a material, ultrasound waves oscillate the atoms and molecules of the material.
+    This oscillation leads to energy loss in the form of dissipated heat.
+    So an initial ultrasound signal sent into one end of a material will get partially absorbed i.e. damped.
+    In order to account for that in our measurement, we used the \textit{time gain control} (TGC) function of the echoscope,
+    which amplifies signals after some time.
+    This makes it possible to measure signals which would otherwise be to small while not overamplifying the visible signals.
+    The dampening of the signal inside a material generally follows an exponential decay
+    \begin{equation}\label{eg:Absorbtion}
+        I(x) = e^{-\lambda x}
+    \end{equation}
+    where $\lambda$ is the material-specific dampening coefficient.
+    By measuring the intensity of the ultrasound signal over a known distances x, the dampening coefficient can be calculated via
+    \begin{equation}\label{eg:AbsCoeff}
+        \lambda = -log(\frac{A_x}{A_0}) \frac{1}{2x}
+    \end{equation}
+    This mesurement was done for PVC for different frequencies. 
+    The values can be seen in \autoref{tab:DampeningCoeff}.
+    \begin{table}[htbp]          
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Frequency [MHz]  &  $\lambda \,$[cm^-1] 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}    1   &  \DampeningOneMhz 	 \\
+            \rule[-5pt]{0pt}{23pt}    2   & \DampeningTwoMHz     \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{DampeningCoeff}  
+        \label{tab:DampeningCoeff}                             
+    \end{table}
+    The absorption coefficient is larger for higher frequencies.
+    This is due to the fact, that the higher frequency wave oscillates the atoms faster which leads to more heat radiation and ultimately more dissipation.
+    The absorption for $4\,$MHz could not be determined because the reflected signal was to small to measure accurately.
+    
+    
+    
+    \section{Resolution of ultrasound imaging}\label{sec:Resolution}
+    The echoscope works by sending finite length pulses through the material.
+    Naturally, if these finite pulses overlapped to some extent, it would be hard to separate them in the measurement.
+    This can pose a problem when trying to separate reflection sources which are to closer than the pulse width.
+    A general mean of quantifying the resolution of devices is the \textit{Full width half maximum} or FWHM of the pulses.
+    The criterium for distinguishing two peaks would be: \textit{If the peaks are seperated by more that the FWHM, they are distinguishable}.
+    The FWHM of our used \textit{Echoskop GS200} was measured for three different frequencies and the results are depicted in \autoref{tab:FWHM}
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Frequency [MHz]  &  FWHM [$\mu s$] 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}    1   &  $1.60 \pm 0.05 $	 \\
+            \rule[-5pt]{0pt}{23pt}    2   &    $1.15 \pm 0.05$  \\
+            \rule[-5pt]{0pt}{23pt}    4   &   $0.75 \pm 0.05$  \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Full width half maximum values of ultrasound pulses at different frequencies.
+        The measurement was done with the cursor difference in A-Scan mode on a \textit{Echoskop GS200}.
+        The used material was a polyacryl test block which can be seen in \autoref{}.
+        It is visible from the data, that a higher frequency results in a better resolution.}
+        \label{tab:FWHM}
+    \end{table}
+    
+    As we already know from wave mechanics, a higher frequency i.e. a smaller wavelength results in a better resolution.
+    So choosing a higher frequency for measurements that require a high resolution would be the right thing to do.
+    However, higher frequencies also get absorbed more (\autoref{sec:Absorbtion}) leading to a less accurate measurement.
+    A balance between these two effects is a must for reliable results.
+    
+    \section{References}
+    [1] https://www.physik.uni-wuerzburg.de/studium/ bachelor/grundpraktikum/ modulbeschreibungen/ fortgeschrittenenmodul-c1/
+    \newline
+    [2] https://www.nist.gov/ services-resources/ standards-and-measurements
+\end{document}
