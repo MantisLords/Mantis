@@ -24,12 +24,13 @@
 
 \newcommand{\NSF}{N-SF6}
 
-\newcommand{\VOne}{[V]_{\fyWavelengthOne}}
 \newcommand{\VTwo}{[V]_{\fyWavelengthTwo}}
 \newcommand{\VThree}{[V]_{\fyWavelengthThree}}
 
 \newcommand{\unit}[1]{\, \mathrm{#1}}
 \newcommand{\nm}{\unit{nm}}
+\newcommand{\unitSpecrot}{\unit{\frac{\degree \, cm^2}{g}}}
+\newcommand{\unitVerdet}{\unit{\frac{rad}{T m}}}
 \newcommand{\wavelengthYellow}{580 \nm}
 \newcommand{\specRot}{[\alpha]_{\wavelengthYellow}}
 
@@ -52,7 +53,8 @@
             Supervisour: Dr. Martin Stehno & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{V40 Polarisation}  %Titel der Versuchs
+    \title{Methods to create and detect linear and circular polarized light;
+    Two applications: Optical acitvity of sucrose; Faraday effect}  %Titel der Versuchs
     \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
@@ -75,12 +77,12 @@
         with a half-shade polarimeter and then apply it for determining the concentration of 
         an unknown sucrose solution.
         
-        Similar to optical activity of chiral molecules functions the Faraday effect.
+        Similar to optically activity of chiral molecules functions the Faraday effect.
         Here we apply a magnetic field at a \NSF-glas rod and shine linear polarized light
         through it.
         We gauge the space-resolved magnetic field with a hall sensor and then measure the rotated 
         polarization vector of the transmitted light with a linear polarizing filter.
-        We determine Verdet's constant for three wavelengths $\VOne = \verdetConstantOne$,
+        We determine the Verdet's constant for two wavelengths 
         $\VTwo = \verdetConstantTwo$ and $\VThree = \verdetConstantThree$.
         
         \\
@@ -107,7 +109,7 @@
         \vec{J}_V = \begin{pmatrix} 0 \\ 1 \end{pmatrix}
     \end{align*}
     
-    Furthermore, left and right circular polarized light are described with a complex vector:
+    Furthermore, left and right-handed circular polarized light are described with a complex vector:
 
     \begin{align*}
         \vec{J}_L = \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ -i \end{pmatrix} \quad
@@ -121,7 +123,7 @@
     \label{subsec:MalusLaw}
     
     \figMalusFit{
-    Linear v-polarized light is shone upone a polarizing filter, which is rotated around the angle $\Theta$.
+    Linear v-polarized light is shone upone a polarizing filter, which is rotated by the angle $\Theta$.
     The resulting intensity is measured by a photo diode. 
         Its output current, which is proportional to the intensity, is depicted in the graphic.
     The intensity follows Malus' law ~\eqref{eq:theoMaluslaw}.
@@ -139,7 +141,7 @@
     \end{align*}
     Where $\Theta$ is the angle between the polarizing filter and the y-axis.
     If we let v-polarized light shine on the polarizing filter, it will be partially be absorbed.
-    We can get the resulting intensity by calculate the magnitude of the Jones' vector:
+    We can get the resulting intensity by calculating the magnitude of the Jones' vector:
     \begin{align}
         \label{eq:theoMaluslaw}
         \vec{J} &= P_{\Theta} \vec{J}_V = \begin{pmatrix} -cos\Theta sin\Theta \\
@@ -153,7 +155,7 @@
     visible range.
     We polarize it by placing a linear polarizing filter in front of the lamp.
     A second polarizing filter, the analysator, is mounted behind that.
-    It is rotated about the angle $\Theta$ relative to the first polarizing filter.
+    It is rotated by the angle $\Theta$ relative to the first polarizing filter.
     A photo diode detects the resulting intensity.
     We measure its output current, which is proportional to the intensity.
     
@@ -176,7 +178,7 @@
     via the photo diode's device specifications.
     This would enable more quantitative statements.
     Here we are satisfied with the simpler method,
-    since the qualitative results do suffice for the purposes of this paper.
+    since the qualitative results suffice for the purposes of this paper.
     
     \subsection{Circular polarization}
     
@@ -193,7 +195,7 @@
     \begin{align*}
         Q_{\frac{\lambda}{4}} = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix} 
     \end{align*}
-    If d-polarized light is shone upon the \quaterWavePlate it is converted to right circular light:
+    If d-polarized light is shone upon the \quaterWavePlate it is converted to right-handed circular light:
     \begin{align*}
         \vec{J} &= Q_{\frac{\lambda}{4}} \cdot \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ 1 \end{pmatrix} =
         \frac{1}{\sqrt {2}} \begin{pmatrix} 1 \\ i \end{pmatrix}
@@ -209,22 +211,23 @@
     For any orientation of the polarizing filter, the same amount of light passes through.
     The \quaterWavePlates we used in our experiment, are optimized for Natrium-D-Lamps,
     so for light of the wavelength $\lambda = 589 \nm$.
-    This means we do not actually get circular polarized light, but elliptical light.
-    We observe it, when rotating the analysator, the light passing through varies, depending on
-    the orientation of the analysator.
+    Consequently, we do not actually get circular polarized light, but elliptical light.
+    The elliptical light has the effect, that when rotating the polarizing filter, we see the 
+    intensity varying. 
+    In a $360\degree$-rotation we observe two minima and two maxima.
     
     By placing a second \quaterWavePlate behind the first one, we get a \halfWavePlate.
     A \halfWavePlate can described with:
     \begin{align*}
         Q_{\frac{\lambda}{2}} = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
     \end{align*}
-    It has the effect, that it mirrors linear polarized light around the y-axis.
+    This means, it mirrors linear polarized light around the y-axis.
     
-    We can demonstrate it by shing light with a polarization angle $\Theta$ and observing 
-    that the resulting light has the polarization $-\Theta$.
-    Again we have the problem that monochromatic light from the interference filter, has
-    not the correct wavelength for the \halfWavePlate.
-    This means we also get slightly elliptical polarized light.
+    We demonstrate this by shing light with a polarization angle $\Theta$ upon the \halfWavePlate.
+    We observe, the resulting light has the polarization $-\Theta$.
+    Again the problem arises that the monochromatic light from the interference filter does not
+    match the wavelength of the \halfWavePlate.
+    It results in us observing elliptical polarized light.
     
     This experiment could be improved by using a laser instead of an interference filter,
     since the interference filter has a bandwidth of wavelengths.
@@ -236,7 +239,7 @@
         \includegraphics[width=0.9\linewidth]{Positively_birefringent_material}
         \centering
         \caption{
-        The graphic shows the principle of birefringent materials.
+        The graphic shows the principle of birefringence.
         We have a optical anisotropic material, where p-polarized light is refracted
         differently than s-polarized light.
         The s-polarized light is parallel to the optical axis (and is in the graphic called
@@ -258,7 +261,7 @@
     
     In our experiment we mount a calcite crystal, which is fixed inside a fringe,
     before our incandescent lamp. 
-    We observe two light ray on the detection screen.
+    We observe two light rays on the detection screen.
     The ordinary and extraordinary ray can be distinguished by rotating the cristal.
     We observe that the extraordinary ray rotates around the ordinary, since it has a 
     greater refractive angle.
@@ -278,7 +281,7 @@
     A chiral molecule does not posses an intrinsic mirror symmetry.
     If you have a solution with a greater amount of one type than its mirrored counterpart,
     the solution is optical active.
-    It means right circular light has a different refractive index than left circular light.
+    It means right-handed circular light has a different refractive index than left-handed circular light.
     If you shine linear polarized light through an optical active solution, the
     polarization vector gets tilted around a specific angle $\Delta \Theta$.
     The angle $\Delta \Theta$ depends on the distance $l$ travelled through the solution,
@@ -290,7 +293,7 @@
     The specific optical rotation $\alpha$ depends on the molecule and the wavelength of the light.
     
     In our experiment we want to determine the specific rotation of sucrose.
-    For this, we use our incandescent lamp and mount the $\wavelengthYellow$ interference monochromator
+    For this, we use our incandescent lamp and mount the $\wavelengthYellow$-monochromator
     before it.
     Then the light is polarized with a linear polarizing filter and shines through
     a glas tube, containing the sugar solution.
@@ -323,13 +326,13 @@
     We can calculate the relative rotation $\Delta \Theta$ and with equation ~\eqref{eq:specificOpticalRotation}
     we can determine the specific optical rotation:
     \begin{align*}
-        \Delta Theta &= \Theta - \Theta_0 &= \referenceRotationAngle \\
+        \Delta \Theta &= \Theta - \Theta_0 = \referenceRotationAngle \\
         \specRot &= \sugarSpecificOpticalRotation
     \end{align*}
     
     The resulting value is consistent with the literature value:
     \begin{align*}
-        [\alpha]_{589\nm} = 6.65 \unit{\frac{\degree \, cm^2}{g}} ~\cite{instr}
+        [\alpha]_{589\nm} = 6.65 \unitSpecrot ~\cite{instr}
     \end{align*}
     The slight deviation can be contributed to the fact that for the literature value natrium-D-light
     is used, while we use a monochromator with $\lambda = \wavelengthYellow$.
@@ -355,10 +358,10 @@
 
     The Faraday effect occurs when a magnetic field is applied at a dielectric, such as glas.
     If light travels parallel to the B-field through the dielectric, the refractive index
-    for left and right circular light differs, depending on the field strength.
-    It is caused by the Zeeman effect, where the degenerate atomic energy levels are splitting up.
-    Because of the dipole-transition rule, left and right circular light couple differently to the atoms.
-    The difference in the refractive index between left and right circular light leads to a rotation
+    for left and right-handed circular light differs, depending on the field strength.
+    It is caused by the Zeeman effect, where the degenerate atomic energy levels are split up by the magnetic field.
+    Because of the dipole-transition rule, left and right-handed circular light couple differently to the atoms.
+    The difference in the refractive index between left and right-handed circular light leads to a rotation
     $\Theta$ of linear polarized light.
     This is analog to chiral molecules.
     The angle $\Theta$ depends on the length of the dielectric $l$, the field strength $\BMean$ and
@@ -384,10 +387,10 @@
         \includegraphics[width=0.9\linewidth]{FaradaySetup}
         \centering
         \caption{
-            The right side showes the setup we used for the Faraday effect.
+            The right side shows the setup we used for the Faraday effect.
             The magnetic field of the coils is amplified by the iron yoke, and bend so the magnetic field
             is parallel to the light ray.
-            The \NSF-glas rod is placed inserted in the boring of the yoke.
+            The \NSF-glas rod is placed inserted in the borehole of the yoke.
             The light travels through the boring and then through the glas rod.
             The left side of the picture shows the approximate setup to calculate the space-resolved magnetic field.
             For the fit ~\eqref{eq:coilApproximation} we asume that the magnetic field is created by two symetric coils
@@ -398,17 +401,18 @@
     \end{figure}
 
     Our experimental setup consists of an incandescent lamp, after it is placed an interference and a
-    polarizing filter to create monochrom linear polarized light.
-    The light then transits the glas rod.
+    polarizing filter to create monochromatic linear polarized light.
+    The light then traverses the glas rod.
     We use the dense flint glas \NSF ~\cite{glassTubeDatasheet} from `Schott Advanced Optics'.
     The rod has the length $l = \glasCylinderLength$.
-    It is placed inside a boring inside a iron yoke.
-    The magnetic field is created by two coils, compare ~\autoref{fig:faradaySetup}.
+    It is placed inside a borehole in the iron yoke.
+    The yoke connects two copper coils, which create the magnetic field.
+    Compare ~\autoref{fig:faradaySetup}.
     A second polarizing filter, the analysator, is placed after the glas rod,
     and a photo diode detects the resulting intensity.
 
     \figfyLocalBField{For the Faraday effect we use the setup depicted at the left side of ~\autoref{fig:faradaySetup}.
-    To measure the B-field at the position of the glas rod, we first remove it from the iron york and
+    To measure the B-field at the position of the glas rod, we first remove it from the iron yoke and
     then insert the axial hall sensor~\cite{hallSensor}.
     We apply the current $I = \CurrentForLocalBField$ and
     for $2\unit{mm}$-intervals record the B-field.
@@ -420,27 +424,29 @@
     In equation ~\eqref{eq:VerdetTheta} it is assumed that the B-field is constant over the whole
     length of the dielectric.
     This is not the case for our setup.
-    To account for this fact, we first have to determine the space-resolved magnet field.
-    We remove the glas rod from the iron york and
+    To account for this fact, we first have to determine the space-resolved magnetic field.
+    We remove the glas rod from the iron yoke and
     use the axial hall sensor~\cite{hallSensor} from `PhyWe' to measure the magnetic field.
     It has an accuracy of $\pm 2 \% $.
     We apply a current $I = \CurrentForLocalBField$ at the coils and then measure
     in $2 \unit{mm}$ intervalls the B-Field as a function of $x$.
     The recorded data is depicted in ~\autoref{fig:fyLocalBField}.
-    To find a suitable fit, we assume that the magnet field is equal to a magnet field created by two
+    To find a suitable fit, we assume that the magnetic field is equal to a magnetic field created by two
     coils, which are symmetrical placed along the x-axis (See the left side of ~\autoref{fig:faradaySetup}).
-    The coils have the length $d$, the winding number $N$, the radius $R$ and are placed the distance $a$ away from the center.
-    The B-field of those coils along the x-axis is:
+    The coils have the length $d$, the winding number $N$, the radius $R$ and are placed at a distance $a$, away from the center.
+    The resulting function, which we use for the fit is:
 
     \newcommand{\CoilEnd}[1]{\frac{#1}{\sqrt{R^2 + (#1)^2}}}
     \newcommand{\dHalf}{\frac{d}{2}}
 
     \begin{align}
         \label{eq:coilApproximation}
-        B &=  \frac{\mu_0 \, I \, N}{2} \scriptstyle \left( \CoilEnd{x - a - \dHalf} - \CoilEnd{x - a + \dHalf} \\
-        & \scriptstyle - \CoilEnd{x + a - \dHalf} + \CoilEnd{x + a +\dHalf} \right)^2
+        \begin{split}
+        B =  \frac{\mu_0 \, I \, N}{2} \scriptstyle ( \CoilEnd{x - a - \dHalf} - \CoilEnd{x - a + \dHalf} \\
+         \scriptstyle - \CoilEnd{x + a - \dHalf} + \CoilEnd{x + a +\dHalf} \,)
+            \end{split}
     \end{align}
-    Here $d$,$N$,$R$,$a$ and an constant offset $x_0$ are free parameters in the fit.
+    Here $d$,$N$,$R$,$a$ and the constant offset $x_0$ are free parameters in the fit.
     The offset $x_0$ is suppressed in ~\eqref{eq:coilApproximation} for clarity
 
     \newcommand{\lHalf}{\frac{l}{2}}
@@ -448,11 +454,13 @@
 
     With the fit we now can calculate the mean B-Field $\BMean$, which we need
     to calculate the Verdet constant in equation ~\eqref{eq:VerdetTheta}.
-    We determine it by integrating the fit $B(x)$ over the length $l$ of the glas rod.
+    We determine it by integrating $B(x)$ over the length $l$ of the glas rod.
     \begin{align}
         \label{eq:meanBFieldInt}
+        \begin{split}
         \BMean &= \frac{1}{l} \xInteg B(x) \\
             &= \MeanBField \quad \text{for} \quad I = \CurrentForLocalBField
+        \end{split}
     \end{align}
 
     We determine the error by using the covariance matrix emerging from the scattering of the
@@ -470,39 +478,40 @@
         We fit a linear function to get the relation $\BMean(I)$.
     }
 
+    We want to determine the mean field $\BMean$, as a function of the current $I$, for the entire
+    current range $0\dots3\unit{A}$.
     In equation ~\eqref{eq:coilApproximation} we observe that the B-Field is proportional to the
     current $I$.
-    This means when we now want to determine the mean field $\BMean$ for the entire current range,
-    instead of repeating the procedure for every current, it suffices to
-    measure the B-Field at just one fixed point and then infer the mean field.
+    So instead of repeating the previous procedure for every current, it suffices to
+    measure the B-Field at just one fixed point and then infer the mean field by using the results from above.
     We chose to measure the B-field at the maximum, since here we have the highest accuracy.
+    We use the following formula:
     \begin{align}
         \label{eq:meanBFromMaxB}
-        \BMean (I) = \frac{\BMax(I)}{\BMax( I = \CurrentForLocalBField)}
+        \BMean (I) = \frac{\BMean(\CurrentForLocalBField)}{\BMax(\CurrentForLocalBField)} \cdot \BMax(I)
     \end{align}
 
-    We measure $\BMax$ over the current range of our coils $I = 0 \dots 3 \unit{A}$.
-    The data is depicted in \autoref{fig:fyMeanBField}.
+    The measured data is depicted in \autoref{fig:fyMeanBField}.
     For high currents we have to pay attention that the coils do not get to hot, since this changes
     the magnetization and subsequent the B-field.
     We fit a linear function in the data and get the B-field as a function of the current.
     It has the slope $s = \MeanBFieldModelmu$ and the offset $m_0 = \MeanBFieldModelm$.
-    The offset corresponds to remanence magnetization of the iron york.
-    In the following calculations we use the fit as $\BMean(I)$.
+    The offset corresponds to remanence magnetization of the iron yoke.
+%    In the following calculations we use the fit as $\BMean(I)$.
     The error is inferred from the regression's covariance matrix.
     
     \figfyAngleDependencePlot{
         The plot depicts the measured polarization vector's rotation angle $\Theta$ as a function of the B-field.
-        We use three different intereference filters to create monochromatic light.
-        It is polarized and then traverses the \NSF-glas rod, where a magnetic field is applied.
+        With two interference filters we create monochromatic polarized light.
+        After the filter we mount a \NSF-glas rod, where a magnetic field is applied.
         The Faraday effect causes the polarization vector to rotate.
-        We measure the angle with a second polarizing filter, by manually search the intensity minimum.
+        We measure the tilt-angle with a second polarizing filter, by manually search the intensity minimum.
         It has a high uncertanty $\sigma_\Theta = \fyErrorAngle$.
         We fit equation ~\eqref{eq:VerdetTheta} into the data to get the Verdet constants, which are
         listed in ~\autoref{tab:verdetConstants}.
     }
     
-    Now we can start measuring the polarization vector's rotation $\Theta$ caused by the Faraday effect.
+    Now we start measuring the polarization vector's rotation $\Theta$, caused by the Faraday effect.
     We insert the glas rod back into the iron yoke.
     With an interference and polarizing filter we create monochromatic polarized light, which
     shines through the glas rod. 
@@ -511,21 +520,20 @@
     We manually rotate the filter and search for the minimum of the transmitted intensity.
     We estimate the method's error to $\sigma_{\Theta} = \fyErrorAngle$.
     For the coil's current range $0\dots 3 \unit{A}$ we measure the rotation angle $\Theta$.
-    This done for three monochromators.
+    This done for two monochromators.
     The data is depicted in ~\autoref{fig:fyAngleDependencePlot}.
-    The B-field is calculated with the previous fit \BMean(I).
+    The B-field is calculated with the previous fit $\BMean(I)$.
     By fitting a linear function in the data we can calculate the Verdet-constants which are
     listed in ~\autoref{tab:verdetConstants}.
 
     \newcommand{\VTheo}{V_{\mathrm{theo}}}
     \renewcommand{\arraystretch}{1.5}
-    \begin{table}[httb]
+    \begin{table}[h!]
         \centering
         \begin{tabular}{ c c c }
             \hline \hline 
-            $\lambda$ & $V = \frac{\Theta}{\BMean \, l}$ & $\VTheo$\\ 
+            $\lambda$ & $V = \frac{\Theta}{\BMean \, l} \ \text{in} \ \unitVerdet$ & $\VTheo \ \text{in} \ \unitVerdet$\\ 
             \hline
-            $\fyWavelengthOne$ & $\verdetConstantOneNoUnit$ & $\idealVerdetConstantOneNoUnit$ \\ 
             $\fyWavelengthTwo$ & $\verdetConstantTwoNoUnit$ & $\idealVerdetConstantTwoNoUnit$ \\
             $\fyWavelengthThree$ & $\verdetConstantThreeNoUnit$ & $\idealVerdetConstantThreeNoUnit$ \\ 
             \hline \hline
@@ -535,22 +543,34 @@
             For three wavelengths we measure the polarization rotation angle $\Theta$.
             Via a linear fit and with equation ~\eqref{eq:VerdetTheta} 
             we can calculate the Verdet constants, which are listed here.
-            The uncertanty derives mainly from the great error, intruduced by manually measureing the
+            The uncertanty derives mainly from the great error, intruduced by manually measuring the
             polarization vector.
             With the approximation ~\eqref{eq:TheoVerdetCurve} and the Sellmeier equation for the
-            refractiv index ~\eqref{eq:Sellmeier} we can calculate the theoretical expected verdet
+            refractive index ~\eqref{eq:Sellmeier} we can calculate the theoretical expected verdet
             constants.
-            The great discrapancy between the expected and measured values
+            The errors derive from the spectral width of the wavelength $\lambda$.
+            The great discrepancy between the expected and measured values
             may be caused by the manual method of determining the polarization angle, since
             it may lead to systematical errors, which we did not account for in our calculations.
+            Furthermore, the yoke could have grown warm, since it reduces the magnetic field
+            and consequently the Verdet constants appear smaller.
         }
         \label{tab:verdetConstants}
     \end{table}
     
-    As can be seen in ~\autoref{fig:fyAngleDependencePlot} the manual method has a high inaccuracy,
-    which leads to the great errors of the Verdet constants.
-    It is because the intensity's minimum is not easy to find, since it follows Malus' law
-    $cos^2\Theta$, which is flat at the extrema.
+    We did measure the Verdet constant for a third wavelength $\lambda = 440 \nm$.
+    The value we did get $V = (25.3 \pm 3.6) \unitVerdet$ deviates significantly from the theoretical value 
+    $V = 59.88 \unitVerdet$.
+    It can be attributed to the interference filter being defective.
+    It does not filter the light correctly, making the measurement worthless.
+    Therefore, we omitted it from the rest of the evaluation.
+    
+    
+    
+%    As can be seen in ~\autoref{fig:fyAngleDependencePlot} the manual method is quite inaccurate,
+%    which leads to the large errors of the Verdet constants.
+%    The reason is that the intensity's minimum is not easy to find manually, since it follows Malus' law:
+%    $cos^2\Theta$ which is flat at the extrema.
     
     \figfyVerdetPlot{
     The plot depicts the measured Verdet constants from ~\autoref{tab:verdetConstants} and
@@ -558,9 +578,11 @@
     The theoretical curve depends on the refractive index $n(\lambda)$ of the used \NSF-glass.
         It can be calculated with the Sellmeier equation ~\eqref{eq:Sellmeier} and the parameters 
     from the datasheet~\cite{glassTubeDatasheet}.
-    In the plot a discrapency between the data and the theoretical value is evident.
+    In the plot a discrepency between the data and the theoretical value is evident.
     It may be caused by the manual method of determining the polarization angle, since
     it may lead to systematical error, which we did not account for in our calculations.
+    A further explination may be the yoke growing warm, since it reduces the magnetic field
+    and the Verdet constants appear smaller.
     }
     
     The measured data points can be compared to the theoretical Verdet constants $\VTheo$.
@@ -572,28 +594,82 @@
         n^2(\lambda) = 1 + \SellmeierEqPart{1} + \SellmeierEqPart{2} + \SellmeierEqPart{3}
     \end{align}
     The six constants can be inferred from the datasheet~\cite{glassTubeDatasheet}.
-    With the dispersion relation $n(\lambda)$ the approximation ~\eqref{eq:TheoVerdetCurve} can
-    be used to calculate the theoretical wavelengths.
-    The theoretical values are displayed in ~\autoref{tab:verdetConstants} and ~\autoref{fig:fyVerdetPlot}.
+    With the dispersion relation $n(\lambda)$ and the approximation ~\eqref{eq:TheoVerdetCurve}
+    we calculate the theoretical wavelengths.
+    The theoretical values are displayed in ~\autoref{tab:verdetConstants} and in ~\autoref{fig:fyVerdetPlot}.
+    The in the table listed errors derive from the large spectral width of the light.
     
-    A big discrepancy is evident between the theoretical values and the measured.
-    A cause may be the manual method of finding the intensity minimum, since as mentioned above,
-    the intensity function $cos^(\Theta)$ flattens at the extrema.
+    A big discrepancy is evident between the theoretical and the measured values.
+    A cause may be the manual method of finding the intensity minimum, since
+    the intensity follows Malus' law, which flattens at the extrema.
     It introduces systematical errors not only because you have to manually judge the minimum, but
     also because diffuse light from different sources may seemingly shift the minimum.
+    Another cause may be the warming of the yoke.
+    If it heats up, the iron's magnetic susceptibility decreases, reducing the magnetic field.
+    Consequently, the polarization vector is tilted less, which results in a seemingly smaller
+    Verdet constant.
     
     The experiment could be improved by, instead of manually searching for the intensity minimum,
     measuring the intensity for the entire polarizing filters' angle range.
-    As demonstrated in ~\autoref{subsec:MalusLaw}, you then fit Malus' law and from it infer 
-    the angle offset $\Theta$.
-    It would require to record the data electronically, due to the large amount of data points.
-    
+    As demonstrated in ~\autoref{subsec:MalusLaw}, the angle offset $\Theta$ is inferred
+    by fitting Malus' law.
+    It would require recording the data electronically, due to the large amount of data points.
     Further the accuracy could be increased by utilizing a laser.
     It has a far smaller spectral width than the monochromators.
+    Lastly the temperature of the coils and the yoke could be controlled by an extra cooling,
+    so the heat does not change the iron's susceptibility, distorting the results.
     
-    Lastly a stronger magnetic field and a longer dielectric would also increase the precision.
     
     \section{Summary}
+    
+    In the paper we showcase experimental setups to study linear and circular polarized light.
+    In the first part we introduce the basic procedure, to create and detect polarized light.
+    By mounting two linear polarizing filters after one another, we demonstrate Malus' law.
+    It describes the intensity $I$ passing through the filters, depending on their relative orientation $\Theta$.
+    We use an incandescent lamp to create, and a photo diode to detect the linear polarized light.
+    This method can be used to determine the orientation of linear polarized light.
+    
+    Then we qualitatively study the effects of \quaterWavePlates on linear polarized light.
+    With Jones' formalism we predict that a \quaterWavePlate converts diagonal polarized light 
+    to circular polarized light.
+    But only if the wavelength of the light matches to the \quaterWavePlate.
+    Since the interference filters we use produce light of $\lambda = \wavelengthYellow$,
+    and the \quaterWavePlates are for natrium-D-light $\lambda = 589 \nm$,
+    we only observe the conversion to elliptical light.
+    By combining to \quaterWavePlates we get a \halfWavePlate.
+    It mirrors the polarization vector at the y-axis, which we are able to observe.
+    
+    As a third point we study birefringence.
+    We use a calcite cristal, which splits incoming light into an ordinary and an extraordinary ray.
+    We identify the extraordinary ray by rotating the cristal, since the extraordinary rotates around
+    the ordinary ray.
+    Furthermore, by placing a linear polarizing filter after the cristal, we observe that the ordinary and
+    extraordinary ray are polarized perpendicular to each other.
+    
+    In the second part we showcase two possible applications of our setup.
+    First we study the optical activity of sugar.
+    Since sucrose is a chiral molecule, a solution is optical active, meaning linear polarized light
+    traveling through the solution, will be tilted around an angle $\Theta$.
+    We use the interference filter to create light $\lambda = \wavelengthYellow$.
+    It is then polarized and shines through a tube filled with a sugar solution $c = \referenceConcentration$.
+    We measure the tilt-angle with a half shade polarimeter, and calculate the specific optical rotation
+    $\specRot = \sugarSpecificOpticalRotation$.
+    The method can be used to also determine the concentration of an unknown sugar solution.
+    
+    As a second application we demonstrate the Faraday effect.
+    When linear polarized light traverses through a dielectric, where a magnetic field is applied, the
+    polarization vector gets also tilted.
+    We use an iron yoke with two coils to create the magnetic field.
+    The dielectric, we use a \NSF-glas rod, is placed inside a borehole in the yoke.
+    We first gauge the space-resolved magnetic field inside the boring with a hall sensor.
+    Afterward we measure the polarization vectors' tilt with a pol filter, by searching the intensity minimum.
+    For two wavelengths, created by two interference filters, the Verdet constant is determined:
+     $\VTwo = \verdetConstantTwo$ and $\VThree = \verdetConstantThree$.
+    The values deviate from the literature values, which may be due to the inaccuracy of the manual
+    measuring process.
+    An improved approach would involve using the strategy from above, by measuring the intensity for the entire
+    angle range and using Malus' law to determine the angle offset.
+    
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt

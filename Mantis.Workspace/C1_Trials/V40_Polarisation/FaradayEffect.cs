@@ -147,7 +147,7 @@ public static class FaradayEffect
         
         CalculateIdealVerdetDispersion();
         
-        List<(ErDouble, ErDouble)> verdetPoints = new List<(ErDouble, ErDouble)>();
+        List<(IErDoubleBase, IErDoubleBase)> verdetPoints = new List<(IErDoubleBase, IErDoubleBase)>();
 
         var indices = _reader.ExtractSingleValue("val:fyDataIndices").Where(s => !string.IsNullOrEmpty(s)).Select(int.Parse).ToArray();
         foreach (int i in indices)
@@ -168,10 +168,13 @@ public static class FaradayEffect
 
     }
 
-    private static void CalculateFaradayEffectForWaveLength(int index,Plot angleDepPlot,List<(ErDouble,ErDouble)> verdetPoints)
+    private static void CalculateFaradayEffectForWaveLength(int index,Plot angleDepPlot,List<(IErDoubleBase,IErDoubleBase)> verdetPoints)
     {
-        double waveLength = _reader.ExtractSingleValue<double>("val:fyWavelength"+index);
+        var wLArgs = _reader.ExtractSingleValue("val:fyWavelength"+index);
+        GErDouble waveLength = GErDouble.Init(double.Parse(wLArgs[0]), double.Parse(wLArgs[1]), double.Parse(wLArgs[2]));
         waveLength.AddCommandAndLog("fyWavelength"+index,"nm");
+        waveLength.MinBorder.AddCommandAndLog($"fyWavelength{index}Min","nm");
+        waveLength.MaxBorder.AddCommandAndLog($"fyWavelength{index}Max","nm");
 
         List<FyAngleData> angleData = _reader.ExtractTable<FyAngleData>("tab:fyData" + index);
         var offsetAngle = -angleData[0].Angle.Value;
@@ -185,14 +188,15 @@ public static class FaradayEffect
         
 
         RegModel faradayModel = angleData.CreateRegModel(e => (e.MeanBField, e.Angle), new ParaFunc(2, new LineFunc()));
-        faradayModel.DoLinearRegression();
+        faradayModel.DoLinearRegressionWithXErrors();
+        // faradayModel.DoLinearRegression();
 
         ErDouble verdetConstant = faradayModel.ErParameters[1] / _glasCylinderLength;
         verdetConstant *= Constants.Degree;
         verdetConstant *= Constants.Mega;
         verdetConstant.AddCommandAndLog("verdetConstant"+index,"\\frac{rad}{T m}");
         verdetConstant.AddCommandAndLog("verdetConstant"+index+"NoUnit","",LogLevel.OnlyCommand);
-        _idealVerdetDispersionFunc.Invoke(waveLength).AddCommandAndLog("idealVerdetConstant"+index+"NoUnit","");
+        GErDouble.Evaluate(waveLength,_idealVerdetDispersionFunc).AddCommandAndLog("idealVerdetConstant"+index+"NoUnit","");
 
         var (erBar,dynFunc) = angleDepPlot.AddRegModel(faradayModel, $"Angle rotation \u03BB = {waveLength} nm",
             $"Linear fit: V = {verdetConstant} rad/T/m");
@@ -251,7 +255,7 @@ public static class FaradayEffect
             Labels = new []{"m0","mu"},
             Units = new []{"mT","\\frac{mT}{A}"}
         });
-        meanFieldModel.DoLinearRegression(false);
+        meanFieldModel.DoLinearRegression(true);
         _meanFieldCurrentFunc = meanFieldModel.ParaFunction;
         
         meanFieldModel.AddParametersToPreambleAndLog("MeanBFieldModel");
@@ -284,27 +288,31 @@ public static class FaradayEffect
         
         // Calculate Mean field
 
-        double halfGlasCylinderLength = 0.5 *_reader.ExtractSingleValue<double>("val:glasCylinderLength") ;
-        _glasCylinderLength = 2 * halfGlasCylinderLength;
+        _glasCylinderLength = _reader.ExtractSingleValue<double>("val:glasCylinderLength") ;
         _glasCylinderLength.AddCommandAndLog("glasCylinderLength","mm");
-        
-        ErDouble meanField = DoubleExponentialTransformation.Integrate(
-            model.ParaFunction.EvaluateAtDouble,
-            -halfGlasCylinderLength,
-            halfGlasCylinderLength,
-            1e-5);
 
+        ErDouble cylinderOffset = _reader.ExtractSingleValue<ErDouble>("val:glasCylinderCenterOffset");
+        
+        double negBound = cylinderOffset.Value -0.5 * _glasCylinderLength;
+        double posBound = cylinderOffset.Value + 0.5 * _glasCylinderLength;
+        
+        cylinderOffset.AddCommandAndLog("cylinderCenterOffset","mm",LogLevel.OnlyLog);
+
+        ErDouble meanField = IntegrateLocalFieldModelOverCylinder(model, cylinderOffset.Value);
+        double centerMeanField = IntegrateLocalFieldModelOverCylinder(model, 0);
+        double minMeanField = IntegrateLocalFieldModelOverCylinder(model, cylinderOffset.MaxBorder);
+            
         double erSq = DoubleExponentialTransformation.Integrate(
             x =>
             {
                 ErDouble v = model.ParaFunction.EvaluateAt(x);
                 return v.Error * v.Error;
             },
-            -halfGlasCylinderLength,
-            halfGlasCylinderLength,
+            negBound,
+            posBound,
             1e-5);
 
-        meanField.Error = Math.Sqrt(erSq);
+        meanField.Error = Math.Max( Math.Max(Math.Sqrt(erSq), Math.Abs(meanField.Value - centerMeanField) ) ,Math.Abs(meanField.Value - minMeanField));
         meanField /= _glasCylinderLength;
         meanField.AddCommandAndLog("MeanBField","mT");
 
@@ -324,7 +332,7 @@ public static class FaradayEffect
 
         plot.AddRegModel(model, "Magnetic field measured with hall sensor",
             "Fit: B-fields of two coils");
-        var hSpan = plot.Add.HorizontalSpan(-halfGlasCylinderLength, halfGlasCylinderLength);
+        var hSpan = plot.Add.HorizontalSpan(negBound, posBound);
         hSpan.Label.Text = $"Cylinder volume; Mean field {meanField} mT";
 
         plot.Legend.Location = Alignment.LowerCenter;
@@ -332,6 +340,12 @@ public static class FaradayEffect
         plot.SaveAndAddCommand("fig:fyLocalBField");
 
     }
+
+    private static double IntegrateLocalFieldModelOverCylinder(RegModel model, double offset) =>
+        DoubleExponentialTransformation.Integrate(model.ParaFunction.EvaluateAtDouble,
+            offset -0.5 * _glasCylinderLength,
+            offset + 0.5 * _glasCylinderLength,
+            1e-5);
 
     private static double CenterFieldData(List<LocalBFieldData> fieldData,double current)
     {

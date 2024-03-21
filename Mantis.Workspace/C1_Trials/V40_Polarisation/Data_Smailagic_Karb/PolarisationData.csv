@@ -32,6 +32,7 @@ val:angleTest,192+-0.5,degree
 # Faradey effect
 
 # Magnetic field
+val:glasCylinderCenterOffset,0+-0,0,mm
 val:glasCylinderLength,30.950,mm
 
 val:currentForLocalField,1.505,A
@@ -73,10 +74,10 @@ current in A,bField in mT
 2.593,166.8 161.1 166.8
 2.895,184.4 185.2 185.0 
 
-val:fyDataIndices,1,2,3
-val:fyErrorAngle,0.5,degree
+val:fyDataIndices,2,3
+val:fyErrorAngle,0.80,degree
 
-val:fyWavelength2,525,nm
+val:fyWavelength2,525,480,570,nm
 tab:fyData2
 current in A,angle in degree
 0.004,1
@@ -90,7 +91,7 @@ current in A,angle in degree
 -2.608,-4
 -2.894,-5
 
-val:fyWavelength1,440,nm
+val:fyWavelength1,440,440,440,nm
 tab:fyData1
 current in A,angle in degree
 0.003,1
@@ -104,7 +105,7 @@ current in A,angle in degree
 -2.611,-4
 -2.897,-5
 
-val:fyWavelength3,580,nm
+val:fyWavelength3,580,560,630,nm
 tab:fyData3
 current in A,angle in degree
 0.003,0

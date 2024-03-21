@@ -36,7 +36,7 @@ public static class SugarSolution
         refRotationAngle.AddCommandAndLog("referenceRotationAngle","\\degree");
         var specificOpticalRotation = refRotationAngle / referenceConcentration / glasTubeLength;
         specificOpticalRotation *= 10000;
-        specificOpticalRotation.AddCommandAndLog("sugarSpecificOpticalRotation","\\frac{\\degree cm^2}{g}");
+        specificOpticalRotation.AddCommandAndLog("sugarSpecificOpticalRotation","\\frac{\\degree \\, cm^2}{g}");
 
         var testRotationAngle = angleTest - defaultAngle;
         testRotationAngle.AddCommandAndLog("testRotationAngle","\\degree");
