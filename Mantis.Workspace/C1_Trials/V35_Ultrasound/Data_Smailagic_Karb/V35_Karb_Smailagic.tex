@@ -19,6 +19,7 @@
 \usepackage{hhline}
 \usepackage{caption}
 \usepackage{biblatex}
+\usepackage{wasysym}
 
 
 \captionsetup{font=footnotesize}
@@ -42,16 +43,24 @@
             Tutor: Dr. Tobias Kiessling & \today\\                          %Kopfzeile - Betreuer
         \end{tabular*}                                             %Kopfzeile
     }
-    \title{Non invasive material analysis and ultrasound properties in different materials}  %Titel der Versuchs
+    \title{Non-invasive material analysis and ultrasound properties in different materials}  %Titel der Versuchs
     \author{Thomas Karb and Salahudin Smailagić}                     %Namen der Studenten
     \date{}                                                         %benötigt um automatisches Datum auszuschalten
     \maketitle                                                      %erzeugt Titelseite
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}%Beginn des Abstracts
-        
-        
+        Methods for examining properties of different materials without damaging or possibly destroying them are of high interest in all areas of science.
+        We present different methods for determining the propagation velocity of mechanical waves in metals as well as polyacryl and PVC using ultrasound.
+        The simple runtime measurement using an echoscope yielded the values $\polyVelocityRuntimeMeasurementsOneMHz$ and $\PVCVelocityRuntimeMeasurementsOneMHz$ for polyacryl and PVC respectively.
+        The method was compared to two spectral methods: Spectrum and Cepstrum - leaving us with the conclusion that the spectral methods are much more accurate.
         \\
-
+        Since mechanical waves can have both transverse and longitudinal modes, we used a different setup to measure the dispersive properties of these waves, allowing us to compare the determined results with theoretical values for copper and aluminum.
+        Furthermore, we showed the capabilites of ultrasound by analyzing a gauge block with different borings at known depths and compared the measured values to a measurement with a ruler.
+        The values coincided with over $90 \% $ accuracy.
+        \\
+        Lastly, we looked at limitations of ultrasound measurement techniques by looking at the absorption behaviour as well as the resolution of ultrasound imaging for different frequencies.
+        \\
+        \\
         Measurement made: 14th March 2024 \\
         Submitted: 21th March 2024  \\
 
@@ -64,7 +73,7 @@
     \section{Introduction}\label{sec:introdction}
     Ultrasound are mechanical waves with a frequency beyond $f = 20\,$kHz.
     Since the coupling between the atoms and molecules is highly dependent on the type of material, their propagation speed varies in different materials.
-    The speed of the waves can also depend on the orientation of the crystal structure of the material, since the underlying symmetry also plays a role in the wave dispersion properties.
+    The wave speed can also depend on the orientation of the materials crystal structure, since the underlying symmetry also plays a role in the wave dispersion properties.
     On top of that, they can form longitudinal and transverse waves in the material, which generally have different dispersion properties.
     The goal of this paper is to understand the properties of ultrasound waves in different materials, while trying to see where the limitations of this method lie.
     
@@ -72,10 +81,10 @@
     
     \section{Basic functions of the echoscope}\label{sec:BasicFunctions}
     An echoscope is a ultrasonic measurement system which uses ultrasound probes, commonly made of a piezocrystal, connected to a computer or oscilloscope.
-    The piezocrytal converts a voltage into mechanical vibration and vice versa.
+    The piezo-crystal converts a voltage into mechanical vibration and vice versa.
     Therefore the probe can be used as an emitter and receiver of ultrasound.
     Naturally, there are two modes in which the echoscope can work.
-    Either in reflection mode, where a single probe functions as an emitter and a receiver, or in transmission mode, with two different probes at either side of the examined material.
+    Either in reflection mode, where a single probe acts both as emitter and receiver, or in transmission mode, where one probe acts as emitter and the second as receiver.
     
     \subsection{Runtime measurement}\label{subsec:RuntimeMeasurement}
     To determine the propagation velocities of ultrasound in different materials, we use the echoscope in reflection mode and record the time difference between the 
@@ -92,7 +101,7 @@
         \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}ccc}
             \hline
             \hline
-            \rule[-7pt]{0pt}{23pt} Medium & Frequency  &  v_s 	 \\
+            \rule[-7pt]{0pt}{23pt} Medium & Frequency [MHz]  &  $v_s$[$\frac{m}{s}$] 	 \\
             \hline
             \rule[-5pt]{0pt}{23pt}   Polyacryl & 1   &  \polyVelocityRuntimeMeasurementsOneMHz   	 \\
             \rule[-5pt]{0pt}{23pt}   Polyacryl & 2   & \polyVelocityRuntimeMeasurementsTwoMHz    	 \\
@@ -104,11 +113,11 @@
         \normalsize
         \caption[]{Propagation velocities of sound in different materials and different frequencies.
         The \textit{Echoskop GS200} was used in reflection mode for the measurements. A comparison with literature values is unreasonable, since
-        the exact composition of the polyacryl as well as the PVC is not known.}  %siehe Graphik: Beschriftung
+        the exact composition of the polyacryl as well as the PVC is unknown.}  %siehe Graphik: Beschriftung
         \label{tab:FittedExponent}                             %siehe Graphik: zum Zitieren
     \end{table}
     From the determined velocities we are not able to say with certainty, if the frequency dependence exists.
-    This is due to the fact, that the values coincide within the errors.
+    This is due to the fact, that the values coincide within their errors.
     For a more sophisticated statement, one would need to a broader frequency range.
     Comparing the determined velocities with literature values is unreasonable, since the exact composition of the used materials is not known.
     
@@ -181,14 +190,13 @@
     \begin{figure}
         \begin{center}
         \includegraphics[width = \linewidth]{Generated/AufbauWasser}
-            \caption[]{}
+            \caption[]{Schematic experimental setup for measuring the speed of sound for different modes in copper and aluminum.
+            The angle $\alpha$ was varied and the transmitted intensity was recorded on the \textit{Echoskop GS200}.
+            The $2$MHz probes were used.}
             \label{fig:AufbauWasser}
         \end{center}
-    \end{figure}    
-    Our way of doing the runtime measurement requires us being able to differentiate the two peaks of the signal.
-    Naturally, we would have a hard time analyzing very thin materials since the two peaks in the signal would overlap considerably.
-    On top of that, 
-    In order to measure the propagation velocity for these types of materials, we use a different setup.
+    \end{figure}
+    If we want to look at the dispersion properties of different wave modes inside a material, we need a more sophisticated setup that the ones presented above.
     This setup, which can be seen in \autoref{fig:AufbauWasser}, uses the physics of wave refraction.
     For that, a block of copper or aluminum is placed in a water bath on a rotating rig.
     The echoscope is set to transparency mode and the two probes are placed on the opposite ends of the bath.
@@ -212,21 +220,25 @@
     \begin{figure}
         \begin{center}
             \includegraphics[width = \linewidth]{Generated/LongTransPlotCopper}
-            \caption[]{CopperPlot}
+            \caption[]{Intensity of transmitted ultrasound waves through a copper block at different angles $\alpha$.
+            From the angles with maximum and minimum intensity the speeds of sound for the corresponding modes can be calculated.
+            The Measurement was done at a ultrasound frequency of $2$MHz using a \textit{Echoskop GS200}.}
             \label{fig:CopperPlot}
         \end{center}
     \end{figure}
     \begin{figure}
         \begin{center}
             \includegraphics[width = \linewidth]{Generated/LongTransPlotAluminum}
-            \caption[]{AluminumPlot}
+            \caption[]{Intensity of transmitted ultrasound waves through a aluminum block at different angles $\alpha$.
+            From the angles with maximum and minimum intensity the speeds of sound for the corresponding modes can be calculated.
+            The Measurement was done at a ultrasound frequency of $2$MHz using a \textit{Echoskop GS200}.}
             \label{fig:AluminumPlot}
         \end{center}
     \end{figure}
-    From the angle values depicted in the figures, the propagation velocities of the different modes could be determined.
+    From the angle maxima values depicted in the figures, the propagation velocities of the different modes could be determined.
     It is important to mention, that we were not able to differentiate the second transverse peak from the first one.
-    This is due to the fact that the peaks on the echoscope overlapped significantly, making it impossible to tell one from another.
-    Nevertheless, the determined values seem to be around the same value as the theory would suggest \autoref{}.
+    This is due to the fact that the peaks on the echoscope overlapped significantly, making it impossible to tell them apart.
+    Nevertheless, the some maxima could be determined and the calculated velocity values seem to be around the same value as the theory would suggest \autoref{sec:appendix}.
     Keeping in mind, that the theoretically calculated values stem from the approximation that the bonds between the atoms behave according to \textit{Hooks} law.
     
     \begin{table}[htbp]          %so funktionieren die Tabellen in LaTeX
@@ -269,14 +281,14 @@
     \begin{equation}\label{eg:AbsCoeff}
         \lambda = -log(\frac{A_x}{A_0}) \frac{1}{2x}
     \end{equation}
-    This mesurement was done for PVC for different frequencies. 
+    This measurement was done for PVC for different frequencies. 
     The values can be seen in \autoref{tab:DampeningCoeff}.
     \begin{table}[htbp]          
         \centering
         \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}cc}
             \hline
             \hline
-            \rule[-7pt]{0pt}{23pt}  Frequency [MHz]  &  $\lambda \,$[cm^-1] 	 \\
+            \rule[-7pt]{0pt}{23pt}  Frequency [MHz]  &  $\lambda \,$	 \\
             \hline
             \rule[-5pt]{0pt}{23pt}    1   &  \DampeningOneMhz 	 \\
             \rule[-5pt]{0pt}{23pt}    2   & \DampeningTwoMHz     \\
@@ -284,7 +296,8 @@
             \hline
         \end{tabular*}
         \normalsize
-        \caption[]{DampeningCoeff}  
+        \caption[]{The dampening coefficients for ultrasound inside PVC at different frequencies.
+        The value for $4$MHz could not be determined due to very high dampening.}  
         \label{tab:DampeningCoeff}                             
     \end{table}
     The absorption coefficient is larger for higher frequencies.
@@ -332,7 +345,7 @@
         \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}ccc}
             \hline
             \hline
-            \rule[-7pt]{0pt}{23pt}  Bore & $d_{Ruler}$ & $d_{Ultrasound} $	 \\
+            \rule[-7pt]{0pt}{23pt}  Boring & $d_{Ruler}$[mm] & $d_{Ultrasound} $[mm]	 \\
             \hline
             \rule[-5pt]{0pt}{23pt}    1   &  $6.85 \pm 0.03 $	& \depthOne \\
             \rule[-5pt]{0pt}{23pt}    2   &  $14.86 \pm 0.03 $	& \depthTwo \\
@@ -358,7 +371,7 @@
     To demonstrate this in action, we use a polyacryl test-block which can be seen in \autoref{fig:Block}.
     The measurement is analogous to the runtime measurement from \autoref{subsec:RuntimeMeasurement}.
     In order to balance the effects of absorption while at the same time maintaining some good resolution, we used the echoscope at a frequency of $2\,$MHz.
-    For reference, the determined depths of the bores were also measured with a ruler and the results are given in \autoref{tab:Depths}
+    For reference, the determined depths of the borings were also measured with a ruler and the results are given in \autoref{tab:Depths}
     \begin{figure}
         \begin{center}
             \includegraphics[width = \linewidth]{Generated/Block}
@@ -373,20 +386,42 @@
     In order to determine the depths, the propagation velocity in polyacryl determined in \autoref{subsec:RuntimeMeasurement} was used.
     This may also be a source of error.
     
+    
+    
+    \section{Conclusion}
+    In this paper, we wanted to demonstrate some measurement techniques for determining properties of ultrasound in different materials.
+    First, we compared a simple runtime measurement technique with two spectral methods to determine the speed of sound in polyacryl and PVC.
+    This yielded the values:
+    \begin{equation}
+        v_{Poly} = \polyVelocityRuntimeMeasurementsOneMHz
+    \end{equation}
+    \begin{equation}
+        v_{PVC} = \PVCVelocityRuntimeMeasurementsOneMHz
+    \end{equation}
+    both at 1Mhz.
+    A dispersion could not be observed since the measured values for different frequencies coincided within the error.
+    We also measured the speed of sound in water using two methods and determined the value of
+    \begin{equation}
+        v_{WaterDBS} = \WatervelocityDebye
+    \end{equation}
+    which coincides with the literature value in [2].
+    A different setup was used to determine the dispersive properties of different modes inside copper and aluminum.
+    The results can be seen in \autoref{tab:LongTransVelocities}.
+    They exhibit rough agreement with theory from \autoref{tab:TheoreticalSpeeds}, but the measurement technique posed some problems as the peaks in transmitted signal could not always be differentiated.
+    After that, we showed the capabilities of ultrasound imaging by analyzing a gauge block of polyacryl with different borings at known depths.
+    The determined values coincided with over $90 \% $ accuracy and can be seen in \autoref{tab:Depths}.
+    Lastly, we looked at some of the limitations of ultrasound measurement techniques by looking at the absorption behaviour as well as the resolution of ultrasound imaging for different frequencies.
+    
     \section{References}
-    [1] https://www.physik.uni-wuerzburg.de/studium/ bachelor/grundpraktikum/ modulbeschreibungen/ fortgeschrittenenmodul-c1/
+    [1] Universität Würzburg, Physikalisches Grund
+    praktikum, Modul C1, Versuch 35: ’Messungen mit
+    Ultraschall’, zuletzt aufgerufen 21.03.2024
     \newline
     [2] Meschede, Dieter, gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin 2015
-    
+    \newpage
+    \newpage
     \section{Appendix}\label{sec:appendix}
     Mechanical waves are theoretically described by a set of differential equations:
-    \begin{figure}
-        \begin{center}
-            \includegraphics[]{Generated/WaveEquations}
-            \caption[]{}
-            \label{eg:WaveEquations}
-        \end{center}
-    \end{figure}
     The dispersion relations are determined by plugging plane waves in the equation.
     In simple cubic crystal structures the Young modulus simplifies to three independent components.
     The Equation above delivers a set of linear equations:
@@ -397,10 +432,53 @@
     \begin{equation}
         v_s = \omega / k
     \end{equation}
-    The angle dependency of these velocities can be seen in \autoref{} and \autoref{} respectively.
+    The angle dependency of these velocities can be seen in \autoref{fig:Copperpolarplot} and \autoref{fig:AluPolarPlot}.
     The components of the Young modulus are taken from the table given in [1].
     The anisotropy determined from [2] is:
     \begin{equation}
-        
-    \end{equt}
+        a = \frac{2c_{44}}{c_{11} - c_{12}}
+    \end{equation}
+    yielding the values:
+    \begin{equation}
+        a_{Al} = 1.223
+    \end{equation}
+    \begin{equation}
+        a_{Cu} = 3.209
+    \end{equation}
+    The higher anisotropy of the Copper is obvious from the polar plot, since the discrepancy between the maximal and minimal speed of sound is larger.
+    This yields the theoretical values for the speed of sound for different modes in copper and aluminum
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular*}{0.9\linewidth}{@{\extracolsep{\fill}}ccc}
+            \hline
+            \hline
+            \rule[-7pt]{0pt}{23pt}  Medium & Mode & $v_s$[$\frac{km}{s}$] 	 \\
+            \hline
+            \rule[-5pt]{0pt}{23pt}    copper   & longitudinal & $4.98 - 4.35$	 \\
+            \rule[-5pt]{0pt}{23pt}    copper   & transverse &   $2.91 - 1.63$  \\
+            \rule[-5pt]{0pt}{23pt}    aluminum   & longitudinal & $6.46-6.32$  \\
+            \rule[-5pt]{0pt}{23pt}    aluminum   & transverse & $3.24 - 2.93$  \\
+            \hline
+            \hline
+        \end{tabular*}
+        \normalsize
+        \caption[]{Theoretically determined values for the speeds of sound of different modes in copper and aluminum}
+        \label{tab:TheoreticalSpeeds}
+    \end{table}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = 0.8\linewidth]{Generated/CopperPolarPlot}
+            \caption[]{Theoretical speed of sound in copper for different wave modes depending on the orientation inside the crystal.
+            The longitudinal mode can be seen in orange, while the two transverse modes are in blue and green.}
+            \label{fig:Copperpolarplot}
+        \end{center}
+    \end{figure}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = 0.8\linewidth]{Generated/AluminumPolarPlot}
+            \caption[]{Theoretical speed of sound in aluminum for different wave modes depending on the orientation inside the crystal.
+            The longitudinal mode can be seen in orange, while the two transverse modes are in blue and green.}
+            \label{fig:AluPolarPlot}
+        \end{center}
+    \end{figure}
 \end{document}

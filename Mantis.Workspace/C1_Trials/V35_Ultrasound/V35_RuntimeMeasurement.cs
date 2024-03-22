@@ -45,11 +45,11 @@ public class V35_RuntimeMeasurement
         ErDouble PVCLength = csvReader.ExtractSingleValue<ErDouble>("PVCLength");
         ErDouble PVCTime = csvReader.ExtractSingleValue<ErDouble>("PVCTime");
         //Console.WriteLine(fileName + " PVC " + CalculateVelocity(PVCLength,PVCTime));
-        CalculateVelocity(PVCLength,PVCTime).AddCommandAndLog("PVCVelocity"+fileName,"m/s");
+        CalculateVelocity(PVCLength,PVCTime).AddCommandAndLog("PVCVelocity"+fileName,"");
         ErDouble PolyLength = csvReader.ExtractSingleValue<ErDouble>("PolyLength");
         ErDouble PolyTime = csvReader.ExtractSingleValue<ErDouble>("PolyTime");
         polyVelocity = CalculateVelocity(PolyLength / 2, PolyTime);
-        polyVelocity.AddCommandAndLog("polyVelocity"+fileName,"m/s");
+        polyVelocity.AddCommandAndLog("polyVelocity"+fileName,"");
         //factor of two missing because of different measurement technique
 
     }
