@@ -150,12 +150,12 @@
     Characteristic curve of a vacuum diode for the heating voltages $U_h = \heatingVoltageSixFive$ and 
     $\heatingVoltageSeven$ respectively.
     We use the full range of our voltage source from $0 \volt$ upto $\maxvoltage$.
-    By reversing the polarity we can measure the current for negative accelerating voltages.
-    As to be expected no current flows.
-    The diode functions as a rectifier.
-    Furthermore, we observe that for high accelerating voltages we reach a saturation point, while for
-    low voltages we stay in the Schottky-Langmuir region.
-    It is marked by the vertical lines.
+%    By reversing the polarity we can measure the current for negative accelerating voltages.
+%    As to be expected no current flows.
+%    The diode functions as a rectifier.
+%    Furthermore, we observe that for high accelerating voltages we reach a saturation point, while for
+%    low voltages we stay in the Schottky-Langmuir region.
+%    It is marked by the vertical lines.
     }
     
     In a vacuum diode free electrons are created via thermionic emission.
@@ -236,8 +236,8 @@
         \label{tab:schottkyFit}
     \end{table}
     
-    For the heating voltage $\sevenV$ the fitted exponent coincides with the theoretical value $\frac{3}{2}$, while
-    for $\sixfiveV$ it deviates.
+    For the heating voltage $\sevenV$ the fitted exponent nearly coincides with the theoretical value $\frac{3}{2}$, while
+    for $\sixfiveV$ it deviates significantly.
     An explanation for this, could be, that the assumption of a perfect vacuum is not valid.
     Instead, scattering events occur between the electrons and the remaining gas molecules.
     So the diode behaves like a normal resistor.
@@ -256,18 +256,18 @@
     \figrichardson{
     We plot the saturation current depending on the heating voltage, with a acceleration voltage
         $U_a = \saturationAnodeVoltage$.
-    Since at the saturation point all available charge carriers are sucked towards the anode,
-    the current is proportional to that desinty.
+%    Since at the saturation point all available charge carriers are sucked towards the anode,
+%    the current is proportional to that desinty.
     It can be described via the Richardson equation ~\eqref{eq:theoreticalRichardson}.
     We can calculate the temperature by the empirical approximation ~\eqref{eq:richardsonTemperature}.
     By combining those equations, we can fit the data.
     We get a work function of the anode material $W_a = \richardsonModelWa$.
-    The value is higher than the literature value $W_a = \wolframWa$~\cite{wolfram}.
-    It suggest, we did not reach the actual saturation point with the maximum accelerating voltage of our
-    voltage source.
+%    The value is higher than the literature value $W_a = \wolframWa$~\cite{wolfram}.
+%    It suggest, we did not reach the actual saturation point with the maximum accelerating voltage of our
+%    voltage source.
     }
     
-    If you increase the acceleration voltage, at some point all available charge carriers are sucked towards the anode.
+    If one increases the acceleration voltage, at some point all available charge carriers are sucked towards the anode.
     When saturation region is reached, the current does not increase significantly anymore.
     
     The amount of emitted electrons at the cathode can be described with the Richardson equation.
@@ -304,8 +304,12 @@
     The fact that we do not reach saturation can also be seen in ~\autoref{fig:characteristicCurve} for $U_a = \sevenV$.
     Furthermore, the empirical approximation of the cathode temperature might be a source of the deviation.
     
-    It shows that our setup is able to qualitatively but not quantitatively verify the Richardson law.
-    A more accurate setup is required.
+    The large deviation between the measured and theoretical work function suggests, our setup is not able
+    to quantitatively verify the Richardson law.
+    It could be improved by a higher acceleration voltage. 
+    Alternatively, we could try measuring the anode current for smaller heating voltages.
+    It would ensure we reach the saturation point, since fewer charge carriers are available.
+    But we would lose precision, because we would measure smaller currents.
     
     \section{The Franck-Hertz effect}
 
@@ -315,15 +319,16 @@
 %        \caption{By varing the optical path length of the rays you see constructive or destructive interference on the
 %        detector. This depends on the wavelength of the ligth, which enables you to measure it.
 %        Graphic from~\cite{imageMichelsonInterferometerWiki}}
-        \caption{Schematic setup of the tetrode, which is filled by either mercury or neon gas.
-        The electrons are evapurated at the cathode with the heating voltage $U_h$ and sucked towards
-        the grid $G_1$ by the sucking voltage $U_1$.
-        They are then accelerated by $U_2$.
-        In this region the electrons scatter inelastically at the gas atoms. 
-        But only if the kinetic energy of the electrons is high enough to excite the atoms.
-        The counter voltage $U_3$ acts as a filter, so only electrons with enough kinetic energy reach
-        the anode.
-        The anode current $I$ is then measured.
+        \caption{Schematic setup of the tetrode, which is filled by either mercury or neon gas, to demonstrate
+        the Franck-Hertz effect.
+%        The electrons are evapurated at the cathode with the heating voltage $U_h$ and sucked towards
+%        the grid $G_1$ by the sucking voltage $U_1$.
+%        They are then accelerated by $U_2$.
+%        In this region the electrons scatter inelastically at the gas atoms. 
+%        But only if the kinetic energy of the electrons is high enough to excite the atoms.
+%        The counter voltage $U_3$ acts as a filter, so only electrons with enough kinetic energy reach
+%        the anode.
+%        The anode current $I$ is then measured.
         Image source~\cite{frankHertzSource}.
         }
         \label{fig:franckHertzSketch}
@@ -352,12 +357,12 @@
     
     \figFrankHertzHg{
     Characteristic curve of mercury obtained by the Franck-Hertz experiment.
-    We use a tetrode as depicted in ~\autoref{fig:franckHertzSketch}.
-    The mercury is vaporized by an oven, which heats the tetrode to $T = \AnodeTemperatureHg$.
-    We see periodic declines of the anode current.
-    The energy differences between the maxima are summarized in ~\autoref{tab:transitionHg}.
-    The declines are caused by the electrons, which scatter at the mercury atoms and excite them from
-    the ground state to the $\HgLevelA$-state.
+%    We use a tetrode as depicted in ~\autoref{fig:franckHertzSketch}.
+%    The mercury is vaporized by an oven, which heats the tetrode to $T = \AnodeTemperatureHg$.
+%    We see periodic declines of the anode current.
+%    The energy differences between the maxima are summarized in ~\autoref{tab:transitionHg}.
+%    The declines are caused by the electrons, which scatter at the mercury atoms and excite them from
+%    the ground state to the $\HgLevelA$-state.
     }
 
     \begin{table}[httb]
@@ -379,8 +384,9 @@
         \caption{Energy differences between the maxima of the Franck-Hertz-tube filled with mercury gas.
         We manually read the peaks from ~\autoref{fig:FrankHertzHg}.
         This leads to the large estimated error.
-        The average transition energy coincides with the literature value of the $\HgLevelA$ transiton.
-        Compare ~\autoref{fig:energyLevelsHg}.}
+%        The average transition energy coincides with the literature value of the $\HgLevelA$ transiton.
+%        Compare ~\autoref{fig:energyLevelsHg}.
+        }
         \label{tab:transitionHg}
     \end{table}
     
@@ -400,8 +406,13 @@
     At certain intervals it drops.
     This is caused by the electrons, which scatter inelastically at the mercury atoms.
     When they scatter, they lose kinetic energy and can not pass the counter voltage $U_3$.
+    They only scatter, if they have enough energy to excite the mercury atom from the ground
+    state to the $\HgLevelA$ level.
+    This is a fixed energy $\Delta E$, meaning we observe discrete, periodic current inclines as
+    can be seen in \autoref{fig:FrankHertzHg}.
     
-    From ~\autoref{fig:FrankHertzHg} we estimate the maxima.
+    From ~\autoref{fig:FrankHertzHg} we determine the maxima, since they are easier to read than the minima and
+    correspond directly to the point where the electrons scatter at the mercury atoms.
     The energy differences are displayed in ~\autoref{tab:transitionHg}.
     The mean is $\Delta E = \TransitionHgMeana \eV$.
     It coincides with the energy difference between the ground state and $\HgLevelA$ level
@@ -409,7 +420,7 @@
     The theoretical value is $\TheoreticalTransitionHga \eV$.
     Compare the Grotrian diagram ~\autoref{fig:energyLevelsHg}.
     
-    We do not observe any light emitted by the mercury atoms, since the energy $\Delta E$ corresponds to light in the
+    We do not observe any visible light emitted by the mercury atoms, since the energy $\Delta E$ corresponds to light in the
     ultraviolet spectrum.
     
     
@@ -417,12 +428,12 @@
     
     \figFrankHertzNe{
     Characteristic curve of neon optained by the Franck-Hertz experiment.
-    We use a setup as depicted in ~\autoref{fig:franckHertzSketch}.
-    The tetrode has room temperature $T = \AnodeTemperatureNe$.
-    Similar to mercury we see periodic declines in the anode current.
-    But in addition to the primary maxima, we observe the occurence of weaker secondary maxima.
-    These are caused by additional transitions inside the neon atoms.
-    The energy difference are summarized in ~\autoref{tab:transitionNe}
+%    We use a setup as depicted in ~\autoref{fig:franckHertzSketch}.
+%    The tetrode has room temperature $T = \AnodeTemperatureNe$.
+%    Similar to mercury we see periodic declines in the anode current.
+%    But in addition to the primary maxima, we observe the occurence of weaker secondary maxima.
+%    These are caused by additional transitions inside the neon atoms.
+%    The energy difference are summarized in ~\autoref{tab:transitionNe}
     }
 
     \begin{table}[httb]
@@ -448,12 +459,12 @@
         The maxima are estimated from ~\autoref{fig:FrankHertzNe}.
         The errors derive from manually reading the maxima from the graphic.
         Besides transition between primary maxima, secondary maxima occur.
-        Those are caused by the intermediate 3s-orbitals of neon.
-        After beeing excited to a 3p-orbital, the neon atoms falls back to a 3s-orbital, before 
-        transitoning back to the ground state (2p-orbital).
-        But instead of returning to the ground state, the atom can also be excited again towards a 3p-orbital.
-        This results in secondary maxima.
-        Compare ~\autoref{fig:energyLevelsNe}.
+%        Those are caused by the intermediate 3s-orbitals of neon.
+%        After beeing excited to a 3p-orbital, the neon atoms falls back to a 3s-orbital, before 
+%        transitoning back to the ground state (2p-orbital).
+%        But instead of returning to the ground state, the atom can also be excited again towards a 3p-orbital.
+%        This results in secondary maxima.
+%        Compare ~\autoref{fig:energyLevelsNe}.
         }
         \label{tab:transitionNe}
     \end{table}
@@ -492,6 +503,7 @@
     If you continuously increase the accelerating voltage, at $U_2 = (23 \pm 1) \volt$ the first plane appears.
     When you further increase $U_2$ this plane wanders from the second grid $G2$ towards the first grid $G1$.
     At $U_2 = (44 \pm 1)\volt$ a second plane and at $U_2 = (62 \pm 1)\volt$ a third plane appears.
+    The energy differences corresponds to the $\mathrm{2s} \rightarrow \mathrm{3s}$-transition.
     
     \section{Summary}
     
