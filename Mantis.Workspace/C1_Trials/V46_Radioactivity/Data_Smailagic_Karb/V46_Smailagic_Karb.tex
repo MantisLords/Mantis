@@ -38,6 +38,7 @@
 \newcommand{\tgate}{t_{\mathrm{gate}}}
 \newcommand{\tgateOne}{\tgate = 1 \unit{s}}
 \newcommand{\tgateTen}{\tgate = 10 \unit{s}}
+\newcommand{\HDot}{\dot{H}}
 
 
 \begin{document}
@@ -55,19 +56,18 @@
     \begin{abstract}                                                %Beginn des Abstracts
         
         We study how radioactive materials can be detected and statistical properties extracted.
-        We use the $\gamma$-emitter \Cs and measure the equivalent dosis next to the sample $H$ and
-        $d$ away $H$.
-        The activity is under the year threshold $\yeardosis$, so the sample is safe to use for further experiments.
+        We use the $\gamma$-emitter \Cs and measure the equivalent dosis next to the sample $\HDot = \RadiationNear$ and
+        $d$ away $\HDot = \RadiationFar$.
+        So we do not exceed the yearly threshold $\yeardosis$ for $\SafeTime$, which makes the sample save to use.
         We then test the Geiger conter's responsivity by placing the sample at a fixed distance.
         The percentage of detected $\gamma$-photons is $\eta$.
-        Then we use the Geiger Müller counter to optain the half-life of the instable \Bam isotope $\Thalf$.
+        Then we use the Geiger Müller counter to optain the half-life of the instable \Bam isotope $\Thalf = \BariumHalfLifeFromFit$.
         Lastly we want to test the statistacly properties of radioacitivity.
         We measure the decay events for an uranium trioxide coated tile for gate times $\tgateOne and $\tgateTen,
         to get ca.\ $800$ measurements each.
         We accept the hypothis that the decay events are Poission distributed at a $5\%$-significance level.
         The hyphothis that for $\tgateTen$ the events are approximately Gaussian distributed is rejected
         with a $5\%$-significance level.
-        
         \\
         Measuerement made: March, 22nd 2024\\       %Datum ändern!
         Submitted: March, 28th 2024                %Datum ändern!
@@ -77,7 +77,20 @@
     }] 
     \section{Introduction}
     
+    Radioactive decay is a statistical process.
+    Whether a particular atom will decay at a specific moment is random and can not be predicted.
+    However, for a large assembly of atoms we can predict the emerging decay rate.
+    A radioactive atom has a $50\,\%$ chance to decay in the half live time $\Thalf$.
+    It follows, if we have an initial number $N_0$ of undecayed atoms, the number $N(t)$ of remaining radioactive atoms
+    at time $t$ will be:
+    \begin{align}
+        \label{eq:decayRate}
+        N(t) = N_0 \cdot 2^{-\frac{t}{\Thalf}}
+    \end{align}
+    The activity $A(t) = \dot{N}(t)$ follows the same exponential decay law.
+    It denotes the number of decays per second.
     
+    \section{Dosimetry and safe handling of radioactive materials}
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
