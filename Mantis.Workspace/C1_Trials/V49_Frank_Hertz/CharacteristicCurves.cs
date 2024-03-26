@@ -26,6 +26,8 @@ public static class CharacteristicCurves
     {
         DynPlot characteristicPlot = new DynPlot("anode voltage in V", "anode current in mA");
         DynPlot schottkyPlot = new DynPlot("anode voltage in V", "anode current in mA");
+        schottkyPlot.DynAxes.LogX();
+        schottkyPlot.DynAxes.LogY();
 
         
         var reader = V49_Frank_Hertz_Main.Reader;
@@ -78,10 +80,15 @@ public static class CharacteristicCurves
 
         schottkyModel.DoRegressionLevenbergMarquardt(new[] {1.0, 0.0, 3.0 / 2.0},false);
         schottkyModel.AddParametersToPreambleAndLog("schottky"+index);
-        
-        var (schottkyBar,_) = schottkyPlot.AddRegModel(schottkyModel, $"Characteristic curve for Uh = {heatingVoltage.Value} V", "Fit of Schottky-law: Ia = a (Ua - Uk) ^ b");
+
+        var uk = schottkyModel.ErParameters[1].Value;
+        var schottkyBar = schottkyPlot.AddDynErrorBar(schottkyData.Select(e => (e.Voltage - uk, e.Current)),
+            $"Characteristic curve for Uh = {heatingVoltage.Value} V");
+        //var (schottkyBar,_) = schottkyPlot.AddRegModel(schottkyModel, $"Characteristic curve for Uh = {heatingVoltage.Value} V", "Fit of Schottky-law: Ia = a (Ua - Uk) ^ b");
         schottkyBar.MarkerStyle.Size = 2;
         schottkyBar.MarkerStyle.Shape = index == "65" ? MarkerShape.OpenTriangleUp : MarkerShape.OpenSquare;
+        schottkyPlot.AddDynFunction(x => schottkyModel.ParaFunction.EvaluateAtDouble(x + uk),
+            "Fit of Schottky-law: Ia = a (Ua - Uk) ^ b");
 
         schottkyBar.Color = schottkyPlot.Add.Palette.Colors[0];
         

@@ -62,23 +62,23 @@
     \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
     \begin{abstract}                                                %Beginn des Abstracts
 
-        We want to study vacuum diodes, electron evaporation and the Franck-Hertz effect with a simple experimental setup.
-        With a variable heating and accelerating voltage we can record the characteristic curve of a vacuum diode
-        and observe the Langmuir-Schottky power law. 
-        For heating voltages $\sixfiveV$ and $\sevenV$ we measure the exponents $\schottkySixFivePower$ and $\schottkySevenPower$ 
+        We studied vacuum diodes, electron evaporation and the Franck-Hertz effect with a simple experimental setup.
+        With a variable heating and accelerating voltage we recorded the characteristic curve of a vacuum diode
+        and observed the Langmuir-Schottky power law. 
+        For heating voltages $\sixfiveV$ and $\sevenV$ we measured the exponents $\schottkySixFivePower$ and $\schottkySevenPower$ 
         respectivly.
-        The deviation from the theoretical value $\frac{3}{2}$ of our setup is discussed.
-        By varying the heating voltage we are able to see the Richarson law in the saturation region.
+        The deviation from the theoretical value $\frac{3}{2}$ of our setup was discussed.
+        By varying the heating voltage we could see the Richarson law in the saturation region.
         It describes the carrier density as function of the heating temperature.
-        We can estimate the work function $W_a = \richardsonModelWa$ of the cathode material.
+        We could estimate the work function $W_a = \richardsonModelWa$ of the cathode material.
         The large deviation from the acctual work function $W_a = \wolframWa$~\cite{wolfram} of the wolfram cathode
         suggests, that we did not reach the actual saturation region with our maximum acceleration voltage $U_a = \maxvoltage$.
         
-        In the second part we study the Franck-Hertz-effect with a similar setup.
-        We use tetrodes filled with neon and mercury gas.
-        From the graph we can estimate the excitation energy from the neon ground state to the $\neLevelA$-level
-        as $\TransitionNeMeana$ and for mercury we get for the transition to the $\HgLevelA$-level $\TransitionHgMeana$.
-        These energies are compared with the observed emitted light and with the theoretical transition energies.
+        In the second part we studied the Franck-Hertz-effect with a similar setup.
+        We used tetrodes filled with neon and mercury gas.
+        From the graph we could estimate the excitation energy from the neon ground state to the $\neLevelA$-level
+        as $\TransitionNeMeana$ and for mercury we got for the transition to the $\HgLevelA$-level $\TransitionHgMeana$.
+        These energies were compared with the observed emitted light and with the theoretical transition energies.
         
         \\
         \\
@@ -187,10 +187,12 @@
     
     \figschottky{
         The section of the data where the Schottky-Langmuir law holds.
-        We estimate the region by looking where the graph as a positive curvature.
+        We estimate the region by looking where the graph has a positive curvature.
         We fit the power law~\eqref{eq:Schottky} into the data and get a exponent of
         $\schottkySixFivePower$ and $\schottkySevenPower$ for the heating voltages $\sixfiveV$ and $\sevenV$.
         It deviates from the theoretical value of $\frac{3}{2}$.
+        The plot's x-axis is shifted by the fitted contact voltage $U_k$, so the power law appears as a
+    straight line in the double-logarithmic plot.
     }
     
     For low accelerating voltages we observe a power law for the anode current.
@@ -353,6 +355,20 @@
     We measure the accelerating voltage and anode current with the digital interface `PASCO Universal Interface 550'.
     Furthermore, we measure the cathode temperature with an accuracy of $1 \, ^\circ \mathrm{C}$
     
+    The Franck Hertz effect shows the quantum nature of atoms.
+    The electrons scatter elastically at the gas atoms.
+    Only if their kinetic energy exceeds a specific threshold $\Delta E$, they scatter inelastically.
+    This means, they are slowed down, and a part of their kinetic energy is transferred to the gas atom.
+    The amount is exactly $\Delta E$.
+    The gas atom is excited into an energetic higher state, and after a certain time intervall
+    it returns to the ground state.
+    The excess energy is emitted via a photon.
+    That the atom can only be excited by a specific energy $\Delta E$, stems from the quantum
+    nature of the atom.
+    The energy levels of the atomic orbital are discrete, so only by transferring the exact difference
+    between two energy levels $\Delta E$, the atom can be excited from the lower to the higher state.
+    This causes the Frank Hertz effect.
+    
     \subsection{Franck-Hertz effect with mercury}
     
     \figFrankHertzHg{
@@ -403,13 +419,16 @@
     The sucking voltage is $U_1 = \SuckingVoltageHg$ and the counter voltage is $U_3 = \CounterVoltageHg$.
     
     We observe that the current increases with increasing $U_2$.
-    At certain intervals it drops.
-    This is caused by the electrons, which scatter inelastically at the mercury atoms.
-    When they scatter, they lose kinetic energy and can not pass the counter voltage $U_3$.
-    They only scatter, if they have enough energy to excite the mercury atom from the ground
-    state to the $\HgLevelA$ level.
-    This is a fixed energy $\Delta E$, meaning we observe discrete, periodic current inclines as
-    can be seen in \autoref{fig:FrankHertzHg}.
+    At certain intervals $\Delta E$, it drops.
+    This is caused by the electrons scattering inelastically at the mercury atoms.
+    As described, they transfer kinetic energy $\Delta E$ to the mercury atoms, exciting them.
+    So if the acceleration voltage $U_2$ exceeds the threshold $\Delta E$, the electrons lose kinetic energy.
+    Now they are unable to overcome the counter voltage $U_3$, which results in the current dropping.
+    If $U_2$ is further increased, at the threshold $2 \cdot \Delta E$, the current drops again.
+    Now the electrons have enough energy, to scatter two times at the mercury atoms.
+    By increasing $U_2$ even further, they will scatter three times, four times, etc.
+    We see the current periodically declining at intervals $\Delta E$.
+    
     
     From ~\autoref{fig:FrankHertzHg} we determine the maxima, since they are easier to read than the minima and
     correspond directly to the point where the electrons scatter at the mercury atoms.
@@ -504,55 +523,62 @@
     When you further increase $U_2$ this plane wanders from the second grid $G2$ towards the first grid $G1$.
     At $U_2 = (44 \pm 1)\volt$ a second plane and at $U_2 = (62 \pm 1)\volt$ a third plane appears.
     The energy differences corresponds to the $\mathrm{2s} \rightarrow \mathrm{3s}$-transition.
+    So exactly the differences between the primary peaks.
+    It is expected, since when we see for $U_2 = 23 \volt$ only one plane, it means the electrons have only
+    enough energy to scatter exactly one time at the neon atoms.
+    When at $U_2 = 44 \volt$ the second plane appears, the electrons have enough kinetic energy to scatter
+    two times.
+    For $U_3 = 62 \volt$ they scatter three times.
+    These voltages correspond to the primary peaks, since also here the electrons scatter inelastically.
     
     \section{Summary}
     
-    We study a vacuum diode and the Franck-Hertz-effect with a basic experimental setup.
-    In the first part we analyze the electric characteristic of a vacuum diode.
-    As an example we pick the heating voltages $U_h = \heatingVoltageSixFive$ and $U_h = \heatingVoltageSeven$
-    and record the anode current as a function of the acceleration voltage as shown in ~\autoref{fig:characteristicCurve}.
-    The rectifier behaviour is observed.
-    For low accelerating voltages we can fit the Schottky-Langmuir law ~\eqref{eq:Schottky} in the data.
+    We studied a vacuum diode and the Franck-Hertz-effect with a basic experimental setup.
+    In the first part we analyzed the electric characteristic of a vacuum diode.
+    As an example we picked the heating voltages $U_h = \heatingVoltageSixFive$ and $U_h = \heatingVoltageSeven$
+    and recorded the anode current as a function of the acceleration voltage as shown in ~\autoref{fig:characteristicCurve}.
+    The rectifier behaviour was observed.
+    For low accelerating voltages we could fit the Schottky-Langmuir law ~\eqref{eq:Schottky} in the data.
     The determined exponent $b = \schottkySevenPower$ deviates from the theoretical exponent $b = \frac{3}{2}$.
     A possible explanation could be that the diode has no perfect vacuum, but remaining gas filling.
     This leads to linear resistance (Ohm's law).
     The contact voltage could only be determined via the fit $U_k = \schottkySevenUk$.
     We could not directly measure it since the minimum voltage of our voltage source was $\minvoltage$.
-    For high acceleration voltages a saturation region is reached, where all available charge carriers 
+    For high acceleration voltages a saturation region was reached, where all available charge carriers 
     contribute to the current flow.
-    The amount of free electrons available through thermionic emission can be described
+    The amount of free electrons available through thermionic emission could be described
     via the Richardson equation~\eqref{eq:theoreticalRichardson}.
-    We apply the maximum acceleration voltage $U_a = \saturationAnodeVoltage$ and measure the current
+    We applied the maximum acceleration voltage $U_a = \saturationAnodeVoltage$ and measured the current
     as a function of the heating voltage (see ~\autoref{fig:richardson}).
-    We use the empirical law ~\eqref{eq:richardsonTemperature} to estimate the temperature of our wolfram cathode.
-    We can now fit the Richardson equation inside the data and obtain the work function of the cathode material
+    We used the empirical law ~\eqref{eq:richardsonTemperature} to estimate the temperature of our wolfram cathode.
+    We could then fit the Richardson equation inside the data and obtained the work function of the cathode material
     $W_a = \richardsonModelWa$.
-    The deviation from the wolfram literature value $W_a = \wolframWa$~\cite{wolfram} is caused by the fact, that
-    we do not actual reach the saturation point for high heating voltages.
+    The deviation from the wolfram literature value $W_a = \wolframWa$~\cite{wolfram} was caused by the fact, that
+    we did not actual reach the saturation point for high heating voltages.
     A higher acceleration voltage would be required.
     
-    In the second part we study the Franck-Hertz-effect with a similar setup.
-    We use tetrodes filled with mercury and neon gas.
+    In the second part we studied the Franck-Hertz-effect with a similar setup.
+    We used tetrodes filled with mercury and neon gas.
     The advantage of using a tetrode is that through the addition of a sucking voltage $U_1$ and counter voltage
-    $U_3$, we achieve tighter control over the electrons' kinetic energy.
-    We heat the tetrode $T = \AnodeTemperatureHg$ to vaporize the mercury.
-    We measure the anode current as a function of the acceleration voltage $U_2$, see ~\autoref{fig:FrankHertzHg}.
-    We observe periodic recesses in the current, which stem from the electrons scattering 
+    $U_3$, we achieved tighter control over the electrons' kinetic energy.
+    We heated the tetrode $T = \AnodeTemperatureHg$ to vaporize the mercury.
+    We measured the anode current as a function of the acceleration voltage $U_2$, see ~\autoref{fig:FrankHertzHg}.
+    We observed periodic recesses in the current, which stem from the electrons scattering 
     at the mercury atoms and exciting them.
-    The mean distance between peaks is $\Delta E = \TransitionHgMeana \eV$, which corresponds to the 
+    The mean distance between peaks was $\Delta E = \TransitionHgMeana \eV$, which corresponds to the 
     transition from the ground state to the $\HgLevelA$-orbital (~\autoref{tab:transitionHg}).
     The theoretical energy gap of this transition is $\Delta E = \TheoreticalTransitionHga$
     (compare ~\autoref{fig:energyLevelsHg}).
-    We repeat this experiment for neon.
-    Here we see besides the primary peaks, secondary maxima (\autoref{fig:FrankHertzNe}).
+    We repeated this experiment for neon.
+    Here we saw besides the primary peaks, secondary maxima (\autoref{fig:FrankHertzNe}).
     These are caused by the intermediate $3s \rightarrow 3p$-transitions, while the primary peaks originate
     from $2p \rightarrow 3p$-transitions.
-    The mean energy difference for the primary peaks is $\Delta E_{prim} = \TransitionNeMeana \eV$ and for the
-    secondary maxima is $\Delta E_{sec} = \TransitionNeMeanb \eV$.
+    The mean energy difference for the primary peaks was $\Delta E_{prim} = \TransitionNeMeana \eV$ and for the
+    secondary maxima was $\Delta E_{sec} = \TransitionNeMeanb \eV$.
     These correspond to the literature values 
     $\Delta E_{prim} = \TheoreticalTransitionNeaa \ \mathrm{or} \ \TheoreticalTransitionNea \eV$
     and $\Delta E_{sec} = \TheoreticalTransitionNeb \eV$ (Compare ~\autoref{fig:energyLevelsHg}).
-    We observe the orange light emitted by the $3p \rightarrow 3s$-transitions.
+    We observed the orange light emitted by the $3p \rightarrow 3s$-transitions.
 
 
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
