@@ -2,6 +2,7 @@
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
+using Mantis.Core.TexIntegration;
 
 namespace Mantis.Workspace.C1_Trials.V46_Radioactivity;
 
@@ -21,6 +22,11 @@ public class V46_GeigerMuellerCounter
     {
         var csvReader = new SimpleTableProtocolReader("GeigerMuellerCounter.csv");
         List<VoltageCountData> dataList = csvReader.ExtractTable<VoltageCountData>("tab:GeigerMuellerCounter");
-        
+        DynPlot plot = new DynPlot("Voltage [V]","Counts");
+        plot.AddDynErrorBar(dataList.Select(e => (e.Voltage, e.Counts)));
+        plot.AddVerticalLine(520, "ThresholdVoltage");
+        plot.SaveAndAddCommand("GeigerMuellerPlot");
+        ErDouble thresholdVoltage = new ErDouble(520, 4);
+        thresholdVoltage.AddCommandAndLog("ThresholdVoltage","V");
     }
 }
