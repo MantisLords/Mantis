@@ -180,7 +180,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Mantis.Core" Version="0.0.14" />
+      <PackageReference Include="Mantis.Core" Version="0.0.16" />
     </ItemGroup>
 
 </Project>

@@ -1,14 +1,3 @@
-﻿tab:LocalDosisData
-near
-7.4
-6.9
-8.1
-9.1
-9.3
-tab:1mDosisData
-far
-0.2
-0.1
-0.3
-0.2
-0.1
+﻿val:LocalDosisData,7.4,6.9,8.1,9.1,9.3
+val:1mDosisData,0.2,0.1,0.3,0.2,0.1
+val:AmbientDosis,0.1,0.12,0.13,0.11,0.09,0.10,0.12
