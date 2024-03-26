@@ -1,6 +1,7 @@
 ﻿using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
+using Mantis.Core.ScottPlotUtility;
 
 namespace Mantis.Workspace.C1_Trials.V46_Radioactivity;
 
