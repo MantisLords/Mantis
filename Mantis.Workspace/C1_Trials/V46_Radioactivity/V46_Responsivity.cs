@@ -20,18 +20,20 @@ public class V46_Responsivity
         List < RespData > countsList = csvReader.ExtractTable<RespData>("tab:ResponsivityData");
         List<double> errorList = countsList.Select(data => data.Counts.Value).ToList();
         ErDouble meanCount = errorList.WeightedMean();
+        meanCount.AddCommandAndLog("meanCount","",LogLevel.OnlyCommand);
         ErDouble distance = csvReader.ExtractSingleValue<ErDouble>("val:distance");
         ErDouble detectorArea = csvReader.ExtractSingleValue<ErDouble>("val:area");
         //converting area into meters^2
         detectorArea *= Math.Pow(10, -4);
         //converting distance into meters
         distance *= Math.Pow(10, -3);
+        distance.AddCommandAndLog("ResponsivityDistance","m");
         ErDouble responsitivity =CalculateResponsivity(meanCount,distance,detectorArea);
-        responsitivity.AddCommandAndLog("DetectorResponse");
+        responsitivity.AddCommandAndLog("DetectorResponse","\\%");
     }
 
     public static ErDouble CalculateResponsivity(ErDouble meanCount,ErDouble distance, ErDouble detectorArea)
     {
-        return (meanCount * 4 * Math.PI * distance.Pow(2)) / (V46_NullEffectAndActivity._sampleActivity * detectorArea);
+        return 100*((meanCount/10) * 4 * Math.PI * distance.Pow(2)) / (V46_NullEffectAndActivity._sampleActivity*Math.Pow(10,6) * detectorArea);
     }
 }
