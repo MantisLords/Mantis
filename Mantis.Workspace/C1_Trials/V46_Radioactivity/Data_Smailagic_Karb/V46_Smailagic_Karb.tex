@@ -207,13 +207,13 @@
     $\gamma$-rays are emitted unobstructed.
     We now can approximate the probe as a point source, emitting $\gamma$-radiation in all directions equally.
     The activity of a point source declines quadratic with respect to the distance $r$.
-    So the activity detected by the Geiger-Müller counter, which has a detection area of $a = 11\unit{cm^2}$ is:
-    
+    So the expected activity registered by the Geiger-Müller counter, which has a detection area of $a = 11\unit{cm^2}$
+    can be determined with:
     \newcommand{\ADet}{A_{\mathrm{det}}}
-    
+    \newcommand{\AExp}{A_{\mathrm{exp}}}
     \begin{align}
         \label{eq:activityDistance}
-        A = A_0 \cdot \frac{a}{4 \pi r^2}
+        \AExp = A_0 \cdot \frac{a}{4 \pi r^2}
     \end{align}
     The \Cs probe we utilize was acquired August 1978, and had then an initial activity of $\ActivityPast$.
     With the decay law ~\eqref{eq:decayRate}, we can calculate its activity at the time of the measurement:
@@ -221,11 +221,15 @@
         A_0 = \ActivityNow
     \end{align*}
     We place the Geiger Müller counter at a distance of $r = $ and record the registered pulses in a
-    $5 \unit{min}$ period.
+    measurement series for $5 \unit{min}$.
+    We can then determine the activity:
     \begin{align*}
         \ADet = 
     \end{align*}
-    
+    We can now calculate the responsiveness of the Geiger Müller counter:
+    \begin{align*}
+        Q = \frac{\ADet}{\AExp} = 
+    \end{align*}
     
     
     
