@@ -30,15 +30,20 @@
 
 \newcommand{\Cs}{Cs-137 }
 \newcommand{\Bam}{Ba-137m }
+\newcommand{\Ba}{Ba-137 }
 
 \newcommand{\unit}[#1]{\, \mathrm{#1}}
-\newcommand{\Sv}{\unit{Sv}]}
-\newcommand{\yeardosis}{5 \Sv}
+\newcommand{\mSv}{\unit{mSv}]}
+\newcommand{\yeardosis}{5 \mSv}
 \newcommand{\Thalf}{T_{\mathrm{\frac{1}{2}}}}
 \newcommand{\tgate}{t_{\mathrm{gate}}}
 \newcommand{\tgateOne}{\tgate = 1 \unit{s}}
 \newcommand{\tgateTen}{\tgate = 10 \unit{s}}
 \newcommand{\HDot}{\dot{H}}
+\newcommand{\muSv}{\unit{\mu Sv}}
+\newcommand{\muSvh}{\unit{\frac{\mu Sv}{h}}}
+
+\newcommand{\halfLifeCs}{30.2}
 
 
 \begin{document}
@@ -58,12 +63,12 @@
         We study how radioactive materials can be detected and statistical properties extracted.
         We use the $\gamma$-emitter \Cs and measure the equivalent dosis next to the sample $\HDot = \RadiationNear$ and
         $d$ away $\HDot = \RadiationFar$.
-        So we do not exceed the yearly threshold $\yeardosis$ for $\SafeTime$, which makes the sample save to use.
+        So we do not exceed the annual threshold of $\yeardosis$~\cite{safety} for $\SafeTime$, which makes the sample save to use.
         We then test the Geiger conter's responsivity by placing the sample at a fixed distance.
         The percentage of detected $\gamma$-photons is $\eta$.
-        Then we use the Geiger Müller counter to optain the half-life of the instable \Bam isotope $\Thalf = \BariumHalfLifeFromFit$.
+        Then we use the Geiger Müller counter to optain the half-life of the unstable \Bam isotope $\Thalf = \BariumHalfLifeFromFit$.
         Lastly we want to test the statistacly properties of radioacitivity.
-        We measure the decay events for an uranium trioxide coated tile for gate times $\tgateOne and $\tgateTen,
+        We measure the decay events for an uranium trioxide coated tile for gate times $\tgateOne$ and $\tgateTen$,
         to get ca.\ $800$ measurements each.
         We accept the hypothis that the decay events are Poission distributed at a $5\%$-significance level.
         The hyphothis that for $\tgateTen$ the events are approximately Gaussian distributed is rejected
@@ -90,12 +95,144 @@
     The activity $A(t) = \dot{N}(t)$ follows the same exponential decay law.
     It denotes the number of decays per second.
     
-    \section{Dosimetry and safe handling of radioactive materials}
+    \section{Dosimetry and proper handling of radioactive substances}
+    
+    Before we start with our measurements, we test whether our work station is contaminated.
+    We use a `NEVA' dosimeter.
+    It is adjusted for $\gamma$-radiation, since all radioactive probes, we utilize, emit solely $\gamma$-radiation.
+    The detected activity is $\HDot = 0.083 \muSvh$ in $8 \unit{min}$.
+    Which makes the work place not contaminated, since it the natural radiation exposure for people in Central Europe is
+    $\HDot = 0.1 \muSvh$~\cite{safety}.
+    
+    To comply with safety regulations, we use a second dosimeter and placed it around $1.5\unit{m}$ away from
+    the radioactive probe.
+    It corresponds roughly to distance we as experimenter have from the probe, so its measurement is a good estimate
+    for the radiation we experience.
+    We measured for the entire duration of the experiment the local dose rate in $15\unit{min}$ intervals.
+    The average rate was $\HDot = \AmbientRadiation$ for the $2.5 \unit{hours}$, when we had the \Cs-sample exposed.
+    It corresponds to a yearly dose of $H = \AmbientDosisPerAnnum$, which is well under the legal annual limit
+    of $\yeardosis$.
+    So we did not suffer radiation intoxication.
+    The activity we measured is most likely background radiation.
+    It comprises of cosmic rays and radiation from terrestrial sources like potassium, uranium
+    and airborne radon.
+    
+    For the experiment we utilize a probe made up of \Cs.
+    The unstable isotope \Cs has a half live of $\halfLifeCs \unit{years}$~\cite{instr} and decays with a $\beta$-decay to
+    the metastable isotop \Bam.
+    This is an excited state of \Ba.
+    It will emit $\gamma$-radiation with $0.661 \unit{MeV}$ and return to its ground state.
+    Furthermore, there is a $5\%$ chance, that \Cs will directly decay to the ground state of \Ba,
+    emitting high energy beta radiation.
+    
+    Our probe is cased in a $1\unit{cm}$ thick aluminum cylinder, completely blocking the $\beta$-radiation.
+    So only the $\gamma$-radiation can be measured.
+    The aluminum cylinder in turn, is placed inside a $10\unit{cm}$ wide lead cube.
+    The cube has a boring, where $\gamma$-radiation can exit.
+    While no measurement is conducted, the boring is closed with a lead plug.
+    The $\gamma$-radiation, which emits through the boring, can be approximated as a collimated beam.
+    
+    To further test the safety of our probe, we place the dosimeter right on top of the cube's borehole.
+    We take a measurement series with $5\unit{s}$ intervalls and determine the dose rate $\HDot = \RadiationNear$.
+    We repeat this measurement but place the dosimeter $1\unit{m}$ away from the probe.
+    The dose rate is $\HDot = \RadiationFar$.
+    We directly see that the radiation drastically declines with distance.
+    This is why it is advised, to keep as much away from the probe as possible.
+    Furthermore, we can extrapolate the dose rates for the $4$ hour duration of the entire experiment.
+    The 4-hour equivalent dosis right on top the probe would be $H = \FourHourNear$, while in $1 \unit{m}$
+    distance it is just $H = \FourHourFar$.
+    This corresponds to $\YearlyPercentageCsRadiation \, \%$ of the annual limit.
+    
+    \section{Geiger Müller counter}
+    \subsection{Characteristics}
+    
+    \GeigerMuellerPlot{
+    Registered pulses in $5 \unit{min}$ as a function of the anode voltage $U$ applied at the Geiger Müller Counter.
+    The counter was placed on top of the \Cs probe.
+    At roughly $\ThresholdVoltage$ a plateau region starts, where the count of detected pulses does not increase
+    with increasing voltage.
+    }
+    
+    A Geiger counter consists of a metal cylinder, the cathode, filled with high pressure noble gas.
+    Lengthwise a thin wire, the anode, is placed inside the cylinder.
+    Between the anode and a cathode a high voltage $U$ is applied.
+    If now $\gamma$-radiation enters the chamber, it will ionise the gas, producing free electrons.
+    They are in turn attracted towards the anode.
+    When enough electrons reach the anode, a current can be detected, signalling a decay.
+    If the voltage $U$ is high enough, those attracted electrons, will collide again with gas atoms,
+    producing secondary free electrons.
+    This leads to an avalanche effect, where every radiation will produce a pulse.
+    
+    We place our Geiger-Müller-Counter on top of the \Cs probe.
+    We investigate its behaviour by varying the anode voltage $U$ from $490 \unit{V}$ upto $600 \unit{V}$
+    and recording the registered pulses in a $5 \unit{min}$ period.
+    We see that starting from around $\ThresholdVoltage$, the count of registered pulses does not increase
+    further, when increasing the voltage $U$.
+    A plateau region is reached.
+    At the plateau the from $\gamma$-radiation created free electrons, have enough kinetic energy to
+    create secondary free electrons.
+    This leads to the mentioned avalanche effect.
+    In the plateau region a Geiger Müller counter should be operated to get reliable results.
+    For the following measurements we operate it at $564\unit{V}$.
+    
+    \subsection{Null-Effect}
+    
+    As mentioned, on earth one has constant exposure to natural radiation.
+    It is caused by cosmic radiation and traces natural occuring radioactive elements, such as uranium
+    and radon.
+    In our measurement it reveals itself as a constant background.
+    To account for this, we place the Geiger-Müller counter away from the probes, and measure
+    the registered pulses in a $5\unit{min}$ period.
+    The pulse rate of the background is:
+    \newcommand{\NBDot}{\dot{N}_{\mathrm{B}}}
+    \begin{align*}
+        \NBDot = \NullEffect
+    \end{align*}
+    The error stems from the poisson distribution $\sigma = \sqrt{\bar{N}}$
+    As further comparison, we place the Geiger counter inside a lead box, to shield
+    it from background radiation.
+    We measure the pulse count for $5\unit{min}$ and determine the rate:
+    \begin{align*}
+        \NBDot = \NullEffectInLead
+    \end{align*}
+    The pulse rate is reduced by $\NullEffectPercentage$.
+    Still $\gamma$-rays are able to penetrate the lead box.
+    
+    \subsection{Responsiveness}
+    
+    We want to get a rough estimate, on how responsive the Geiger Müller counter is.
+    We want to determine what percentage of incoming $\gamma$-rays are actually detected as pulses.
+    For this purpose, we remove the \Cs probe from its lead shield.
+    It is still cased inside the aluminum cylinder, which shields all $\beta$-rays, but the
+    $\gamma$-rays are emitted unobstructed.
+    We now can approximate the probe as a point source, emitting $\gamma$-radiation in all directions equally.
+    The activity of a point source declines quadratic with respect to the distance $r$.
+    So the activity detected by the Geiger-Müller counter, which has a detection area of $a = 11\unit{cm^2}$ is:
+    
+    \newcommand{\ADet}{A_{\mathrm{det}}}
+    
+    \begin{align}
+        \label{eq:activityDistance}
+        A = A_0 \cdot \frac{a}{4 \pi r^2}
+    \end{align}
+    The \Cs probe we utilize was acquired August 1978, and had then an initial activity of $\ActivityPast$.
+    With the decay law ~\eqref{eq:decayRate}, we can calculate its activity at the time of the measurement:
+    \begin{align*}
+        A_0 = \ActivityNow
+    \end{align*}
+    We place the Geiger Müller counter at a distance of $r = $ and record the registered pulses in a
+    $5 \unit{min}$ period.
+    \begin{align*}
+        \ADet = 
+    \end{align*}
+    
+    
     
     
     %FF: Angabe der verwendeten Literatur mit Quellennachweis.
     \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
-        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 46, Dosimetrie, Halbwertszeit, 2021
+        \bibitem{instr} Physikalisches Grundpraktikum, Universität Würzburg, Modul C1, Versuch 46, Dosimetrie, Halbwertszeit, 2021
+        \bibitem{safety} Anlage zur Anweisung zum Schutz vor ionisierenden Strahlen, Universität Würzburg, Physikalisches Grundpraktikum, Modul C1
         \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
         \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
         recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
