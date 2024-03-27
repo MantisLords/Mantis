@@ -20,13 +20,13 @@ public class V46_LocalDosis
         
         
         ErDouble ambientRadiation = ambientList.WeightedMean();
-        ambientRadiation.AddCommandAndLog("AmbientRadiation","ySv/h");
-        //(ambientRadiation * 2.5).AddCommandAndLog("AmbientDosis2andHalfHours","ySv");
-        (ambientRadiation*24*365).AddCommandAndLog("AmbientDosisPerAnnum","ySv");
+        ambientRadiation.AddCommandAndLog("AmbientRadiation","\\frac{\\mu Sv}{h}");
+        //(ambientRadiation * 2.5).AddCommandAndLog("AmbientDosis2andHalfHours","\\mu Sv");
+        (ambientRadiation*24*365).AddCommandAndLog("AmbientDosisPerAnnum","\\mu Sv");
         ErDouble meanNear = dataListNear.WeightedMean();
-        meanNear.AddCommandAndLog("RadiationNear" ,"ySv/h");
+        meanNear.AddCommandAndLog("RadiationNear" ,"\\frac{\\mu Sv}{h}");
         ErDouble meanFar = dataListFar.WeightedMean();
-        meanFar.AddCommandAndLog("RadiationFar","ySv/h");
+        meanFar.AddCommandAndLog("RadiationFar","\\frac{\\mu Sv}{h}");
         Calculate4HourDose(meanNear,meanFar);
         CalculateMaximalWorkingTime(meanFar);
         CalculateYearlyPercentage(meanFar * 4).AddCommandAndLog("YearlyPercentageCsRadiation","");
@@ -34,8 +34,8 @@ public class V46_LocalDosis
 
     public static void Calculate4HourDose(ErDouble perHourDoseNear, ErDouble perHourDoseFar)
     {
-        (perHourDoseNear*4).AddCommandAndLog("4HourNear","ySv");
-        (perHourDoseFar*4).AddCommandAndLog("4HourFar","ySv");
+        (perHourDoseNear*4).AddCommandAndLog("4HourNear","\\mu Sv");
+        (perHourDoseFar*4).AddCommandAndLog("4HourFar","\\mu Sv");
     }
 
     public static void CalculateMaximalWorkingTime(ErDouble perHourFar)

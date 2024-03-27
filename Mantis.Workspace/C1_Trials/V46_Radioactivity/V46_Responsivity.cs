@@ -29,6 +29,7 @@ public class V46_Responsivity
         distance *= Math.Pow(10, -3);
         distance.AddCommandAndLog("ResponsivityDistance","m");
         ErDouble responsitivity =CalculateResponsivity(meanCount,distance,detectorArea);
+        (meanCount/10).AddCommandAndLog("MeasuredActivity","Bq");
         responsitivity.AddCommandAndLog("DetectorResponse","\\%");
     }
 
