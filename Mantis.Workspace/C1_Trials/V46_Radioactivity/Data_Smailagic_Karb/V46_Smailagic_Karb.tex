@@ -1,0 +1,105 @@
+﻿%! Author = User
+%! Date = 13.09.2023
+
+% Preamble
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% Packages 
+\usepackage[utf8]{inputenc}  %man kann Sonderzeiche wie ü,ö usw direkt eingeben
+\usepackage{amsmath}           %macht
+\usepackage{amsfonts}          %       Mathe
+\usepackage{amssymb}           %              mächtiger
+\usepackage{graphicx}          %erlaubt Graphiken einzubinden (.eps für dvi und ps sowie .jpg für pdf)
+\usepackage[T1]{fontenc}       %Zeichenbelegung der verwendeten Schrift
+\usepackage{ae}                %macht schöneres ß
+\usepackage{typearea}
+\usepackage{amstex}
+\usepackage{siunitx}
+\usepackage{hyperref}	         %ermöglicht änderung des Seitenspiegels
+\usepackage{subcaption}
+
+\include{Generated/Preamble}
+
+
+\pagestyle{scrheadings}        %sagt Koma-Skript, dass selbstdefiniers Kopfzeilen verwendet werden
+\typearea{16}                  %stellt Seitenspiegel ein
+\columnsep25pt								 %definiert Breite zwischen den zwei Spalten von \twocolumns
+
+\renewcommand{\pnumfont}{%     %ändert die Schriftart der Seitennummerierung
+    \normalfont\rmfamily\slshape}  %ändert die Schriftart der Seitennummerierung 
+
+\newcommand{\Cs}{Cs-137 }
+\newcommand{\Bam}{Ba-137m }
+
+\newcommand{\unit}[#1]{\, \mathrm{#1}}
+\newcommand{\Sv}{\unit{Sv}]}
+\newcommand{\yeardosis}{5 \Sv}
+\newcommand{\Thalf}{T_{\mathrm{\frac{1}{2}}}}
+\newcommand{\tgate}{t_{\mathrm{gate}}}
+\newcommand{\tgateOne}{\tgate = 1 \unit{s}}
+\newcommand{\tgateTen}{\tgate = 10 \unit{s}}
+\newcommand{\HDot}{\dot{H}}
+
+
+\begin{document}
+    \twocolumn[{\csname @twocolumnfalse\endcsname                %erlaubt "Abstrakt" über beide Spalten
+    \titlehead{                                                  %Kopfzeile
+        \begin{tabular*}{\textwidth}[]{@{\extracolsep{\fill}}lr}   %Kopfzeile
+            Supervisor: Leonid Bovkun & \today\\                          %Kopfzeile - Betreuer
+        \end{tabular*}                                             %Kopfzeile
+    }
+    \title{Mega Sensation: Students from Würzburg discover Radioactivity!!!}  %Titel der Versuchs
+    \author{Salahudin Smailagić and Thomas Karb}                     %Namen der Studenten
+    \date{}                                                         %benötigt um automatisches Datum auszuschalten
+    \maketitle                                                      %erzeugt Titelseite
+    \vspace{-5ex}                                                   %verringert Abstand zur Überschrift
+    \begin{abstract}                                                %Beginn des Abstracts
+        
+        We study how radioactive materials can be detected and statistical properties extracted.
+        We use the $\gamma$-emitter \Cs and measure the equivalent dosis next to the sample $\HDot = \RadiationNear$ and
+        $d$ away $\HDot = \RadiationFar$.
+        So we do not exceed the yearly threshold $\yeardosis$ for $\SafeTime$, which makes the sample save to use.
+        We then test the Geiger conter's responsivity by placing the sample at a fixed distance.
+        The percentage of detected $\gamma$-photons is $\eta$.
+        Then we use the Geiger Müller counter to optain the half-life of the instable \Bam isotope $\Thalf = \BariumHalfLifeFromFit$.
+        Lastly we want to test the statistacly properties of radioacitivity.
+        We measure the decay events for an uranium trioxide coated tile for gate times $\tgateOne and $\tgateTen,
+        to get ca.\ $800$ measurements each.
+        We accept the hypothis that the decay events are Poission distributed at a $5\%$-significance level.
+        The hyphothis that for $\tgateTen$ the events are approximately Gaussian distributed is rejected
+        with a $5\%$-significance level.
+        \\
+        Measuerement made: March, 22nd 2024\\       %Datum ändern!
+        Submitted: March, 28th 2024                %Datum ändern!
+        \\
+        \\
+    \end{abstract}
+    }] 
+    \section{Introduction}
+    
+    Radioactive decay is a statistical process.
+    Whether a particular atom will decay at a specific moment is random and can not be predicted.
+    However, for a large assembly of atoms we can predict the emerging decay rate.
+    A radioactive atom has a $50\,\%$ chance to decay in the half live time $\Thalf$.
+    It follows, if we have an initial number $N_0$ of undecayed atoms, the number $N(t)$ of remaining radioactive atoms
+    at time $t$ will be:
+    \begin{align}
+        \label{eq:decayRate}
+        N(t) = N_0 \cdot 2^{-\frac{t}{\Thalf}}
+    \end{align}
+    The activity $A(t) = \dot{N}(t)$ follows the same exponential decay law.
+    It denotes the number of decays per second.
+    
+    \section{Dosimetry and safe handling of radioactive materials}
+    
+    
+    %FF: Angabe der verwendeten Literatur mit Quellennachweis.
+    \begin{thebibliography}{}    %so wird das Literaturverzeichnis erstellt
+        \bibitem{instr} Physikalisches Grundpraktikum, Universitüt Würzburg, Modul C1, Versuch 46, Dosimetrie, Halbwertszeit, 2021
+        \bibitem{gerth} Meschede, Dieter, Gerthsen Physik, 25. Auflage, Springer-Verlag, Berlin, 2015
+        \bibitem{codata} P. J. Mohr, D. B. Newell, and B. N. Taylor: \grqq CODATA
+        recommended values of the fundamental physical constants: 2014\grqq , Rev. Mod. Phys.
+        88, 035009 (2016))
+    \end{thebibliography}
+    
+\end{document}
