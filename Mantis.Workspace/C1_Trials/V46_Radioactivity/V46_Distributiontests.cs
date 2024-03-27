@@ -3,6 +3,7 @@ using Mantis.Core.Calculator;
 using Mantis.Core.FileImporting;
 using Mantis.Core.QuickTable;
 using Mantis.Core.ScottPlotUtility;
+using MathNet.Numerics;
 using MathNet.Numerics.Differentiation;
 using MathNet.Numerics.Distributions;
 using ScottPlot.Finance;
@@ -45,13 +46,16 @@ public class V46_Distributiontests
         List<CountData> TenSecDataList = secondReader.ExtractTable<CountData>("tab:10secMeasurement");
         var TenSecPlotList = PutDataInBoxes(TenSecDataList);
         List<double> meanTenSecDataList = TenSecDataList.Select(e => e.Counts).ToList();
-        ErDouble TenSecListMean = meanOneSecList.WeightedMean();
+        ErDouble TenSecListMean = meanTenSecDataList.WeightedMean();
         DynPlot secondPlot = new DynPlot("Counts", "#");
         secondPlot.Add.Bars(TenSecPlotList.Select(e => e.Number).ToArray(),
             TenSecPlotList.Select(e => e.Commonness).ToArray());
         secondPlot.SaveAndAddCommand("TenSecDistribution");
         
-        
+        Console.WriteLine(OneSecListMean);
+        Console.WriteLine(OneSecDataList.Count);
+        Console.WriteLine(TenSecListMean);
+        Console.WriteLine(TenSecDataList.Count);
         
         
         double ChiSquaredOneSecond =  PerformChiSquaredForPoisson(plotList,OneSecListMean.Value, OneSecDataList.Count);
@@ -92,7 +96,10 @@ public class V46_Distributiontests
         double ChiSummand = 0;
         for (int i = 0; i < dataList.Count; i++)
         {
-            double probability = PoissonProbability(meanValue, dataList[i].Number);
+            Poisson dings = new Poisson(meanValue);
+            double probability = dings.Probability((int)dataList[i].Number);
+            Console.WriteLine(dataList[i].Number + " " +meanValue + " " + probability);
+            Console.WriteLine(dataList[i].Number +" "+dataList[i].Commonness+" " + probability * NumberofMeasurements );
             ChiSummand += Math.Pow(dataList[i].Commonness - probability * NumberofMeasurements, 2) /
                                 (probability * NumberofMeasurements);
         }
@@ -102,18 +109,7 @@ public class V46_Distributiontests
 
     public static double PoissonProbability(double mean, double k)
     {
-        return Math.Pow(mean, k) * Math.Exp(-mean) / Factorial(k);
-    }
-
-    public static int Factorial(double a)
-    {
-        int factorial = 1;
-        for (int i = 1; i <= a; i++)
-        {
-            factorial *= i;
-        }
-
-        return factorial;
+        return Math.Pow(mean, k) * Math.Exp(-mean) / SpecialFunctions.Factorial((int)k);
     }
     
 }
