@@ -11,6 +11,8 @@ public class V46_Main
         V46_GeigerMuellerCounter.Process();
         V46_NullEffectAndActivity.Process();
         V46_BariumHalfLife.Process();
+        V46_Responsivity.Process();
+        V46_Distributiontests.Process();
         TexPreamble.GeneratePreamble();
     }
 }
